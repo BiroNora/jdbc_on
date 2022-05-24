@@ -2,8 +2,8 @@ app:
   datasource:
     main:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5432/amigos
-      password: 1234
+      jdbc-url: jdbc:postgresql://localhost:5432/norab
+      password: '1234'
       pool-size: 30
       username: norab
 
@@ -11,5 +11,6 @@ server:
   error:
     include-binding-errors: always
     include-message: always
+
 
 

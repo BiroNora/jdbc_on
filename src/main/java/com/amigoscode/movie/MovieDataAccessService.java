@@ -17,7 +17,7 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT id, name_, release_date
+            SELECT id, title, release_date
             FROM movie
             LIMIT 100;
             """;
@@ -27,9 +27,9 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public int insertMovie(Movie movie) {
         String sql = """
-            INSERT INTO movie(name_, release_date) VALUES (?, ?)
+            INSERT INTO movie(title, release_date) VALUES (?, ?)
             """;
-        return jdbcTemplate.update(sql, movie.name(), movie.releaseDate());
+        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public Optional<Movie> selectMovieById(int id) {
         var sql = """
-            SELECT id, name_, release_date
+            SELECT id, title, release_date
             FROM movie
             WHERE id = ?;
             """;

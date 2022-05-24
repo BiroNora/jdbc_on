@@ -1,6 +1,6 @@
 CREATE TABLE movie (
     id BIGSERIAL PRIMARY key,
-    name TEXT NOT null,
+    title TEXT NOT null,
     release_date DATE NOT NULL,
-    unique (name)
+    unique (title)
 );
