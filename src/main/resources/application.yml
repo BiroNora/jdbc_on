@@ -2,10 +2,10 @@ app:
   datasource:
     main:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5433/amigos
+      jdbc-url: jdbc:postgresql://localhost:5432/amigos
       password: 1234
       pool-size: 30
-      username: postgres
+      username: norab
 
 server:
   error:
