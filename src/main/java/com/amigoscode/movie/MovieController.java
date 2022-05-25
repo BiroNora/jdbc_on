@@ -35,4 +35,8 @@ public class MovieController {
     }
 
    // TODO: Update movie
+    @PostMapping("{id}")
+    public void updateMovie(@PathVariable("id") Integer id, @RequestBody Movie movie) {
+        movieService.updateMovie(movie, id);
+    }
 }

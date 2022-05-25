@@ -9,4 +9,5 @@ public interface MovieDao {
     int deleteMovie(int id);
     Optional<Movie> selectMovieById(int id);
     // TODO: Update
+    int updateMovie(Movie movie, int id);
 }

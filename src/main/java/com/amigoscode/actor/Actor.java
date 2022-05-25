@@ -1,4 +1,6 @@
 package com.amigoscode.actor;
 
-public record Actor(Integer id, String fullName) {
+import java.time.LocalDate;
+
+public record Actor(Integer id, String fullName, LocalDate birthdate) {
 }
