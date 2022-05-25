@@ -44,16 +44,17 @@ public class MovieService {
                 .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", id)));
     }
 
-    public void updateMovie(Movie movie, int id) {
-        Optional<Movie> movieOptional = movieDao.selectMovieById(id);
-        movieOptional.ifPresentOrElse(x -> {
-            int result = movieDao.updateMovie(movie, id);
-            if (result != 1) {
-                throw new IllegalStateException("oops could not delete movie");
-            }
-        }, () -> {
+    public void updateMovie(int id, Movie movie) {
+        if (movieDao.selectMovieById(id).isPresent()) {
+            Movie movie1 = new Movie(id, movie.title(), movie.actors(), movie.releaseDate());
+            movieDao.updateMovie(id, movie1);
+        } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));
-        });
+        }
+
+
+
+
     }
 
 }

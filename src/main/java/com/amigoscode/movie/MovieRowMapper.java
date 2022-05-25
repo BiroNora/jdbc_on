@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MovieRowMapper implements RowMapper<Movie> {
+
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Movie(

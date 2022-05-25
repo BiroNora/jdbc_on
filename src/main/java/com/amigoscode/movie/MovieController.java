@@ -2,6 +2,7 @@ package com.amigoscode.movie;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,8 +36,9 @@ public class MovieController {
     }
 
    // TODO: Update movie
-    @PostMapping("{id}")
-    public void updateMovie(@PathVariable("id") Integer id, @RequestBody Movie movie) {
-        movieService.updateMovie(movie, id);
+    @PutMapping("{id}")
+    public void updateMovie(
+        @PathVariable("id") Integer id, @RequestBody Movie movie) {
+        movieService.updateMovie(id, movie);
     }
 }

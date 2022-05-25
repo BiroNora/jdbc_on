@@ -9,4 +9,7 @@ public record Movie(Integer id,
                     String title,
                     List<Actor> actors,
                     LocalDate releaseDate) {
+
+
+
 }

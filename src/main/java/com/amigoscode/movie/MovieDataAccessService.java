@@ -54,12 +54,13 @@ public class MovieDataAccessService implements MovieDao {
     }
 
     @Override
-    public int updateMovie(Movie movie, int id) {
+    public int updateMovie(int id, Movie movie) {
         var sql = """
             UPDATE movie SET title = ?, release_date = ?
-            WHERE id = ?
+            WHERE id = ?;
             """;
-        return jdbcTemplate.update(sql, movie.id(), movie.title(), movie.releaseDate());
+        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.id());
     }
 
 }
+
