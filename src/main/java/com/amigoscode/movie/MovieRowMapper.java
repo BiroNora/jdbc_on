@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 public class MovieRowMapper implements RowMapper<Movie> {
 
@@ -14,7 +13,6 @@ public class MovieRowMapper implements RowMapper<Movie> {
         return new Movie(
             resultSet.getInt("id"),
             resultSet.getString("title"),
-            List.of(),
             LocalDate.parse(resultSet.getString("release_date"))
         );
     }
