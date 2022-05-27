@@ -1,8 +1,7 @@
-package com.amigoscode.movie;
+package com.norab.movie;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,7 +34,6 @@ public class MovieController {
         movieService.deleteMovie(id);
     }
 
-   // TODO: Update movie
     @PutMapping("{id}")
     public void updateMovie(
         @PathVariable("id") Integer id, @RequestBody Movie movie) {

@@ -1,6 +1,6 @@
-package com.amigoscode.movie;
+package com.norab.movie;
 
-import com.amigoscode.exception.NotFoundException;
+import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class MovieService {
 
     public void updateMovie(int id, Movie movie) {
         if (movieDao.selectMovieById(id).isPresent()) {
-            Movie movie1 = new Movie(id, movie.title(), movie.releaseDate());
+            Movie movie1 = new Movie(id, movie.title(), movie.releaseDate(), movie.picture());
             movieDao.updateMovie(id, movie1);
         } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));

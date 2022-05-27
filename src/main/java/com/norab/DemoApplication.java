@@ -1,4 +1,4 @@
-package com.amigoscode;
+package com.norab;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

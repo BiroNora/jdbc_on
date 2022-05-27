@@ -1,4 +1,4 @@
-package com.amigoscode.movie;
+package com.norab.movie;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,9 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT id, title, release_date
+            SELECT movie_id, title, release_date, picture
             FROM movie
-            LIMIT 100;
+            LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper());
     }
@@ -27,16 +27,16 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public int insertMovie(Movie movie) {
         String sql = """
-            INSERT INTO movie(title, release_date) VALUES (?, ?)
+            INSERT INTO movie(title, release_date, picture) VALUES (?, ?, ?)
             """;
-        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate());
+        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture());
     }
 
     @Override
     public int deleteMovie(int id) {
         var sql = """
             DELETE FROM movie
-            WHERE id = ?
+            WHERE movie_id = ?
             """;
         return jdbcTemplate.update(sql, id);
     }
@@ -44,9 +44,9 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public Optional<Movie> selectMovieById(int id) {
         var sql = """
-            SELECT id, title, release_date
+            SELECT movie_id, title, release_date, picture
             FROM movie
-            WHERE id = ?;
+            WHERE movie_id = ?;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper(), id)
             .stream()
@@ -56,10 +56,10 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public int updateMovie(int id, Movie movie) {
         var sql = """
-            UPDATE movie SET title = ?, release_date = ?
-            WHERE id = ?;
+            UPDATE movie SET title = ?, release_date = ?, picture = ?
+            WHERE movie_id = ?;
             """;
-        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.id());
+        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture(), movie.id());
     }
 
 }

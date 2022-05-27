@@ -1,6 +1,7 @@
 CREATE TABLE actor (
-    id BIGSERIAL PRIMARY key,
-    fullname TEXT NOT null,
-    movie BIGINT REFERENCES movie (id),
-    unique (fullname, movie)
+    actor_id BIGSERIAL PRIMARY key,
+    full_name TEXT NOT null,
+    birth_date DATE NOT NULL,
+    movie_id BIGSERIAL,
+    unique (full_name)
 );

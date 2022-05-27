@@ -1,4 +1,4 @@
-package com.amigoscode.movie;
+package com.norab.movie;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -11,9 +11,10 @@ public class MovieRowMapper implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Movie(
-            resultSet.getInt("id"),
+            resultSet.getInt("movie_id"),
             resultSet.getString("title"),
-            LocalDate.parse(resultSet.getString("release_date"))
+            LocalDate.parse(resultSet.getString("release_date")),
+            resultSet.getString("picture")
         );
     }
 }
