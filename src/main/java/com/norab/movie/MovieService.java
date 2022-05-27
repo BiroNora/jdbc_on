@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Service
 public class MovieService {
-
     private final MovieDao movieDao;
 
     public MovieService(MovieDao movieDao) {
@@ -28,8 +27,8 @@ public class MovieService {
     }
 
     public void deleteMovie(Integer id) {
-        Optional<Movie> movies = movieDao.selectMovieById(id);
-        movies.ifPresentOrElse(movie -> {
+        Optional<Movie> movie1 = movieDao.selectMovieById(id);
+        movie1.ifPresentOrElse(movie -> {
             int result = movieDao.deleteMovie(id);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete movie");
@@ -41,7 +40,7 @@ public class MovieService {
 
     public Movie getMovie(int id) {
         return movieDao.selectMovieById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", id)));
+            .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", id)));
     }
 
     public void updateMovie(int id, Movie movie) {
@@ -51,10 +50,6 @@ public class MovieService {
         } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));
         }
-
-
-
-
     }
 
 }

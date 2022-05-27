@@ -7,7 +7,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/movies")
 public class MovieController {
-
     private final MovieService movieService;
 
     public MovieController(MovieService movieService) {
@@ -35,8 +34,7 @@ public class MovieController {
     }
 
     @PutMapping("{id}")
-    public void updateMovie(
-        @PathVariable("id") Integer id, @RequestBody Movie movie) {
+    public void updateMovie(@PathVariable("id") Integer id, @RequestBody Movie movie) {
         movieService.updateMovie(id, movie);
     }
 }

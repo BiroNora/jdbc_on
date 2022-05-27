@@ -26,8 +26,8 @@ public class MovieDataAccessService implements MovieDao {
 
     @Override
     public int insertMovie(Movie movie) {
-        String sql = """
-            INSERT INTO movie(title, release_date, picture) VALUES (?, ?, ?)
+        var sql = """
+            INSERT INTO movie(title, release_date, picture) VALUES (?, ?, ?);
             """;
         return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture());
     }
@@ -36,7 +36,7 @@ public class MovieDataAccessService implements MovieDao {
     public int deleteMovie(int id) {
         var sql = """
             DELETE FROM movie
-            WHERE movie_id = ?
+            WHERE movie_id = ?;
             """;
         return jdbcTemplate.update(sql, id);
     }
@@ -56,7 +56,8 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public int updateMovie(int id, Movie movie) {
         var sql = """
-            UPDATE movie SET title = ?, release_date = ?, picture = ?
+            UPDATE movie 
+            SET title = ?, release_date = ?, picture = ?
             WHERE movie_id = ?;
             """;
         return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture(), movie.id());
