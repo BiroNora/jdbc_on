@@ -1,7 +1,7 @@
 package com.norab.role;
 
 public record Role (Integer id,
-                    Integer moviId,
+                    Integer movieId,
                     Integer actorId,
                     String roleName) {
 

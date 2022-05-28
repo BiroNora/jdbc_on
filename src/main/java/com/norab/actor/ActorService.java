@@ -19,14 +19,12 @@ public class ActorService {
     }
 
     public void addNewActor(Actor actor) {
-        // TODO: check if actor exists
         String actorName = actor.fullName();
         List<Actor> actors = actorDao.selectActors();
         List<Actor> collect = actors.stream()
-            .filter(x -> x.fullName().equals(actorName))
-            .toList();
+            .filter(x -> x.fullName().equals(actorName)).toList();
         if (collect.size() != 0) {
-            throw new IllegalStateException("this artist is already exists");
+            throw new IllegalStateException("this artist already exists");
         }
         int result = actorDao.insertActor(actor);
         if (result != 1) {

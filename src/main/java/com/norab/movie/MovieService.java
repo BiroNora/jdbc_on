@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -19,7 +20,13 @@ public class MovieService {
     }
 
     public void addNewMovie(Movie movie) {
-        // TODO: check if movie exists
+        String movieTitle = movie.title();
+        List<Movie> movies = movieDao.selectMovies();
+        List<Movie> collect = movies.stream()
+            .filter(x -> x.title().equals(movieTitle)).toList();
+        if (collect.size() != 0) {
+            throw new IllegalStateException("this movie already exists");
+        }
         int result = movieDao.insertMovie(movie);
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoleDao {
-    List<Role> selectRole();
+    List<Role> selectRoles();
     int insertRole(Role role);
     int deleteRole(int id);
     Optional<Role> selectRoleById(int id);
