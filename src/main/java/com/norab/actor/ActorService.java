@@ -20,10 +20,19 @@ public class ActorService {
 
     public void addNewActor(Actor actor) {
         // TODO: check if actor exists
+        String actorName = actor.fullName();
+        List<Actor> actors = actorDao.selectActors();
+        List<Actor> collect = actors.stream()
+            .filter(x -> x.fullName().equals(actorName))
+            .toList();
+        if (collect.size() != 0) {
+            throw new IllegalStateException("this artist is already exists");
+        }
         int result = actorDao.insertActor(actor);
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
+
     }
 
     public void deleteActor(Integer id) {
@@ -44,7 +53,7 @@ public class ActorService {
 
     public void updateActor(int id, Actor actor) {
         if (actorDao.selectActorById(id).isPresent()) {
-            Actor actor1 = new Actor(id, actor.fullName(), actor.birthDate(), actor.movieId());
+            Actor actor1 = new Actor(id, actor.fullName(), actor.birthDate());
             actorDao.updateActor(id, actor1);
         } else {
             throw new NotFoundException(String.format("Actor with id %s not found", id));

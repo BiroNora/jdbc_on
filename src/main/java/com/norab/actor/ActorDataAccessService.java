@@ -17,7 +17,7 @@ public class ActorDataAccessService implements ActorDao {
     @Override
     public List<Actor> selectActors() {
         var sql = """
-            SELECT actor_id, full_name, birth_date, movie_id
+            SELECT actor_id, full_name, birth_date
             FROM actor
             LIMIT 10;
             """;
@@ -44,7 +44,7 @@ public class ActorDataAccessService implements ActorDao {
     @Override
     public Optional<Actor> selectActorById(int id) {
         var sql = """
-            SELECT actor_id, full_name, birth_date, movie_id
+            SELECT actor_id, full_name, birth_date
             FROM actor
             WHERE actor_id = ?;
             """;
@@ -57,9 +57,9 @@ public class ActorDataAccessService implements ActorDao {
     public int updateActor(int id, Actor actor) {
         var sql = """
             UPDATE actor
-            SET full_name = ?, birth_date = ?, movie_id = ?
+            SET full_name = ?, birth_date = ?
             WHERE actor_id = ?;
             """;
-        return jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.movieId(), actor.id());
+        return jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.id());
     }
 }

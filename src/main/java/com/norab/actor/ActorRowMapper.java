@@ -12,8 +12,7 @@ public class ActorRowMapper implements RowMapper<Actor> {
         return new Actor(
             resultSet.getInt("actor_id"),
             resultSet.getString("full_name"),
-            LocalDate.parse(resultSet.getString("birth_date")),
-            resultSet.getInt("movie_id")
+            LocalDate.parse(resultSet.getString("birth_date"))
         );
     }
 }
