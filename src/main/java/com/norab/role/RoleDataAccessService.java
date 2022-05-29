@@ -15,37 +15,37 @@ public class RoleDataAccessService implements RoleDao {
     }
 
     @Override
-    public List<Role> selectRoles() {
+    public List<Plays> selectRoles() {
         var sql = """
             SELECT role_id, movie_id, actor_id, role_name
-            FROM movie_role
+            FROM plays
             LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new RoleRowMapper());
     }
 
     @Override
-    public int insertRole(Role role) {
+    public int insertRole(Plays plays) {
         var sql = """
-            INSERT into movie_role(movie_id, actor_id, role_name) VALUES (?, ?, ?);
+            INSERT into plays(movie_id, actor_id, role_name) VALUES (?, ?, ?);
             """;
-        return jdbcTemplate.update(sql, role.movieId(), role.actorId(), role.roleName());
+        return jdbcTemplate.update(sql, plays.movieId(), plays.actorId(), plays.roleName());
     }
 
     @Override
     public int deleteRole(int id) {
         var sql = """
-            DELETE FROM movie_role
+            DELETE FROM plays
             WHERE role_id = ?;
             """;
         return jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public Optional<Role> selectRoleById(int id) {
+    public Optional<Plays> selectRoleById(int id) {
         var sql = """
             SELECT role_id, movie_id, actor_id, role_name
-            FROM movie_role
+            FROM plays
             WHERE role_id = ?;
             """;
         return jdbcTemplate.query(sql, new RoleRowMapper(), id)
@@ -54,12 +54,12 @@ public class RoleDataAccessService implements RoleDao {
     }
 
     @Override
-    public int updateRole(int id, Role role) {
+    public int updateRole(int id, Plays plays) {
         var sql = """
-            UPDATE movie_role
+            UPDATE plays
             SET role_name = ?
             WHERE role_id = ?;
             """;
-        return jdbcTemplate.update(sql, role.roleName(), role.id());
+        return jdbcTemplate.update(sql, plays.roleName(), plays.id());
     }
 }

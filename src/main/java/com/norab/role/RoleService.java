@@ -14,26 +14,26 @@ public class RoleService {
         this.roleDao = roleDao;
     }
 
-    public List<Role> getRoles() {
+    public List<Plays> getRoles() {
         return roleDao.selectRoles();
     }
 
-    public void addNewRole(Role role) {
-        String roleName = role.roleName();
-        List<Role> roles = roleDao.selectRoles();
-        List<Role> collect = roles.stream()
+    public void addNewRole(Plays plays) {
+        String roleName = plays.roleName();
+        List<Plays> plays1 = roleDao.selectRoles();
+        List<Plays> collect = plays1.stream()
             .filter(x -> x.roleName().equals(roleName)).toList();
         if (collect.size() != 0) {
             throw new IllegalStateException("this role already exists");
         }
-        int result = roleDao.insertRole(role);
+        int result = roleDao.insertRole(plays);
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
     }
 
     public void deleteRole(Integer id) {
-        Optional<Role> role1 = roleDao.selectRoleById(id);
+        Optional<Plays> role1 = roleDao.selectRoleById(id);
         role1.ifPresentOrElse(role -> {
             int result = roleDao.deleteRole(id);
             if (result != 1) {
@@ -44,15 +44,15 @@ public class RoleService {
         });
     }
 
-    public Role getRole(int id) {
+    public Plays getRole(int id) {
         return roleDao.selectRoleById(id)
             .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", id)));
     }
 
-    public void updateRole(int id, Role role) {
+    public void updateRole(int id, Plays plays) {
         if (roleDao.selectRoleById(id).isPresent()) {
-            Role role1 = new Role(id, role.movieId(), role.actorId(), role.roleName());
-            roleDao.updateRole(id, role1);
+            Plays plays1 = new Plays(id, plays.movieId(), plays.actorId(), plays.roleName());
+            roleDao.updateRole(id, plays1);
         } else {
             throw new NotFoundException(String.format("Role with id %s not found", id));
         }

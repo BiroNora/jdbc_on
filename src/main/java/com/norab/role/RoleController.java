@@ -1,6 +1,5 @@
 package com.norab.role;
 
-import com.norab.actor.Actor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,16 +14,16 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Role> listRoles() { return roleService.getRoles(); }
+    public List<Plays> listRoles() { return roleService.getRoles(); }
 
     @GetMapping("{id}")
-    public Role getRoleId(@PathVariable("id") Integer id) {
+    public Plays getRoleId(@PathVariable("id") Integer id) {
         return roleService.getRole(id);
     }
 
     @PostMapping
-    public void addRole(@RequestBody Role role) {
-        roleService.addNewRole(role);
+    public void addRole(@RequestBody Plays plays) {
+        roleService.addNewRole(plays);
     }
 
     @DeleteMapping("{id}")
@@ -33,7 +32,7 @@ public class RoleController {
     }
 
     @PutMapping("{id}")
-    public void updateRole(@PathVariable("id") Integer id, @RequestBody Role role) {
-        roleService.updateRole(id, role);
+    public void updateRole(@PathVariable("id") Integer id, @RequestBody Plays plays) {
+        roleService.updateRole(id, plays);
     }
 }
