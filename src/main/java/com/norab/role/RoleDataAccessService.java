@@ -17,7 +17,7 @@ public class RoleDataAccessService implements RoleDao {
     @Override
     public List<Plays> selectRoles() {
         var sql = """
-            SELECT role_id, movie_id, actor_id, role_name
+            SELECT role_id, role_name, movie_id, actor_id
             FROM plays
             LIMIT 10;
             """;
@@ -27,9 +27,9 @@ public class RoleDataAccessService implements RoleDao {
     @Override
     public int insertRole(Plays plays) {
         var sql = """
-            INSERT into plays(movie_id, actor_id, role_name) VALUES (?, ?, ?);
+            INSERT into plays(role_name, movie_id, actor_id) VALUES (?, ?, ?);
             """;
-        return jdbcTemplate.update(sql, plays.movieId(), plays.actorId(), plays.roleName());
+        return jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RoleDataAccessService implements RoleDao {
     @Override
     public Optional<Plays> selectRoleById(int id) {
         var sql = """
-            SELECT role_id, movie_id, actor_id, role_name
+            SELECT role_id, role_name, movie_id, actor_id
             FROM plays
             WHERE role_id = ?;
             """;
@@ -57,9 +57,9 @@ public class RoleDataAccessService implements RoleDao {
     public int updateRole(int id, Plays plays) {
         var sql = """
             UPDATE plays
-            SET role_name = ?
+            SET role_name = ?, movie_id = ?, actor_id = ?
             WHERE role_id = ?;
             """;
-        return jdbcTemplate.update(sql, plays.roleName(), plays.id());
+        return jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId(), plays.id());
     }
 }

@@ -19,10 +19,10 @@ public class RoleService {
     }
 
     public void addNewRole(Plays plays) {
-        String roleName = plays.roleName();
+        String roleName1 = plays.roleName();
         List<Plays> plays1 = roleDao.selectRoles();
         List<Plays> collect = plays1.stream()
-            .filter(x -> x.roleName().equals(roleName)).toList();
+            .filter(x -> x.roleName().equals(roleName1)).toList();
         if (collect.size() != 0) {
             throw new IllegalStateException("this role already exists");
         }
@@ -51,7 +51,7 @@ public class RoleService {
 
     public void updateRole(int id, Plays plays) {
         if (roleDao.selectRoleById(id).isPresent()) {
-            Plays plays1 = new Plays(id, plays.movieId(), plays.actorId(), plays.roleName());
+            Plays plays1 = new Plays(id, plays.roleName(), plays.movieId(), plays.actorId());
             roleDao.updateRole(id, plays1);
         } else {
             throw new NotFoundException(String.format("Role with id %s not found", id));
