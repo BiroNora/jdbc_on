@@ -49,7 +49,12 @@ public class RolePhotoService {
             .orElseThrow(() -> new NotFoundException(String.format("Photo with url %s not found", photoUrl)));
     }
 
-    public void updateRolePhoto() {
-
+    public void updateRolePhoto(String photoUrl, RolePhoto rolePhoto) {
+        if (rolePhotoDao.selectRolePhotoByUrl(photoUrl).isPresent()) {
+            RolePhoto rolePhoto1 = new RolePhoto(rolePhoto.photoUrl(), rolePhoto.roleId());
+            rolePhotoDao.updateRolePhoto(rolePhoto.photoUrl(), rolePhoto1);
+        } else {
+            throw new NotFoundException(String.format("Photo with url %s not found", photoUrl));
+        }
     }
 }

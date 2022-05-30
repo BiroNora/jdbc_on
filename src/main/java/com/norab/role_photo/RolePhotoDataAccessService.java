@@ -17,7 +17,7 @@ public class RolePhotoDataAccessService implements RolePhotoDao {
     @Override
     public List<RolePhoto> selectRolePhotos() {
         var sql = """
-            SELECT role_full_name, url, role_id
+            SELECT url, role_id
             FROM role_photos
             LIMIT 10;
             """;
@@ -27,7 +27,7 @@ public class RolePhotoDataAccessService implements RolePhotoDao {
     @Override
     public int insertRolePhoto(RolePhoto rolePhoto) {
         var sql = """
-            INSERT into role_photos(url, role_id) VALUES (?, ?, ?);
+            INSERT into role_photos(url, role_id) VALUES (?, ?);
             """;
         return jdbcTemplate.update(sql, rolePhoto.photoUrl(), rolePhoto.roleId());
     }
