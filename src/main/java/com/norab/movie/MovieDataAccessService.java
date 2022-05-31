@@ -1,5 +1,8 @@
 package com.norab.movie;
 
+import com.norab.actor.ActorDataAccessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 public class MovieDataAccessService implements MovieDao<Movie> {
+    private static final Logger log = LoggerFactory.getLogger(MovieDataAccessService.class);
+
     private final JdbcTemplate jdbcTemplate;
 
     public MovieDataAccessService(JdbcTemplate jdbcTemplate) {
@@ -29,7 +34,11 @@ public class MovieDataAccessService implements MovieDao<Movie> {
         var sql = """
             INSERT INTO movie(title, release_date, picture) VALUES (?, ?, ?);
             """;
-        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture());
+        int insert = jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture());
+        if (insert == 1) {
+            log.info("New movie inserted: " + movie);
+        }
+        return insert;
     }
 
     @Override
@@ -38,7 +47,11 @@ public class MovieDataAccessService implements MovieDao<Movie> {
             DELETE FROM movie
             WHERE movie_id = ?;
             """;
-        return jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, id);
+        if (delete == 1) {
+            log.info(String.format("Movie with id: %d is deleted.", id));
+        }
+        return delete;
     }
 
     @Override
@@ -48,9 +61,13 @@ public class MovieDataAccessService implements MovieDao<Movie> {
             FROM movie
             WHERE movie_id = ?;
             """;
-        return jdbcTemplate.query(sql, new MovieRowMapper(), id)
+        Optional<Movie> selected = jdbcTemplate.query(sql, new MovieRowMapper(), id)
             .stream()
             .findFirst();
+        if (selected.isPresent()) {
+            log.info(String.format("Movie with id: %d is selected.", id));
+        }
+        return selected;
     }
 
     @Override
@@ -60,7 +77,11 @@ public class MovieDataAccessService implements MovieDao<Movie> {
             SET title = ?, release_date = ?, picture = ?
             WHERE movie_id = ?;
             """;
-        return jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture(), movie.id());
+        int update = jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.picture(), movie.id());
+        if (update == 1) {
+            log.info(String.format("Movie with id: %d is updated.", id));
+        }
+        return update;
     }
 
 }

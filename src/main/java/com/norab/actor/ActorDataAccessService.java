@@ -34,7 +34,7 @@ public class ActorDataAccessService implements ActorDao<Actor> {
             """;
         int insert = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate());
         if (insert == 1) {
-            log.info("New Actor Created: " + actor.fullName());
+            log.info("New actor inserted: " + actor);
         }
         return insert;
     }
@@ -45,7 +45,11 @@ public class ActorDataAccessService implements ActorDao<Actor> {
             DELETE FROM actor
             WHERE actor_id = ?;
             """;
-        return jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, id);
+        if (delete == 1) {
+            log.info(String.format("Actor with id: %d is deleted.", id));
+        }
+        return delete;
     }
 
     @Override
@@ -55,10 +59,13 @@ public class ActorDataAccessService implements ActorDao<Actor> {
             FROM actor
             WHERE actor_id = ?;
             """;
-        log.info("First Actor is: " + new ActorRowMapper());
-        return jdbcTemplate.query(sql, new ActorRowMapper(), id)
+        Optional<Actor> selected = jdbcTemplate.query(sql, new ActorRowMapper(), id)
             .stream()
             .findFirst();
+        if (selected.isPresent()) {
+            log.info(String.format("Actor with id: %d is selected.", id));
+        }
+        return selected;
     }
 
     @Override
@@ -68,6 +75,10 @@ public class ActorDataAccessService implements ActorDao<Actor> {
             SET full_name = ?, birth_date = ?
             WHERE actor_id = ?;
             """;
-        return jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.id());
+        int update = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.id());
+        if (update == 1) {
+            log.info(String.format("Actor with id: %d is updated.", id));
+        }
+        return update;
     }
 }

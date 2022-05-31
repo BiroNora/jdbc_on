@@ -11,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -22,10 +21,10 @@ public class DemoApplication {
 
 	public DemoApplication(
 		ActorDao<Actor> actorDao, MovieDao<Movie> movieDao, RoleDao<Plays> roleDao, RolePhotoDao<RolePhoto> rolePhotoDao) {
-		this.actorDao = actorDao;
-		this.movieDao = movieDao;
-		this.roleDao = roleDao;
-		this.rolePhotoDao = rolePhotoDao;
+		DemoApplication.actorDao = actorDao;
+		DemoApplication.movieDao = movieDao;
+		DemoApplication.roleDao = roleDao;
+		DemoApplication.rolePhotoDao = rolePhotoDao;
 	}
 
 	public static void main(String[] args) {

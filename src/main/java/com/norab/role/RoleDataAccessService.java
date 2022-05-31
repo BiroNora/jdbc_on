@@ -1,5 +1,8 @@
 package com.norab.role;
 
+import com.norab.actor.ActorDataAccessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public class RoleDataAccessService implements RoleDao<Plays> {
+    private static final Logger log = LoggerFactory.getLogger(RoleDataAccessService.class);
     private final JdbcTemplate jdbcTemplate;
 
     public RoleDataAccessService(JdbcTemplate jdbcTemplate) {
@@ -29,7 +33,11 @@ public class RoleDataAccessService implements RoleDao<Plays> {
         var sql = """
             INSERT into plays(role_name, movie_id, actor_id) VALUES (?, ?, ?);
             """;
-        return jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId());
+        int insert = jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId());
+        if (insert == 1) {
+            log.info("New role inserted: " + plays);
+        }
+        return insert;
     }
 
     @Override
@@ -38,7 +46,11 @@ public class RoleDataAccessService implements RoleDao<Plays> {
             DELETE FROM plays
             WHERE role_id = ?;
             """;
-        return jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, id);
+        if (delete == 1) {
+            log.info(String.format("Role with id: %d is deleted.", id));
+        }
+        return delete;
     }
 
     @Override
@@ -48,9 +60,13 @@ public class RoleDataAccessService implements RoleDao<Plays> {
             FROM plays
             WHERE role_id = ?;
             """;
-        return jdbcTemplate.query(sql, new RoleRowMapper(), id)
+        Optional<Plays> selected = jdbcTemplate.query(sql, new RoleRowMapper(), id)
             .stream()
             .findFirst();
+        if (selected.isPresent()) {
+            log.info(String.format("Role with id: %d is selected.", id));
+        }
+        return selected;
     }
 
     @Override
@@ -60,6 +76,10 @@ public class RoleDataAccessService implements RoleDao<Plays> {
             SET role_name = ?, movie_id = ?, actor_id = ?
             WHERE role_id = ?;
             """;
-        return jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId(), plays.id());
+        int update = jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId(), plays.id());
+        if (update == 1) {
+            log.info(String.format("Role with id: %d is updated.", id));
+        }
+        return update;
     }
 }
