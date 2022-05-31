@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RolePhotoDataAccessService implements RolePhotoDao {
+public class RolePhotoDataAccessService implements RolePhotoDao<RolePhoto> {
     private final JdbcTemplate jdbcTemplate;
 
     public RolePhotoDataAccessService(JdbcTemplate jdbcTemplate) {

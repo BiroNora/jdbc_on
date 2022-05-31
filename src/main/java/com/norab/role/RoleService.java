@@ -45,8 +45,12 @@ public class RoleService {
     }
 
     public Plays getRole(int id) {
-        return roleDao.selectRoleById(id)
-            .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", id)));
+        try {
+            return (Plays) roleDao.selectRoleById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", id)));
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updateRole(int id, Plays plays) {

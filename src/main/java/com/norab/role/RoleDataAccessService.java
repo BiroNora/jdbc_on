@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RoleDataAccessService implements RoleDao {
+public class RoleDataAccessService implements RoleDao<Plays> {
     private final JdbcTemplate jdbcTemplate;
 
     public RoleDataAccessService(JdbcTemplate jdbcTemplate) {

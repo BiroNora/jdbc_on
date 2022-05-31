@@ -30,7 +30,6 @@ public class ActorService {
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
-
     }
 
     public void deleteActor(Integer id) {
@@ -46,7 +45,12 @@ public class ActorService {
     }
 
     public Actor getActor(int id) {
-        return actorDao.selectActorById(id).orElseThrow(() -> new NotFoundException(String.format("Actor with id %s not found", id)));
+        try {
+            return (Actor) actorDao.selectActorById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Actor with id %s not found", id)));
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updateActor(int id, Actor actor) {

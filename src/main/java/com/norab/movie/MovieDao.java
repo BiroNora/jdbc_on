@@ -3,7 +3,7 @@ package com.norab.movie;
 import java.util.List;
 import java.util.Optional;
 
-public interface MovieDao {
+public interface MovieDao<Movie> {
     List<Movie> selectMovies();
     int insertMovie(Movie movie);
     int deleteMovie(int id);

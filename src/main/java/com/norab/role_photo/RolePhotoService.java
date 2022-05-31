@@ -45,8 +45,12 @@ public class RolePhotoService {
     }
 
     public RolePhoto getPhoto(Integer id) {
-        return rolePhotoDao.selectRolePhotoById(id)
-            .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", id)));
+        try {
+            return (RolePhoto) rolePhotoDao.selectRolePhotoById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", id)));
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updateRolePhoto(Integer id, RolePhoto rolePhoto) {
