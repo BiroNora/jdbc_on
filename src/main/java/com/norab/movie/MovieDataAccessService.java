@@ -56,7 +56,7 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public int updateMovie(int id, Movie movie) {
         var sql = """
-            UPDATE movie 
+            UPDATE movie
             SET title = ?, release_date = ?, picture = ?
             WHERE movie_id = ?;
             """;
