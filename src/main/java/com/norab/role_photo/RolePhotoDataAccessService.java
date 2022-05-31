@@ -17,7 +17,7 @@ public class RolePhotoDataAccessService implements RolePhotoDao {
     @Override
     public List<RolePhoto> selectRolePhotos() {
         var sql = """
-            SELECT url, role_id
+            SELECT id, url, role_id
             FROM role_photos
             LIMIT 10;
             """;
@@ -33,33 +33,33 @@ public class RolePhotoDataAccessService implements RolePhotoDao {
     }
 
     @Override
-    public int deleteRolePhoto(String photoUrl) {
+    public int deleteRolePhoto(Integer id) {
         var sql = """
             DELETE FROM role_photos
-            WHERE url = ?;
+            WHERE id = ?;
             """;
-        return jdbcTemplate.update(sql, photoUrl);
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public Optional<RolePhoto> selectRolePhotoByUrl(String photoUrl) {
+    public Optional<RolePhoto> selectRolePhotoById(Integer id) {
         var sql = """
-            SELECT url, role_id
+            SELECT id, url, role_id
             FROM role_photos
-            WHERE url = ?;
+            WHERE id = ?;
             """;
-        return jdbcTemplate.query(sql, new RolePhotoRowMapper(), photoUrl)
+        return jdbcTemplate.query(sql, new RolePhotoRowMapper(), id)
             .stream()
             .findFirst();
     }
 
     @Override
-    public int updateRolePhoto(String photoUrl, RolePhoto rolePhoto) {
+    public int updateRolePhoto(Integer id, RolePhoto rolePhoto) {
         var sql = """
             UPDATE role_photos
-            SET url = ?
-            WHERE url = ?;
+            SET url = ?, role_id = ?
+            WHERE id = ?;
             """;
-        return jdbcTemplate.update(sql, rolePhoto.photoUrl(), rolePhoto.roleId());
+        return jdbcTemplate.update(sql, rolePhoto.photoUrl(), rolePhoto.roleId(), id);
     }
 }

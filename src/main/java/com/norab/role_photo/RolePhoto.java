@@ -1,4 +1,4 @@
 package com.norab.role_photo;
 
-public record RolePhoto (String photoUrl, Integer roleId) {
+public record RolePhoto (Integer id, String photoUrl, Integer roleId) {
 }

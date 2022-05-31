@@ -32,29 +32,29 @@ public class RolePhotoService {
         }
     }
 
-    public void deleteRolePhoto(String photoUrl) {
-        Optional<RolePhoto> rolePhoto1 = rolePhotoDao.selectRolePhotoByUrl(photoUrl);
+    public void deleteRolePhoto(Integer id) {
+        Optional<RolePhoto> rolePhoto1 = rolePhotoDao.selectRolePhotoById(id);
         rolePhoto1.ifPresentOrElse(photo -> {
-            int result = rolePhotoDao.deleteRolePhoto(photoUrl);
+            int result = rolePhotoDao.deleteRolePhoto(id);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete role");
             }
         }, () -> {
-            throw new NotFoundException(String.format("Photo with url %s not found", photoUrl));
+            throw new NotFoundException(String.format("Photo with id %s not found", id));
         });
     }
 
-    public RolePhoto getPhoto(String photoUrl) {
-        return rolePhotoDao.selectRolePhotoByUrl(photoUrl)
-            .orElseThrow(() -> new NotFoundException(String.format("Photo with url %s not found", photoUrl)));
+    public RolePhoto getPhoto(Integer id) {
+        return rolePhotoDao.selectRolePhotoById(id)
+            .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", id)));
     }
 
-    public void updateRolePhoto(String photoUrl, RolePhoto rolePhoto) {
-        if (rolePhotoDao.selectRolePhotoByUrl(photoUrl).isPresent()) {
-            RolePhoto rolePhoto1 = new RolePhoto(rolePhoto.photoUrl(), rolePhoto.roleId());
-            rolePhotoDao.updateRolePhoto(rolePhoto.photoUrl(), rolePhoto1);
+    public void updateRolePhoto(Integer id, RolePhoto rolePhoto) {
+        if (rolePhotoDao.selectRolePhotoById(id).isPresent()) {
+            RolePhoto rolePhoto1 = new RolePhoto(id, rolePhoto.photoUrl(), rolePhoto.roleId());
+            rolePhotoDao.updateRolePhoto(id, rolePhoto1);
         } else {
-            throw new NotFoundException(String.format("Photo with url %s not found", photoUrl));
+            throw new NotFoundException(String.format("Photo with id %s not found", id));
         }
     }
 }

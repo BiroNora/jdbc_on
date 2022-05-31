@@ -18,23 +18,25 @@ public class RolePhotoController {
         return rolePhotoService.getRolePhotos();
     }
 
-    @GetMapping("{photoUrl}")
-    public RolePhoto getRolePhotoUrl(@PathVariable("photoUrl") String photoUrl) {
-        return rolePhotoService.getPhoto(photoUrl);
+    @GetMapping("{id}")
+    public RolePhoto getRolePhotoUrl(@PathVariable("id") Integer id) {
+        return rolePhotoService.getPhoto(id);
     }
 
     @PostMapping
     public void addRolePhoto(@RequestBody RolePhoto rolePhoto) {
+
         rolePhotoService.addNewRolePhoto(rolePhoto);
     }
 
-    @DeleteMapping("{photoUrl}")
-    public void deleteRolePhoto(@PathVariable("photoUrl") String photoUrl) {
-        rolePhotoService.deleteRolePhoto(photoUrl);
+    @DeleteMapping("{id}")
+    public void deleteRolePhoto(@PathVariable("id") Integer id) {
+        rolePhotoService.deleteRolePhoto(id);
     }
 
-    @PutMapping("{photoUrl}")
-    public void updateRolePhoto(@PathVariable("photoUrl") String photoUrl, @RequestBody RolePhoto rolePhoto) {
-        rolePhotoService.updateRolePhoto(photoUrl, rolePhoto);
+    @PutMapping("{id}")
+    public void updateRolePhoto(
+        @PathVariable("id") Integer id, @RequestBody RolePhoto rolePhoto) {
+        rolePhotoService.updateRolePhoto(id, rolePhoto);
     }
 }
