@@ -1,6 +1,5 @@
 package com.norab.movie;
 
-import com.norab.actor.ActorDataAccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MovieDataAccessService implements MovieDao<Movie> {
-    private static final Logger log = LoggerFactory.getLogger(MovieDataAccessService.class);
+public class MovieDataAccessRepository implements MovieDao<Movie> {
+    private static final Logger log = LoggerFactory.getLogger(MovieDataAccessRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
-    public MovieDataAccessService(JdbcTemplate jdbcTemplate) {
+    public MovieDataAccessRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

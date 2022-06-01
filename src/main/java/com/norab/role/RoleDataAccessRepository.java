@@ -1,6 +1,5 @@
 package com.norab.role;
 
-import com.norab.actor.ActorDataAccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RoleDataAccessService implements RoleDao<Plays> {
-    private static final Logger log = LoggerFactory.getLogger(RoleDataAccessService.class);
+public class RoleDataAccessRepository implements RoleDao<Plays> {
+    private static final Logger log = LoggerFactory.getLogger(RoleDataAccessRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
-    public RoleDataAccessService(JdbcTemplate jdbcTemplate) {
+    public RoleDataAccessRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

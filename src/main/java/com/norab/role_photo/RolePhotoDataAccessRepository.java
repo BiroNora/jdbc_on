@@ -1,6 +1,5 @@
 package com.norab.role_photo;
 
-import com.norab.actor.ActorDataAccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RolePhotoDataAccessService implements RolePhotoDao<RolePhoto> {
-    private static final Logger log = LoggerFactory.getLogger(RolePhotoDataAccessService.class);
+public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
+    private static final Logger log = LoggerFactory.getLogger(RolePhotoDataAccessRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
-    public RolePhotoDataAccessService(JdbcTemplate jdbcTemplate) {
+    public RolePhotoDataAccessRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -44,8 +44,12 @@
 			<artifactId>flyway-maven-plugin</artifactId>
 			<version>8.5.10</version>
 		</dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

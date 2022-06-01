@@ -1,30 +1,33 @@
 package com.norab;
 
-import com.norab.actor.*;
+import com.norab.actor.Actor;
+import com.norab.actor.ActorDataAccessRepository;
 import com.norab.movie.Movie;
-import com.norab.movie.MovieDao;
+import com.norab.movie.MovieDataAccessRepository;
 import com.norab.role.Plays;
-import com.norab.role.RoleDao;
+import com.norab.role.RoleDataAccessRepository;
 import com.norab.role_photo.RolePhoto;
-import com.norab.role_photo.RolePhotoDao;
+import com.norab.role_photo.RolePhotoDataAccessRepository;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class DemoApplication {
-	private static ActorDao<Actor> actorDao;
-	private static MovieDao<Movie> movieDao;
-	private static RoleDao<Plays> roleDao;
-	private static RolePhotoDao<RolePhoto> rolePhotoDao;
+	private static ActorDataAccessRepository actorDao;
+	private static MovieDataAccessRepository movieDao;
+	private static RoleDataAccessRepository roleDao;
+	private static RolePhotoDataAccessRepository rolePhotoDao;
 
 	public DemoApplication(
-		ActorDao<Actor> actorDao, MovieDao<Movie> movieDao, RoleDao<Plays> roleDao, RolePhotoDao<RolePhoto> rolePhotoDao) {
-		DemoApplication.actorDao = actorDao;
-		DemoApplication.movieDao = movieDao;
-		DemoApplication.roleDao = roleDao;
-		DemoApplication.rolePhotoDao = rolePhotoDao;
+		ActorDataAccessRepository actorDao, MovieDataAccessRepository movieDao, RoleDataAccessRepository roleDao, RolePhotoDataAccessRepository rolePhotoDao) {
+		this.actorDao = actorDao;
+		this.movieDao = movieDao;
+		this.roleDao = roleDao;
+		this.rolePhotoDao = rolePhotoDao;
 	}
 
 	public static void main(String[] args) {
