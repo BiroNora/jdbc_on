@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@DataJdbcTest
 public class ActorDataAccessRepositoryTest {
     private JdbcTemplate jdbcTemplate;
     private ActorDataAccessRepository dao;

@@ -1,5 +1,6 @@
 package com.norab.actor;
 
+import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ActorService {
         List<Actor> collect = actors.stream()
             .filter(x -> x.fullName().equals(actorName)).toList();
         if (collect.size() != 0) {
-            throw new IllegalStateException("this artist already exists");
+            throw new AlreadyExistsException("This artist already exists");
         }
         int result = actorDao.insertActor(actor);
         if (result != 1) {
