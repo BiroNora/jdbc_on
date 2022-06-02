@@ -1,9 +1,9 @@
 package com.norab.role;
 
-public record Plays(Integer id,
+public record Plays(Long id,
                     String roleName,
-                    Integer movieId,
-                    Integer actorId
+                    Long movieId,
+                    Long actorId
 ) {
 
 }

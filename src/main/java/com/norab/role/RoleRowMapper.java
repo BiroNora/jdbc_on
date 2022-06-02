@@ -9,10 +9,10 @@ public class RoleRowMapper implements RowMapper<Plays> {
     @Override
     public Plays mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Plays(
-            resultSet.getInt("role_id"),
+            resultSet.getLong("role_id"),
             resultSet.getString("role_name"),
-            resultSet.getInt("movie_id"),
-            resultSet.getInt("actor_id")
+            resultSet.getLong("movie_id"),
+            resultSet.getLong("actor_id")
 
         );
     }

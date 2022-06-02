@@ -33,7 +33,7 @@ public class MovieService {
         }
     }
 
-    public void deleteMovie(Integer id) {
+    public void deleteMovie(Long id) {
         Optional<Movie> movie1 = movieDao.selectMovieById(id);
         movie1.ifPresentOrElse(movie -> {
             int result = movieDao.deleteMovie(id);
@@ -45,7 +45,7 @@ public class MovieService {
         });
     }
 
-    public Movie getMovie(int id) {
+    public Movie getMovie(Long id) {
         try {
             return (Movie) movieDao.selectMovieById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", id)));
@@ -54,9 +54,9 @@ public class MovieService {
         }
     }
 
-    public void updateMovie(int id, Movie movie) {
+    public void updateMovie(Long id, Movie movie) {
         if (movieDao.selectMovieById(id).isPresent()) {
-            Movie movie1 = new Movie(id, movie.title(), movie.releaseDate(), movie.picture());
+            Movie movie1 = new Movie(id, movie.title(), movie.releaseDate());
             movieDao.updateMovie(id, movie1);
         } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));

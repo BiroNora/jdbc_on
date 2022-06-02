@@ -32,7 +32,7 @@ public class RoleService {
         }
     }
 
-    public void deleteRole(Integer id) {
+    public void deleteRole(Long id) {
         Optional<Plays> role1 = roleDao.selectRoleById(id);
         role1.ifPresentOrElse(role -> {
             int result = roleDao.deleteRole(id);
@@ -44,7 +44,7 @@ public class RoleService {
         });
     }
 
-    public Plays getRole(int id) {
+    public Plays getRole(Long id) {
         try {
             return (Plays) roleDao.selectRoleById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", id)));
@@ -53,7 +53,7 @@ public class RoleService {
         }
     }
 
-    public void updateRole(int id, Plays plays) {
+    public void updateRole(Long id, Plays plays) {
         if (roleDao.selectRoleById(id).isPresent()) {
             Plays plays1 = new Plays(id, plays.roleName(), plays.movieId(), plays.actorId());
             roleDao.updateRole(id, plays1);

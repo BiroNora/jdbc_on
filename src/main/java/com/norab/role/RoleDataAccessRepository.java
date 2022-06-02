@@ -40,7 +40,7 @@ public class RoleDataAccessRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int deleteRole(int id) {
+    public int deleteRole(Long id) {
         var sql = """
             DELETE FROM plays
             WHERE role_id = ?;
@@ -53,7 +53,7 @@ public class RoleDataAccessRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public Optional<Plays> selectRoleById(int id) {
+    public Optional<Plays> selectRoleById(Long id) {
         var sql = """
             SELECT role_id, role_name, movie_id, actor_id
             FROM plays
@@ -69,7 +69,7 @@ public class RoleDataAccessRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int updateRole(int id, Plays plays) {
+    public int updateRole(Long id, Plays plays) {
         var sql = """
             UPDATE plays
             SET role_name = ?, movie_id = ?, actor_id = ?

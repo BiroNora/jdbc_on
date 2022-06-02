@@ -17,7 +17,7 @@ public class RoleController {
     public List<Plays> listRoles() { return roleService.getRoles(); }
 
     @GetMapping("{id}")
-    public Plays getRoleId(@PathVariable("id") Integer id) {
+    public Plays getRoleId(@PathVariable("id") Long id) {
         return roleService.getRole(id);
     }
 
@@ -27,12 +27,12 @@ public class RoleController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteRole(@PathVariable("id") Integer id) {
+    public void deleteRole(@PathVariable("id") Long id) {
         roleService.deleteRole(id);
     }
 
     @PutMapping("{id}")
-    public void updateRole(@PathVariable("id") Integer id, @RequestBody Plays plays) {
+    public void updateRole(@PathVariable("id") Long id, @RequestBody Plays plays) {
         roleService.updateRole(id, plays);
     }
 }

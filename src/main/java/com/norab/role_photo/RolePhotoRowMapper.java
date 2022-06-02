@@ -9,9 +9,11 @@ public class RolePhotoRowMapper implements RowMapper<RolePhoto> {
     @Override
     public RolePhoto mapRow(ResultSet resultSet, int i) throws SQLException {
         return new RolePhoto(
-            resultSet.getInt("photo_id"),
+            resultSet.getLong("photo_id"),
             resultSet.getString("url"),
-            resultSet.getInt("role_id")
+            resultSet.getLong("movie_id"),
+            resultSet.getLong("actor_id"),
+            resultSet.getLong("role_id")
         );
     }
 }

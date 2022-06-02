@@ -10,9 +10,10 @@ public class ActorRowMapper implements RowMapper<Actor> {
     @Override
     public Actor mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Actor(
-            resultSet.getInt("actor_id"),
+            resultSet.getLong("actor_id"),
             resultSet.getString("full_name"),
-            LocalDate.parse(resultSet.getString("birth_date"))
+            LocalDate.parse(resultSet.getString("birth_date")),
+            LocalDate.parse(resultSet.getString("death_date"))
         );
     }
 }

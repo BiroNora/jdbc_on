@@ -2,9 +2,8 @@ package com.norab.movie;
 
 import java.time.LocalDate;
 
-public record Movie (Integer id,
+public record Movie (Long id,
                     String title,
-                    LocalDate releaseDate,
-                    String picture) {
+                    LocalDate releaseDate) {
 
 }

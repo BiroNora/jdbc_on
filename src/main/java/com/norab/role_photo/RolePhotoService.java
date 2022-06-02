@@ -32,7 +32,7 @@ public class RolePhotoService {
         }
     }
 
-    public void deleteRolePhoto(Integer id) {
+    public void deleteRolePhoto(Long id) {
         Optional<RolePhoto> rolePhoto1 = rolePhotoDao.selectRolePhotoById(id);
         rolePhoto1.ifPresentOrElse(photo -> {
             int result = rolePhotoDao.deleteRolePhoto(id);
@@ -44,7 +44,7 @@ public class RolePhotoService {
         });
     }
 
-    public RolePhoto getPhoto(Integer id) {
+    public RolePhoto getPhoto(Long id) {
         try {
             return (RolePhoto) rolePhotoDao.selectRolePhotoById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", id)));
@@ -53,9 +53,9 @@ public class RolePhotoService {
         }
     }
 
-    public void updateRolePhoto(Integer id, RolePhoto rolePhoto) {
+    public void updateRolePhoto(Long id, RolePhoto rolePhoto) {
         if (rolePhotoDao.selectRolePhotoById(id).isPresent()) {
-            RolePhoto rolePhoto1 = new RolePhoto(id, rolePhoto.photoUrl(), rolePhoto.roleId());
+            RolePhoto rolePhoto1 = new RolePhoto(id, rolePhoto.photoUrl(), rolePhoto.movieId(), rolePhoto.actorId(), rolePhoto.roleId());
             rolePhotoDao.updateRolePhoto(id, rolePhoto1);
         } else {
             throw new NotFoundException(String.format("Photo with id %s not found", id));

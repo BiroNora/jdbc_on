@@ -22,12 +22,12 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public List<Movie> allMoviesByActor(Integer id) {
+    public List<Movie> allMoviesByActor(Long id) {
         var sql = """
-            SELECT movie_id, title, release_date, picture
+            SELECT role_name, movie_id, title, release_date
             FROM movie
             JOIN
-            (SELECT movie_id
+            (SELECT role_name, movie_id
             FROM plays
             WHERE actor_id = ?) AS p
             USING (movie_id)
@@ -39,7 +39,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public List<Actor> selectActors() {
         var sql = """
-            SELECT actor_id, full_name, birth_date
+            SELECT actor_id, full_name, birth_date, death_date
             FROM actor
             LIMIT 10;
             """;
@@ -49,9 +49,9 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public int insertActor(Actor actor) {
         var sql = """
-            INSERT INTO actor(full_name, birth_date) VALUES(?, ?);                        
+            INSERT INTO actor(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
             """;
-        int insert = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate());
+        int insert = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.deathDate());
         if (insert == 1) {
             log.info("New actor inserted: " + actor);
         }
@@ -59,7 +59,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public int deleteActor(int id) {
+    public int deleteActor(Long id) {
         var sql = """
             DELETE FROM actor
             WHERE actor_id = ?;
@@ -72,9 +72,9 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public Optional<Actor> selectActorById(int id) {
+    public Optional<Actor> selectActorById(Long id) {
         var sql = """
-            SELECT actor_id, full_name, birth_date
+            SELECT actor_id, full_name, birth_date, death_date
             FROM actor
             WHERE actor_id = ?;
             """;
@@ -88,13 +88,13 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public int updateActor(int id, Actor actor) {
+    public int updateActor(Long id, Actor actor) {
         var sql = """
             UPDATE actor
-            SET full_name = ?, birth_date = ?
+            SET full_name = ?, birth_date = ?, death_date = ?
             WHERE actor_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.id());
+        int update = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.deathDate(), actor.id());
         if (update == 1) {
             log.info(String.format("Actor with id: %d is updated.", id));
         }

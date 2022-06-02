@@ -19,7 +19,7 @@ public class RolePhotoController {
     }
 
     @GetMapping("{id}")
-    public RolePhoto getRolePhotoUrl(@PathVariable("id") Integer id) {
+    public RolePhoto getRolePhotoUrl(@PathVariable("id") Long id) {
         return rolePhotoService.getPhoto(id);
     }
 
@@ -30,13 +30,13 @@ public class RolePhotoController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteRolePhoto(@PathVariable("id") Integer id) {
+    public void deleteRolePhoto(@PathVariable("id") Long id) {
         rolePhotoService.deleteRolePhoto(id);
     }
 
     @PutMapping("{id}")
     public void updateRolePhoto(
-        @PathVariable("id") Integer id, @RequestBody RolePhoto rolePhoto) {
+        @PathVariable("id") Long id, @RequestBody RolePhoto rolePhoto) {
         rolePhotoService.updateRolePhoto(id, rolePhoto);
     }
 }

@@ -31,19 +31,19 @@ public class ActorDataAccessRepositoryTest {
 
     @Test
     void selectActorByValidId() {
-        Optional<Actor> actor = dao.selectActorById(6);
+        Optional<Actor> actor = dao.selectActorById(6L);
         assertTrue(actor.isPresent());
     }
 
     @Test
     void selectActorByInvalidId() {
-        Optional<Actor> actor = dao.selectActorById(99);
+        Optional<Actor> actor = dao.selectActorById(99L);
         assertFalse(actor.isPresent());
     }
 
     @Test
     void insertActor() {
-        Actor actor = new Actor(14, "Test_nameEE", LocalDate.parse("2222-05-01"));
+        Actor actor = new Actor(14L, "Test_nameEE", LocalDate.parse("2222-05-01"), LocalDate.parse(""));
         dao.insertActor(actor);
         
         List<Actor> actors = dao.selectActors();
@@ -54,17 +54,17 @@ public class ActorDataAccessRepositoryTest {
 
     @Test
     void updateActor() {
-        Actor actor = dao.selectActorById(9).get();
-        Actor actor1 = new Actor(9, "Test_namesD", LocalDate.parse("2222-05-01"));
-        dao.updateActor(9, actor1);
+        Actor actor = dao.selectActorById(9L).get();
+        Actor actor1 = new Actor(9L, "Test_namesD", LocalDate.parse("2222-05-01"), LocalDate.parse(""));
+        dao.updateActor(9L, actor1);
 
-        Actor updated = dao.selectActorById(9).get();
+        Actor updated = dao.selectActorById(9L).get();
         assertEquals("Test_namesD", updated.fullName());
     }
 
     @Test
     void deleteActor() {
-        dao.deleteActor(14);
+        dao.deleteActor(14L);
 
         List<Actor> actors = dao.selectActors();
         assertEquals(6, actors.size());

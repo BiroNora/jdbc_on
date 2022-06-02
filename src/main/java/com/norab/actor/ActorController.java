@@ -20,12 +20,12 @@ public class ActorController {
         return actorService.getActors(); }
 
     @GetMapping("{id}/movies")
-    public List<Movie> allMoviesByActor(@PathVariable("id") Integer id) {
+    public List<Movie> allMoviesByActor(@PathVariable("id") Long id) {
         return actorService.allMoviesByActor(id);
     }
 
     @GetMapping("{id}")
-    public Actor getActorId(@PathVariable("id") Integer id) {
+    public Actor getActorId(@PathVariable("id") Long id) {
         return actorService.getActor(id);
     }
 
@@ -35,12 +35,12 @@ public class ActorController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteActor(@PathVariable("id") Integer id) {
+    public void deleteActor(@PathVariable("id") Long id) {
         actorService.deleteActor(id);
     }
 
     @PutMapping("{id}")
-    public void updateActor(@PathVariable("id") Integer id, @RequestBody Actor actor) {
+    public void updateActor(@PathVariable("id") Long id, @RequestBody Actor actor) {
         actorService.updateActor(id, actor);
     }
 }

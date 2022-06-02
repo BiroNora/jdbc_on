@@ -20,7 +20,7 @@ public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
     @Override
     public List<RolePhoto> selectRolePhotos() {
         var sql = """
-            SELECT photo_id, url, role_id
+            SELECT photo_id, url, movie_id, actor_id, role_id
             FROM role_photos
             LIMIT 10;
             """;
@@ -30,9 +30,14 @@ public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
     @Override
     public int insertRolePhoto(RolePhoto rolePhoto) {
         var sql = """
-            INSERT into role_photos(url, role_id) VALUES (?, ?);
+            INSERT into role_photos(url, movie_id, actor_id, role_id) VALUES (?, ?, ?, ?);
             """;
-        int insert = jdbcTemplate.update(sql, rolePhoto.photoUrl(), rolePhoto.roleId());
+        int insert = jdbcTemplate.update(
+            sql,
+            rolePhoto.photoUrl(),
+            rolePhoto.movieId(),
+            rolePhoto.actorId(),
+            rolePhoto.roleId());
         if (insert == 1) {
             log.info("New photo inserted: " + rolePhoto);
         }
@@ -40,7 +45,7 @@ public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
     }
 
     @Override
-    public int deleteRolePhoto(Integer id) {
+    public int deleteRolePhoto(Long id) {
         var sql = """
             DELETE FROM role_photos
             WHERE photo_id = ?;
@@ -53,9 +58,9 @@ public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
     }
 
     @Override
-    public Optional<RolePhoto> selectRolePhotoById(Integer id) {
+    public Optional<RolePhoto> selectRolePhotoById(Long id) {
         var sql = """
-            SELECT photo_id, url, role_id
+            SELECT photo_id, url, movie_id, actor_id, role_id
             FROM role_photos
             WHERE photo_id = ?;
             """;
@@ -69,13 +74,19 @@ public class RolePhotoDataAccessRepository implements RolePhotoDao<RolePhoto> {
     }
 
     @Override
-    public int updateRolePhoto(Integer id, RolePhoto rolePhoto) {
+    public int updateRolePhoto(Long id, RolePhoto rolePhoto) {
         var sql = """
             UPDATE role_photos
-            SET url = ?, role_id = ?
+            SET url = ?, movie_id = ?, actor_id = ?, role_id = ?
             WHERE photo_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, rolePhoto.photoUrl(), rolePhoto.roleId(), id);
+        int update = jdbcTemplate.update(
+            sql,
+            rolePhoto.photoUrl(),
+            rolePhoto.movieId(),
+            rolePhoto.actorId(),
+            rolePhoto.roleId(),
+            id);
         if (update == 1) {
             log.info(String.format("Photo with id: %d is updated.", id));
         }

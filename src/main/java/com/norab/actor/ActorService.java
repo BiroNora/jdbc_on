@@ -4,7 +4,6 @@ import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import com.norab.movie.Movie;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class ActorService {
         this.actorDao = actorDao;
     }
 
-    public List<Movie> allMoviesByActor(Integer id) {
+    public List<Movie> allMoviesByActor(Long id) {
         return actorDao.allMoviesByActor(id);
     }
 
@@ -39,7 +38,7 @@ public class ActorService {
         }
     }
 
-    public void deleteActor(Integer id) {
+    public void deleteActor(Long id) {
         Optional<Actor> actor1 = actorDao.selectActorById(id);
         actor1.ifPresentOrElse(actor -> {
             int result = actorDao.deleteActor(id);
@@ -51,7 +50,7 @@ public class ActorService {
         });
     }
 
-    public Actor getActor(int id) {
+    public Actor getActor(Long id) {
         try {
             return (Actor) actorDao.selectActorById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Actor with id %s not found", id)));
@@ -60,9 +59,9 @@ public class ActorService {
         }
     }
 
-    public void updateActor(int id, Actor actor) {
+    public void updateActor(Long id, Actor actor) {
         if (actorDao.selectActorById(id).isPresent()) {
-            Actor actor1 = new Actor(id, actor.fullName(), actor.birthDate());
+            Actor actor1 = new Actor(id, actor.fullName(), actor.birthDate(), actor.deathDate());
             actorDao.updateActor(id, actor1);
         } else {
             throw new NotFoundException(String.format("Actor with id %s not found", id));
