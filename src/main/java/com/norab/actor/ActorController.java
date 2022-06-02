@@ -1,5 +1,6 @@
 package com.norab.actor;
 
+import com.norab.movie.Movie;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +11,18 @@ public class ActorController {
     private final ActorService actorService;
 
     public ActorController(ActorService actorService) {
+
         this.actorService = actorService;
     }
 
     @GetMapping
     public List<Actor> listActors() {
         return actorService.getActors(); }
+
+    @GetMapping("{id}/movies")
+    public List<Movie> allMoviesByActor(@PathVariable("id") Integer id) {
+        return actorService.allMoviesByActor(id);
+    }
 
     @GetMapping("{id}")
     public Actor getActorId(@PathVariable("id") Integer id) {

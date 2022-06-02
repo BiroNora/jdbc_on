@@ -2,7 +2,9 @@ package com.norab.actor;
 
 import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
+import com.norab.movie.Movie;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,10 @@ public class ActorService {
 
     public ActorService(ActorDao actorDao) {
         this.actorDao = actorDao;
+    }
+
+    public List<Movie> allMoviesByActor(Integer id) {
+        return actorDao.allMoviesByActor(id);
     }
 
     public List<Actor> getActors() {

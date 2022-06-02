@@ -1,5 +1,7 @@
 package com.norab.actor;
 
+import com.norab.movie.Movie;
+import com.norab.movie.MovieRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,21 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Autowired
     public ActorDataAccessRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Movie> allMoviesByActor(Integer id) {
+        var sql = """
+            SELECT movie_id, title, release_date, picture
+            FROM movie
+            JOIN
+            (SELECT movie_id
+            FROM plays
+            WHERE actor_id = ?) AS p
+            USING (movie_id)
+            LIMIT 10;
+            """;
+        return jdbcTemplate.query(sql, new MovieRowMapper(), id);
     }
 
     @Override
