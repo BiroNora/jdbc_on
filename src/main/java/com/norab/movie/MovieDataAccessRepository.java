@@ -21,7 +21,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT movie_id, title, release_date
+            SELECT movie_id, title, title_original, release_date
             FROM movie
             LIMIT 10;
             """;
@@ -31,9 +31,9 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public int insertMovie(Movie movie) {
         var sql = """
-            INSERT INTO movie(title, release_date) VALUES (?, ?);
+            INSERT INTO movie(title, title_original, release_date) VALUES (?, ?, ?);
             """;
-        int insert = jdbcTemplate.update(sql, movie.title(), movie.releaseDate());
+        int insert = jdbcTemplate.update(sql, movie.title(), movie.titleOriginal(), movie.releaseDate());
         if (insert == 1) {
             log.info("New movie inserted: " + movie);
         }
@@ -56,7 +56,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public Optional<Movie> selectMovieById(Long id) {
         var sql = """
-            SELECT movie_id, title, release_date
+            SELECT movie_id, title, title_original, release_date
             FROM movie
             WHERE movie_id = ?;
             """;
@@ -73,10 +73,10 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     public int updateMovie(Long id, Movie movie) {
         var sql = """
             UPDATE movie
-            SET title = ?, release_date = ?
+            SET title = ?, title_original = ?, release_date = ?
             WHERE movie_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, movie.title(), movie.releaseDate(), movie.id());
+        int update = jdbcTemplate.update(sql, movie.title(), movie.titleOriginal(), movie.releaseDate(), movie.id());
         if (update == 1) {
             log.info(String.format("Movie with id: %d is updated.", id));
         }

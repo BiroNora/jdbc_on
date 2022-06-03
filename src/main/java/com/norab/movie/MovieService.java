@@ -56,7 +56,7 @@ public class MovieService {
 
     public void updateMovie(Long id, Movie movie) {
         if (movieDao.selectMovieById(id).isPresent()) {
-            Movie movie1 = new Movie(id, movie.title(), movie.releaseDate());
+            Movie movie1 = new Movie(id, movie.title(), movie.titleOriginal(), movie.releaseDate());
             movieDao.updateMovie(id, movie1);
         } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));
