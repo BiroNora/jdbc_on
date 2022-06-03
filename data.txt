@@ -21,7 +21,7 @@ INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Wayne Collins', 4, 1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Simon Bishop', 5, 1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Buddy Cole', 4, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sal Naturile', 3, 8);
-
+INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Melvin Udall', 5, 5);
 
 
 Avatar id 1 film
