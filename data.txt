@@ -1,0 +1,46 @@
+Avatar id 1 film
+
+"picture": "https://www.imdb.com/title/tt0499549/mediaviewer/rm2864126209/?ref_=tt_ov_i"
+
+A karib tenger kalózai id 2 film
+"picture": "https://upload.wikimedia.org/wikipedia/hu/a/a5/Ismeretlen_vizeken_poszter.jpg"
+
+ánikulai du id 3 Al Pacino szerepben
+"picture": "https://hu.wikipedia.org/wiki/K%C3%A1nikulai_d%C3%A9lut%C3%A1n#/media/F%C3%A1jl:Lumet4.jpg"
+
+Rossz álmok id 4 film
+"picture": "https://www.imdb.com/title/tt0219699/mediaviewer/rm3355645952/"
+
+{
+    "timestamp": "2022-06-03T10:54:17.325+00:00",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "JSON parse error: Cannot deserialize value of type `java.time.LocalDate` from String \"0000-00-00\": Failed to deserialize java.time.LocalDate: (java.time.format.DateTimeParseException) Text '0000-00-00' could not be parsed: Invalid value for MonthOfYear (valid values 1 - 12): 0; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.time.LocalDate` from String \"0000-00-00\": Failed to deserialize java.time.LocalDate: (java.time.format.DateTimeParseException) Text '0000-00-00' could not be parsed: Invalid value for MonthOfYear (valid values 1 - 12): 0\n at [Source: (PushbackInputStream); line: 4, column: 18] (through reference chain: com.norab.actor.Actor[\"deathDate\"])",
+    "path": "/api/v1/actors"
+	
+	
+}
+
+Actor[id=1, fullName=Greg Kinnear, birthDate=1963-06-17, deathDate=null]
+Actor[id=2, fullName=Giovanni Ribisi, birthDate=1974-12-17, deathDate=null]
+Actor[id=3, fullName=Johnny Depp, birthDate=1963-06-09, deathDate=null]
+Actor[id=4, fullName=Al Pacino, birthDate=1940-04-25, deathDate=null]
+Actor[id=5, fullName=Jack Nicholson, birthDate=1937-04-22, deathDate=null]
+Actor[id=6, fullName=Mads Mikkelsen, birthDate=1965-11-22, deathDate=null]
+Actor[id=7, fullName=Sigourney Weaver, birthDate=1949-10-08, deathDate=null]
+Actor[id=8, fullName=John Casale, birthDate=1935-08-12, deathDate=1978-03-13]
+
+Movie[id=1, title=Avatar, releaseDate=2009-12-17]
+Movie[id=2, title=A Karib-tenger kalózai: Ismeretlen vizeken, releaseDate=2011-05-07]
+Movie[id=3, title=Kánikulai délután, releaseDate=1975-09-21]
+Movie[id=4, title=Rossz álmok, releaseDate=2001-04-19]
+Movie[id=5, title=Lesz ez még így se, releaseDate=1998-03-12]
+
+Plays[id=1, roleName=Parker Selfridge, movieId=1, actorId=2]
+Plays[id=2, roleName=Jack Sparrow, movieId=2, actorId=3]
+Plays[id=4, roleName=Dr. Grace Augustine, movieId=1, actorId=7]
+Plays[id=5, roleName=Wayne Collins, movieId=4, actorId=1]
+Plays[id=6, roleName=Simon Bishop, movieId=5, actorId=1]
+Plays[id=7, roleName=Buddy Cole, movieId=4, actorId=2]
+Plays[id=3, roleName=Sonny Wortzik, movieId=3, actorId=4]
+Plays[id=8, roleName=Sal Naturile, movieId=3, actorId=8]
