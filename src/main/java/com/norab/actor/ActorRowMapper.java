@@ -16,7 +16,9 @@ public class ActorRowMapper implements RowMapper<Actor> {
             resultSet.getLong("actor_id"),
             resultSet.getString("full_name"),
             LocalDate.parse(resultSet.getString("birth_date")),
-            death_date != null && death_date.compareTo("") != 0 && death_date.compareTo("0000-00-00") !=0 ? LocalDate.parse(death_date) : null
+            death_date == null || death_date.compareTo("") == 0
+                || death_date.compareTo("0000-00-00") ==0
+                               ? null : LocalDate.parse(death_date)
         );
     }
 }
