@@ -4,7 +4,6 @@ package com.norab.actor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
-import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 import java.time.Period;
 

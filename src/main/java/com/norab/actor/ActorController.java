@@ -40,7 +40,7 @@ public class ActorController {
     }
 
     @PutMapping("{id}")
-    public void updateActor(@PathVariable("id") Long id, @RequestBody Actor actor) {
+    public void updateActor(@PathVariable("id") Long id, @RequestBody(required = false) Actor actor) {
         actorService.updateActor(id, actor);
     }
 }
