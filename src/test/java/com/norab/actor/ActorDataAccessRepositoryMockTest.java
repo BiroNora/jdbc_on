@@ -6,25 +6,29 @@ import org.mockito.Mockito;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class ActorDataAccessRepositoryTest {
+public class ActorDataAccessRepositoryMockTest {
     @Mock
     JdbcTemplate jdbcTemplate;
 
     @Test
-    void selectActors() {
+    void selectActors1() {
         ActorDataAccessRepository aDAR = new ActorDataAccessRepository(jdbcTemplate);
-        //ReflectionTestUtils.getField(aDAR, );
+        ReflectionTestUtils.setField(aDAR, "jdbcTemplate", jdbcTemplate);
         Mockito.when(jdbcTemplate.queryForObject("""
                 SELECT actor_id, full_name, birth_date, death_date
                             FROM actor
                             LIMIT 10;
                 """, Integer.class
         )).thenReturn(8);
+        assertEquals(8, aDAR.selectActors().size());
+    }
+
+    @Test
+    void selectActors() {
+        ActorDataAccessRepository aDAR = new ActorDataAccessRepository(jdbcTemplate);
         assertEquals(8, aDAR.selectActors().size());
     }
 
