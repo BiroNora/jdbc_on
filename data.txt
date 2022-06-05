@@ -6,13 +6,11 @@ INSERT INTO actor(full_name, birth_date) VALUES('Jack Nicholson', '1937-04-22');
 INSERT INTO actor(full_name, birth_date) VALUES('Mads Mikkelsen', '1965-11-22');
 INSERT INTO actor(full_name, birth_date) VALUES('Sigourney Weaver', '1949-10-08');
 INSERT INTO actor(full_name, birth_date, death_date) VALUES('John Casale', '1935-08-12', '1978-03-13');
-
 INSERT INTO movie(title, title_original, release_date) VALUES('Avatar', 'Avatar', '2009-12-17');
 INSERT INTO movie(title, title_original, release_date) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07');
 INSERT INTO movie(title, title_original, release_date) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21');
 INSERT INTO movie(title, title_original, release_date) VALUES('Rossz álmok', 'The Gift', '2001-04-19');
 INSERT INTO movie(title, title_original, release_date) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12');
-
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Parker Selfridge', 1, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Jack Sparrow', 2, 3);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sonny Wortzik', 3, 4);
@@ -22,8 +20,10 @@ INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Simon Bishop', 5, 1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Buddy Cole', 4, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sal Naturile', 3, 8);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Melvin Udall', 5, 5);
-
-
+INSERT INTO role_photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0499549/mediaviewer/rm2864126209/?ref_=tt_ov_i', 1);
+INSERT INTO role_photos(url, movie_id) VALUES('https://upload.wikimedia.org/wikipedia/hu/a/a5/Ismeretlen_vizeken_poszter.jpg', 2);
+INSERT INTO role_photos(url, movie_id, actor_id, role_id) VALUES('https://hu.wikipedia.org/wiki/K%C3%A1nikulai_d%C3%A9lut%C3%A1n#/media/F%C3%A1jl:Lumet4.jpg', 3, 4, 3);
+INSERT INTO role_photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0219699/mediaviewer/rm3355645952/', 4);
 
 Avatar id 1 film
 
