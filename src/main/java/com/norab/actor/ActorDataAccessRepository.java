@@ -51,7 +51,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
         var sql = """
             INSERT INTO actor(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
             """;
-        int insert = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.deathDate());
+        int insert = jdbcTemplate.update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
         if (insert == 1) {
             log.info("New actor inserted: " + actor);
         }
@@ -94,7 +94,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
             SET full_name = ?, birth_date = ?, death_date = ?
             WHERE actor_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, actor.fullName(), actor.birthDate(), actor.deathDate(), actor.id());
+        int update = jdbcTemplate.update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate(), actor.getId());
         if (update == 1) {
             log.info(String.format("Actor with id: %d is updated.", id));
         }

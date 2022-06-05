@@ -25,10 +25,10 @@ public class ActorService {
     }
 
     public void addNewActor(Actor actor) {
-        String actorName = actor.fullName();
+        String actorName = actor.getFullName();
         List<Actor> actors = actorDao.selectActors();
         List<Actor> collect = actors.stream()
-            .filter(x -> x.fullName().equals(actorName)).toList();
+            .filter(x -> x.getFullName().equals(actorName)).toList();
         if (collect.size() != 0) {
             throw new AlreadyExistsException("This artist already exists");
         }
@@ -61,7 +61,7 @@ public class ActorService {
 
     public void updateActor(Long id, Actor actor) {
         if (actorDao.selectActorById(id).isPresent()) {
-            Actor actor1 = new Actor(id, actor.fullName(), actor.birthDate(), actor.deathDate());
+            Actor actor1 = new Actor(id, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
             actorDao.updateActor(id, actor1);
         } else {
             throw new NotFoundException(String.format("Actor with id %s not found", id));

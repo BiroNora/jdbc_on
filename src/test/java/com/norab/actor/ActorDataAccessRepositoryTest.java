@@ -48,8 +48,8 @@ public class ActorDataAccessRepositoryTest {
         
         List<Actor> actors = dao.selectActors();
         assertEquals(10, actors.size());
-        assertEquals("Test_nameEE", actors.get(9).fullName());
-        assertEquals(LocalDate.parse("2222-05-01"), actors.get(9).birthDate());
+        assertEquals("Test_nameEE", actors.get(9).getFullName());
+        assertEquals(LocalDate.parse("2222-05-01"), actors.get(9).getBirthDate());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ActorDataAccessRepositoryTest {
         dao.updateActor(9L, actor1);
 
         Actor updated = dao.selectActorById(9L).get();
-        assertEquals("Test_namesD", updated.fullName());
+        assertEquals("Test_namesD", updated.getFullName());
     }
 
     @Test
