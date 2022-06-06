@@ -5,6 +5,7 @@ import com.norab.exception.NotFoundException;
 import com.norab.movie.Movie;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class ActorService {
     }
 
     public List<Actor> getActors() {
+        List<Actor> actors = actorDao.selectActors();
         return actorDao.selectActors();
     }
 

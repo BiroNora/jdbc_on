@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,20 +19,21 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class ActorDataAccessRepositoryUnitTestJupiter {
     @MockBean
-    ActorDataAccessRepository aDAR;
+    ActorService aDAR;
 
     @Test
     void selectActors() {
-        when(aDAR.selectActors()).thenReturn(Stream
+        when(aDAR.getActors()).thenReturn(Stream
                 .of(new Actor("Greg Kinnear",
                         LocalDate.of(1963, Month.AUGUST, 17),
-                        LocalDate.of(1963, Month.AUGUST, 17)),
+                        LocalDate.of(2070, Month.AUGUST, 17)),
                     new Actor("Greg Kinnear",
                         LocalDate.of(1963, Month.AUGUST, 17),
-                        LocalDate.of(1963, Month.AUGUST, 17))
+                        LocalDate.of(2700, Month.AUGUST, 1))
             ).collect(Collectors.toList()));
 
-        assertEquals(2, aDAR.selectActors().size());
+        System.out.println("Data from DB: " + aDAR.getActors().toString());
+        assertEquals(2, aDAR.getActors().size());
     }
 
     /*@Test
