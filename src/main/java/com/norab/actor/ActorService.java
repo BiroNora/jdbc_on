@@ -26,7 +26,7 @@ public class ActorService {
         return actorDao.selectActors();
     }
 
-    public void addNewActor(Actor actor) {
+    public int addNewActor(Actor actor) {
         String actorName = actor.getFullName();
         List<Actor> actors = actorDao.selectActors();
         List<Actor> collect = actors.stream()
@@ -38,6 +38,7 @@ public class ActorService {
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
+        return result;
     }
 
     public void deleteActor(Long id) {
