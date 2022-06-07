@@ -23,9 +23,9 @@ class RolePhotoDataAccessRepositoryTest {
     void selectRolePhotos() {
         when(repository.selectRolePhotos()).thenReturn(Stream
             .of(new RolePhoto(
-                    101L, "http://kiskutya", 1L, 0L, 0L),
+                    101L, "http://101kiskutya", 1L, 0L, 0L),
                 new RolePhoto(
-                    101L, "http://kiskutya", 1L, 0L, 0L)
+                    101L, "http://101kiskutya", 1L, 0L, 0L)
             ).collect(Collectors.toList()));
 
         System.out.println("Data from DB: " + repository.selectRolePhotos().toString());

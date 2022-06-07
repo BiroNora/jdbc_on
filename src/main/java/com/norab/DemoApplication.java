@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.List;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 public class DemoApplication {
 	private static ActorDataAccessRepository actorDao;
 	private static MovieDataAccessRepository movieDao;

@@ -1,26 +1,31 @@
 package com.norab.actor;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Optional;
 
-@JdbcTest
-@Sql({"schema.sql", "test-data.sql"})
+import static org.assertj.core.api.AssertionsForClassTypes.*;
+
+@DataJdbcTest
 public class ActorDataAccessRepositoryUnitTest {
     @Autowired
-    JdbcTemplate jdbcTemplate;
-    
-    @Test
-    void selectActors() {
-        ActorDataAccessRepository aDAR = new ActorDataAccessRepository(jdbcTemplate);
+    private ActorDataAccessRepository repo;
 
-        assertEquals(8, aDAR.selectActors().size());
+    @Test
+    void selectActorByValidId() {
+        Long id = 1L;
+        Actor actor = new Actor("John Wick",
+            LocalDate.of(2000, Month.DECEMBER, 12),
+            LocalDate.of(2003, Month.FEBRUARY, 10));
+        repo.insertActor(actor);
+
+        Optional<Actor> expected = repo.selectActorById(id);
+
+        assertThat(expected).isPresent();
     }
 
     /*@Test
