@@ -18,7 +18,7 @@ public class RolePhotoService {
         return rolePhotoDao.selectRolePhotos();
     }
 
-    public void addNewRolePhoto(RolePhoto rolePhoto) {
+    public int addNewRolePhoto(RolePhoto rolePhoto) {
         String roleUrl = rolePhoto.photoUrl();
         List<RolePhoto> rolePhoto1 = rolePhotoDao.selectRolePhotos();
         List<RolePhoto> collect = rolePhoto1.stream()
@@ -30,6 +30,7 @@ public class RolePhotoService {
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
+        return result;
     }
 
     public void deleteRolePhoto(Long id) {

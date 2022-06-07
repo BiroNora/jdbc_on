@@ -19,7 +19,7 @@ public class MovieService {
         return movieDao.selectMovies();
     }
 
-    public void addNewMovie(Movie movie) {
+    public int addNewMovie(Movie movie) {
         String movieTitle = movie.title();
         List<Movie> movies = movieDao.selectMovies();
         List<Movie> collect = movies.stream()
@@ -31,6 +31,7 @@ public class MovieService {
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
+        return result;
     }
 
     public void deleteMovie(Long id) {

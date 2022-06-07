@@ -18,7 +18,7 @@ public class RoleService {
         return roleDao.selectRoles();
     }
 
-    public void addNewRole(Plays plays) {
+    public int addNewRole(Plays plays) {
         String roleName1 = plays.roleName();
         List<Plays> plays1 = roleDao.selectRoles();
         List<Plays> collect = plays1.stream()
@@ -30,6 +30,7 @@ public class RoleService {
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");
         }
+        return result;
     }
 
     public void deleteRole(Long id) {

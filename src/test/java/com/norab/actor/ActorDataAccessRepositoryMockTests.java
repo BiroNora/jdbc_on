@@ -44,6 +44,7 @@ public class ActorDataAccessRepositoryMockTests {
             Optional.of(new Actor(6L, "Greg Kinnear",
                 LocalDate.of(1963, Month.AUGUST, 17),
                 LocalDate.of(2070, Month.AUGUST, 17))));
+
         assertNotNull(repository.selectActorById(id));
         verify(repository).selectActorById(id);
         assertEquals("Greg Kinnear", service.getActor(id).getFullName());
