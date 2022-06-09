@@ -8,7 +8,14 @@ import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 
-import static org.testng.AssertJUnit.assertNotNull;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.testng.AssertJUnit.*;
 
 @Sql({"/schema.sql", "/data.sql"})
 @SpringBootTest
@@ -18,10 +25,31 @@ class ActorDataAccessRepositoryTest {
     @Autowired
     private DataSource dataSource;
 
+
+
     @Test
     void ifNotNull() {
         assertNotNull(dataSource);
         assertNotNull(jdbcTemplate);
+    }
+
+    @Test
+    void selectActorByValidId() {
+        ActorDataAccessRepository repository = new ActorDataAccessRepository(jdbcTemplate);
+        Actor actor = new Actor("John Wick",
+            LocalDate.of(2000, Month.DECEMBER, 12),
+            LocalDate.of(2053, Month.FEBRUARY, 10));
+        int result = repository.insertActor(actor);
+        assertEquals(1, result);
+
+        List<Actor> expected = repository.selectActors();
+
+        assertNotNull(expected);
+        for (Actor a : expected) {
+            System.out.println(a.getId());
+            System.out.println(a.getFullName());
+        }
+        assertTrue(expected.size() != 0);
     }
 
     /*@Test
