@@ -18,6 +18,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
 
     @Autowired
     public ActorDataAccessRepository(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 

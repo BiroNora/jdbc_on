@@ -22,7 +22,7 @@ public class ActorService {
 
     public List<Actor> getActors() {
         List<Actor> actors = actorDao.selectActors();
-        return actorDao.selectActors();
+        return actors;
     }
 
     public int addNewActor(Actor actor) {
