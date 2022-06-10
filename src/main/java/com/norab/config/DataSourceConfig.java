@@ -22,6 +22,7 @@ public class DataSourceConfig {
 
     @Bean
     public JdbcTemplate jdbcTemplate(HikariDataSource hikariDataSource) {
+
         return new JdbcTemplate(hikariDataSource);
     }
 }
