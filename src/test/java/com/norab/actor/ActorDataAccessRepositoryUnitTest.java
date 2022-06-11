@@ -3,14 +3,17 @@ package com.norab.actor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@DataJdbcTest
+@ActiveProfiles("test")
+@SpringBootTest
 public class ActorDataAccessRepositoryUnitTest {
     @Autowired
     private ActorDataAccessRepository repo;

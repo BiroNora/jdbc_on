@@ -17,7 +17,8 @@ public class ActorController {
 
     @GetMapping
     public List<Actor> listActors() {
-        return actorService.getActors(); }
+        return actorService.getActors();
+    }
 
     @GetMapping("{id}/movies")
     public List<Movie> allMoviesByActor(@PathVariable("id") Long id) {

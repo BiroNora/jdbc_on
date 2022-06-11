@@ -15,41 +15,41 @@ import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication {
-	private static ActorDataAccessRepository actorDao;
-	private static MovieDataAccessRepository movieDao;
-	private static RoleDataAccessRepository roleDao;
-	private static RolePhotoDataAccessRepository rolePhotoDao;
+    private static ActorDataAccessRepository actorDao;
+    private static MovieDataAccessRepository movieDao;
+    private static RoleDataAccessRepository roleDao;
+    private static RolePhotoDataAccessRepository rolePhotoDao;
 
-	public DemoApplication(
-		ActorDataAccessRepository actorDao, MovieDataAccessRepository movieDao, RoleDataAccessRepository roleDao, RolePhotoDataAccessRepository rolePhotoDao) {
-		this.actorDao = actorDao;
-		this.movieDao = movieDao;
-		this.roleDao = roleDao;
-		this.rolePhotoDao = rolePhotoDao;
-	}
+    public DemoApplication(
+        ActorDataAccessRepository actorDao, MovieDataAccessRepository movieDao, RoleDataAccessRepository roleDao, RolePhotoDataAccessRepository rolePhotoDao) {
+        this.actorDao = actorDao;
+        this.movieDao = movieDao;
+        this.roleDao = roleDao;
+        this.rolePhotoDao = rolePhotoDao;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
 
 		/*System.out.println("\nFirstActor ----------------------------------------------\n");
 		Optional<Actor> actor = actorDao.selectActors().stream().findFirst();
 		System.out.println(actor);*/
 
-		System.out.println("\nActors ----------------------------------------------\n");
-		List<Actor> actors = actorDao.selectActors();
-		actors.forEach(System.out::println);
+        System.out.println("\nActors ----------------------------------------------\n");
+        List<Actor> actors = actorDao.selectActors();
+        actors.forEach(System.out::println);
 
-		System.out.println("\nMovies ----------------------------------------------\n");
-		List<Movie> movies = movieDao.selectMovies();
-		movies.forEach(System.out::println);
+        System.out.println("\nMovies ----------------------------------------------\n");
+        List<Movie> movies = movieDao.selectMovies();
+        movies.forEach(System.out::println);
 
-		System.out.println("\nRoles -----------------------------------------------\n");
-		List<Plays> roles = roleDao.selectRoles();
-		roles.forEach(System.out::println);
+        System.out.println("\nRoles -----------------------------------------------\n");
+        List<Plays> roles = roleDao.selectRoles();
+        roles.forEach(System.out::println);
 
-		System.out.println("\nRolePhotos ------------------------------------------\n");
-		List<RolePhoto> rolePhotos = rolePhotoDao.selectRolePhotos();
-		rolePhotos.forEach(System.out::println);
-	}
+        System.out.println("\nRolePhotos ------------------------------------------\n");
+        List<RolePhoto> rolePhotos = rolePhotoDao.selectRolePhotos();
+        rolePhotos.forEach(System.out::println);
+    }
 
 }

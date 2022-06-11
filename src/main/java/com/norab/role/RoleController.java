@@ -14,7 +14,9 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Plays> listRoles() { return roleService.getRoles(); }
+    public List<Plays> listRoles() {
+        return roleService.getRoles();
+    }
 
     @GetMapping("{id}")
     public Plays getRoleId(@PathVariable("id") Long id) {

@@ -9,9 +9,14 @@ import java.util.Optional;
 @Component
 public interface ActorDao<Actor> {
     List<Movie> allMoviesByActor(Long id);
+
     List<Actor> selectActors();
+
     int insertActor(Actor actor);
+
     int deleteActor(Long id);
+
     Optional<Actor> selectActorById(Long id);
+
     int updateActor(Long id, Actor actor);
 }

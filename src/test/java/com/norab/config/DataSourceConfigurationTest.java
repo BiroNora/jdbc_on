@@ -1,21 +1,15 @@
 package com.norab.config;
 
-import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 public class DataSourceConfigurationTest {
 
-    @Configuration
+    /*@Configuration
     public static class DataSourceConfig {
         @Bean
         @Primary
-        @ConfigurationProperties("app.datasource.main")
+        @ConfigurationProperties(prefix = "application-test")
         public HikariDataSource hikariDataSource() {
             return DataSourceBuilder
                 .create()
@@ -28,5 +22,5 @@ public class DataSourceConfigurationTest {
 
             return new JdbcTemplate(hikariDataSource);
         }
-    }
+    }*/
 }
