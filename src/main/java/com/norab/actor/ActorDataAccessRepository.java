@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public class ActorDataAccessRepository implements ActorDao<Actor> {
     private static final Logger log = LoggerFactory.getLogger(ActorDataAccessRepository.class);
+
+    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -52,7 +54,8 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
         var sql = """
             INSERT INTO actor(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
             """;
-        int insert = jdbcTemplate.update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
+        int insert = jdbcTemplate.
+            update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
         if (insert == 1) {
             log.info("New actor inserted: " + actor);
         }
