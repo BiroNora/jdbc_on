@@ -61,7 +61,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int result = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"actor_id"});
             ps.setString(1, actor.getFullName());
             ps.setString(2, actor.getBirthDate().toString());
             if (actor.getDeathDate() != null) {

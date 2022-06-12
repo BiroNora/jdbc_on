@@ -19,7 +19,7 @@ class ActorDataAccessRepositoryTest {
 
     @Test
     void selectActorByValidId() {
-        Actor actor = new Actor("John Wick",
+        Actor actor = new Actor("John Wickels",
             LocalDate.of(2000, Month.DECEMBER, 12),
             LocalDate.of(2053, Month.FEBRUARY, 10));
         try {
