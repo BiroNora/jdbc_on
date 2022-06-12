@@ -27,7 +27,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public List<Movie> allMoviesByActor(Long id) {
         var sql = """
-            SELECT role_name, movie_id, title, release_date
+            SELECT role_name, movie.movie_id, title, title_original, release_date
             FROM movie
             JOIN
             (SELECT role_name, movie_id
