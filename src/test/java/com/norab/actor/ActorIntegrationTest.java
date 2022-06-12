@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ActorIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
@@ -56,7 +56,7 @@ public class ActorIntegrationTest {
     void insertActor() throws Exception {
         String data = """
             {            
-            "fullName": "Fedák Sári",
+            "fullName": "Fedák Sárika",
             "birthDate": "1879-09-27"
             }
             """;

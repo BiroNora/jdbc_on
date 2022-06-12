@@ -6,8 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,16 +54,30 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public int insertActor(Actor actor) {
+    public long insertActor(Actor actor) {
         var sql = """
             INSERT INTO actor(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
             """;
-        int insert = jdbcTemplate.
-            update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
-        if (insert == 1) {
-            log.info("New actor inserted: " + actor);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int result = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, actor.getFullName());
+            ps.setString(2, actor.getBirthDate().toString());
+            if (actor.getDeathDate() != null) {
+                ps.setString(3, actor.getDeathDate().toString());
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+            return ps;
+        }, keyHolder);
+
+        if (result != 1) {
+            throw new IllegalStateException("Failed to add actor");
         }
-        return insert;
+        log.info("New actor inserted: " + actor);
+
+        return keyHolder.getKeyAs(Long.class);
     }
 
     @Override

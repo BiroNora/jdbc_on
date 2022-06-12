@@ -31,8 +31,8 @@ public class ActorController {
     }
 
     @PostMapping
-    public void addActor(@RequestBody Actor actor) {
-        actorService.addNewActor(actor);
+    public ActorId addActor(@RequestBody Actor actor) {
+        return new ActorId(actorService.addNewActor(actor));
     }
 
     @DeleteMapping("{id}")

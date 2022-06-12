@@ -12,7 +12,7 @@ public interface ActorDao<Actor> {
 
     List<Actor> selectActors();
 
-    int insertActor(Actor actor);
+    long insertActor(Actor actor) throws IllegalStateException;
 
     int deleteActor(Long id);
 

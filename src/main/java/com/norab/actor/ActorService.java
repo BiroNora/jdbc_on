@@ -25,7 +25,7 @@ public class ActorService {
         return actors;
     }
 
-    public int addNewActor(Actor actor) {
+    public long addNewActor(Actor actor) {
         String actorName = actor.getFullName();
         List<Actor> actors = actorDao.selectActors();
         List<Actor> collect = actors.stream()
@@ -33,11 +33,7 @@ public class ActorService {
         if (collect.size() != 0) {
             throw new AlreadyExistsException("This artist already exists");
         }
-        int result = actorDao.insertActor(actor);
-        if (result != 1) {
-            throw new IllegalStateException("oops something went wrong");
-        }
-        return result;
+        return actorDao.insertActor(actor);
     }
 
     public void deleteActor(Long id) {

@@ -69,7 +69,7 @@ public class ActorDataAccessRepositoryMockTests {
         Actor actor = new Actor("Greg Kinnear",
             LocalDate.of(1963, Month.AUGUST, 17),
             LocalDate.of(2070, Month.AUGUST, 17));
-        when(repository.insertActor(actor)).thenReturn(1);
+        when(repository.insertActor(actor)).thenReturn(1L);
 
         assertEquals(1, repository.insertActor(actor));
         verify(repository).insertActor(actor);
