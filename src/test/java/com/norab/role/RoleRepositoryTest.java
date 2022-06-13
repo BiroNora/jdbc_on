@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class RoleDataAccessRepositoryTest {
+class RoleRepositoryTest {
     @Autowired
     RoleService service;
     @MockBean
-    RoleDataAccessRepository repository;
+    RoleRepository repository;
 
     @Test
     void selectRoles() {

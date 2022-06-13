@@ -17,11 +17,11 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
-public class ActorDataAccessRepositoryMockTests {
+public class ActorRepositoryMockTests {
     @Autowired
     ActorService service;
     @MockBean
-    ActorDataAccessRepository repository;
+    ActorRepository repository;
 
     @Test
     void selectActors() {
@@ -29,7 +29,7 @@ public class ActorDataAccessRepositoryMockTests {
             .of(new Actor("Greg Kinnear",
                     LocalDate.of(1963, Month.AUGUST, 17),
                     LocalDate.of(2070, Month.AUGUST, 17)),
-                new Actor("Greg Kinnear",
+                new Actor("Max Kinnear",
                     LocalDate.of(1963, Month.AUGUST, 17),
                     LocalDate.of(2700, Month.AUGUST, 1))
             ).collect(Collectors.toList()));

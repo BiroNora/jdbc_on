@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class MovieDataAccessRepositoryTest {
+class MovieRepositoryTest {
     @Autowired
     MovieService service;
     @MockBean
-    MovieDataAccessRepository repository;
+    MovieRepository repository;
 
     @Test
     void selectMovies() {

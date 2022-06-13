@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RoleDataAccessRepository implements RoleDao<Plays> {
-    private static final Logger log = LoggerFactory.getLogger(RoleDataAccessRepository.class);
+public class RoleRepository implements RoleDao<Plays> {
+    private static final Logger log = LoggerFactory.getLogger(RoleRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
-    public RoleDataAccessRepository(JdbcTemplate jdbcTemplate) {
+    public RoleRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

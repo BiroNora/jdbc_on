@@ -1,16 +1,18 @@
-INSERT INTO actor(full_name, birth_date) VALUES('Greg Kinnear', '1963-06-17');
-INSERT INTO actor(full_name, birth_date) VALUES('Giovanni Ribisi', '1974-12-17');
-INSERT INTO actor(full_name, birth_date) VALUES('Johnny Depp', '1963-06-09');
-INSERT INTO actor(full_name, birth_date) VALUES('Al Pacino', '1940-04-25');
-INSERT INTO actor(full_name, birth_date) VALUES('Jack Nicholson', '1937-04-22');
-INSERT INTO actor(full_name, birth_date) VALUES('Mads Mikkelsen', '1965-11-22');
-INSERT INTO actor(full_name, birth_date) VALUES('Sigourney Weaver', '1949-10-08');
-INSERT INTO actor(full_name, birth_date, death_date) VALUES('John Casale', '1935-08-12', '1978-03-13');
-INSERT INTO movie(title, title_original, release_date) VALUES('Avatar', 'Avatar', '2009-12-17');
-INSERT INTO movie(title, title_original, release_date) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07');
-INSERT INTO movie(title, title_original, release_date) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21');
-INSERT INTO movie(title, title_original, release_date) VALUES('Rossz álmok', 'The Gift', '2001-04-19');
-INSERT INTO movie(title, title_original, release_date) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12');
+INSERT INTO actors(full_name, birth_date) VALUES('Greg Kinnear', '1963-06-17');
+INSERT INTO actors(full_name, birth_date) VALUES('Giovanni Ribisi', '1974-12-17');
+INSERT INTO actors(full_name, birth_date) VALUES('Johnny Depp', '1963-06-09');
+INSERT INTO actors(full_name, birth_date) VALUES('Al Pacino', '1940-04-25');
+INSERT INTO actors(full_name, birth_date) VALUES('Jack Nicholson', '1937-04-22');
+INSERT INTO actors(full_name, birth_date) VALUES('Mads Mikkelsen', '1965-11-22');
+INSERT INTO actors(full_name, birth_date) VALUES('Sigourney Weaver', '1949-10-08');
+INSERT INTO actors(full_name, birth_date, death_date) VALUES('John Casale', '1935-08-12', '1978-03-13');
+
+INSERT INTO movies(title, title_original, release_date) VALUES('Avatar', 'Avatar', '2009-12-17');
+INSERT INTO movies(title, title_original, release_date) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07');
+INSERT INTO movies(title, title_original, release_date) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21');
+INSERT INTO movies(title, title_original, release_date) VALUES('Rossz álmok', 'The Gift', '2001-04-19');
+INSERT INTO movies(title, title_original, release_date) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12');
+
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Parker Selfridge', 1, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Jack Sparrow', 2, 3);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sonny Wortzik', 3, 4);
@@ -20,93 +22,38 @@ INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Simon Bishop', 5, 1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Buddy Cole', 4, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sal Naturile', 3, 8);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Melvin Udall', 5, 5);
-INSERT INTO role_photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0499549/mediaviewer/rm2864126209/?ref_=tt_ov_i', 1);
-INSERT INTO role_photos(url, movie_id) VALUES('https://upload.wikimedia.org/wikipedia/hu/a/a5/Ismeretlen_vizeken_poszter.jpg', 2);
-INSERT INTO role_photos(url, movie_id, actor_id, role_id) VALUES('https://hu.wikipedia.org/wiki/K%C3%A1nikulai_d%C3%A9lut%C3%A1n#/media/F%C3%A1jl:Lumet4.jpg', 3, 4, 3);
-INSERT INTO role_photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0219699/mediaviewer/rm3355645952/', 4);
 
-Avatar id 1 film
+INSERT INTO photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0499549/mediaviewer/rm2864126209/?ref_=tt_ov_i', 1);
+INSERT INTO photos(url, movie_id) VALUES('https://upload.wikimedia.org/wikipedia/hu/a/a5/Ismeretlen_vizeken_poszter.jpg', 2);
+INSERT INTO photos(url, movie_id, actor_id, role_id) VALUES('https://hu.wikipedia.org/wiki/K%C3%A1nikulai_d%C3%A9lut%C3%A1n#/media/F%C3%A1jl:Lumet4.jpg', 3, 4, 3);
+INSERT INTO photos(url, movie_id) VALUES('https://www.imdb.com/title/tt0219699/mediaviewer/rm3355645952/', 4);
 
-"picture": "https://www.imdb.com/title/tt0499549/mediaviewer/rm2864126209/?ref_=tt_ov_i"
+CREATE TABLE actors (
+    actor_id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    birth_date DATE NOT NULL,
+    death_date DATE DEFAULT NULL,
+    unique (full_name)
+);
 
-A karib tenger kalózai id 2 film
-"picture": "https://upload.wikimedia.org/wikipedia/hu/a/a5/Ismeretlen_vizeken_poszter.jpg"
-
-ánikulai du id 3 Al Pacino szerepben
-"picture": "https://hu.wikipedia.org/wiki/K%C3%A1nikulai_d%C3%A9lut%C3%A1n#/media/F%C3%A1jl:Lumet4.jpg"
-
-Rossz álmok id 4 film
-"picture": "https://www.imdb.com/title/tt0219699/mediaviewer/rm3355645952/"
-
-{
-    "timestamp": "2022-06-03T10:54:17.325+00:00",
-    "status": 400,
-    "error": "Bad Request",
-    "message": "JSON parse error: Cannot deserialize value of type `java.time.LocalDate` from String \"0000-00-00\": Failed to deserialize java.time.LocalDate: (java.time.format.DateTimeParseException) Text '0000-00-00' could not be parsed: Invalid value for MonthOfYear (valid values 1 - 12): 0; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.time.LocalDate` from String \"0000-00-00\": Failed to deserialize java.time.LocalDate: (java.time.format.DateTimeParseException) Text '0000-00-00' could not be parsed: Invalid value for MonthOfYear (valid values 1 - 12): 0\n at [Source: (PushbackInputStream); line: 4, column: 18] (through reference chain: com.norab.actor.Actor[\"deathDate\"])",
-    "path": "/api/v1/actors"
-	
-	
-}
-actor_id BIGSERIAL PRIMARY key,
-    full_name TEXT NOT null,
-    birth_date DATE NOT null ,
-    death_date DATE DEFAULT null,
-	
-INSERT INTO actor(full_name, birth_date) VALUES('Greg Kinnear', '1963-06-17');
-INSERT INTO actor(full_name, birth_date) VALUES('Giovanni Ribisi', '1974-12-17');
-INSERT INTO actor(full_name, birth_date) VALUES('Johnny Depp', '1963-06-09');
-INSERT INTO actor(full_name, birth_date) VALUES('Al Pacino', '1940-04-25');
-INSERT INTO actor(full_name, birth_date) VALUES('Jack Nicholson', '1937-04-22');
-INSERT INTO actor(full_name, birth_date) VALUES('Mads Mikkelsen', '1965-11-22');
-INSERT INTO actor(full_name, birth_date) VALUES('Sigourney Weaver', '1949-10-08');
-INSERT INTO actor(full_name, birth_date, death_date) VALUES('John Casale', '1935-08-12', '1978-03-13');
-
-Actor[id=1, fullName=Greg Kinnear, birthDate=1963-06-17, deathDate=null]
-Actor[id=2, fullName=Giovanni Ribisi, birthDate=1974-12-17, deathDate=null]
-Actor[id=3, fullName=Johnny Depp, birthDate=1963-06-09, deathDate=null]
-Actor[id=4, fullName=Al Pacino, birthDate=1940-04-25, deathDate=null]
-Actor[id=5, fullName=Jack Nicholson, birthDate=1937-04-22, deathDate=null]
-Actor[id=6, fullName=Mads Mikkelsen, birthDate=1965-11-22, deathDate=null]
-Actor[id=7, fullName=Sigourney Weaver, birthDate=1949-10-08, deathDate=null]
-Actor[id=8, fullName=John Casale, birthDate=1935-08-12, deathDate=1978-03-13]
-
-movie_id BIGSERIAL PRIMARY key,
-    title TEXT NOT null,
-    title_original TEXT,
+CREATE TABLE movies (
+    movie_id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    title_original VARCHAR(255),
     release_date DATE NOT NULL
-	
-INSERT INTO movie(title, title_original, release_date) VALUES('Avatar', 'Avatar', '2009-12-17');
-INSERT INTO movie(title, title_original, release_date) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07');
-INSERT INTO movie(title, title_original, release_date) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21');
-INSERT INTO movie(title, title_original, release_date) VALUES('Rossz álmok', 'The Gift', '2001-04-19');
-INSERT INTO movie(title, title_original, release_date) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12');
+);
 
-Movie[id=1, title=Avatar, releaseDate=2009-12-17]
-Movie[id=2, title=A Karib-tenger kalózai: Ismeretlen vizeken, releaseDate=2011-05-07]
-Movie[id=3, title=Kánikulai délután, releaseDate=1975-09-21]
-Movie[id=4, title=Rossz álmok, releaseDate=2001-04-19]
-Movie[id=5, title=Lesz ez még így se, releaseDate=1998-03-12]
+CREATE TABLE plays (
+    role_id BIGSERIAL PRIMARY KEY,
+    role_name VARCHAR(255) NOT NULL,
+    movie_id BIGSERIAL NOT NULL REFERENCES movies(movie_id),
+	actor_id BIGSERIAL NOT NULL REFERENCES actors(actor_id)
+);
 
-role_id BIGSERIAL PRIMARY key,
-    role_name TEXT NOT null,
-    movie_id BIGSERIAL NOT null REFERENCES movie(movie_id),
-	actor_id BIGSERIAL NOT null REFERENCES actor(actor_id)
-	
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Parker Selfridge', 1, 2);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Jack Sparrow', 2, 3);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sonny Wortzik', 3, 4);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Dr. Grace Augustine', 1, 7);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Wayne Collins', 4, 1);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Simon Bishop', 5, 1);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Buddy Cole', 4, 2);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sal Naturile', 3, 8);
-
-
-Plays[id=1, roleName=Parker Selfridge, movieId=1, actorId=2]
-Plays[id=2, roleName=Jack Sparrow, movieId=2, actorId=3]
-Plays[id=3, roleName=Sonny Wortzik, movieId=3, actorId=4]
-Plays[id=4, roleName=Dr. Grace Augustine, movieId=1, actorId=7]
-Plays[id=5, roleName=Wayne Collins, movieId=4, actorId=1]
-Plays[id=6, roleName=Simon Bishop, movieId=5, actorId=1]
-Plays[id=7, roleName=Buddy Cole, movieId=4, actorId=2]
-Plays[id=8, roleName=Sal Naturile, movieId=3, actorId=8]
+CREATE TABLE photos (
+    photo_id BIGSERIAL PRIMARY KEY,
+    url TEXT,
+    movie_id BIGINT NULL,
+    actor_id BIGINT NULL,
+    role_id BIGINT NULL
+);

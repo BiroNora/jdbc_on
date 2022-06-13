@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MovieDataAccessRepository implements MovieDao<Movie> {
-    private static final Logger log = LoggerFactory.getLogger(MovieDataAccessRepository.class);
+public class MovieRepository implements MovieDao<Movie> {
+    private static final Logger log = LoggerFactory.getLogger(MovieRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
-    public MovieDataAccessRepository(JdbcTemplate jdbcTemplate) {
+    public MovieRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -22,7 +22,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     public List<Movie> selectMovies() {
         var sql = """
             SELECT movie_id, title, title_original, release_date
-            FROM movie
+            FROM movies
             LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper());
@@ -31,7 +31,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public int insertMovie(Movie movie) {
         var sql = """
-            INSERT INTO movie(title, title_original, release_date) VALUES (?, ?, ?);
+            INSERT INTO movies(title, title_original, release_date) VALUES (?, ?, ?);
             """;
         int insert = jdbcTemplate.update(sql, movie.title(), movie.titleOriginal(), movie.releaseDate());
         if (insert == 1) {
@@ -43,7 +43,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public int deleteMovie(Long id) {
         var sql = """
-            DELETE FROM movie
+            DELETE FROM movies
             WHERE movie_id = ?;
             """;
         int delete = jdbcTemplate.update(sql, id);
@@ -57,7 +57,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     public Optional<Movie> selectMovieById(Long id) {
         var sql = """
             SELECT movie_id, title, title_original, release_date
-            FROM movie
+            FROM movies
             WHERE movie_id = ?;
             """;
         Optional<Movie> selected = jdbcTemplate.query(sql, new MovieRowMapper(), id)
@@ -72,7 +72,7 @@ public class MovieDataAccessRepository implements MovieDao<Movie> {
     @Override
     public int updateMovie(Long id, Movie movie) {
         var sql = """
-            UPDATE movie
+            UPDATE movies
             SET title = ?, title_original = ?, release_date = ?
             WHERE movie_id = ?;
             """;

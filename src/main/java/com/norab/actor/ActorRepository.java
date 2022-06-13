@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ActorDataAccessRepository implements ActorDao<Actor> {
-    private static final Logger log = LoggerFactory.getLogger(ActorDataAccessRepository.class);
+public class ActorRepository implements ActorDao<Actor> {
+    private static final Logger log = LoggerFactory.getLogger(ActorRepository.class);
 
     @Autowired
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ActorDataAccessRepository(JdbcTemplate jdbcTemplate) {
+    public ActorRepository(JdbcTemplate jdbcTemplate) {
 
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -31,8 +31,8 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public List<Movie> allMoviesByActor(Long id) {
         var sql = """
-            SELECT role_name, movie.movie_id, title, title_original, release_date
-            FROM movie
+            SELECT role_name, movies.movie_id, title, title_original, release_date
+            FROM movies
             JOIN
             (SELECT role_name, movie_id
             FROM plays
@@ -47,7 +47,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     public List<Actor> selectActors() {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date
-            FROM actor
+            FROM actors
             LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new ActorRowMapper());
@@ -56,7 +56,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public long insertActor(Actor actor) {
         var sql = """
-            INSERT INTO actor(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
+            INSERT INTO actors(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -83,7 +83,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public int deleteActor(Long id) {
         var sql = """
-            DELETE FROM actor
+            DELETE FROM actors
             WHERE actor_id = ?;
             """;
         int delete = jdbcTemplate.update(sql, id);
@@ -97,7 +97,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     public Optional<Actor> selectActorById(Long id) {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date
-            FROM actor
+            FROM actors
             WHERE actor_id = ?;
             """;
         Optional<Actor> selected = jdbcTemplate.query(sql, new ActorRowMapper(), id)
@@ -112,7 +112,7 @@ public class ActorDataAccessRepository implements ActorDao<Actor> {
     @Override
     public int updateActor(Long id, Actor actor) {
         var sql = """
-            UPDATE actor
+            UPDATE actors
             SET full_name = ?, birth_date = ?, death_date = ?
             WHERE actor_id = ?;
             """;

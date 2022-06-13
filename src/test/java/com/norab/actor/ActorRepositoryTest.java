@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class ActorDataAccessRepositoryTest {
+class ActorRepositoryTest {
     @Autowired
-    private ActorDataAccessRepository repository;
+    private ActorRepository repository;
 
     @Test
     void selectActorByValidId() {

@@ -1,4 +1,4 @@
-create TABLE actor (
+create TABLE actors (
     actor_id BIGSERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     birth_date DATE NOT NULL ,
@@ -6,7 +6,7 @@ create TABLE actor (
     unique (full_name)
 );
 
-CREATE TABLE movie (
+CREATE TABLE movies (
     movie_id BIGSERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     title_original TEXT,
@@ -16,11 +16,11 @@ CREATE TABLE movie (
 CREATE TABLE plays (
     role_id BIGSERIAL PRIMARY KEY,
     role_name TEXT NOT NULL,
-    movie_id BIGSERIAL NOT NULL REFERENCES movie(movie_id),
-	actor_id BIGSERIAL NOT NULL REFERENCES actor(actor_id)
+    movie_id BIGSERIAL NOT NULL REFERENCES movies(movie_id),
+	actor_id BIGSERIAL NOT NULL REFERENCES actors(actor_id)
 );
 
-CREATE TABLE role_photos (
+CREATE TABLE photos (
     photo_id BIGSERIAL PRIMARY KEY,
     url TEXT,
     movie_id BIGINT NULL,

@@ -1,14 +1,14 @@
-package com.norab.role_photo;
+package com.norab.photo;
 
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RolePhotoRowMapper implements RowMapper<RolePhoto> {
+public class PhotoRowMapper implements RowMapper<Photo> {
     @Override
-    public RolePhoto mapRow(ResultSet resultSet, int i) throws SQLException {
-        return new RolePhoto(
+    public Photo mapRow(ResultSet resultSet, int i) throws SQLException {
+        return new Photo(
             resultSet.getLong("photo_id"),
             resultSet.getString("url"),
             resultSet.getLong("movie_id"),
