@@ -1,6 +1,9 @@
 package com.norab.actor;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -22,6 +26,7 @@ public class ActorIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
+    @Order(1)
     public void listAllActors() throws Exception {
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
@@ -30,6 +35,7 @@ public class ActorIntegrationTest {
     }
 
     @Test
+    @Order(2)
     void getExistingActor() throws Exception {
         mockMvc.perform(get("/api/v1/actors/1"))
             .andDo(print())
@@ -38,6 +44,7 @@ public class ActorIntegrationTest {
     }
 
     @Test
+    @Order(3)
     void getNotExistingActor() throws Exception {
         mockMvc.perform(get("/api/v1/actors/123456"))
             .andDo(print())
@@ -45,6 +52,7 @@ public class ActorIntegrationTest {
     }
 
     @Test
+    @Order(4)
     void getMoviesByActor() throws Exception {
         mockMvc.perform(get("/api/v1/actors/1/movies"))
             .andDo(print())
@@ -53,25 +61,12 @@ public class ActorIntegrationTest {
     }
 
     @Test
-    void insertActor() throws Exception {
-        String data = """
-            {            
-            "fullName": "Fedák Sárika",
-            "birthDate": "1879-09-27"
-            }
-            """;
-        mockMvc.perform(post("/api/v1/actors")
-                .content(data)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
-    }
-
-    @Test
+    @Order(5)
     void updateActor() throws Exception {
         String data = """
             {            
-            "fullName": "Fedák Sári",
-            "birthDate": "1879-09-27"
+            "fullName": "Haumann Péter",
+            "birthDate": "1941-05-17"
             }
             """;
         mockMvc.perform(post("/api/v1/actors")
@@ -81,46 +76,51 @@ public class ActorIntegrationTest {
 
         String data1 = """
             {            
-            "fullName": "Fedák Sári",
-            "birthDate": "1879-09-27",
-            "deathDate": "1955-05-05"
+            "fullName": "Haumann Péter",
+            "birthDate": "1941-05-17",
+            "deathDate": "2022-05-28"
             }
             """;
-        mockMvc.perform(put("/api/v1/actors/2")
+        mockMvc.perform(put("/api/v1/actors/3")
                 .content(data1)
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/v1/actors/2"))
+        mockMvc.perform(get("/api/v1/actors/3"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("1955")));
+            .andExpect(content().string(containsString("2022")));
     }
 
     @Test
-    void deleteExistingActor() throws Exception {
+    @Order(6)
+    void insertActor() throws Exception {
         String data = """
             {            
             "fullName": "Fedák Sári",
-            "birthDate": "1879-09-27",
-            "deathDate": "1955-05-05"
+            "birthDate": "1879-09-27"
             }
             """;
         mockMvc.perform(post("/api/v1/actors")
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
+    }
 
+    @Test
+    @Order(7)
+    void deleteExistingActorWithNoReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("1955"))));
+            .andExpect(content().string(not(containsString("1934"))));
     }
 
     @Test
+    @Order(8)
     void deleteNotExistingActor() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2222"))
             .andExpect(status().is4xxClientError());
