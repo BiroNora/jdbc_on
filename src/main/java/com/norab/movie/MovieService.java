@@ -1,5 +1,6 @@
 package com.norab.movie;
 
+import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,15 @@ public class MovieService {
         return movieDao.selectMovies();
     }
 
-    public int addNewMovie(Movie movie) {
-        String movieTitle = movie.title();
+    public long addNewMovie(Movie movie) {
+        String movieTitle = movie.getTitle();
         List<Movie> movies = movieDao.selectMovies();
         List<Movie> collect = movies.stream()
-            .filter(x -> x.title().equals(movieTitle)).toList();
+            .filter(x -> x.getTitle().equals(movieTitle)).toList();
         if (collect.size() != 0) {
-            throw new IllegalStateException("this movie already exists");
+            throw new AlreadyExistsException("this movie already exists");
         }
-        int result = movieDao.insertMovie(movie);
-        if (result != 1) {
-            throw new IllegalStateException("oops something went wrong");
-        }
-        return result;
+        return movieDao.insertMovie(movie);
     }
 
     public void deleteMovie(Long id) {
@@ -56,7 +53,7 @@ public class MovieService {
 
     public void updateMovie(Long id, Movie movie) {
         if (movieDao.selectMovieById(id).isPresent()) {
-            Movie movie1 = new Movie(id, movie.title(), movie.titleOriginal(), movie.releaseDate());
+            Movie movie1 = new Movie(id, movie.getTitle(), movie.getTitleOriginal(), movie.releaseDate);
             movieDao.updateMovie(id, movie1);
         } else {
             throw new NotFoundException(String.format("Movie with id %s not found", id));
