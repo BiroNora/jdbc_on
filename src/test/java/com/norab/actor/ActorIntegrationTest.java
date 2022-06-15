@@ -31,16 +31,16 @@ public class ActorIntegrationTest {
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Jonathan")));
+            .andExpect(content().string(containsString("John")));
     }
 
     @Test
     @Order(2)
     void getExistingActor() throws Exception {
-        mockMvc.perform(get("/api/v1/actors/1"))
+        mockMvc.perform(get("/api/v1/actors/2"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Jonathan")));
+            .andExpect(content().string(containsString("Alan")));
     }
 
     @Test
@@ -121,6 +121,18 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(8)
+    void deleteExistingActorWithReferenceConflict() throws Exception {
+        mockMvc.perform(delete("/api/v1/actors/1"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/actors"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(not(containsString("1963"))));
+    }
+
+    @Test
+    @Order(9)
     void deleteNotExistingActor() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2222"))
             .andExpect(status().is4xxClientError());

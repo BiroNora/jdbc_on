@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.List;
@@ -63,9 +64,9 @@ public class ActorRepository implements ActorDao<Actor> {
         int result = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"actor_id"});
             ps.setString(1, actor.getFullName());
-            ps.setString(2, actor.getBirthDate().toString());
+            ps.setDate(2, Date.valueOf(actor.getBirthDate()));
             if (actor.getDeathDate() != null) {
-                ps.setString(3, actor.getDeathDate().toString());
+                ps.setDate(3, Date.valueOf(actor.getDeathDate()));
             } else {
                 ps.setNull(3, Types.DATE);
             }
