@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface PhotoDao<Photo> {
     List<Photo> selectPhotos();
 
-    int insertPhoto(Photo photo);
+    long insertPhoto(Photo photo);
 
     int deletePhoto(Long id);
 

@@ -80,12 +80,12 @@ public class ActorIntegrationTest {
             "deathDate": "2022-05-28"
             }
             """;
-        mockMvc.perform(put("/api/v1/actors/3")
+        mockMvc.perform(put("/api/v1/actors/4")
                 .content(data1)
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/v1/actors/3"))
+        mockMvc.perform(get("/api/v1/actors/4"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("2022")));
@@ -128,7 +128,7 @@ public class ActorIntegrationTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("1963"))))
-            .andExpect(content().string((containsString("Alan"))));
+            .andExpect(content().string((containsString("Rush"))));
     }
 
     @Test

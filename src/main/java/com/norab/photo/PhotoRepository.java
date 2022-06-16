@@ -3,8 +3,12 @@ package com.norab.photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,20 +32,39 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public int insertPhoto(Photo photo) {
+    public long insertPhoto(Photo photo) {
         var sql = """
             INSERT into photos(url, movie_id, actor_id, role_id) VALUES (?, ?, ?, ?);
             """;
-        int insert = jdbcTemplate.update(
-            sql,
-            photo.photoUrl(),
-            photo.movieId(),
-            photo.actorId(),
-            photo.roleId());
-        if (insert == 1) {
-            log.info("New photo inserted: " + photo);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int result = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"photo_id"});
+            ps.setString(1, photo.getPhotoUrl());
+            if (photo.getMovieId() != null) {
+                ps.setLong(2, photo.getMovieId());
+            } else {
+                ps.setNull(2, Types.BIGINT);
+            }
+            if (photo.getActorId() != null) {
+                ps.setLong(3, photo.getActorId());
+            } else {
+                ps.setNull(3, Types.BIGINT);
+            }
+            if (photo.getRoleId() != null) {
+                ps.setLong(4, photo.getRoleId());
+            } else {
+                ps.setNull(4, Types.BIGINT);
+            }
+            return ps;
+        }, keyHolder);
+
+        if (result != 1) {
+            throw new IllegalStateException("Failed to add new photo");
         }
-        return insert;
+        log.info("New photo inserted: " + photo);
+
+        return keyHolder.getKeyAs(Long.class);
     }
 
     @Override
@@ -82,10 +105,10 @@ public class PhotoRepository implements PhotoDao<Photo> {
             """;
         int update = jdbcTemplate.update(
             sql,
-            photo.photoUrl(),
-            photo.movieId(),
-            photo.actorId(),
-            photo.roleId(),
+            photo.getPhotoUrl(),
+            photo.getMovieId(),
+            photo.getActorId(),
+            photo.getRoleId(),
             id);
         if (update == 1) {
             log.info(String.format("Photo with id: %d is updated.", id));

@@ -1,5 +1,6 @@
 package com.norab.role;
 
+import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,15 @@ public class RoleService {
         return roleDao.selectRoles();
     }
 
-    public int addNewRole(Plays plays) {
-        String roleName1 = plays.roleName();
-        List<Plays> plays1 = roleDao.selectRoles();
-        List<Plays> collect = plays1.stream()
-            .filter(x -> x.roleName().equals(roleName1)).toList();
+    public long addNewRole(Plays plays) {
+        String role = plays.getRoleName();
+        List<Plays> playsList = roleDao.selectRoles();
+        List<Plays> collect = playsList.stream()
+            .filter(x -> x.getRoleName().equals(role)).toList();
         if (collect.size() != 0) {
-            throw new IllegalStateException("this role already exists");
+            throw new AlreadyExistsException("This role already exists");
         }
-        int result = roleDao.insertRole(plays);
-        if (result != 1) {
-            throw new IllegalStateException("oops something went wrong");
-        }
-        return result;
+        return roleDao.insertRole(plays);
     }
 
     public void deleteRole(Long id) {
@@ -56,7 +53,7 @@ public class RoleService {
 
     public void updateRole(Long id, Plays plays) {
         if (roleDao.selectRoleById(id).isPresent()) {
-            Plays plays1 = new Plays(id, plays.roleName(), plays.movieId(), plays.actorId());
+            Plays plays1 = new Plays(id, plays.getRoleName(), plays.getMovieId(), plays.getActorId());
             roleDao.updateRole(id, plays1);
         } else {
             throw new NotFoundException(String.format("Role with id %s not found", id));

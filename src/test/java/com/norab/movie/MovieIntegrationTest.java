@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -96,6 +97,38 @@ public class MovieIntegrationTest {
                 .header("Content-Type", "application/json"))
             .andDo(print())
             .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(6)
+    void deleteExistingMovieWithReferenceConflict() throws Exception {
+        mockMvc.perform(delete("/api/v1/movies/1"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/movies"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(not(containsString("Fekete"))))
+            .andExpect(content().string((containsString("kicsi"))));
+    }
+
+    @Test
+    @Order(7)
+    void deleteExistingMovieWithNoReferenceConflict() throws Exception {
+        mockMvc.perform(delete("/api/v1/movies/2"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/movies"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(not(containsString("Sunshine"))));
+    }
+
+    @Test
+    @Order(8)
+    void deleteNotExistingMovie() throws Exception {
+        mockMvc.perform(delete("/api/v1/movies/7175"))
+            .andExpect(status().is4xxClientError());
     }
 
 }

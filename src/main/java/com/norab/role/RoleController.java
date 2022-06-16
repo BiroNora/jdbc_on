@@ -24,8 +24,8 @@ public class RoleController {
     }
 
     @PostMapping
-    public void addRole(@RequestBody Plays plays) {
-        roleService.addNewRole(plays);
+    public PlaysId addRole(@RequestBody Plays plays) {
+        return new PlaysId(roleService.addNewRole(plays));
     }
 
     @DeleteMapping("{id}")

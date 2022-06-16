@@ -1,5 +1,6 @@
 package com.norab.photo;
 
+import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,15 @@ public class PhotoService {
         return photoDao.selectPhotos();
     }
 
-    public int addNewPhoto(Photo photo) {
-        String roleUrl = photo.photoUrl();
-        List<Photo> photo1 = photoDao.selectPhotos();
-        List<Photo> collect = photo1.stream()
-            .filter(x -> x.photoUrl().equals(roleUrl)).toList();
+    public long addNewPhoto(Photo photo) {
+        String roleUrl = photo.getPhotoUrl();
+        List<Photo> photos = photoDao.selectPhotos();
+        List<Photo> collect = photos.stream()
+            .filter(x -> x.getPhotoUrl().equals(roleUrl)).toList();
         if (collect.size() != 0) {
-            throw new IllegalStateException("this photo already exists");
+            throw new AlreadyExistsException("This photo already exists");
         }
-        int result = photoDao.insertPhoto(photo);
-        if (result != 1) {
-            throw new IllegalStateException("oops something went wrong");
-        }
-        return result;
+        return photoDao.insertPhoto(photo);
     }
 
     public void deletePhoto(Long id) {
@@ -56,7 +53,7 @@ public class PhotoService {
 
     public void updatePhoto(Long id, Photo photo) {
         if (photoDao.selectPhotoById(id).isPresent()) {
-            Photo photo1 = new Photo(id, photo.photoUrl(), photo.movieId(), photo.actorId(), photo.roleId());
+            Photo photo1 = new Photo(id, photo.getPhotoUrl(), photo.getMovieId(), photo.getActorId(), photo.getRoleId());
             photoDao.updatePhoto(id, photo1);
         } else {
             throw new NotFoundException(String.format("Photo with id %s not found", id));

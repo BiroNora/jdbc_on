@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface RoleDao<Plays> {
     List<Plays> selectRoles();
 
-    int insertRole(Plays plays);
+    long insertRole(Plays plays);
 
     int deleteRole(Long id);
 

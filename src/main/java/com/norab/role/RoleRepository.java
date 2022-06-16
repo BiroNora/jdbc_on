@@ -3,8 +3,12 @@ package com.norab.role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +32,34 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int insertRole(Plays plays) {
+    public long insertRole(Plays plays) {
         var sql = """
             INSERT into plays(role_name, movie_id, actor_id) VALUES (?, ?, ?);
             """;
-        int insert = jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId());
-        if (insert == 1) {
-            log.info("New role inserted: " + plays);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int result = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"role_id"});
+            ps.setString(1, plays.getRoleName());
+            if (plays.getMovieId() != null) {
+                ps.setLong(2, plays.getMovieId());
+            } else {
+                ps.setNull(2, Types.BIGINT);
+            }
+            if (plays.getActorId() != null) {
+                ps.setLong(3, plays.getActorId());
+            } else {
+                ps.setNull(3, Types.BIGINT);
+            }
+            return ps;
+        }, keyHolder);
+
+        if (result != 1) {
+            throw new IllegalStateException("Failed to add new role");
         }
-        return insert;
+        log.info("New role inserted: " + plays);
+
+        return keyHolder.getKeyAs(Long.class);
     }
 
     @Override
@@ -75,7 +98,7 @@ public class RoleRepository implements RoleDao<Plays> {
             SET role_name = ?, movie_id = ?, actor_id = ?
             WHERE role_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, plays.roleName(), plays.movieId(), plays.actorId(), plays.id());
+        int update = jdbcTemplate.update(sql, plays.getRoleName(), plays.getMovieId(), plays.getActorId(), plays.getId());
         if (update == 1) {
             log.info(String.format("Role with id: %d is updated.", id));
         }
