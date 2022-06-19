@@ -1,7 +1,9 @@
 package com.norab.role;
 
+import com.norab.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -37,28 +39,31 @@ public class RoleRepository implements RoleDao<Plays> {
             INSERT into plays(role_name, movie_id, actor_id) VALUES (?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
+            int result = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"role_id"});
+                ps.setString(1, plays.getRoleName());
+                if (plays.getMovieId() != null) {
+                    ps.setLong(2, plays.getMovieId());
+                } else {
+                    ps.setNull(2, Types.BIGINT);
+                }
+                if (plays.getActorId() != null) {
+                    ps.setLong(3, plays.getActorId());
+                } else {
+                    ps.setNull(3, Types.BIGINT);
+                }
+                return ps;
+            }, keyHolder);
 
-        int result = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"role_id"});
-            ps.setString(1, plays.getRoleName());
-            if (plays.getMovieId() != null) {
-                ps.setLong(2, plays.getMovieId());
-            } else {
-                ps.setNull(2, Types.BIGINT);
+            if (result != 1) {
+                throw new NotFoundException("Failed to add new role");
             }
-            if (plays.getActorId() != null) {
-                ps.setLong(3, plays.getActorId());
-            } else {
-                ps.setNull(3, Types.BIGINT);
-            }
-            return ps;
-        }, keyHolder);
-
-        if (result != 1) {
-            throw new IllegalStateException("Failed to add new role");
+            log.info("New role inserted: " + plays);
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+            throw new NotFoundException("Illegal id");
         }
-        log.info("New role inserted: " + plays);
-
         return keyHolder.getKeyAs(Long.class);
     }
 

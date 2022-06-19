@@ -1,7 +1,9 @@
 package com.norab.photo;
 
+import com.norab.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -37,35 +39,38 @@ public class PhotoRepository implements PhotoDao<Photo> {
             INSERT into photos(url, movie_id, actor_id, role_id) VALUES (?, ?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        int result = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"photo_id"});
-            ps.setString(1, photo.getPhotoUrl());
-            if (photo.getMovieId() != null) {
-                ps.setLong(2, photo.getMovieId());
-            } else {
-                ps.setNull(2, Types.BIGINT);
+        try {
+            int result = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"photo_id"});
+                ps.setString(1, photo.getPhotoUrl());
+                if (photo.getMovieId() != null) {
+                    ps.setLong(2, photo.getMovieId());
+                } else {
+                    ps.setNull(2, Types.BIGINT);
+                }
+                if (photo.getActorId() != null) {
+                    ps.setLong(3, photo.getActorId());
+                } else {
+                    ps.setNull(3, Types.BIGINT);
+                }
+                if (photo.getRoleId() != null) {
+                    ps.setLong(4, photo.getRoleId());
+                } else {
+                    ps.setNull(4, Types.BIGINT);
+                }
+                return ps;
+            }, keyHolder);
+            if (result != 1) {
+                throw new IllegalStateException("Failed to add new photo");
             }
-            if (photo.getActorId() != null) {
-                ps.setLong(3, photo.getActorId());
-            } else {
-                ps.setNull(3, Types.BIGINT);
-            }
-            if (photo.getRoleId() != null) {
-                ps.setLong(4, photo.getRoleId());
-            } else {
-                ps.setNull(4, Types.BIGINT);
-            }
-            return ps;
-        }, keyHolder);
-
-        if (result != 1) {
-            throw new IllegalStateException("Failed to add new photo");
+            log.info("New photo inserted: " + photo);
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+            throw new NotFoundException("Illegal id");
         }
-        log.info("New photo inserted: " + photo);
-
         return keyHolder.getKeyAs(Long.class);
     }
+
 
     @Override
     public int deletePhoto(Long id) {
