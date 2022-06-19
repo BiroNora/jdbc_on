@@ -19,7 +19,7 @@ public class MovieService {
         return movieDao.selectMovies();
     }
 
-    public long addNewMovie(Movie movie) {
+    public long insertMovie(Movie movie) {
         String movieTitle = movie.getTitle();
         List<Movie> movies = movieDao.selectMovies();
         List<Movie> collect = movies.stream()

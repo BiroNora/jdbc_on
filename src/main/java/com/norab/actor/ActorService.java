@@ -25,7 +25,7 @@ public class ActorService {
         return actors;
     }
 
-    public long addNewActor(Actor actor) {
+    public long insertActor(Actor actor) {
         String actorName = actor.getFullName();
         List<Actor> actors = actorDao.selectActors();
         List<Actor> collect = actors.stream()

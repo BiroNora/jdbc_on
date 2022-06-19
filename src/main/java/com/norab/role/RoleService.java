@@ -19,7 +19,7 @@ public class RoleService {
         return roleDao.selectRoles();
     }
 
-    public long addNewRole(Plays plays) {
+    public long insertRole(Plays plays) {
         String role = plays.getRoleName();
         List<Plays> playsList = roleDao.selectRoles();
         List<Plays> collect = playsList.stream()

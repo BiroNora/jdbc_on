@@ -73,7 +73,7 @@ public class ActorRepositoryMockTests {
 
         assertEquals(1, repository.insertActor(actor));
         verify(repository).insertActor(actor);
-        assertEquals(1, service.addNewActor(actor));
+        assertEquals(1, service.insertActor(actor));
     }
 
     @Test

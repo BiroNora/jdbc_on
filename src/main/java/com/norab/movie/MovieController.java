@@ -25,7 +25,7 @@ public class MovieController {
 
     @PostMapping
     public MovieId addMovie(@RequestBody Movie movie) {
-        return new MovieId(movieService.addNewMovie(movie));
+        return new MovieId(movieService.insertMovie(movie));
     }
 
     @DeleteMapping("{id}")

@@ -19,7 +19,7 @@ public class PhotoService {
         return photoDao.selectPhotos();
     }
 
-    public long addNewPhoto(Photo photo) {
+    public long insertPhoto(Photo photo) {
         String roleUrl = photo.getPhotoUrl();
         List<Photo> photos = photoDao.selectPhotos();
         List<Photo> collect = photos.stream()
