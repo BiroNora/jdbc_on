@@ -36,7 +36,7 @@ public class RoleIntegrationTest {
 
     @Test
     @Order(2)
-    void getExistingRole() throws Exception {
+    void getRoleByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/roles/2"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -45,7 +45,7 @@ public class RoleIntegrationTest {
 
     @Test
     @Order(3)
-    void getNotExistingRole() throws Exception {
+    void getRoleByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/roles/771256"))
             .andDo(print())
             .andExpect(status().is4xxClientError());
@@ -130,7 +130,7 @@ public class RoleIntegrationTest {
 
     @Test
     @Order(8)
-    void deleteExistingRoleWithReference() throws Exception {
+    void deleteRoleByValidId_WithReference() throws Exception {
         mockMvc.perform(delete("/api/v1/roles/1"))
             .andExpect(status().isOk());
 
@@ -143,7 +143,7 @@ public class RoleIntegrationTest {
 
     @Test
     @Order(9)
-    void deleteExistingRoleWithNoReference() throws Exception {
+    void deleteRoleByValidId_WithNoReference() throws Exception {
         mockMvc.perform(delete("/api/v1/roles/3"))
             .andExpect(status().isOk());
 
@@ -152,5 +152,16 @@ public class RoleIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("McGinty"))))
             .andExpect(content().string((containsString("oov"))));
+    }
+
+    @Test
+    @Order(10)
+    void deleteRoleByInvalidId() throws Exception {
+        mockMvc.perform(delete("/api/v1/roles/33333"))
+            .andExpect(status().is4xxClientError());
+
+        mockMvc.perform(get("/api/v1/roles"))
+            .andDo(print())
+            .andExpect(status().isOk());
     }
 }

@@ -35,7 +35,7 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(2)
-    void getExistingActor() throws Exception {
+    void getActorByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/2"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -44,7 +44,7 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(3)
-    void getNotExistingActor() throws Exception {
+    void getActorByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/123456"))
             .andDo(print())
             .andExpect(status().is4xxClientError());
@@ -108,7 +108,7 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(7)
-    void deleteExistingActorWithNoReferenceConflict() throws Exception {
+    void deleteActorByValidId_NoReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2"))
             .andExpect(status().isOk());
 
@@ -120,7 +120,7 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(8)
-    void deleteExistingActorWithReferenceConflict() throws Exception {
+    void deleteActorByValidId_ReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/1"))
             .andExpect(status().isOk());
 
@@ -133,7 +133,7 @@ public class ActorIntegrationTest {
 
     @Test
     @Order(9)
-    void deleteNotExistingActor() throws Exception {
+    void deleteActorByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2222"))
             .andExpect(status().is4xxClientError());
     }

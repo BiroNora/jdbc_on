@@ -36,7 +36,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(2)
-    void getExistingPhoto() throws Exception {
+    void getPhotoByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/photos/2"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -45,7 +45,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(3)
-    void getNotExistingPhoto() throws Exception {
+    void getPhotoByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/77456"))
             .andDo(print())
             .andExpect(status().is4xxClientError());
@@ -99,7 +99,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(5)
-    void insertPhotoWithNotExistingMovieId() throws Exception {
+    void insertPhotoByValidId_WithNotExistingMovieId() throws Exception {
         String data = """
             {            
             "photoUrl": "https://github.com/BiroNora/JDBC_template_Flyway",
@@ -114,7 +114,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(6)
-    void insertPhotoWithNotExistingActorId() throws Exception {
+    void insertPhotoByValidId_WithNotExistingActorId() throws Exception {
         String data = """
             {            
             "photoUrl": "https://github.com/BiroNora/JDBC_template",
@@ -129,7 +129,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(7)
-    void insertPhotoWithNotExistingRoleId() throws Exception {
+    void insertPhotoByValidId_WithNotExistingRoleId() throws Exception {
         String data = """
             {            
             "photoUrl": "https://github.com/BiroNora/JDBC",
@@ -144,7 +144,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(8)
-    void deleteExistingPhotoWithReference() throws Exception {
+    void deletePhotoByValidId_WithReference() throws Exception {
         mockMvc.perform(delete("/api/v1/photos/1"))
             .andExpect(status().isOk());
 
@@ -157,7 +157,7 @@ public class PhotoIntegrationTest {
 
     @Test
     @Order(9)
-    void deleteExistingPhotoWithNoReference() throws Exception {
+    void deletePhotoByValidId_WithNoReference() throws Exception {
         mockMvc.perform(delete("/api/v1/photos/3"))
             .andExpect(status().isOk());
 
@@ -166,5 +166,16 @@ public class PhotoIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("dumbo"))))
             .andExpect(content().string((containsString("101kis"))));
+    }
+
+    @Test
+    @Order(10)
+    void deletePhotoByInvalidId() throws Exception {
+        mockMvc.perform(delete("/api/v1/photos/32254"))
+            .andExpect(status().is4xxClientError());
+
+        mockMvc.perform(get("/api/v1/photos"))
+            .andDo(print())
+            .andExpect(status().isOk());
     }
 }

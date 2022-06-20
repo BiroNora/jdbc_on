@@ -36,7 +36,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(2)
-    void getExistingMovie() throws Exception {
+    void getMovieByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/movies/2"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -45,7 +45,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(3)
-    void getNotExistingMovie() throws Exception {
+    void getMovieByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/765432"))
             .andDo(print())
             .andExpect(status().is4xxClientError());
@@ -101,7 +101,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(6)
-    void deleteExistingMovieWithReferenceConflict() throws Exception {
+    void deleteMovieByValidId_ReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/1"))
             .andExpect(status().isOk());
 
@@ -114,7 +114,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(7)
-    void deleteExistingMovieWithNoReferenceConflict() throws Exception {
+    void deleteMovieByValidId_NoReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/2"))
             .andExpect(status().isOk());
 
@@ -126,7 +126,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(8)
-    void deleteNotExistingMovie() throws Exception {
+    void deleteMovieByValidId() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/7175"))
             .andExpect(status().is4xxClientError());
     }

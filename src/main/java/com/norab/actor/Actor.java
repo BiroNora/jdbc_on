@@ -19,6 +19,11 @@ public class Actor {
     public Actor() {
     }
 
+    public Actor(String fullName, LocalDate birthDate) {
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+    }
+
     public Actor(String fullName, LocalDate birthDate, LocalDate deathDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
