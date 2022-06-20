@@ -1,5 +1,6 @@
 package com.norab.actor;
 
+import com.norab.movie.Movie;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,103 +25,85 @@ class ActorRepositoryTest {
 
     @Test
     @Order(1)
-    void insertLivingActorByValidId() {
-        Actor actor = new Actor("Helen Hunt",
-            LocalDate.of(1963, Month.JUNE, 15));
-        try {
-            long id = repository.insertActor(actor);
-            var actor1 = repository.selectActorById(id);
-            assertTrue(actor1.isPresent());
-        } catch (IllegalStateException e) {
-            fail(e.getMessage());
-        }
-
-        List<Actor> expected = repository.selectActors();
-
-        assertNotNull(expected);
-        for (Actor a : expected) {
-            System.out.println(a.getId());
-            System.out.println(a.getFullName());
-        }
-        assertTrue(expected.size() != 0);
+    void allMoviesByActor() {
+        Long id = 1L;
+        List<Movie> movies = repository.allMoviesByActor(id);
+        assertEquals(movies.size(), 1);
+        assertEquals(movies.get(0).getTitle(), "A Karib-tenger kalózai: A Fekete Gyöngy átka");
     }
 
     @Test
     @Order(2)
-    void insertDeadActorByValidId() {
-        Actor actor = new Actor("Marlon Brando",
-            LocalDate.of(1924, Month.APRIL, 3),
-            LocalDate.of(2004, Month.JULY, 1));
-        try {
-            long id = repository.insertActor(actor);
-            var actor1 = repository.selectActorById(id);
-            assertTrue(actor1.isPresent());
-        } catch (IllegalStateException e) {
-            fail(e.getMessage());
-        }
-
-        List<Actor> expected = repository.selectActors();
-
-        assertNotNull(expected);
-        for (Actor a : expected) {
-            System.out.println(a.getId());
+    void selectActors() {
+        List<Actor> actors = repository.selectActors();
+        for (Actor a : actors) {
+            System.out.print(a.getId() + " ");
             System.out.println(a.getFullName());
         }
-        assertTrue(expected.size() != 0);
+        assertEquals(actors.size(), 3);
+        assertEquals(actors.get(2).getFullName(), "Geoffry Rush");
     }
 
     @Test
     @Order(3)
-    void getExistingActor() {
-        Long id = 2L;
-        try {
-            var actor1 = repository.selectActorById(id);
-            assertTrue(actor1.isPresent());
-            assertEquals("Alan Arkin", actor1.get().getFullName());
-        } catch (IllegalStateException e) {
-            fail(e.getMessage());
-        }
+    void insertLiving_DeceasedActor() {
+        Actor actorLiv = new Actor("Helen Hunt",
+            LocalDate.of(1963, Month.JUNE, 15));
+        Actor actorDec = new Actor("Marlon Brando",
+            LocalDate.of(1924, Month.APRIL, 3),
+            LocalDate.of(2004, Month.JULY, 1));
+
+        long idLiv = repository.insertActor(actorLiv);
+        var actorLiv1 = repository.selectActorById(idLiv);
+        assertTrue(actorLiv1.isPresent());
+        assertEquals(actorLiv1.get().getId(), 4);
+
+        long idDec = repository.insertActor(actorDec);
+        var actorDec1 = repository.selectActorById(idDec);
+        assertTrue(actorDec1.isPresent());
+        assertEquals(actorDec1.get().getId(), 5);
+
     }
 
     @Test
     @Order(4)
-    void getNotExistingActor() throws Exception {
-
-    }
-
-    /*@Test
-    void selectActorById() {
-        Long id = 17L;
-        Actor actor = new Actor(17L, "John Wick",
-            LocalDate.of(2000, Month.DECEMBER, 12),
-            LocalDate.of(2003, Month.FEBRUARY, 10));
-
-        repository.insertActor(actor);
-        Optional<Actor> expected = repository.selectActorById(id);
-
-        assertThat(expected).isPresent();
-
-    }*/
-    /*@Test
-    void allMoviesByActor() {
-    }
-
-    @Test
-    void selectActors() {
-
-    }
-
-    @Test
-    void insertActor() {
-    }
-
-    @Test
     void deleteActor() {
+        Long id = 1L;
+        int result = repository.deleteActor(id);
+        assertEquals(1, result);
+
+        Long id1 = 223L;
+        int result1 = repository.deleteActor(id1);
+        assertEquals(0, result1);
     }
 
+    @Test
+    @Order(5)
+    void selectActorById() {
+        Long id = 2L;
+        Optional<Actor> selected = repository.selectActorById(id);
+        assertEquals(selected.get().getFullName(), "Alan Arkin");
 
+        Long id1 = 202L;
+        Optional<Actor> selected1 = repository.selectActorById(id1);
+        assertTrue(selected1.isEmpty());
+    }
 
     @Test
+    @Order(6)
     void updateActor() {
-    }*/
+        Actor act = repository.selectActorById(2L).get();
+        act.setFullName("Liza Minelli");
+        int result = repository.updateActor(2L, act);
+        assertEquals(1, result);
+        assertNotEquals(act.getFullName(), "Alan Arkin");
+        assertEquals(act.getFullName(), "Liza Minelli");
+        assertEquals(act.getBirthDate(), LocalDate.of(1934, Month.MARCH, 26));
+
+        Actor act1 = new Actor("Monica Vitti",
+            LocalDate.of(1931, Month.NOVEMBER, 3),
+            LocalDate.of(2022, Month.FEBRUARY, 2));
+        int result1 = repository.updateActor(202L, act1);
+        assertEquals(0, result1);
+    }
 }
