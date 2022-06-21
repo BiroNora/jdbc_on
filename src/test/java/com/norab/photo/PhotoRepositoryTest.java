@@ -1,5 +1,6 @@
 package com.norab.photo;
 
+import com.norab.exception.InvalidInputException;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -82,8 +83,44 @@ class PhotoRepositoryTest {
         assertEquals(1, result);
         assertNotEquals(pho.getRoleId(), 0);
 
-        Photo pho1 = new Photo("https://pinokkio", 1L, 1L, 1L);
-        int result1 = repository.updatePhoto(22022L, pho1);
-        assertEquals(0, result1);
+    @Test
+    @Order(6)
+    void updatePhotoByInvalidIds() {
+        Photo pho = repository.selectPhotoById(3L).get();
+        System.out.println(pho);
+        pho.setMovieId(11L);
+        pho.setActorId(1L);
+        pho.setRoleId(2L);
+        assertEquals(pho.getRoleId(), 2L);
+
+        System.out.println(pho);
+        assertThrows(InvalidInputException.class, () ->
+        {
+            repository.updatePhoto(3L, pho);
+        });
+
+        Photo pho1 = repository.selectPhotoById(3L).get();
+        System.out.println(pho1);
+        pho1.setMovieId(1L);
+        pho1.setActorId(11L);
+        pho1.setRoleId(2L);
+        System.out.println(pho1);
+        assertThrows(InvalidInputException.class, () -> {
+            repository.updatePhoto(3L, pho1);
+        });
+
+        Photo pho2 = repository.selectPhotoById(3L).get();
+        System.out.println(pho2);
+        pho2.setMovieId(1L);
+        pho2.setActorId(1L);
+        pho2.setRoleId(22L);
+        System.out.println(pho2);
+        assertThrows(InvalidInputException.class, () -> {
+            repository.updatePhoto(3L, pho2);
+        });
+
+        Photo pho3 = new Photo("https://pinokkio", 1L, 1L, 1L);
+        int result3 = repository.updatePhoto(22022L, pho1);
+        assertEquals(0, result3);
     }
 }

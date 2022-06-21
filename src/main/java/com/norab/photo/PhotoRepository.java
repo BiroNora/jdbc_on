@@ -1,5 +1,6 @@
 package com.norab.photo;
 
+import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,22 +103,28 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public int updatePhoto(Long id, Photo photo) {
+    public int updatePhoto(Long id, Photo photo) throws InvalidInputException {
         var sql = """
             UPDATE photos
             SET url = ?, movie_id = ?, actor_id = ?, role_id = ?
             WHERE photo_id = ?;
             """;
-        int update = jdbcTemplate.update(
-            sql,
-            photo.getPhotoUrl(),
-            photo.getMovieId(),
-            photo.getActorId(),
-            photo.getRoleId(),
-            id);
-        if (update == 1) {
-            log.info(String.format("Photo with id: %d is updated.", id));
+        try {
+            int update = jdbcTemplate.update(
+                sql,
+                photo.getPhotoUrl(),
+                photo.getMovieId(),
+                photo.getActorId(),
+                photo.getRoleId(),
+                id);
+            if (update == 1) {
+                log.info(String.format("Photo with id: %d is updated.", id));
+            }
+            return update;
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+            throw new InvalidInputException("Invalid ID");
         }
-        return update;
+
     }
 }
