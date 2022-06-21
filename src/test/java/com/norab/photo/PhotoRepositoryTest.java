@@ -63,7 +63,7 @@ class PhotoRepositoryTest {
     void selectPhotoById() {
         Long id = 3L;
         Optional<Photo> selected = repository.selectPhotoById(id);
-        assertEquals(selected.get().getPhotoUrl(), "https://dumbo");
+        assertEquals(selected.orElseThrow().getPhotoUrl(), "https://dumbo");
 
         Long id1 = 278901L;
         Optional<Photo> selected1 = repository.selectPhotoById(id1);
@@ -81,7 +81,7 @@ class PhotoRepositoryTest {
     @Test
     @Order(5)
     void updatePhoto() {
-        Photo pho = repository.selectPhotoById(3L).get();
+        Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
         pho.setMovieId(1L);
         pho.setActorId(1L);
@@ -95,7 +95,7 @@ class PhotoRepositoryTest {
     @Test
     @Order(6)
     void updatePhotoByInvalidIds() {
-        Photo pho = repository.selectPhotoById(3L).get();
+        Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
         pho.setMovieId(11L);
         pho.setActorId(1L);
@@ -108,7 +108,7 @@ class PhotoRepositoryTest {
             repository.updatePhoto(3L, pho);
         });
 
-        Photo pho1 = repository.selectPhotoById(3L).get();
+        Photo pho1 = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho1);
         pho1.setMovieId(1L);
         pho1.setActorId(11L);
@@ -118,7 +118,7 @@ class PhotoRepositoryTest {
             repository.updatePhoto(3L, pho1);
         });
 
-        Photo pho2 = repository.selectPhotoById(3L).get();
+        Photo pho2 = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho2);
         pho2.setMovieId(1L);
         pho2.setActorId(1L);

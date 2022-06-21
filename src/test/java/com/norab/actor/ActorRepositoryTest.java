@@ -82,7 +82,7 @@ class ActorRepositoryTest {
     void selectActorById() {
         Long id = 2L;
         Optional<Actor> selected = repository.selectActorById(id);
-        assertEquals(selected.get().getFullName(), "Alan Arkin");
+        assertEquals(selected.orElseThrow().getFullName(), "Alan Arkin");
 
         Long id1 = 202L;
         Optional<Actor> selected1 = repository.selectActorById(id1);
@@ -92,7 +92,7 @@ class ActorRepositoryTest {
     @Test
     @Order(6)
     void updateActor() {
-        Actor act = repository.selectActorById(2L).get();
+        Actor act = repository.selectActorById(2L).orElseThrow();
         act.setFullName("Liza Minelli");
         int result = repository.updateActor(2L, act);
         assertEquals(1, result);
