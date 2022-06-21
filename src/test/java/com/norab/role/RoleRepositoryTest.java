@@ -16,6 +16,18 @@ class RoleRepositoryTest {
     private RoleRepository repository;
 
     @Test
+    void selectRoles() {
+    }
+
+    @Test
+    void insertRole() {
+    }
+
+    @Test
+    void deleteRole() {
+    }
+
+    @Test
     void selectRoleByValidId() {
         Plays plays = new Plays("Sheryl Hoover", 2L, null);
         try {
@@ -36,4 +48,13 @@ class RoleRepositoryTest {
         assertTrue(expected.size() != 0);
     }
 
+    @Test
+    void selectRoleByInvalidId() {
+        var plays = repository.selectRoleById(1024L);
+        assertTrue(plays.isEmpty());
+    }
+
+    @Test
+    void updateRole() {
+    }
 }
