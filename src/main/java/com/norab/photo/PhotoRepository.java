@@ -125,6 +125,6 @@ public class PhotoRepository implements PhotoDao<Photo> {
             log.error(e.getMessage());
             throw new InvalidInputException("Invalid ID");
         }
-
     }
+
 }

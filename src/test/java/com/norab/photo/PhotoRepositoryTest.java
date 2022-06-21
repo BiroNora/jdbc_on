@@ -26,7 +26,7 @@ class PhotoRepositoryTest {
     void selectPhotos() {
         List<Photo> photos = repository.selectPhotos();
         for (Photo p : photos) {
-            System.out.println(p.getId());
+            System.out.print(p.getId() + ". ");
             System.out.println(p.getPhotoUrl());
         }
         assertEquals(photos.size(), 3);
@@ -60,18 +60,14 @@ class PhotoRepositoryTest {
 
     @Test
     @Order(4)
-    void selectPhotoById() {
+    void selectPhotoByValidId() {
         Long id = 3L;
         Optional<Photo> selected = repository.selectPhotoById(id);
         assertEquals(selected.orElseThrow().getPhotoUrl(), "https://dumbo");
-
-        Long id1 = 278901L;
-        Optional<Photo> selected1 = repository.selectPhotoById(id1);
-        assertTrue(selected1.isEmpty());
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void selectPhotoByInvalidId() {
         Long id = 278901L;
         Optional<Photo> selected = repository.selectPhotoById(id);
@@ -79,10 +75,11 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void updatePhoto() {
         Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
+        pho.setPhotoUrl("http://pinocchio");
         pho.setMovieId(1L);
         pho.setActorId(1L);
         pho.setRoleId(null);
@@ -93,7 +90,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void updatePhotoByInvalidIds() {
         Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
@@ -104,9 +101,7 @@ class PhotoRepositoryTest {
 
         System.out.println(pho);
         assertThrows(InvalidInputException.class, () ->
-        {
-            repository.updatePhoto(3L, pho);
-        });
+            repository.updatePhoto(3L, pho));
 
         Photo pho1 = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho1);
@@ -129,7 +124,7 @@ class PhotoRepositoryTest {
         });
 
         Photo pho3 = new Photo("https://pinokkio", 1L, 1L, 1L);
-        int result3 = repository.updatePhoto(22022L, pho1);
-        assertEquals(0, result3);
+        int result = repository.updatePhoto(22022L, pho3);
+        assertEquals(0, result);
     }
 }

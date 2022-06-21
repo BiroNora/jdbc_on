@@ -1,5 +1,6 @@
 package com.norab.role;
 
+import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,16 +98,27 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int updateRole(Long id, Plays plays) {
+    public int updateRole(Long id, Plays plays) throws InvalidInputException {
         var sql = """
             UPDATE plays
             SET role_name = ?, movie_id = ?, actor_id = ?
             WHERE role_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, plays.getRoleName(), plays.getMovieId(), plays.getActorId(), plays.getId());
-        if (update == 1) {
-            log.info(String.format("Role with id: %d is updated.", id));
+        try {
+            int update = jdbcTemplate.update(
+                sql,
+                plays.getRoleName(),
+                plays.getMovieId(),
+                plays.getActorId(),
+                id);
+            if (update == 1) {
+                log.info(String.format("Role with id: %d is updated.", id));
+            }
+            return update;
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+            throw new InvalidInputException("Invalid ID");
         }
-        return update;
     }
+
 }
