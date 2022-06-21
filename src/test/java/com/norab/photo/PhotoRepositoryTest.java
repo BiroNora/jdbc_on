@@ -71,6 +71,14 @@ class PhotoRepositoryTest {
     }
 
     @Test
+    @Order(4)
+    void selectPhotoByInvalidId() {
+        Long id = 278901L;
+        Optional<Photo> selected = repository.selectPhotoById(id);
+        assertTrue(selected.isEmpty());
+    }
+
+    @Test
     @Order(5)
     void updatePhoto() {
         Photo pho = repository.selectPhotoById(3L).get();
