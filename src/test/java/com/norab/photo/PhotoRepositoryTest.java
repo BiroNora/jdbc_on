@@ -75,13 +75,14 @@ class PhotoRepositoryTest {
     void updatePhoto() {
         Photo pho = repository.selectPhotoById(3L).get();
         System.out.println(pho);
-        pho.setMovieId(0L);
-        pho.setActorId(0L);
-        pho.setRoleId(2L);
+        pho.setMovieId(1L);
+        pho.setActorId(1L);
+        pho.setRoleId(null);
         System.out.println(pho);
         int result = repository.updatePhoto(3L, pho);
         assertEquals(1, result);
         assertNotEquals(pho.getRoleId(), 0);
+    }
 
     @Test
     @Order(6)
