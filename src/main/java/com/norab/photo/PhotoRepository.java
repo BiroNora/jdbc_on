@@ -80,7 +80,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
 
 
     @Override
-    public int deletePhoto(Long id) {
+    public boolean deletePhoto(Long id) {
         var sql = """
             DELETE FROM photos
             WHERE photo_id = ?;
@@ -89,7 +89,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
         if (delete == 1) {
             log.info(String.format("Photo with id: %d is deleted.", id));
         }
-        return delete;
+        return delete == 1;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public int updatePhoto(Long id, Photo photo) throws InvalidInputException {
+    public boolean updatePhoto(Long id, Photo photo) throws InvalidInputException {
         var sql = """
             UPDATE photos
             SET url = ?, movie_id = ?, actor_id = ?, role_id = ?
@@ -126,7 +126,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
             if (update == 1) {
                 log.info(String.format("Photo with id: %d is updated.", id));
             }
-            return update;
+            return update == 1;
         } catch (DataAccessException e) {
             log.error(e.getMessage());
             throw new InvalidInputException("Invalid ID");

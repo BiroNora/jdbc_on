@@ -33,8 +33,8 @@ public class PhotoService {
     public void deletePhoto(Long id) {
         Optional<Photo> photo1 = photoDao.selectPhotoById(id);
         photo1.ifPresentOrElse(photo -> {
-            int result = photoDao.deletePhoto(id);
-            if (result != 1) {
+            boolean result = photoDao.deletePhoto(id);
+            if (!result) {
                 throw new IllegalStateException("oops could not delete role");
             }
         }, () -> {

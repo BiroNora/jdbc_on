@@ -68,12 +68,12 @@ class PhotoRepositoryTest {
     @Order(3)
     void deletePhoto() {
         Long id = 2L;
-        int result = repository.deletePhoto(id);
-        assertEquals(1, result);
+        boolean result = repository.deletePhoto(id);
+        assertEquals(true, result);
 
         Long id1 = 2224L;
-        int result1 = repository.deletePhoto(id1);
-        assertEquals(0, result1);
+        boolean result1 = repository.deletePhoto(id1);
+        assertEquals(false, result1);
     }
 
     @Test
@@ -102,8 +102,8 @@ class PhotoRepositoryTest {
         pho.setActorId(1L);
         pho.setRoleId(null);
         System.out.println(pho);
-        int result = repository.updatePhoto(3L, pho);
-        assertEquals(1, result);
+        boolean result = repository.updatePhoto(3L, pho);
+        assertEquals(true, result);
         assertNotEquals(pho.getRoleId(), 0);
     }
 
@@ -142,8 +142,8 @@ class PhotoRepositoryTest {
         });
 
         Photo pho3 = new Photo("https://pinokkio", 1L, 1L, 1L);
-        int result = repository.updatePhoto(22022L, pho3);
-        assertEquals(0, result);
+        boolean result = repository.updatePhoto(22022L, pho3);
+        assertEquals(false, result);
     }
 
     @Test
