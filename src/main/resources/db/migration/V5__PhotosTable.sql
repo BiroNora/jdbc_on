@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS photos;
+
 CREATE TABLE photos (
     photo_id BIGSERIAL PRIMARY KEY,
     url TEXT NOT NULL,
