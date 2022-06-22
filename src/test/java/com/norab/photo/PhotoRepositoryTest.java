@@ -62,6 +62,13 @@ class PhotoRepositoryTest {
             assertThrows(InvalidInputException.class, () ->
                 repository.insertPhoto(photo));
         }
+
+        {
+            Photo photo = new Photo("      ", 1L, null, null);
+
+            assertThrows(InvalidInputException.class, () ->
+                repository.insertPhoto(photo));
+        }
     }
 
     @Test
