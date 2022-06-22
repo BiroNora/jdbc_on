@@ -127,4 +127,29 @@ class PhotoRepositoryTest {
         int result = repository.updatePhoto(22022L, pho3);
         assertEquals(0, result);
     }
+
+    @Test
+    @Order(8)
+    void doubleInsertPhoto() {
+        String url = "https://CCC";
+        Photo photoOrig = new Photo(url, 1L, null, null);
+
+        long id = repository.insertPhoto(photoOrig);
+        repository.deletePhoto(id);
+        long id1 = repository.insertPhoto(photoOrig);
+
+        Optional<Photo> photo = repository.selectPhotoById(id);
+        assertTrue(photo.isEmpty());
+
+        Optional<Photo> photo1 = repository.selectPhotoById(id1);
+        assertTrue(photo1.isPresent());
+        assertEquals(photo1.get().getMovieId(), 1);
+        assertEquals(photo1.get().getPhotoUrl(), url);
+
+        List<Photo> photos = repository.selectPhotos();
+        long count = photos.stream()
+            .filter(x -> x.getPhotoUrl().equals(url))
+            .count();
+        assertEquals(1, count);
+    }
 }
