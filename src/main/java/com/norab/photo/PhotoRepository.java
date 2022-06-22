@@ -1,7 +1,6 @@
 package com.norab.photo;
 
 import com.norab.exception.InvalidInputException;
-import com.norab.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -36,12 +35,21 @@ public class PhotoRepository implements PhotoDao<Photo> {
 
     @Override
     public long insertPhoto(Photo photo) {
+        if (photo.getPhotoUrl() == null ||
+            photo.getPhotoUrl().strip().equals("")) {
+            throw new InvalidInputException("Empty photoUrl");
+        }
+        if (photo.getMovieId() == null &&
+            photo.getActorId() == null &&
+            photo.getRoleId() == null) {
+            throw new InvalidInputException("All IDs are null");
+        }
         var sql = """
             INSERT into photos(url, movie_id, actor_id, role_id) VALUES (?, ?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
-            int result = jdbcTemplate.update(connection -> {
+            jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql, new String[]{"photo_id"});
                 ps.setString(1, photo.getPhotoUrl());
                 if (photo.getMovieId() != null) {
@@ -61,13 +69,11 @@ public class PhotoRepository implements PhotoDao<Photo> {
                 }
                 return ps;
             }, keyHolder);
-            if (result != 1) {
-                throw new IllegalStateException("Failed to add new photo");
-            }
+
             log.info("New photo inserted: " + photo);
         } catch (DataAccessException e) {
             log.error(e.getMessage());
-            throw new NotFoundException("Illegal id");
+            throw new InvalidInputException("Illegal id");
         }
         return keyHolder.getKeyAs(Long.class);
     }
@@ -126,5 +132,4 @@ public class PhotoRepository implements PhotoDao<Photo> {
             throw new InvalidInputException("Invalid ID");
         }
     }
-
 }

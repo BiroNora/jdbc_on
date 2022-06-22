@@ -48,6 +48,24 @@ class PhotoRepositoryTest {
 
     @Test
     @Order(3)
+    void insertPhotoByInvalidIds() {
+        {
+            Photo photo = new Photo("https://hun", 1024L, null, null);
+
+            assertThrows(InvalidInputException.class, () ->
+                repository.insertPhoto(photo));
+        }
+
+        {
+            Photo photo = new Photo(null, 1L, null, null);
+
+            assertThrows(InvalidInputException.class, () ->
+                repository.insertPhoto(photo));
+        }
+    }
+
+    @Test
+    @Order(3)
     void deletePhoto() {
         Long id = 2L;
         int result = repository.deletePhoto(id);
