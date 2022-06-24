@@ -1,6 +1,8 @@
 package com.norab.photo;
 
 import com.norab.exception.InvalidInputException;
+import com.norab.movie.Movie;
+import com.norab.movie.MovieRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class PhotoRepositoryTest {
     @Autowired
     private PhotoRepository repository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     @Test
     @Order(1)
@@ -72,7 +79,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void deletePhoto() {
         Long id = 2L;
         boolean result = repository.deletePhoto(id);
@@ -84,7 +91,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void selectPhotoByValidId() {
         Long id = 3L;
         Optional<Photo> selected = repository.selectPhotoById(id);
@@ -92,7 +99,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void selectPhotoByInvalidId() {
         Long id = 278901L;
         Optional<Photo> selected = repository.selectPhotoById(id);
@@ -100,7 +107,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void updatePhoto() {
         Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
@@ -115,7 +122,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void updatePhotoByInvalidIds() {
         Photo pho = repository.selectPhotoById(3L).orElseThrow();
         System.out.println(pho);
@@ -154,7 +161,7 @@ class PhotoRepositoryTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     void doubleInsertPhoto() {
         String url = "https://CCC";
         Photo photoOrig = new Photo(url, 1L, null, null);
@@ -177,4 +184,22 @@ class PhotoRepositoryTest {
             .count();
         assertEquals(1, count);
     }
+
+    @Test
+    @Order(10)
+    void deleteReferredMovie() {
+        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22));
+        long movieId = movieRepository.insertMovie(movie);
+
+        Photo photo = new Photo("https://kleo", movieId, null, null);
+        long photoId = repository.insertPhoto(photo);
+
+        int del = movieRepository.deleteMovie(movieId);
+        assertEquals(1, del);
+
+        Optional<Photo> photo1 = repository.selectPhotoById(photoId);
+        assertTrue(photo1.isPresent());
+        assertEquals(0, photo1.get().getMovieId());
+    }
+
 }
