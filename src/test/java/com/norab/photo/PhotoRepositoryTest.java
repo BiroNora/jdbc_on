@@ -1,5 +1,7 @@
 package com.norab.photo;
 
+import com.norab.actor.Actor;
+import com.norab.actor.ActorRepository;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
@@ -27,6 +29,9 @@ class PhotoRepositoryTest {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
 
     @Test
     @Order(1)
@@ -200,6 +205,23 @@ class PhotoRepositoryTest {
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());
         assertEquals(0, photo1.get().getMovieId());
+    }
+
+    @Test
+    @Order(11)
+    void deleteReferredActor() {
+        Actor actor = new Actor("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        long actorId = actorRepository.insertActor(actor);
+
+        Photo photo = new Photo("https://gretagarbo", null, actorId, null);
+        long photoId = repository.insertPhoto(photo);
+
+        int del = actorRepository.deleteActor(actorId);
+        assertEquals(1, del);
+
+        Optional<Photo> photo1 = repository.selectPhotoById(photoId);
+        assertTrue(photo1.isPresent());
+        assertEquals(0, photo1.get().getActorId());
     }
 
 }

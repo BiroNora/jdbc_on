@@ -1,6 +1,11 @@
 package com.norab.role;
 
+import com.norab.actor.Actor;
+import com.norab.actor.ActorRepository;
 import com.norab.exception.InvalidInputException;
+import com.norab.movie.Movie;
+import com.norab.movie.MovieRepository;
+import com.norab.photo.Photo;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +27,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoleRepositoryTest {
     @Autowired
     private RoleRepository repository;
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
 
     @Test
     @Order(1)
@@ -137,4 +150,39 @@ class RoleRepositoryTest {
         int result = repository.updateRole(255587L, role3);
         assertEquals(0, result);
     }
+
+    @Test
+    @Order(8)
+    void deleteReferredMovie() {
+        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22));
+        long movieId = movieRepository.insertMovie(movie);
+
+        Plays plays = new Plays("Julius Cezar", movieId, null);
+        long roleId = repository.insertRole(plays);
+
+        int del = movieRepository.deleteMovie(movieId);
+        assertEquals(1, del);
+
+        Optional<Plays> plays1 = repository.selectRoleById(roleId);
+        assertTrue(plays1.isPresent());
+        assertEquals(0, plays1.get().getMovieId());
+    }
+
+    @Test
+    @Order(8)
+    void deleteReferredActor() {
+        Actor actor = new Actor("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        long actorId = actorRepository.insertActor(actor);
+
+        Plays plays = new Plays("Krisztina Királynő", null, actorId);
+        long roleId = repository.insertRole(plays);
+
+        int del = actorRepository.deleteActor(actorId);
+        assertEquals(1, del);
+
+        Optional<Plays> plays1 = repository.selectRoleById(roleId);
+        assertTrue(plays1.isPresent());
+        assertEquals(0, plays1.get().getActorId());
+    }
+
 }
