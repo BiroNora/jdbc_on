@@ -40,7 +40,8 @@ class MovieRepositoryTest {
         Movie movie = new Movie(
             "Avatar",
             "Avatar",
-            LocalDate.of(2009, Month.DECEMBER, 17));
+            LocalDate.of(2009, Month.DECEMBER, 17),
+            true);
         long id1 = repository.insertMovie(movie);
         var movie1 = repository.selectMovieById(id1);
         assertTrue(movie1.isPresent());
@@ -85,7 +86,8 @@ class MovieRepositoryTest {
         Movie movie = new Movie(
             "Fontos vagy nekem",
             "I Care a Lot",
-            LocalDate.of(2021, Month.FEBRUARY, 19));
+            LocalDate.of(2021, Month.FEBRUARY, 19),
+            false);
         int result1 = repository.updateMovie(20022L, movie);
         assertEquals(0, result1);
 

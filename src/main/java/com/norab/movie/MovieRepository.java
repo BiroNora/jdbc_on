@@ -26,7 +26,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT movie_id, title, title_original, release_date
+            SELECT movie_id, title, title_original, release_date, movie_film
             FROM movies
             LIMIT 10;
             """;
@@ -48,7 +48,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public long insertMovie(Movie movie) {
         var sql = """
-            INSERT INTO movies(title, title_original, release_date) VALUES (?, ?, ?);
+            INSERT INTO movies(title, title_original, release_date, movie_film) VALUES (?, ?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -61,6 +61,7 @@ public class MovieRepository implements MovieDao<Movie> {
                 ps.setNull(2, Types.VARCHAR);
             }
             ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
+            ps.setBoolean(4, movie.isMovieFilm());
             return ps;
         }, keyHolder);
 
@@ -88,7 +89,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public Optional<Movie> selectMovieById(Long id) {
         var sql = """
-            SELECT movie_id, title, title_original, release_date
+            SELECT movie_id, title, title_original, release_date, movie_film
             FROM movies
             WHERE movie_id = ?;
             """;
@@ -105,10 +106,17 @@ public class MovieRepository implements MovieDao<Movie> {
     public int updateMovie(Long id, Movie movie) {
         var sql = """
             UPDATE movies
-            SET title = ?, title_original = ?, release_date = ?
+            SET title = ?, title_original = ?, release_date = ?, movie_film = ?
             WHERE movie_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, movie.getTitle(), movie.getTitleOriginal(), movie.getReleaseDate(), movie.getId());
+        int update = jdbcTemplate.update(
+            sql,
+            movie.getTitle(),
+            movie.getTitleOriginal(),
+            movie.getReleaseDate(),
+            movie.isMovieFilm(),
+            movie.getId()
+            );
         if (update == 1) {
             log.info(String.format("Movie with id: %d is updated.", id));
         }

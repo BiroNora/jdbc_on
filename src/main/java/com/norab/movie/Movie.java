@@ -10,21 +10,24 @@ public class Movie{
     private String title;
     private String titleOriginal;
     LocalDate releaseDate;
+    boolean isMovieFilm;
 
     public Movie() {
     }
 
-    public Movie(String title, String titleOriginal, LocalDate releaseDate) {
+    public Movie(String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
         this.title = title;
         this.titleOriginal = titleOriginal;
         this.releaseDate = releaseDate;
+        this.isMovieFilm = isMovieFilm;
     }
 
-    public Movie(Long id, String title, String titleOriginal, LocalDate releaseDate) {
+    public Movie(Long id, String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
         this.id = id;
         this.title = title;
         this.titleOriginal = titleOriginal;
         this.releaseDate = releaseDate;
+        this.isMovieFilm = isMovieFilm;
     }
 
     public Long getId() {
@@ -59,6 +62,14 @@ public class Movie{
         this.releaseDate = releaseDate;
     }
 
+    public boolean isMovieFilm() {
+        return isMovieFilm;
+    }
+
+    public void setMovieFilm(boolean movieFilm) {
+        isMovieFilm = movieFilm;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -66,6 +77,7 @@ public class Movie{
             ", title='" + title + '\'' +
             ", titleOriginal='" + titleOriginal + '\'' +
             ", releaseDate=" + releaseDate +
+            ", isMovieFilm=" + isMovieFilm +
             '}';
     }
 }

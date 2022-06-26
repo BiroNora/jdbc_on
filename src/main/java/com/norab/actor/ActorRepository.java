@@ -32,7 +32,7 @@ public class ActorRepository implements ActorDao<Actor> {
     @Override
     public List<Movie> allMoviesByActor(Long id) {
         var sql = """
-            SELECT role_name, movies.movie_id, title, title_original, release_date
+            SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
             FROM movies
             JOIN
             (SELECT role_name, movie_id

@@ -154,7 +154,7 @@ class RoleRepositoryTest {
     @Test
     @Order(8)
     void deleteReferredMovie() {
-        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22));
+        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22), true);
         long movieId = movieRepository.insertMovie(movie);
 
         Plays plays = new Plays("Julius Cezar", movieId, null);

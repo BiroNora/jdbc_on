@@ -6,11 +6,11 @@ INSERT INTO actors(full_name, birth_date) VALUES('Jack Nicholson', '1937-04-22')
 INSERT INTO actors(full_name, birth_date) VALUES('Mads Mikkelsen', '1965-11-22');
 INSERT INTO actors(full_name, birth_date) VALUES('Sigourney Weaver', '1949-10-08');
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('John Casale', '1935-08-12', '1978-03-13');
-INSERT INTO movies(title, title_original, release_date) VALUES('Avatar', 'Avatar', '2009-12-17');
-INSERT INTO movies(title, title_original, release_date) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07');
-INSERT INTO movies(title, title_original, release_date) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21');
-INSERT INTO movies(title, title_original, release_date) VALUES('Rossz álmok', 'The Gift', '2001-04-19');
-INSERT INTO movies(title, title_original, release_date) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12');
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Avatar', 'Avatar', '2009-12-17', false);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07', true);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Kánikulai délután', 'Dog Day Afternoon',  '1975-09-21', true);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Rossz álmok', 'The Gift', '2001-04-19', true);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Lesz ez még így se', ' As Good As It Gets', '1998-03-12', true);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Parker Selfridge', 1, 2);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Jack Sparrow', 2, 3);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Sonny Wortzik', 3, 4);

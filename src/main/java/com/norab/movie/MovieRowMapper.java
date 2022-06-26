@@ -15,7 +15,8 @@ public class MovieRowMapper implements RowMapper<Movie> {
                 resultSet.getLong("movie_id"),
                 resultSet.getString("title"),
                 resultSet.getString("title_original"),
-                LocalDate.parse(resultSet.getString("release_date"))
+                LocalDate.parse(resultSet.getString("release_date")),
+                resultSet.getBoolean("movie_film")
             );
         } catch (SQLException e) {
             System.out.println(e.getMessage());

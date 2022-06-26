@@ -10,7 +10,8 @@ CREATE TABLE movies (
     movie_id BIGSERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     title_original TEXT,
-    release_date DATE NOT NULL
+    release_date DATE NOT NULL,
+    movie_film BOOLEAN NOT NULL
 );
 CREATE TABLE plays (
     role_id BIGSERIAL PRIMARY KEY,
