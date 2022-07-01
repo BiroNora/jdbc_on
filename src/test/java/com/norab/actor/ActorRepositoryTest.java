@@ -23,14 +23,7 @@ class ActorRepositoryTest {
     @Autowired
     private ActorRepository repository;
 
-    @Test
-    @Order(1)
-    void allMoviesByActor() {
-        Long id = 1L;
-        List<Movie> movies = repository.allMoviesByActor(id);
-        assertEquals(movies.size(), 1);
-        assertEquals(movies.get(0).getTitle(), "A Karib-tenger kalózai: A Fekete Gyöngy átka");
-    }
+
 
     @Test
     @Order(2)

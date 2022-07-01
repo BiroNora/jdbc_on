@@ -8,8 +8,6 @@ import java.util.Optional;
 
 @Component
 public interface ActorDao<Actor> {
-    List<Movie> allMoviesByActor(Long id);
-
     List<Actor> selectActors();
 
     long insertActor(Actor actor) throws IllegalStateException;

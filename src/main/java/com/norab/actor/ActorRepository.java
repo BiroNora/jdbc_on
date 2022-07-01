@@ -30,21 +30,6 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public List<Movie> allMoviesByActor(Long id) {
-        var sql = """
-            SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
-            FROM movies
-            JOIN
-            (SELECT role_name, movie_id
-            FROM plays
-            WHERE actor_id = ?) AS p
-            USING (movie_id)
-            LIMIT 10;
-            """;
-        return jdbcTemplate.query(sql, new MovieRowMapper(), id);
-    }
-
-    @Override
     public List<Actor> selectActors() {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date

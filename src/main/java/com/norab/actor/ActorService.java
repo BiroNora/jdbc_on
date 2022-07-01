@@ -16,10 +16,6 @@ public class ActorService {
         this.actorDao = actorDao;
     }
 
-    public List<Movie> allMoviesByActor(Long id) {
-        return actorDao.allMoviesByActor(id);
-    }
-
     public List<Actor> getActors() {
         List<Actor> actors = actorDao.selectActors();
         return actors;

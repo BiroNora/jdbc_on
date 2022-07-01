@@ -20,11 +20,6 @@ public class ActorController {
         return actorService.getActors();
     }
 
-    @GetMapping("{id}/movies")
-    public List<Movie> allMoviesByActor(@PathVariable("id") Long id) {
-        return actorService.allMoviesByActor(id);
-    }
-
     @GetMapping("{id}")
     public Actor getActorId(@PathVariable("id") Long id) {
         return actorService.getActor(id);
