@@ -19,14 +19,21 @@ class CrossedRepositoryTest {
     @Autowired
     private CrossedRepository repository;
 
-
-
     @Test
     void allMoviesByActor() {
         Long id = 1L;
         List<Movie> movies = repository.allMoviesByActor(id);
         assertEquals(movies.size(), 1);
         assertEquals(movies.get(0).getTitle(), "A Karib-tenger kalózai: A Fekete Gyöngy átka");
+    }
+
+    @Test
+    void allMoviesByReleaseDateAsc() {
+        List<Movie> movies = repository.allMoviesByReleaseDateAsc();
+        for (Movie m : movies) {
+            System.out.println(m);
+        }
+        assertEquals(movies.size(), 8);
     }
 
     @Test

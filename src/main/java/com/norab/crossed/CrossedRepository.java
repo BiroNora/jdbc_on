@@ -42,25 +42,19 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
+    public List<Movie> allMoviesByReleaseDateAsc() {
+        var sql = """
+            SELECT * FROM movies ORDER BY release_date;
+            """;
+        return jdbcTemplate.query(sql, new MovieRowMapper());
+    }
+
+    @Override
     public List<Actor> selectActorByBirthDate(String date) {
         var sql = """
             SELECT * FROM actors WHERE birth_date like ?;
             """;
         return jdbcTemplate.query(sql, new ActorRowMapper(), date);
-    }
-
-    @Override
-    public List<Movie> allMoviesByReleaseDateAsc() {
-
-        return null;
-    }
-
-    @Override
-    public List<Plays> allPlaysByActor(Long id) {
-        var sql = """
-            
-            """;
-        return null;
     }
 
     @Override
@@ -73,6 +67,14 @@ public class CrossedRepository implements CrossedDao {
 
     @Override
     public List<Actor> allActorsByAbcOrderAsc() {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Plays> allPlaysByActor(Long id) {
         var sql = """
             
             """;

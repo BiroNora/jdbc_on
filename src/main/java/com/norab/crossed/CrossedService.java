@@ -18,6 +18,10 @@ public class CrossedService {
         return crossedDao.allMoviesByActor(id);
     }
 
+    public List<Movie> allMoviesByReleaseDateAsc() {
+        return crossedDao.allMoviesByReleaseDateAsc();
+    }
+
     public List<Actor> selectActorByBirthDate(String date) {
         return crossedDao.selectActorByBirthDate(date);
     }

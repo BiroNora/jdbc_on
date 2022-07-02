@@ -23,6 +23,10 @@ public class CrossedController {
         return crossedService.allMoviesByActor(id);
     }
 
+    @GetMapping("/movies")
+    public List<Movie> allMoviesByReleaseDateAsc() {
+        return crossedService.allMoviesByReleaseDateAsc();
+    }
     @GetMapping("/actors/date/{date}")
     public List<Actor> selectActorByBirthDate(@PathVariable("date") String date) {
         return crossedService.selectActorByBirthDate(date);
