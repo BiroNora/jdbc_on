@@ -1,8 +1,11 @@
 package com.norab.crossed;
 
+import com.norab.actor.Actor;
 import com.norab.actor.ActorRepository;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRowMapper;
+import com.norab.photo.Photo;
+import com.norab.role.Plays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +38,77 @@ public class CrossedRepository implements CrossedDao {
             LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper(), id);
+    }
+
+    @Override
+    public List<Movie> allMoviesByReleaseDateAsc() {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Plays> allPlaysByActor(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Actor> allActorsByFilm(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Actor> allActorsByAbcOrderAsc() {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Plays> allPlaysByFilm(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Photo> allPhotosByActor(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Photo> allPhotosByFilm(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Photo> allPhotosByPlays(Long id) {
+        var sql = """
+            
+            """;
+        return null;
+    }
+
+    @Override
+    public List<Photo> allPhotosByMovie(Long id) {
+        var sql = """
+            
+            """;
+        return null;
     }
 }
