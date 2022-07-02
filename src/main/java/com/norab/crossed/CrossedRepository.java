@@ -2,6 +2,7 @@ package com.norab.crossed;
 
 import com.norab.actor.Actor;
 import com.norab.actor.ActorRepository;
+import com.norab.actor.ActorRowMapper;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRowMapper;
 import com.norab.photo.Photo;
@@ -41,10 +42,16 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Movie> allMoviesByReleaseDateAsc() {
+    public List<Actor> selectActorByBirthDate(String date) {
         var sql = """
-            
+            SELECT * FROM actors WHERE birth_date like ?;
             """;
+        return jdbcTemplate.query(sql, new ActorRowMapper(), date);
+    }
+
+    @Override
+    public List<Movie> allMoviesByReleaseDateAsc() {
+
         return null;
     }
 

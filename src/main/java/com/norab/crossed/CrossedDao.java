@@ -11,6 +11,7 @@ import java.util.List;
 @Component
 public interface CrossedDao {
     List<Movie> allMoviesByActor(Long id);
+    List<Actor> selectActorByBirthDate(String date);
     List<Movie> allMoviesByReleaseDateAsc();
     List<Plays> allPlaysByActor(Long id);
     List<Actor> allActorsByFilm(Long id);

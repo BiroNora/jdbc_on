@@ -48,23 +48,47 @@ CREATE TABLE photos (
 		ON DELETE SET NULL
 );
 
-INSERT INTO actors(full_name, birth_date) VALUES('Johnny Depp', '1963-06-09');
-INSERT INTO actors(full_name, birth_date) VALUES('Alan Arkin', '1934-03-26');
-INSERT INTO actors(full_name, birth_date) VALUES('Geoffry Rush', '1951-07-06');
+INSERT INTO actors(full_name, birth_date) VALUES
+    ('Johnny Depp', '1963-06-09'),
+    ('Alan Arkin', '1934-03-26'),
+    ('Geoffry Rush', '1951-07-06'),
+    ('Greg Kinnear', '1963-06-17'),
+    ('Giovanni Ribisi', '1974-12-17'),
+    ('Al Pacino', '1940-04-25'),
+    ('Jack Nicholson', '1937-04-22'),
+    ('Mads Mikkelsen', '1965-11-22'),
+    ('Sigourney Weaver', '1949-10-08');
 
-INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('A Karib-tenger kalózai: A Fekete Gyöngy átka', 'Pirates of the Caribbean: The Curse of the Black Pearl', '2003-07-09', 1);
-INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('A család kicsi kincse', 'Little Miss Sunshine', '2007-02-22', 0);
+INSERT INTO actors(full_name, birth_date, death_date) VALUES
+    ('John Casale', '1935-08-12', '1978-03-13');
 
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES ('Jack Sparrow', 1, 1);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES ('Richard Hoover', 2, null);
-INSERT INTO plays(role_name, movie_id, actor_id) VALUES ('Jimmy McGinty', null, null);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES
+    ('A Karib-tenger kalózai: A Fekete Gyöngy átka', 'Pirates of the Caribbean: The Curse of the Black Pearl', '2003-07-09', 1),
+    ('A család kicsi kincse', 'Little Miss Sunshine', '2007-02-22', 0),
+    ('Avatar','	Avatar', '2009-12-17', 1),
+    ('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07', 1),
+    ('Kánikulai délután', 'Dog Day Afternoon', '1975-09-21', 0),
+    ('Rossz álmok', 'The Gift', '2001-04-19', 0),
+    ('Lesz ez még így se', 'As Good As It Gets', '1998-03-12', 0);
 
-INSERT INTO photos(url, movie_id, actor_id, role_id)
-VALUES('https://www.imdb.com/title/tt1298650/mediaviewer/rm2422913792/', 1, 1, 1);
-INSERT INTO photos(url, movie_id, actor_id, role_id)
-VALUES('http://101kiskutya', 1, null, null);
-INSERT INTO photos(url, movie_id, actor_id, role_id)
-VALUES('https://dumbo', null, null, null);
+INSERT INTO plays(role_name, movie_id, actor_id) VALUES
+    ('Jack Sparrow', 1, 1),
+    ('Richard Hoover', 2, null),
+    ('Jimmy McGinty', null, null),
+    ('Parker Selfridge', 1, 2),
+    ('Jack Sparrow', 2, 3),
+    ('Sonny Wortzik', 3, 4),
+    ('Dr. Grace Augustine', 1, 7),
+    ('Wayne Collins', 4, 1),
+    ('Simon Bishop', 5, 1),
+    ('Buddy Cole', 4, 2),
+    ('Sal Naturile', 3, 8),
+    ('Melvin Udall', 5, 5);
+
+INSERT INTO photos(url, movie_id, actor_id, role_id) VALUES
+    ('https://www.imdb.com/title/tt1298650/mediaviewer/rm2422913792/', 1, 1, 1),
+    ('http://101kiskutya', 1, null, null),
+    ('https://dumbo', null, null, null);
 
 SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
             FROM movies
@@ -85,3 +109,22 @@ SELECT role_name, movies.movie_id, title, title_original, release_date, movie_fi
             USING (movie_id)
             LIMIT 10
             ;
+
+SELECT * FROM plays WHERE role_name like 'Wayne%';
+
+SELECT * FROM actors WHERE full_name like '%epp';
+
+SELECT * FROM actors WHERE birth_date like '1963%';
+
+SELECT * FROM actors WHERE birth_date like '%-10-%';
+
+SELECT * FROM actors WHERE death_date is not null;
+
+SELECT * FROM plays WHERE movie_id is null and actor_id is null;
+
+INSERT INTO plays(role_name, movie_id, actor_id) VALUES
+    ('Jimmy McGinty', 3, null);
+
+DELETE FROM plays WHERE movie_id is null and actor_id is null;
+
+SELECT * FROM plays WHERE role_name = 'Jimmy McGinty';
