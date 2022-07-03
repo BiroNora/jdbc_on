@@ -128,3 +128,5 @@ INSERT INTO plays(role_name, movie_id, actor_id) VALUES
 DELETE FROM plays WHERE movie_id is null and actor_id is null;
 
 SELECT * FROM plays WHERE role_name = 'Jimmy McGinty';
+
+SELECT * FROM movies WHERE title LIKE '%Miss%' OR title_original like '%Miss%';

@@ -10,6 +10,7 @@ INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Eliz
 INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Szerelmes Shakespeare', 'Shakespeare in Love', '1999-03-04', 1);
 INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Frida', 'Frida', '2002-10-25', 1);
 INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Két királynőe', 'Mary Queen of Scots', '2019-01-18', 1);
+INSERT INTO movies(title, title_original, release_date, movie_film) VALUES('Született gengszterek', 'Stand Up Guys', '2013-03-07', 1);
 
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES ('Jack Sparrow', 1, 1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES ('Richard Hoover', 2, null);
