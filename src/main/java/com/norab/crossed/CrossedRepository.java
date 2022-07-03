@@ -81,7 +81,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Actor> selectActorByBirthDate(String date) {
+    public List<Actor> searchByActorBirthDate(String date) {
         var sql = """
             SELECT * FROM actors WHERE birth_date like ?;
             """;
@@ -89,12 +89,51 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Actor> allActorsByFilm(Long id) {
-        var sql = """
-            
+    public List<Actor> allActorsByFilm(String title, SearchLocation location) {
+        String q = title.strip();
+        var sql0 = """
+            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
+            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
+            JOIN movies m ON m.movie_id = p.movie_id
+            WHERE LOWER(m.title) LIKE LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
             """;
-        return null;
+        var sql1 = """
+            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
+            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
+            JOIN movies m ON m.movie_id = p.movie_id
+            WHERE LOWER(m.title_original) like LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
+            """;
+        var sql2 = """
+            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
+            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
+            JOIN movies m ON m.movie_id = p.movie_id
+            WHERE LOWER(m.title) LIKE LOWER(?)
+            OR LOWER(m.title_original) like LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
+            """;
+        if (!q.startsWith("%")) {
+            q = "%" + q;
+        }
+        if (!q.endsWith("%")) {
+            q = q + "%";
+        }
+        switch (location) {
+            case TITLE -> {
+                return jdbcTemplate.query(sql0, new ActorRowMapper(), q);
+            }
+            case ORIGTITLE -> {
+                return jdbcTemplate.query(sql1, new ActorRowMapper(), q);
+            }
+            default -> {
+                return jdbcTemplate.query(sql2, new ActorRowMapper(), q, q);
+            }
+        }
     }
+    /*var sql0 = """
+            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
+            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
+            JOIN movies m ON m.movie_id = p.movie_id
+            WHERE LOWER(m.title) LIKE LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
+            """;*/
 
     @Override
     public List<Actor> allActorsByAbcOrderAsc() {

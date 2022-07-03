@@ -2,7 +2,6 @@ package com.norab.crossed;
 
 import com.norab.actor.Actor;
 import com.norab.movie.Movie;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +38,7 @@ class CrossedRepositoryTest {
     @Test
     void selectActorByBirthDate() {
         String date = "1963%";
-        List<Actor> actors = repository.selectActorByBirthDate(date);
+        List<Actor> actors = repository.searchByActorBirthDate(date);
         for (Actor a : actors) {
             System.out.println(a);
         }

@@ -111,7 +111,6 @@ SELECT role_name, movies.movie_id, title, title_original, release_date, movie_fi
             ;
 
 SELECT * FROM plays WHERE role_name like 'Wayne%';
-
 SELECT * FROM actors WHERE full_name like '%epp';
 
 SELECT * FROM actors WHERE birth_date like '1963%';
@@ -123,10 +122,15 @@ SELECT * FROM actors WHERE death_date is not null;
 SELECT * FROM plays WHERE movie_id is null and actor_id is null;
 
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES
-    ('Jimmy McGinty', 3, null);
-
+  ('Jimmy McGinty', 3, null);
 DELETE FROM plays WHERE movie_id is null and actor_id is null;
 
 SELECT * FROM plays WHERE role_name = 'Jimmy McGinty';
 
 SELECT * FROM movies WHERE title LIKE '%Miss%' OR title_original like '%Miss%';
+
+SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
+    FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
+    JOIN movies m ON m.movie_id = p.movie_id
+    WHERE LOWER(m.title) LIKE LOWER('%Miss%')
+    OR LOWER(m.title_original) like LOWER('%Miss%');

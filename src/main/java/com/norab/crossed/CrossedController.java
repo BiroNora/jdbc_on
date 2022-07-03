@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.norab.crossed.SearchLocation.*;
-
 @RestController
 @RequestMapping(path = "api/v1/crossed")
 public class CrossedController {
@@ -34,7 +32,14 @@ public class CrossedController {
         return crossedService.searchByMovieTitle(title, location);
     }
     @GetMapping("/actors/date/{date}")
-    public List<Actor> selectActorByBirthDate(@PathVariable("date") String date) {
+    public List<Actor> searchByActorBirthDate(@PathVariable("date") String date) {
         return crossedService.selectActorByBirthDate(date);
+    }
+
+    @GetMapping("/actors")
+    public List<Actor> allActorsByFilm(
+        @RequestParam(name = "q", required = true) String title,
+        @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
+        return crossedService.allActorsByFilm(title, location);
     }
 }

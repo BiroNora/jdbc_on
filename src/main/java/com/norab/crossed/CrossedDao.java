@@ -11,11 +11,11 @@ import java.util.List;
 @Component
 public interface CrossedDao {
     List<Movie> allMoviesByActor(Long id);
-    List<Actor> selectActorByBirthDate(String date);
+    List<Actor> searchByActorBirthDate(String date);
     List<Movie> allMoviesByReleaseDateAsc();
     List<Movie> searchByMovieTitle(String title, SearchLocation location);
     List<Plays> allPlaysByActor(Long id);
-    List<Actor> allActorsByFilm(Long id);
+    List<Actor> allActorsByFilm(String title, SearchLocation location);
     List<Actor> allActorsByAbcOrderAsc();
     List<Plays> allPlaysByFilm(Long id);
     List<Photo> allPhotosByActor(Long id);
