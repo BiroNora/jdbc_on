@@ -22,16 +22,15 @@ public class CrossedController {
         return crossedService.allMoviesByActor(id);
     }
 
-    @GetMapping("/movies")
+    @GetMapping("/movies/date")
     public List<Movie> allMoviesByReleaseDateAsc() {
         return crossedService.allMoviesByReleaseDateAsc();
     }
 
-    @GetMapping("/movies/{title}")
+    @GetMapping("/movies")
     public List<Movie> searchByMovieTitle(
-        @PathVariable("title") String title,
+        @RequestParam(name = "q", required = true) String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
-
         return crossedService.searchByMovieTitle(title, location);
     }
     @GetMapping("/actors/date/{date}")
