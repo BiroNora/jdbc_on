@@ -53,13 +53,13 @@ public class CrossedRepository implements CrossedDao {
     public List<Movie> searchByMovieTitle(String title, SearchLocation location) {
         String q = title.strip();
         var sql0 = """
-            SELECT * FROM movies WHERE title LIKE ?;
+            SELECT * FROM movies WHERE LOWER(title) LIKE LOWER(?);
             """;
         var sql1 = """
-            SELECT * FROM movies WHERE title_original LIKE ?;
+            SELECT * FROM movies WHERE LOWER(title_original) LIKE LOWER(?);
             """;
         var sql2 = """
-            SELECT * FROM movies WHERE title LIKE ? OR title_original like ?;
+            SELECT * FROM movies WHERE LOWER(title) LIKE LOWER(?) OR LOWER(title_original) like LOWER(?);
             """;
         if (!q.startsWith("%")) {
             q = "%" + q;
