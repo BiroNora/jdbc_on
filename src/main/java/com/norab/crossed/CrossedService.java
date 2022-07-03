@@ -22,6 +22,10 @@ public class CrossedService {
         return crossedDao.allMoviesByReleaseDateAsc();
     }
 
+    public List<Movie> searchByMovieTitle(String title, SearchLocation location) {
+        return crossedDao.searchByMovieTitle(title, location);
+    }
+
     public List<Actor> selectActorByBirthDate(String date) {
         return crossedDao.selectActorByBirthDate(date);
     }

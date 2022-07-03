@@ -44,9 +44,40 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Movie> allMoviesByReleaseDateAsc() {
         var sql = """
-            SELECT * FROM movies ORDER BY release_date;
+            SELECT * FROM movies ORDER BY release_date ASC;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper());
+    }
+
+    @Override
+    public List<Movie> searchByMovieTitle(String title, SearchLocation location) {
+        String q = title.strip();
+        var sql0 = """
+            SELECT * FROM movies WHERE title LIKE ?;
+            """;
+        var sql1 = """
+            SELECT * FROM movies WHERE title_original LIKE ?;
+            """;
+        var sql2 = """
+            SELECT * FROM movies WHERE title LIKE ? OR title_original like ?;
+            """;
+        if (!q.startsWith("%")) {
+            q = "%" + q;
+        }
+        if (!q.endsWith("%")) {
+            q = q + "%";
+        }
+        switch (location) {
+            case TITLE -> {
+                return jdbcTemplate.query(sql0, new MovieRowMapper(), q);
+            }
+            case ORIGTITLE -> {
+                return jdbcTemplate.query(sql1, new MovieRowMapper(), q);
+            }
+            default -> {
+                return jdbcTemplate.query(sql2, new MovieRowMapper(), q, q);
+            }
+        }
     }
 
     @Override
