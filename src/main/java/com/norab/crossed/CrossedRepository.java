@@ -89,56 +89,38 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Actor> allActorsByFilm(String title, SearchLocation location) {
+    public List<ActorsByFilm> allActorsByFilm(String title) {
         String q = title.strip();
-        var sql0 = """
-            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
-            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
-            JOIN movies m ON m.movie_id = p.movie_id
-            WHERE LOWER(m.title) LIKE LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
-            """;
-        var sql1 = """
-            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
-            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
-            JOIN movies m ON m.movie_id = p.movie_id
-            WHERE LOWER(m.title_original) like LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
-            """;
-        var sql2 = """
-            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
-            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
-            JOIN movies m ON m.movie_id = p.movie_id
-            WHERE LOWER(m.title) LIKE LOWER(?)
-            OR LOWER(m.title_original) like LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
-            """;
         if (!q.startsWith("%")) {
             q = "%" + q;
         }
         if (!q.endsWith("%")) {
             q = q + "%";
         }
-        switch (location) {
-            case TITLE -> {
-                return jdbcTemplate.query(sql0, new ActorRowMapper(), q);
-            }
-            case ORIGTITLE -> {
-                return jdbcTemplate.query(sql1, new ActorRowMapper(), q);
-            }
-            default -> {
-                return jdbcTemplate.query(sql2, new ActorRowMapper(), q, q);
-            }
-        }
+        var sql = """
+            SELECT pm.title AS title, pm.title_original AS title_original,
+                   full_name, pm.role_name AS role_name
+            FROM actors
+            JOIN
+            (SELECT actor_id, role_name, m.title, m.title_original
+            FROM plays
+            JOIN
+            	(SELECT movie_id, title, title_original
+            	FROM movies
+            	WHERE LOWER(title) LIKE LOWER(?)
+            	OR LOWER(title_original) LIKE LOWER(?)
+            	) AS m
+            USING (movie_id)) AS pm
+            USING (actor_id)
+            ORDER BY full_name;                                                                                          WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
+            """;
+        return jdbcTemplate.query(sql, new ActorsByFilmMapper(), q, q);
     }
-    /*var sql0 = """
-            SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
-            FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
-            JOIN movies m ON m.movie_id = p.movie_id
-            WHERE LOWER(m.title) LIKE LOWER(?);                                                                                           WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
-            """;*/
 
     @Override
     public List<Actor> allActorsByAbcOrderAsc() {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -146,7 +128,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Plays> allPlaysByActor(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -154,7 +136,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Plays> allPlaysByFilm(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -162,7 +144,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Photo> allPhotosByActor(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -170,7 +152,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Photo> allPhotosByFilm(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -178,7 +160,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Photo> allPhotosByPlays(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }
@@ -186,7 +168,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Photo> allPhotosByMovie(Long id) {
         var sql = """
-            
+                        
             """;
         return null;
     }

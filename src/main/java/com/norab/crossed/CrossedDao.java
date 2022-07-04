@@ -15,7 +15,7 @@ public interface CrossedDao {
     List<Movie> allMoviesByReleaseDateAsc();
     List<Movie> searchByMovieTitle(String title, SearchLocation location);
     List<Plays> allPlaysByActor(Long id);
-    List<Actor> allActorsByFilm(String title, SearchLocation location);
+    List<ActorsByFilm> allActorsByFilm(String title);
     List<Actor> allActorsByAbcOrderAsc();
     List<Plays> allPlaysByFilm(Long id);
     List<Photo> allPhotosByActor(Long id);

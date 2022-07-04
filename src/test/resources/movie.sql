@@ -132,5 +132,21 @@ SELECT * FROM movies WHERE title LIKE '%Miss%' OR title_original like '%Miss%';
 SELECT m.movie_id, m.title, a.full_name, p.role_name, a.birth_date, a.death_date
     FROM (actors a JOIN plays p ON a.actor_id = p.actor_id)
     JOIN movies m ON m.movie_id = p.movie_id
-    WHERE LOWER(m.title) LIKE LOWER('%Miss%')
-    OR LOWER(m.title_original) like LOWER('%Miss%');
+    WHERE LOWER(m.title) LIKE LOWER('%Karib%')
+    OR LOWER(m.title_original) like LOWER('%Dog%')
+    order by full_name;
+
+select pm.title, pm.title_original, full_name, pm.role_name
+from actors
+join
+(select actor_id, role_name, m.title, m.title_original
+from plays
+JOIN
+	(SELECT movie_id, title, title_original
+	FROM movies
+	WHERE LOWER(title) LIKE LOWER('%ari%')
+	OR LOWER(title_original) like LOWER('%Dog%')
+	) as m
+using (movie_id)) as pm
+using (actor_id)
+order by full_name;

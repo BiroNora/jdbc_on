@@ -36,10 +36,9 @@ public class CrossedController {
         return crossedService.selectActorByBirthDate(date);
     }
 
-    @GetMapping("/actors")
-    public List<Actor> allActorsByFilm(
-        @RequestParam(name = "q", required = true) String title,
-        @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
-        return crossedService.allActorsByFilm(title, location);
+    @GetMapping("/actorsbyfilm")
+    public List<ActorsByFilm> allActorsByFilm(
+        @RequestParam(name = "q", required = true) String title) {
+        return crossedService.allActorsByFilm(title);
     }
 }

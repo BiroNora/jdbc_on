@@ -30,7 +30,7 @@ public class CrossedService {
         return crossedDao.searchByActorBirthDate(date);
     }
 
-    public List<Actor> allActorsByFilm(String title, SearchLocation location) {
-        return crossedDao.allActorsByFilm(title, location);
+    public List<ActorsByFilm> allActorsByFilm(String title) {
+        return crossedDao.allActorsByFilm(title);
     }
 }
