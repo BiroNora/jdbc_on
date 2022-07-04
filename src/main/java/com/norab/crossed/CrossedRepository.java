@@ -112,7 +112,7 @@ public class CrossedRepository implements CrossedDao {
             	) AS m
             USING (movie_id)) AS pm
             USING (actor_id)
-            ORDER BY full_name;                                                                                          WHERE LOWER(m.title) LIKE LOWER('%Miss%') OR LOWER(m.title_original) like LOWER('%Miss%');
+            ORDER BY full_name;
             """;
         return jdbcTemplate.query(sql, new ActorsByFilmMapper(), q, q);
     }
