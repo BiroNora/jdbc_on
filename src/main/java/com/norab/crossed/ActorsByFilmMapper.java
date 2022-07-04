@@ -9,10 +9,10 @@ public class ActorsByFilmMapper implements RowMapper<ActorsByFilm> {
     @Override
     public ActorsByFilm mapRow(ResultSet resultSet, int i) throws SQLException {
         ActorsByFilm actor = new ActorsByFilm(
-                resultSet.getString("title"),
-                resultSet.getString("title_original"),
-                resultSet.getString("full_name"),
-                resultSet.getString("role_name")
+            resultSet.getString("title"),
+            resultSet.getString("title_original"),
+            resultSet.getString("full_name"),
+            resultSet.getString("role_name")
         );
         return actor;
     }

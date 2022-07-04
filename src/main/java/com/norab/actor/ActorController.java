@@ -1,6 +1,5 @@
 package com.norab.actor;
 
-import com.norab.movie.Movie;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

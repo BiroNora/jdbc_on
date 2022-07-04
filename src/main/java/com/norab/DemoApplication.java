@@ -4,10 +4,10 @@ import com.norab.actor.Actor;
 import com.norab.actor.ActorRepository;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
-import com.norab.role.Plays;
-import com.norab.role.RoleRepository;
 import com.norab.photo.Photo;
 import com.norab.photo.PhotoRepository;
+import com.norab.role.Plays;
+import com.norab.role.RoleRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

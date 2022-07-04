@@ -1,7 +1,5 @@
 package com.norab.actor;
 
-import com.norab.movie.Movie;
-import com.norab.movie.MovieRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

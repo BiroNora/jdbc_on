@@ -5,7 +5,6 @@ import com.norab.actor.ActorRepository;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
-import com.norab.photo.Photo;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -134,8 +133,8 @@ class RoleRepositoryTest {
 
         System.out.println(role);
         assertThrows(InvalidInputException.class, () -> {
-             repository.updateRole(3L, role);
-            });
+            repository.updateRole(3L, role);
+        });
 
         Plays role1 = repository.selectRoleById(3L).orElseThrow();
         System.out.println(role1);
@@ -143,8 +142,8 @@ class RoleRepositoryTest {
         role1.setActorId(333L);
         System.out.println(role1);
         assertThrows(InvalidInputException.class, () -> {
-                repository.updateRole(3L, role1);
-            });
+            repository.updateRole(3L, role1);
+        });
 
         Plays role3 = new Plays("Paul Vitti", 2L, null);
         int result = repository.updateRole(255587L, role3);

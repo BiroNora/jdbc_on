@@ -116,7 +116,7 @@ public class MovieRepository implements MovieDao<Movie> {
             movie.getReleaseDate(),
             movie.isMovieFilm(),
             movie.getId()
-            );
+        );
         if (update == 1) {
             log.info(String.format("Movie with id: %d is updated.", id));
         }

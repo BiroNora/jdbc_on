@@ -5,4 +5,5 @@ public record ActorsByFilm(
     String title_original,
     String full_name,
     String role_name
-) {}
+) {
+}

@@ -31,6 +31,7 @@ public class CrossedController {
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return crossedService.searchByMovieTitle(title, location);
     }
+
     @GetMapping("/actors/date/{date}")
     public List<Actor> searchByActorBirthDate(@PathVariable("date") String date) {
         return crossedService.selectActorByBirthDate(date);

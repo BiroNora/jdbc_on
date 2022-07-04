@@ -1,6 +1,5 @@
 package com.norab.actor;
 
-import com.norab.movie.Movie;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ActorRepositoryTest {
     @Autowired
     private ActorRepository repository;
-
 
 
     @Test
