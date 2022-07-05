@@ -16,13 +16,13 @@ CREATE TABLE movies (
 CREATE TABLE plays (
     role_id INTEGER PRIMARY KEY,
     role_name VARCHAR(255) NOT NULL,
-    movie_id BIGINT NULL,
-	actor_id BIGINT NULL,
-		CONSTRAINT fk_plays_movie_id
+    movie_id INTEGER NULL,
+	actor_id INTEGER NULL,
+	CONSTRAINT fk_plays_movie_id
 		FOREIGN KEY (movie_id)
 		REFERENCES movies (movie_id)
 		ON DELETE SET NULL,
-		CONSTRAINT fk_plays_actor_id
+	CONSTRAINT fk_plays_actor_id
 		FOREIGN KEY (actor_id)
 		REFERENCES actors (actor_id)
 		ON DELETE SET NULL
@@ -31,18 +31,18 @@ CREATE TABLE plays (
 CREATE TABLE photos (
     photo_id INTEGER PRIMARY KEY,
     url TEXT NOT NULL,
-    movie_id BIGINT NULL,
-    actor_id BIGINT NULL,
-    role_id BIGINT NULL,
-		CONSTRAINT fk_photos_movie_id
+    movie_id INTEGER NULL,
+    actor_id INTEGER NULL,
+    role_id INTEGER NULL,
+	CONSTRAINT fk_photos_movie_id
 		FOREIGN KEY (movie_id)
 		REFERENCES movies (movie_id)
 		ON DELETE SET NULL,
-		CONSTRAINT fk_photos_actor_id
+	CONSTRAINT fk_photos_actor_id
 		FOREIGN KEY (actor_id)
 		REFERENCES actors (actor_id)
 		ON DELETE SET NULL,
-		CONSTRAINT fk_photos_role_id
+	CONSTRAINT fk_photos_role_id
 		FOREIGN KEY (role_id)
 		REFERENCES plays (role_id)
 		ON DELETE SET NULL
@@ -88,7 +88,8 @@ INSERT INTO plays(role_name, movie_id, actor_id) VALUES
 INSERT INTO photos(url, movie_id, actor_id, role_id) VALUES
     ('https://www.imdb.com/title/tt1298650/mediaviewer/rm2422913792/', 1, 1, 1),
     ('http://101kiskutya', 1, null, null),
-    ('https://dumbo', null, null, null);
+    ('https://dumbo', null, null, null),
+    ('https://johnny_photo', null, 1, null);
 
 SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
             FROM movies
@@ -150,3 +151,25 @@ JOIN
 using (movie_id)) as pm
 using (actor_id)
 order by full_name;
+
+SELECT * FROM movies
+JOIN
+    (SELECT * FROM actors JOIN plays USING(actor_id) WHERE movie_id=1)
+USING(movie_id);
+
+SELECT * FROM photos
+JOIN
+(SELECT * FROM movies
+JOIN
+    (SELECT * FROM actors JOIN plays USING(actor_id) WHERE movie_id=1)
+USING(movie_id))
+USING(actor_id) WHERE photos.role_id is null
+;
+
+SELECT * FROM movies
+JOIN
+    (SELECT * FROM actors JOIN plays USING(actor_id) WHERE movie_id=1)
+USING(movie_id)
+LEFT JOIN
+ photos
+ USING(actor_id) WHERE photos.role_id IS NULL;
