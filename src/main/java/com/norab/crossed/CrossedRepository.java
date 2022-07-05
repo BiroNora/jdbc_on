@@ -41,7 +41,7 @@ public class CrossedRepository implements CrossedDao {
         return jdbcTemplate.query(
             sql, (resultSet, i) -> new MoviesByActor(
                 resultSet.getString("role_name"),
-                resultSet.getString("title")), new Object[]{id});
+                resultSet.getString("title")), id);
     }
 
     @Override
