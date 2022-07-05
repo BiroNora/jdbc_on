@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 public interface CrossedDao {
-    List<Movie> allMoviesByActor(Long id);
+    List<MoviesByActor> allMoviesByActor(Long id);
 
     List<Actor> searchByActorBirthDate(String date);
 
@@ -33,4 +33,10 @@ public interface CrossedDao {
     List<Photo> allPhotosByPlays(Long id);
 
     List<Photo> allPhotosByMovie(Long id);
+
+    public record MoviesByActor(
+        String roleName,
+        String title
+    ) {
+    }
 }

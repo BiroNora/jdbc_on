@@ -14,7 +14,7 @@ public class CrossedService {
         this.crossedDao = crossedDao;
     }
 
-    public List<Movie> allMoviesByActor(Long id) {
+    public List<CrossedDao.MoviesByActor> allMoviesByActor(Long id) {
         return crossedDao.allMoviesByActor(id);
     }
 

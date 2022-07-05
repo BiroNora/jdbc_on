@@ -15,8 +15,8 @@ public class CrossedController {
         this.crossedService = crossedService;
     }
 
-    @GetMapping("{id}/movies")
-    public List<Movie> allMoviesByActor(@PathVariable("id") Long id) {
+    @GetMapping("/movies/actor/{id}")
+    public List<CrossedDao.MoviesByActor> allMoviesByActor(@PathVariable("id") Long id) {
         return crossedService.allMoviesByActor(id);
     }
 

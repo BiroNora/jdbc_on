@@ -27,7 +27,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Movie> allMoviesByActor(Long id) {
+    public List<MoviesByActor> allMoviesByActor(Long id) {
         var sql = """
             SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
             FROM movies
@@ -38,7 +38,10 @@ public class CrossedRepository implements CrossedDao {
             USING (movie_id)
             LIMIT 10;
             """;
-        return jdbcTemplate.query(sql, new MovieRowMapper(), id);
+        return jdbcTemplate.query(
+            sql, (resultSet, i) -> new MoviesByActor(
+                resultSet.getString("role_name"),
+                resultSet.getString("title")), new Object[]{id});
     }
 
     @Override
