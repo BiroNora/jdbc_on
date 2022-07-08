@@ -69,3 +69,60 @@ ORDER BY count desc)
 USING(actor_id)
 LIMIT 10
 ;
+
+--allActorsByAbcOrderAsc()
+SELECT actor_id, full_name FROM actors
+JOIN
+(SELECT DISTINCT actor_id FROM plays)
+USING(actor_id)
+ORDER BY full_name
+LIMIT 50
+;
+
+--allPlaysByActor()
+SELECT actor_id, role_name, title, title_original
+FROM movies
+JOIN
+(SELECT * FROM plays WHERE role_name LIKE 'Ove')
+USING(movie_id)
+;
+
+SELECT full_name, role_name, title, title_original
+FROM movies
+JOIN
+(SELECT actor_id, movie_id, role_name FROM plays WHERE actor_id = 16069)
+USING(movie_id)
+JOIN actors USING(actor_id)
+;
+
+SELECT movie_id, full_name, role_name, title, title_original
+FROM movies
+JOIN
+(SELECT actor_id, movie_id, role_name FROM plays WHERE role_name LIKE '%Ove%')
+USING(movie_id)
+JOIN actors USING(actor_id)
+ORDER BY role_name
+;
+
+SELECT title, genre FROM movies
+JOIN genre USING(movie_id)
+WHERE movie_id = 35650
+;
+
+SELECT GROUP_CONCAT(movie_id), genre, count(*) FROM genre
+WHERE movie_id > 35600 AND movie_id <= 35650
+GROUP BY genre;
+
+SELECT GROUP_CONCAT(title), genre, count(*) FROM genre
+JOIN
+(SELECT title, title_original, movie_id FROM movies)
+USING(movie_id)
+WHERE movie_id > 35600 AND movie_id <= 35650
+GROUP BY genre;
+
+--allPlaysByFilm(Long id)
+SELECT full_name, role_name, title, title_original FROM plays
+JOIN (SELECT full_name, actor_id FROM actors) USING(actor_id)
+JOIN (SELECT title, title_original, movie_id FROM movies) USING(movie_id)
+WHERE movie_id = 356
+;
