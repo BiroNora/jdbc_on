@@ -30,33 +30,33 @@ public class RoleService {
         return roleDao.insertRole(plays);
     }
 
-    public void deleteRole(Long id) {
-        Optional<Plays> role1 = roleDao.selectRoleById(id);
+    public void deleteRole(Long roleId) {
+        Optional<Plays> role1 = roleDao.selectRoleById(roleId);
         role1.ifPresentOrElse(role -> {
-            int result = roleDao.deleteRole(id);
+            int result = roleDao.deleteRole(roleId);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete role");
             }
         }, () -> {
-            throw new NotFoundException(String.format("Role with id %s not found", id));
+            throw new NotFoundException(String.format("Role with id %s not found", roleId));
         });
     }
 
-    public Plays getRole(Long id) {
+    public Plays getRole(Long roleId) {
         try {
-            return (Plays) roleDao.selectRoleById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", id)));
+            return (Plays) roleDao.selectRoleById(roleId)
+                .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", roleId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateRole(Long id, Plays plays) {
-        if (roleDao.selectRoleById(id).isPresent()) {
-            Plays plays1 = new Plays(id, plays.getRoleName(), plays.getMovieId(), plays.getActorId());
-            roleDao.updateRole(id, plays1);
+    public void updateRole(Long roleId, Plays plays) {
+        if (roleDao.selectRoleById(roleId).isPresent()) {
+            Plays plays1 = new Plays(roleId, plays.getRoleName(), plays.getMovieId(), plays.getActorId());
+            roleDao.updateRole(roleId, plays1);
         } else {
-            throw new NotFoundException(String.format("Role with id %s not found", id));
+            throw new NotFoundException(String.format("Role with id %s not found", roleId));
         }
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 public class Plays {
     @Id
-    private long Id;
+    private long roleId;
     private String roleName;
     private Long movieId;
     private Long actorId;
@@ -18,19 +18,19 @@ public class Plays {
         this.actorId = actorId;
     }
 
-    public Plays(long id, String roleName, Long movieId, Long actorId) {
-        Id = id;
+    public Plays(long roleId, String roleName, Long movieId, Long actorId) {
+        this.roleId = roleId;
         this.roleName = roleName;
         this.movieId = movieId;
         this.actorId = actorId;
     }
 
-    public long getId() {
-        return Id;
+    public long getRoleId() {
+        return roleId;
     }
 
-    public void setId(long id) {
-        Id = id;
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 
     public String getRoleName() {
@@ -60,7 +60,7 @@ public class Plays {
     @Override
     public String toString() {
         return "Plays{" +
-            "Id=" + Id +
+            "roleId=" + roleId +
             ", roleName='" + roleName + '\'' +
             ", movieId=" + movieId +
             ", actorId=" + actorId +

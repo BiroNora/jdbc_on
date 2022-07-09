@@ -30,33 +30,33 @@ public class PhotoService {
         return photoDao.insertPhoto(photo);
     }
 
-    public void deletePhoto(Long id) {
-        Optional<Photo> photo1 = photoDao.selectPhotoById(id);
+    public void deletePhoto(Long photoId) {
+        Optional<Photo> photo1 = photoDao.selectPhotoById(photoId);
         photo1.ifPresentOrElse(photo -> {
-            boolean result = photoDao.deletePhoto(id);
+            boolean result = photoDao.deletePhoto(photoId);
             if (!result) {
                 throw new IllegalStateException("oops could not delete role");
             }
         }, () -> {
-            throw new NotFoundException(String.format("Photo with id %s not found", id));
+            throw new NotFoundException(String.format("Photo with id %s not found", photoId));
         });
     }
 
-    public Photo getPhoto(Long id) {
+    public Photo getPhoto(Long photoId) {
         try {
-            return (Photo) photoDao.selectPhotoById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", id)));
+            return (Photo) photoDao.selectPhotoById(photoId)
+                .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", photoId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updatePhoto(Long id, Photo photo) {
-        if (photoDao.selectPhotoById(id).isPresent()) {
-            Photo photo1 = new Photo(id, photo.getPhotoUrl(), photo.getMovieId(), photo.getActorId(), photo.getRoleId());
-            photoDao.updatePhoto(id, photo1);
+    public void updatePhoto(Long photoId, Photo photo) {
+        if (photoDao.selectPhotoById(photoId).isPresent()) {
+            Photo photo1 = new Photo(photoId, photo.getPhotoUrl(), photo.getMovieId(), photo.getActorId(), photo.getRoleId());
+            photoDao.updatePhoto(photoId, photo1);
         } else {
-            throw new NotFoundException(String.format("Photo with id %s not found", id));
+            throw new NotFoundException(String.format("Photo with id %s not found", photoId));
         }
     }
 }

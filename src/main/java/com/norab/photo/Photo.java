@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 public class Photo {
     @Id
-    private Long id;
+    private Long photoId;
     private String photoUrl;
     private Long movieId;
     private Long actorId;
@@ -20,20 +20,20 @@ public class Photo {
         this.roleId = roleId;
     }
 
-    public Photo(Long id, String photoUrl, Long movieId, Long actorId, Long roleId) {
-        this.id = id;
+    public Photo(Long photoId, String photoUrl, Long movieId, Long actorId, Long roleId) {
+        this.photoId = photoId;
         this.photoUrl = photoUrl;
         this.movieId = movieId;
         this.actorId = actorId;
         this.roleId = roleId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPhotoId() {
+        return photoId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPhotoId(Long photoId) {
+        this.photoId = photoId;
     }
 
     public String getPhotoUrl() {
@@ -71,7 +71,7 @@ public class Photo {
     @Override
     public String toString() {
         return "Photo{" +
-            "id=" + id +
+            "photoId=" + photoId +
             ", photoUrl='" + photoUrl + '\'' +
             ", movieId=" + movieId +
             ", actorId=" + actorId +

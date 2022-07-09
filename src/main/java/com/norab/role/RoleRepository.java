@@ -69,36 +69,36 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int deleteRole(Long id) {
+    public int deleteRole(Long roleId) {
         var sql = """
             DELETE FROM plays
             WHERE role_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, roleId);
         if (delete == 1) {
-            log.info(String.format("Role with id: %d is deleted.", id));
+            log.info(String.format("Role with id: %d is deleted.", roleId));
         }
         return delete;
     }
 
     @Override
-    public Optional<Plays> selectRoleById(Long id) {
+    public Optional<Plays> selectRoleById(Long roleId) {
         var sql = """
             SELECT role_id, role_name, movie_id, actor_id
             FROM plays
             WHERE role_id = ?;
             """;
-        Optional<Plays> selected = jdbcTemplate.query(sql, new RoleRowMapper(), id)
+        Optional<Plays> selected = jdbcTemplate.query(sql, new RoleRowMapper(), roleId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Role with id: %d is selected.", id));
+            log.info(String.format("Role with id: %d is selected.", roleId));
         }
         return selected;
     }
 
     @Override
-    public int updateRole(Long id, Plays plays) throws InvalidInputException {
+    public int updateRole(Long roleId, Plays plays) throws InvalidInputException {
         var sql = """
             UPDATE plays
             SET role_name = ?, movie_id = ?, actor_id = ?
@@ -110,9 +110,9 @@ public class RoleRepository implements RoleDao<Plays> {
                 plays.getRoleName(),
                 plays.getMovieId(),
                 plays.getActorId(),
-                id);
+                roleId);
             if (update == 1) {
-                log.info(String.format("Role with id: %d is updated.", id));
+                log.info(String.format("Role with id: %d is updated.", roleId));
             }
             return update;
         } catch (DataAccessException e) {

@@ -13,7 +13,7 @@ public class ActorRowMapper implements RowMapper<Actor> {
         Actor actor = new Actor();
         String death_date = resultSet.getString("death_date");
 
-        actor.setId(resultSet.getLong("actor_id"));
+        actor.setActorId(resultSet.getLong("actor_id"));
         actor.setFullName(resultSet.getString("full_name"));
         actor.setBirthDate(LocalDate.parse(resultSet.getString("birth_date")));
         actor.setDeathDate(death_date == null

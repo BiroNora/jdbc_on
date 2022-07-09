@@ -74,36 +74,36 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public int deleteMovie(Long id) {
+    public int deleteMovie(Long movieId) {
         var sql = """
             DELETE FROM movies
             WHERE movie_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, movieId);
         if (delete == 1) {
-            log.info(String.format("Movie with id: %d is deleted.", id));
+            log.info(String.format("Movie with id: %d is deleted.", movieId));
         }
         return delete;
     }
 
     @Override
-    public Optional<Movie> selectMovieById(Long id) {
+    public Optional<Movie> selectMovieById(Long movieId) {
         var sql = """
             SELECT movie_id, title, title_original, release_date, movie_film
             FROM movies
             WHERE movie_id = ?;
             """;
-        Optional<Movie> selected = jdbcTemplate.query(sql, new MovieRowMapper(), id)
+        Optional<Movie> selected = jdbcTemplate.query(sql, new MovieRowMapper(), movieId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Movie with id: %d is selected.", id));
+            log.info(String.format("Movie with id: %d is selected.", movieId));
         }
         return selected;
     }
 
     @Override
-    public int updateMovie(Long id, Movie movie) {
+    public int updateMovie(Long movieId, Movie movie) {
         var sql = """
             UPDATE movies
             SET title = ?, title_original = ?, release_date = ?, movie_film = ?
@@ -115,10 +115,10 @@ public class MovieRepository implements MovieDao<Movie> {
             movie.getTitleOriginal(),
             movie.getReleaseDate(),
             movie.isMovieFilm(),
-            movie.getId()
+            movie.getMovieId()
         );
         if (update == 1) {
-            log.info(String.format("Movie with id: %d is updated.", id));
+            log.info(String.format("Movie with id: %d is updated.", movieId));
         }
         return update;
     }

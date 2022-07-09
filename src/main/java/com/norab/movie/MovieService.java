@@ -30,33 +30,33 @@ public class MovieService {
         return movieDao.insertMovie(movie);
     }
 
-    public void deleteMovie(Long id) {
-        Optional<Movie> movie1 = movieDao.selectMovieById(id);
+    public void deleteMovie(Long movieId) {
+        Optional<Movie> movie1 = movieDao.selectMovieById(movieId);
         movie1.ifPresentOrElse(movie -> {
-            int result = movieDao.deleteMovie(id);
+            int result = movieDao.deleteMovie(movieId);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete movie");
             }
         }, () -> {
-            throw new NotFoundException(String.format("Movie with id %s not found", id));
+            throw new NotFoundException(String.format("Movie with id %s not found", movieId));
         });
     }
 
-    public Movie getMovie(Long id) {
+    public Movie getMovie(Long movieId) {
         try {
-            return (Movie) movieDao.selectMovieById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", id)));
+            return (Movie) movieDao.selectMovieById(movieId)
+                .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", movieId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateMovie(Long id, Movie movie) {
-        if (movieDao.selectMovieById(id).isPresent()) {
-            Movie movie1 = new Movie(id, movie.getTitle(), movie.getTitleOriginal(), movie.releaseDate, movie.isMovieFilm());
-            movieDao.updateMovie(id, movie1);
+    public void updateMovie(Long movieId, Movie movie) {
+        if (movieDao.selectMovieById(movieId).isPresent()) {
+            Movie movie1 = new Movie(movieId, movie.getTitle(), movie.getTitleOriginal(), movie.releaseDate, movie.isMovieFilm());
+            movieDao.updateMovie(movieId, movie1);
         } else {
-            throw new NotFoundException(String.format("Movie with id %s not found", id));
+            throw new NotFoundException(String.format("Movie with id %s not found", movieId));
         }
     }
 

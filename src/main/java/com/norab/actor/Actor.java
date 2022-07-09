@@ -9,7 +9,7 @@ import java.time.Period;
 
 public class Actor {
     @Id
-    private Long id;
+    private Long actorId;
     private String fullName;
     private LocalDate birthDate;
     private LocalDate deathDate;
@@ -30,19 +30,19 @@ public class Actor {
         this.deathDate = deathDate;
     }
 
-    public Actor(Long id, String fullName, LocalDate birthDate, LocalDate deathDate) {
-        this.id = id;
+    public Actor(Long actorId, String fullName, LocalDate birthDate, LocalDate deathDate) {
+        this.actorId = actorId;
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
     }
 
-    public Long getId() {
-        return id;
+    public Long getActorId() {
+        return actorId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setActorId(Long actorId) {
+        this.actorId = actorId;
     }
 
     public String getFullName() {
@@ -79,7 +79,7 @@ public class Actor {
     @Override
     public String toString() {
         return "Actor{" +
-            "id=" + id +
+            "actorId=" + actorId +
             ", fullName='" + fullName + '\'' +
             ", birthDate=" + birthDate +
             ", deathDate=" + deathDate +

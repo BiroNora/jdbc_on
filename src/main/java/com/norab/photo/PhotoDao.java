@@ -8,9 +8,9 @@ public interface PhotoDao<Photo> {
 
     long insertPhoto(Photo photo);
 
-    boolean deletePhoto(Long id);
+    boolean deletePhoto(Long photoId);
 
-    Optional<Photo> selectPhotoById(Long id);
+    Optional<Photo> selectPhotoById(Long photoId);
 
-    boolean updatePhoto(Long id, Photo photo);
+    boolean updatePhoto(Long photoId, Photo photo);
 }

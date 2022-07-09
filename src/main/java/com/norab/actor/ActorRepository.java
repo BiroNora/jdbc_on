@@ -65,44 +65,44 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public int deleteActor(Long id) {
+    public int deleteActor(Long actorId) {
         var sql = """
             DELETE FROM actors
             WHERE actor_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, actorId);
         if (delete == 1) {
-            log.info(String.format("Actor with id: %d is deleted.", id));
+            log.info(String.format("Actor with id: %d is deleted.", actorId));
         }
         return delete;
     }
 
     @Override
-    public Optional<Actor> selectActorById(Long id) {
+    public Optional<Actor> selectActorById(Long actorId) {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date
             FROM actors
             WHERE actor_id = ?;
             """;
-        Optional<Actor> selected = jdbcTemplate.query(sql, new ActorRowMapper(), id)
+        Optional<Actor> selected = jdbcTemplate.query(sql, new ActorRowMapper(), actorId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Actor with id: %d is selected.", id));
+            log.info(String.format("Actor with id: %d is selected.", actorId));
         }
         return selected;
     }
 
     @Override
-    public int updateActor(Long id, Actor actor) {
+    public int updateActor(Long actorId, Actor actor) {
         var sql = """
             UPDATE actors
             SET full_name = ?, birth_date = ?, death_date = ?
             WHERE actor_id = ?;
             """;
-        int update = jdbcTemplate.update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate(), actor.getId());
+        int update = jdbcTemplate.update(sql, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate(), actor.getActorId());
         if (update == 1) {
-            log.info(String.format("Actor with id: %d is updated.", id));
+            log.info(String.format("Actor with id: %d is updated.", actorId));
         }
         return update;
     }

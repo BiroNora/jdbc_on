@@ -38,7 +38,7 @@ class RoleRepositoryTest {
     void selectRoles() {
         List<Plays> roles = repository.selectRoles();
         for (Plays p : roles) {
-            System.out.print(p.getId() + ". ");
+            System.out.print(p.getRoleId() + ". ");
             System.out.println(p.getRoleName());
         }
         assertEquals(roles.size(), 3);
@@ -87,7 +87,7 @@ class RoleRepositoryTest {
 
         assertNotNull(expected);
         for (Plays p : expected) {
-            System.out.println(p.getId());
+            System.out.println(p.getRoleId());
             System.out.println(p.getRoleName());
         }
         assertTrue(expected.size() != 0);

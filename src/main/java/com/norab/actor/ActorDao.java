@@ -11,9 +11,9 @@ public interface ActorDao<Actor> {
 
     long insertActor(Actor actor) throws IllegalStateException;
 
-    int deleteActor(Long id);
+    int deleteActor(Long actorId);
 
-    Optional<Actor> selectActorById(Long id);
+    Optional<Actor> selectActorById(Long actorId);
 
-    int updateActor(Long id, Actor actor);
+    int updateActor(Long actorId, Actor actor);
 }

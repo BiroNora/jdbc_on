@@ -80,36 +80,36 @@ public class PhotoRepository implements PhotoDao<Photo> {
 
 
     @Override
-    public boolean deletePhoto(Long id) {
+    public boolean deletePhoto(Long photoId) {
         var sql = """
             DELETE FROM photos
             WHERE photo_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, id);
+        int delete = jdbcTemplate.update(sql, photoId);
         if (delete == 1) {
-            log.info(String.format("Photo with id: %d is deleted.", id));
+            log.info(String.format("Photo with id: %d is deleted.", photoId));
         }
         return delete == 1;
     }
 
     @Override
-    public Optional<Photo> selectPhotoById(Long id) {
+    public Optional<Photo> selectPhotoById(Long photoId) {
         var sql = """
             SELECT photo_id, url, movie_id, actor_id, role_id
             FROM photos
             WHERE photo_id = ?;
             """;
-        Optional<Photo> selected = jdbcTemplate.query(sql, new PhotoRowMapper(), id)
+        Optional<Photo> selected = jdbcTemplate.query(sql, new PhotoRowMapper(), photoId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Photo with id: %d is selected.", id));
+            log.info(String.format("Photo with id: %d is selected.", photoId));
         }
         return selected;
     }
 
     @Override
-    public boolean updatePhoto(Long id, Photo photo) throws InvalidInputException {
+    public boolean updatePhoto(Long photoId, Photo photo) throws InvalidInputException {
         var sql = """
             UPDATE photos
             SET url = ?, movie_id = ?, actor_id = ?, role_id = ?
@@ -122,9 +122,9 @@ public class PhotoRepository implements PhotoDao<Photo> {
                 photo.getMovieId(),
                 photo.getActorId(),
                 photo.getRoleId(),
-                id);
+                photoId);
             if (update == 1) {
-                log.info(String.format("Photo with id: %d is updated.", id));
+                log.info(String.format("Photo with id: %d is updated.", photoId));
             }
             return update == 1;
         } catch (DataAccessException e) {

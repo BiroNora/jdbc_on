@@ -8,9 +8,9 @@ public interface RoleDao<Plays> {
 
     long insertRole(Plays plays);
 
-    int deleteRole(Long id);
+    int deleteRole(Long photoId);
 
-    Optional<Plays> selectRoleById(Long id);
+    Optional<Plays> selectRoleById(Long photoId);
 
-    int updateRole(Long id, Plays plays);
+    int updateRole(Long photoId, Plays plays);
 }

@@ -38,7 +38,7 @@ class PhotoRepositoryTest {
     void selectPhotos() {
         List<Photo> photos = repository.selectPhotos();
         for (Photo p : photos) {
-            System.out.print(p.getId() + ". ");
+            System.out.print(p.getPhotoId() + ". ");
             System.out.println(p.getPhotoUrl());
         }
         assertEquals(photos.size(), 3);
@@ -55,7 +55,7 @@ class PhotoRepositoryTest {
         assertTrue(photo1.isPresent());
         assertEquals(photo1.get().getMovieId(), 1);
         assertEquals(photo1.get().getPhotoUrl(), "https://ZZZzzzzz");
-        assertEquals(photo1.get().getId(), 4);
+        assertEquals(photo1.get().getPhotoId(), 4);
     }
 
     @Test

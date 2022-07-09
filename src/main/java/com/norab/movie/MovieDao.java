@@ -8,9 +8,9 @@ public interface MovieDao<Movie> {
 
     long insertMovie(Movie movie) throws IllegalStateException;
 
-    int deleteMovie(Long id);
+    int deleteMovie(Long movieId);
 
-    Optional<Movie> selectMovieById(Long id);
+    Optional<Movie> selectMovieById(Long movieId);
 
-    int updateMovie(Long id, Movie movie);
+    int updateMovie(Long movieId, Movie movie);
 }

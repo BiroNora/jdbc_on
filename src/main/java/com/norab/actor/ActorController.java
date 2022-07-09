@@ -20,8 +20,8 @@ public class ActorController {
     }
 
     @GetMapping("{id}")
-    public Actor getActorId(@PathVariable("id") Long id) {
-        return actorService.getActor(id);
+    public Actor getActorId(@PathVariable("id") Long actorId) {
+        return actorService.getActor(actorId);
     }
 
     @PostMapping
@@ -30,12 +30,12 @@ public class ActorController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteActor(@PathVariable("id") Long id) {
-        actorService.deleteActor(id);
+    public void deleteActor(@PathVariable("id") Long actorId) {
+        actorService.deleteActor(actorId);
     }
 
     @PutMapping("{id}")
-    public void updateActor(@PathVariable("id") Long id, @RequestBody(required = false) Actor actor) {
-        actorService.updateActor(id, actor);
+    public void updateActor(@PathVariable("id") Long actorId, @RequestBody(required = false) Actor actor) {
+        actorService.updateActor(actorId, actor);
     }
 }

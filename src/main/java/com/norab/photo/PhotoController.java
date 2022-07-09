@@ -19,8 +19,8 @@ public class PhotoController {
     }
 
     @GetMapping("{id}")
-    public Photo getPhotoUrl(@PathVariable("id") Long id) {
-        return photoService.getPhoto(id);
+    public Photo getPhotoUrl(@PathVariable("id") Long photoId) {
+        return photoService.getPhoto(photoId);
     }
 
     @PostMapping
@@ -29,13 +29,13 @@ public class PhotoController {
     }
 
     @DeleteMapping("{id}")
-    public void deletePhoto(@PathVariable("id") Long id) {
-        photoService.deletePhoto(id);
+    public void deletePhoto(@PathVariable("id") Long photoId) {
+        photoService.deletePhoto(photoId);
     }
 
     @PutMapping("{id}")
     public void updatePhoto(
-        @PathVariable("id") Long id, @RequestBody Photo photo) {
-        photoService.updatePhoto(id, photo);
+        @PathVariable("id") Long photoId, @RequestBody Photo photo) {
+        photoService.updatePhoto(photoId, photo);
     }
 }

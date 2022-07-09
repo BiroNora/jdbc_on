@@ -28,7 +28,7 @@ class ActorRepositoryTest {
     void selectActors() {
         List<Actor> actors = repository.selectActors();
         for (Actor a : actors) {
-            System.out.print(a.getId() + " ");
+            System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());
         }
         assertEquals(actors.size(), 3);
@@ -47,12 +47,12 @@ class ActorRepositoryTest {
         long idLiv = repository.insertActor(actorLiv);
         var actorLiv1 = repository.selectActorById(idLiv);
         assertTrue(actorLiv1.isPresent());
-        assertEquals(actorLiv1.get().getId(), 4);
+        assertEquals(actorLiv1.get().getActorId(), 4);
 
         long idDec = repository.insertActor(actorDec);
         var actorDec1 = repository.selectActorById(idDec);
         assertTrue(actorDec1.isPresent());
-        assertEquals(actorDec1.get().getId(), 5);
+        assertEquals(actorDec1.get().getActorId(), 5);
 
     }
 

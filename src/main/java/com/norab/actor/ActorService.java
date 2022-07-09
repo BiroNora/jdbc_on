@@ -31,33 +31,33 @@ public class ActorService {
         return actorDao.insertActor(actor);
     }
 
-    public void deleteActor(Long id) {
-        Optional<Actor> actor1 = actorDao.selectActorById(id);
+    public void deleteActor(Long actorId) {
+        Optional<Actor> actor1 = actorDao.selectActorById(actorId);
         actor1.ifPresentOrElse(actor -> {
-            int result = actorDao.deleteActor(id);
+            int result = actorDao.deleteActor(actorId);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete actor");
             }
         }, () -> {
-            throw new NotFoundException(String.format("Actor with id %s not found", id));
+            throw new NotFoundException(String.format("Actor with id %s not found", actorId));
         });
     }
 
-    public Actor getActor(Long id) {
+    public Actor getActor(Long actorId) {
         try {
-            return (Actor) actorDao.selectActorById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Actor with id %s not found", id)));
+            return (Actor) actorDao.selectActorById(actorId).orElseThrow(
+                () -> new NotFoundException(String.format("Actor with id %s not found", actorId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateActor(Long id, Actor actor) {
-        if (actorDao.selectActorById(id).isPresent()) {
-            Actor actor1 = new Actor(id, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
-            actorDao.updateActor(id, actor1);
+    public void updateActor(Long actorId, Actor actor) {
+        if (actorDao.selectActorById(actorId).isPresent()) {
+            Actor actor1 = new Actor(actorId, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
+            actorDao.updateActor(actorId, actor1);
         } else {
-            throw new NotFoundException(String.format("Actor with id %s not found", id));
+            throw new NotFoundException(String.format("Actor with id %s not found", actorId));
         }
     }
 }
