@@ -5,6 +5,15 @@ USING(movie_id)
 WHERE title LIKE '%Asterix%'
 ;
 
+select distinct role_name from movies
+join (
+    select movie_id, role_name from plays
+    where role_name like '%druid%'
+) using(movie_id)
+where title like 'Asterix%'
+order by role_name
+;
+
 SELECT title, release_date FROM movies
 WHERE title LIKE '%Asterix%'
 ;
@@ -120,9 +129,40 @@ USING(movie_id)
 WHERE movie_id > 35600 AND movie_id <= 35650
 GROUP BY genre;
 
---allPlaysByFilm(Long id)
+--allPlaysByFilm(Long actorId)
 SELECT full_name, role_name, title, title_original FROM plays
 JOIN (SELECT full_name, actor_id FROM actors) USING(actor_id)
 JOIN (SELECT title, title_original, movie_id FROM movies) USING(movie_id)
 WHERE movie_id = 356
+;
+
+SELECT full_name, role_name, title, title_original FROM plays
+JOIN (SELECT full_name, actor_id FROM actors) USING(actor_id)
+JOIN (SELECT title, title_original, movie_id FROM movies) USING(movie_id)
+WHERE title LIKE '%Ove%'
+ORDER BY title
+;
+
+SELECT count(*) AS count, title, title_original FROM plays
+JOIN (SELECT title, title_original, movie_id FROM movies) USING(movie_id)
+GROUP BY movie_id
+ORDER BY count DESC
+;
+
+SELECT count(*) FROM movies;
+
+--how many roles per movie
+SELECT count, title, title_original FROM movies
+JOIN
+(SELECT count(*) AS count, movie_id
+FROM plays
+GROUP BY movie_id)
+USING(movie_id)
+ORDER BY count DESC
+;
+
+select title, genres from movies
+join (select group_concat(genre) as genres, movie_id from genre group by movie_id) using(movie_id)
+where title like '%ove%'
+order by title
 ;
