@@ -34,7 +34,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public long insertPhoto(Photo photo) {
+    public int insertPhoto(Photo photo) {
         if (photo.getPhotoUrl() == null ||
             photo.getPhotoUrl().strip().equals("")) {
             throw new InvalidInputException("Empty photoUrl");
@@ -53,17 +53,17 @@ public class PhotoRepository implements PhotoDao<Photo> {
                 PreparedStatement ps = connection.prepareStatement(sql, new String[]{"photo_id"});
                 ps.setString(1, photo.getPhotoUrl());
                 if (photo.getMovieId() != null) {
-                    ps.setLong(2, photo.getMovieId());
+                    ps.setInt(2, photo.getMovieId());
                 } else {
                     ps.setNull(2, Types.BIGINT);
                 }
                 if (photo.getActorId() != null) {
-                    ps.setLong(3, photo.getActorId());
+                    ps.setInt(3, photo.getActorId());
                 } else {
                     ps.setNull(3, Types.BIGINT);
                 }
                 if (photo.getRoleId() != null) {
-                    ps.setLong(4, photo.getRoleId());
+                    ps.setInt(4, photo.getRoleId());
                 } else {
                     ps.setNull(4, Types.BIGINT);
                 }
@@ -75,12 +75,12 @@ public class PhotoRepository implements PhotoDao<Photo> {
             log.error(e.getMessage());
             throw new InvalidInputException("Illegal id");
         }
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKeyAs(Integer.class);
     }
 
 
     @Override
-    public boolean deletePhoto(Long photoId) {
+    public boolean deletePhoto(Integer photoId) {
         var sql = """
             DELETE FROM photos
             WHERE photo_id = ?;
@@ -93,7 +93,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public Optional<Photo> selectPhotoById(Long photoId) {
+    public Optional<Photo> selectPhotoById(Integer photoId) {
         var sql = """
             SELECT photo_id, url, movie_id, actor_id, role_id
             FROM photos
@@ -109,7 +109,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public boolean updatePhoto(Long photoId, Photo photo) throws InvalidInputException {
+    public boolean updatePhoto(Integer photoId, Photo photo) throws InvalidInputException {
         var sql = """
             UPDATE photos
             SET url = ?, movie_id = ?, actor_id = ?, role_id = ?

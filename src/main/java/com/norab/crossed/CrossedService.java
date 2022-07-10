@@ -1,6 +1,6 @@
 package com.norab.crossed;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.movie.Movie;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class CrossedService {
         this.crossedDao = crossedDao;
     }
 
-    public List<CrossedDao.MoviesByActor> allMoviesByActor(Long id) {
+    public List<CrossedDao.MoviesByActor> allMoviesByActor(Integer id) {
         return crossedDao.allMoviesByActor(id);
     }
 
@@ -26,7 +26,7 @@ public class CrossedService {
         return crossedDao.searchByMovieTitle(title, location);
     }
 
-    public List<Actor> selectActorByBirthDate(String date) {
+    public List<Person> selectActorByBirthDate(String date) {
         return crossedDao.searchByActorBirthDate(date);
     }
 

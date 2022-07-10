@@ -12,7 +12,7 @@ public class MovieRowMapper implements RowMapper<Movie> {
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         try {
             return new Movie(
-                resultSet.getLong("movie_id"),
+                resultSet.getInt("movie_id"),
                 resultSet.getString("title"),
                 resultSet.getString("title_original"),
                 LocalDate.parse(resultSet.getString("release_date")),

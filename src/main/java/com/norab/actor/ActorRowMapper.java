@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class ActorRowMapper implements RowMapper<Actor> {
+public class ActorRowMapper implements RowMapper<Person> {
 
     @Override
-    public Actor mapRow(ResultSet resultSet, int i) throws SQLException {
-        Actor actor = new Actor();
+    public Person mapRow(ResultSet resultSet, int i) throws SQLException {
+        Person actor = new Person();
         String death_date = resultSet.getString("death_date");
 
-        actor.setActorId(resultSet.getLong("actor_id"));
+        actor.setActorId(resultSet.getInt("actor_id"));
         actor.setFullName(resultSet.getString("full_name"));
         actor.setBirthDate(LocalDate.parse(resultSet.getString("birth_date")));
         actor.setDeathDate(death_date == null

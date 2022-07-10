@@ -19,7 +19,7 @@ public class RoleService {
         return roleDao.selectRoles();
     }
 
-    public long insertRole(Plays plays) {
+    public int insertRole(Plays plays) {
         String role = plays.getRoleName();
         List<Plays> playsList = roleDao.selectRoles();
         List<Plays> collect = playsList.stream()
@@ -30,7 +30,7 @@ public class RoleService {
         return roleDao.insertRole(plays);
     }
 
-    public void deleteRole(Long roleId) {
+    public void deleteRole(Integer roleId) {
         Optional<Plays> role1 = roleDao.selectRoleById(roleId);
         role1.ifPresentOrElse(role -> {
             int result = roleDao.deleteRole(roleId);
@@ -42,7 +42,7 @@ public class RoleService {
         });
     }
 
-    public Plays getRole(Long roleId) {
+    public Plays getRole(Integer roleId) {
         try {
             return (Plays) roleDao.selectRoleById(roleId)
                 .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", roleId)));
@@ -51,7 +51,7 @@ public class RoleService {
         }
     }
 
-    public void updateRole(Long roleId, Plays plays) {
+    public void updateRole(Integer roleId, Plays plays) {
         if (roleDao.selectRoleById(roleId).isPresent()) {
             Plays plays1 = new Plays(roleId, plays.getRoleName(), plays.getMovieId(), plays.getActorId());
             roleDao.updateRole(roleId, plays1);

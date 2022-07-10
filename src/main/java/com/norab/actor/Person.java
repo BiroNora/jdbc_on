@@ -7,41 +7,41 @@ import org.springframework.data.annotation.Transient;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Actor {
+public class Person {
     @Id
-    private Long actorId;
+    private Integer actorId;
     private String fullName;
     private LocalDate birthDate;
     private LocalDate deathDate;
     @Transient
     private Integer age;
 
-    public Actor() {
+    public Person() {
     }
 
-    public Actor(String fullName, LocalDate birthDate) {
+    public Person(String fullName, LocalDate birthDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
     }
 
-    public Actor(String fullName, LocalDate birthDate, LocalDate deathDate) {
+    public Person(String fullName, LocalDate birthDate, LocalDate deathDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
     }
 
-    public Actor(Long actorId, String fullName, LocalDate birthDate, LocalDate deathDate) {
+    public Person(Integer actorId, String fullName, LocalDate birthDate, LocalDate deathDate) {
         this.actorId = actorId;
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
     }
 
-    public Long getActorId() {
+    public Integer getActorId() {
         return actorId;
     }
 
-    public void setActorId(Long actorId) {
+    public void setActorId(Integer actorId) {
         this.actorId = actorId;
     }
 
@@ -70,20 +70,21 @@ public class Actor {
     }
 
     public Integer getAge() {
-        if (this.deathDate == null) {
-            return Period.between(birthDate, LocalDate.now()).getYears();
-        }
-        return Period.between(birthDate, deathDate).getYears();
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     @Override
     public String toString() {
-        return "Actor{" +
+        return "Person{" +
             "actorId=" + actorId +
             ", fullName='" + fullName + '\'' +
             ", birthDate=" + birthDate +
             ", deathDate=" + deathDate +
-            ", age=" + getAge() +
+            ", age=" + age +
             '}';
     }
 }

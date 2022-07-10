@@ -4,32 +4,32 @@ import org.springframework.data.annotation.Id;
 
 public class Plays {
     @Id
-    private long roleId;
+    private int roleId;
     private String roleName;
-    private Long movieId;
-    private Long actorId;
+    private Integer movieId;
+    private Integer actorId;
 
     public Plays() {
     }
 
-    public Plays(String roleName, Long movieId, Long actorId) {
+    public Plays(String roleName, Integer movieId, Integer actorId) {
         this.roleName = roleName;
         this.movieId = movieId;
         this.actorId = actorId;
     }
 
-    public Plays(long roleId, String roleName, Long movieId, Long actorId) {
+    public Plays(int roleId, String roleName, Integer movieId, Integer actorId) {
         this.roleId = roleId;
         this.roleName = roleName;
         this.movieId = movieId;
         this.actorId = actorId;
     }
 
-    public long getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(long roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 
@@ -41,19 +41,19 @@ public class Plays {
         this.roleName = roleName;
     }
 
-    public Long getMovieId() {
+    public Integer getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Long movieId) {
+    public void setMovieId(Integer movieId) {
         this.movieId = movieId;
     }
 
-    public Long getActorId() {
+    public Integer getActorId() {
         return actorId;
     }
 
-    public void setActorId(Long actorId) {
+    public void setActorId(Integer actorId) {
         this.actorId = actorId;
     }
 

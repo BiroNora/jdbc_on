@@ -19,7 +19,7 @@ public class MovieService {
         return movieDao.selectMovies();
     }
 
-    public long insertMovie(Movie movie) {
+    public int insertMovie(Movie movie) {
         String movieTitle = movie.getTitle();
         List<Movie> movies = movieDao.selectMovies();
         List<Movie> collect = movies.stream()
@@ -30,7 +30,7 @@ public class MovieService {
         return movieDao.insertMovie(movie);
     }
 
-    public void deleteMovie(Long movieId) {
+    public void deleteMovie(Integer movieId) {
         Optional<Movie> movie1 = movieDao.selectMovieById(movieId);
         movie1.ifPresentOrElse(movie -> {
             int result = movieDao.deleteMovie(movieId);
@@ -42,7 +42,7 @@ public class MovieService {
         });
     }
 
-    public Movie getMovie(Long movieId) {
+    public Movie getMovie(Integer movieId) {
         try {
             return (Movie) movieDao.selectMovieById(movieId)
                 .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", movieId)));
@@ -51,7 +51,7 @@ public class MovieService {
         }
     }
 
-    public void updateMovie(Long movieId, Movie movie) {
+    public void updateMovie(Integer movieId, Movie movie) {
         if (movieDao.selectMovieById(movieId).isPresent()) {
             Movie movie1 = new Movie(movieId, movie.getTitle(), movie.getTitleOriginal(), movie.releaseDate, movie.isMovieFilm());
             movieDao.updateMovie(movieId, movie1);

@@ -15,15 +15,15 @@ public class ActorService {
         this.actorDao = actorDao;
     }
 
-    public List<Actor> getActors() {
-        List<Actor> actors = actorDao.selectActors();
+    public List<Person> getActors() {
+        List<Person> actors = actorDao.selectActors();
         return actors;
     }
 
-    public long insertActor(Actor actor) {
+    public int insertActor(Person actor) {
         String actorName = actor.getFullName();
-        List<Actor> actors = actorDao.selectActors();
-        List<Actor> collect = actors.stream()
+        List<Person> actors = actorDao.selectActors();
+        List<Person> collect = actors.stream()
             .filter(x -> x.getFullName().equals(actorName)).toList();
         if (collect.size() != 0) {
             throw new AlreadyExistsException("This artist already exists");
@@ -31,8 +31,8 @@ public class ActorService {
         return actorDao.insertActor(actor);
     }
 
-    public void deleteActor(Long actorId) {
-        Optional<Actor> actor1 = actorDao.selectActorById(actorId);
+    public void deleteActor(Integer actorId) {
+        Optional<Person> actor1 = actorDao.selectActorById(actorId);
         actor1.ifPresentOrElse(actor -> {
             int result = actorDao.deleteActor(actorId);
             if (result != 1) {
@@ -43,18 +43,18 @@ public class ActorService {
         });
     }
 
-    public Actor getActor(Long actorId) {
+    public Person getActor(Integer actorId) {
         try {
-            return (Actor) actorDao.selectActorById(actorId).orElseThrow(
+            return (Person) actorDao.selectActorById(actorId).orElseThrow(
                 () -> new NotFoundException(String.format("Actor with id %s not found", actorId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateActor(Long actorId, Actor actor) {
+    public void updateActor(Integer actorId, Person actor) {
         if (actorDao.selectActorById(actorId).isPresent()) {
-            Actor actor1 = new Actor(actorId, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
+            Person actor1 = new Person(actorId, actor.getFullName(), actor.getBirthDate(), actor.getDeathDate());
             actorDao.updateActor(actorId, actor1);
         } else {
             throw new NotFoundException(String.format("Actor with id %s not found", actorId));

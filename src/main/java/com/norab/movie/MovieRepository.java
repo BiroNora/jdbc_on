@@ -34,7 +34,7 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     /*@Override
-    public long insertMovie(Movie movie) {
+    public int insertMovie(Movie movie) {
         var sql = """
             INSERT INTO movies(title, title_original, release_date) VALUES (?, ?, ?);
             """;
@@ -46,7 +46,7 @@ public class MovieRepository implements MovieDao<Movie> {
     }*/
 
     @Override
-    public long insertMovie(Movie movie) {
+    public int insertMovie(Movie movie) {
         var sql = """
             INSERT INTO movies(title, title_original, release_date, movie_film) VALUES (?, ?, ?, ?);
             """;
@@ -70,11 +70,11 @@ public class MovieRepository implements MovieDao<Movie> {
         }
         log.info("New movie inserted: " + movie);
 
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKeyAs(Integer.class);
     }
 
     @Override
-    public int deleteMovie(Long movieId) {
+    public int deleteMovie(Integer movieId) {
         var sql = """
             DELETE FROM movies
             WHERE movie_id = ?;
@@ -87,7 +87,7 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public Optional<Movie> selectMovieById(Long movieId) {
+    public Optional<Movie> selectMovieById(Integer movieId) {
         var sql = """
             SELECT movie_id, title, title_original, release_date, movie_film
             FROM movies
@@ -103,7 +103,7 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public int updateMovie(Long movieId, Movie movie) {
+    public int updateMovie(Integer movieId, Movie movie) {
         var sql = """
             UPDATE movies
             SET title = ?, title_original = ?, release_date = ?, movie_film = ?
@@ -124,4 +124,3 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
 }
-

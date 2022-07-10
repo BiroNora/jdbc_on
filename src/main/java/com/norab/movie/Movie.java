@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Movie{
     @Id
-    private Long movieId;
+    private Integer movieId;
     private String title;
     private String titleOriginal;
     LocalDate releaseDate;
@@ -22,7 +22,7 @@ public class Movie{
         this.isMovieFilm = isMovieFilm;
     }
 
-    public Movie(Long movieId, String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
+    public Movie(Integer movieId, String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
         this.movieId = movieId;
         this.title = title;
         this.titleOriginal = titleOriginal;
@@ -30,11 +30,11 @@ public class Movie{
         this.isMovieFilm = isMovieFilm;
     }
 
-    public Long getMovieId() {
+    public Integer getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Long movieId) {
+    public void setMovieId(Integer movieId) {
         this.movieId = movieId;
     }
 
@@ -81,5 +81,3 @@ public class Movie{
             '}';
     }
 }
-
-

@@ -69,7 +69,7 @@ public class MovieIntegrationTest {
         String data1 = """
             {            
             "title": "Minden végzet nehéz",
-            "titleOriginal": "Something's Gotta Give",
+            "titleOriginal": "Something''s Gotta Give",
             "releaseDate": "2003-12-12",
             "isMovieFilm": 0
             }

@@ -1,6 +1,6 @@
 package com.norab.role;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
@@ -48,10 +48,10 @@ class RoleRepositoryTest {
     @Test
     @Order(2)
     void insertRole() {
-        Plays plays = new Plays("Sheryl Hoover", 2L, null);
+        Plays plays = new Plays("Sheryl Hoover", 2, null);
 
-        long id = repository.insertRole(plays);
-        Optional<Plays> role1 = repository.selectRoleById(id);
+        int roleId = repository.insertRole(plays);
+        Optional<Plays> role1 = repository.selectRoleById(roleId);
         assertTrue(role1.isPresent());
         assertEquals(role1.get().getRoleName(), "Sheryl Hoover");
         assertEquals(role1.get().getMovieId(), 2);
@@ -61,12 +61,12 @@ class RoleRepositoryTest {
     @Test
     @Order(3)
     void deleteRole() {
-        Long id = 2L;
-        int result = repository.deleteRole(id);
+        Integer roleId = 2;
+        int result = repository.deleteRole(roleId);
         assertEquals(1, result);
 
-        Long id1 = 772L;
-        int result1 = repository.deleteRole(id1);
+        Integer roleId1 = 772;
+        int result1 = repository.deleteRole(roleId1);
         assertEquals(0, result1);
 
     }
@@ -74,10 +74,10 @@ class RoleRepositoryTest {
     @Test
     @Order(3)
     void selectRoleByValidId() {
-        Plays plays = new Plays("Olive Hoover", 2L, null);
+        Plays plays = new Plays("Olive Hoover", 2, null);
         try {
-            long id = repository.insertRole(plays);
-            var plays1 = repository.selectRoleById(id);
+            int roleId = repository.insertRole(plays);
+            var plays1 = repository.selectRoleById(roleId);
             assertTrue(plays1.isPresent());
         } catch (IllegalStateException e) {
             fail(e.getMessage());
@@ -96,28 +96,28 @@ class RoleRepositoryTest {
     @Test
     @Order(4)
     void selectRoleByValidId1() {
-        Long id = 3L;
-        Optional<Plays> selected = repository.selectRoleById(id);
+        Integer roleId = 3;
+        Optional<Plays> selected = repository.selectRoleById(roleId);
         assertEquals(selected.orElseThrow().getRoleName(), "Jimmy McGinty");
     }
 
     @Test
     @Order(5)
     void selectRoleByInvalidId() {
-        var plays = repository.selectRoleById(1024L);
+        var plays = repository.selectRoleById(1024);
         assertTrue(plays.isEmpty());
     }
 
     @Test
     @Order(6)
     void updateRole() {
-        Plays role = repository.selectRoleById(3L).orElseThrow();
+        Plays role = repository.selectRoleById(3).orElseThrow();
         System.out.println(role);
         role.setRoleName("Jimi Hendrix");
-        role.setMovieId(2L);
-        role.setActorId(3L);
+        role.setMovieId(2);
+        role.setActorId(3);
         System.out.println(role);
-        int result = repository.updateRole(3L, role);
+        int result = repository.updateRole(3, role);
         assertEquals(1, result);
         assertNotEquals(role.getRoleName(), "Jimmy McGinty");
     }
@@ -125,28 +125,28 @@ class RoleRepositoryTest {
     @Test
     @Order(7)
     void updateRoleByInvalidIds() {
-        Plays role = repository.selectRoleById(3L).orElseThrow();
+        Plays role = repository.selectRoleById(3).orElseThrow();
         System.out.println(role);
-        role.setMovieId(202L);
-        role.setActorId(3L);
-        assertEquals(role.getActorId(), 3L);
+        role.setMovieId(202);
+        role.setActorId(3);
+        assertEquals(role.getActorId(), 3);
 
         System.out.println(role);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updateRole(3L, role);
+            repository.updateRole(3, role);
         });
 
-        Plays role1 = repository.selectRoleById(3L).orElseThrow();
+        Plays role1 = repository.selectRoleById(3).orElseThrow();
         System.out.println(role1);
-        role1.setMovieId(1L);
-        role1.setActorId(333L);
+        role1.setMovieId(1);
+        role1.setActorId(333);
         System.out.println(role1);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updateRole(3L, role1);
+            repository.updateRole(3, role1);
         });
 
-        Plays role3 = new Plays("Paul Vitti", 2L, null);
-        int result = repository.updateRole(255587L, role3);
+        Plays role3 = new Plays("Paul Vitti", 2, null);
+        int result = repository.updateRole(255587, role3);
         assertEquals(0, result);
     }
 
@@ -154,10 +154,10 @@ class RoleRepositoryTest {
     @Order(8)
     void deleteReferredMovie() {
         Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22), true);
-        long movieId = movieRepository.insertMovie(movie);
+        int movieId = movieRepository.insertMovie(movie);
 
         Plays plays = new Plays("Julius Cezar", movieId, null);
-        long roleId = repository.insertRole(plays);
+        int roleId = repository.insertRole(plays);
 
         int del = movieRepository.deleteMovie(movieId);
         assertEquals(1, del);
@@ -170,13 +170,13 @@ class RoleRepositoryTest {
     @Test
     @Order(8)
     void deleteReferredActor() {
-        Actor actor = new Actor("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
-        long actorId = actorRepository.insertActor(actor);
+        Person actor = new Person("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        int actorId = actorRepository.insertActor(actor);
 
-        Plays plays = new Plays("Krisztina Királynő", null, actorId);
-        long roleId = repository.insertRole(plays);
+        Plays plays = new Plays("Krisztina Királynő", (Integer) null, (int) actorId);
+        int roleId = repository.insertRole(plays);
 
-        int del = actorRepository.deleteActor(actorId);
+        int del = actorRepository.deleteActor((int) actorId);
         assertEquals(1, del);
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);

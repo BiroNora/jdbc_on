@@ -26,10 +26,10 @@ public class ActorRepositoryMockTests {
     @Test
     void selectActors() {
         when(repository.selectActors()).thenReturn(Stream
-            .of(new Actor("Greg Kinnear",
+            .of(new Person("Greg Kinnear",
                     LocalDate.of(1963, Month.AUGUST, 17),
                     LocalDate.of(2070, Month.AUGUST, 17)),
-                new Actor("Max Kinnear",
+                new Person("Max Kinnear",
                     LocalDate.of(1963, Month.AUGUST, 17),
                     LocalDate.of(2700, Month.AUGUST, 1))
             ).collect(Collectors.toList()));
@@ -41,9 +41,9 @@ public class ActorRepositoryMockTests {
 
     @Test
     void selectActorByValidId() {
-        Long id = 6L;
+        Integer id = 6;
         when(repository.selectActorById(id)).thenReturn(
-            Optional.of(new Actor(6L, "Greg Kinnear",
+            Optional.of(new Person(6, "Greg Kinnear",
                 LocalDate.of(1963, Month.AUGUST, 17),
                 LocalDate.of(2070, Month.AUGUST, 17))));
 
@@ -54,7 +54,7 @@ public class ActorRepositoryMockTests {
 
     @Test
     void selectActorByInvalidId() {
-        Long id = 6L;
+        Integer id = 6;
         when(repository.selectActorById(id)).thenReturn(null);
 
         assertNull(repository.selectActorById(id));
@@ -66,10 +66,10 @@ public class ActorRepositoryMockTests {
 
     @Test
     void insertActor() {
-        Actor actor = new Actor("Greg Kinnear",
+        Person actor = new Person("Greg Kinnear",
             LocalDate.of(1963, Month.AUGUST, 17),
             LocalDate.of(2070, Month.AUGUST, 17));
-        when(repository.insertActor(actor)).thenReturn(1L);
+        when(repository.insertActor(actor)).thenReturn(1);
 
         assertEquals(1, repository.insertActor(actor));
         verify(repository).insertActor(actor);
@@ -78,15 +78,15 @@ public class ActorRepositoryMockTests {
 
     @Test
     void deleteActor() {
-        Long id = 5L;
+        Integer id = 5;
         repository.deleteActor(id);
         verify(repository, times(1)).deleteActor(id);
     }
 
     @Test
     void updateActor() {
-        Long id = 2L;
-        Actor actor = new Actor(2L, "Greg Kinnear",
+        Integer id = 2;
+        Person actor = new Person(2, "Greg Kinnear",
             LocalDate.of(1963, Month.AUGUST, 17),
             LocalDate.of(2070, Month.AUGUST, 17));
         when(repository.updateActor(id, actor)).thenReturn(1);

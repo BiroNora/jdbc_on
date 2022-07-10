@@ -9,11 +9,11 @@ public class PhotoRowMapper implements RowMapper<Photo> {
     @Override
     public Photo mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Photo(
-            resultSet.getLong("photo_id"),
+            resultSet.getInt("photo_id"),
             resultSet.getString("url"),
-            resultSet.getLong("movie_id"),
-            resultSet.getLong("actor_id"),
-            resultSet.getLong("role_id")
+            resultSet.getInt("movie_id"),
+            resultSet.getInt("actor_id"),
+            resultSet.getInt("role_id")
         );
     }
 }

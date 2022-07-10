@@ -1,4 +1,4 @@
 package com.norab.actor;
 
-public record ActorId(Long actor_id) {
+public record ActorId(Integer actor_id) {
 }

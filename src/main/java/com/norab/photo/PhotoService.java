@@ -19,7 +19,7 @@ public class PhotoService {
         return photoDao.selectPhotos();
     }
 
-    public long insertPhoto(Photo photo) {
+    public int insertPhoto(Photo photo) {
         String roleUrl = photo.getPhotoUrl();
         List<Photo> photos = photoDao.selectPhotos();
         List<Photo> collect = photos.stream()
@@ -30,7 +30,7 @@ public class PhotoService {
         return photoDao.insertPhoto(photo);
     }
 
-    public void deletePhoto(Long photoId) {
+    public void deletePhoto(Integer photoId) {
         Optional<Photo> photo1 = photoDao.selectPhotoById(photoId);
         photo1.ifPresentOrElse(photo -> {
             boolean result = photoDao.deletePhoto(photoId);
@@ -42,7 +42,7 @@ public class PhotoService {
         });
     }
 
-    public Photo getPhoto(Long photoId) {
+    public Photo getPhoto(Integer photoId) {
         try {
             return (Photo) photoDao.selectPhotoById(photoId)
                 .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", photoId)));
@@ -51,7 +51,7 @@ public class PhotoService {
         }
     }
 
-    public void updatePhoto(Long photoId, Photo photo) {
+    public void updatePhoto(Integer photoId, Photo photo) {
         if (photoDao.selectPhotoById(photoId).isPresent()) {
             Photo photo1 = new Photo(photoId, photo.getPhotoUrl(), photo.getMovieId(), photo.getActorId(), photo.getRoleId());
             photoDao.updatePhoto(photoId, photo1);

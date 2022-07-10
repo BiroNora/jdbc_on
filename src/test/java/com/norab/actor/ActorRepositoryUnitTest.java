@@ -19,13 +19,13 @@ public class ActorRepositoryUnitTest {
 
     @Test
     void selectActorByValidId() {
-        Long id = 1L;
-        Actor actor = new Actor("John Wick",
+        Integer id = 1;
+        Person actor = new Person("John Wick",
             LocalDate.of(2000, Month.DECEMBER, 12),
             LocalDate.of(2053, Month.FEBRUARY, 10));
         repo.insertActor(actor);
 
-        Optional<Actor> expected = repo.selectActorById(id);
+        Optional<Person> expected = repo.selectActorById(id);
 
         assertThat(expected).isPresent();
     }

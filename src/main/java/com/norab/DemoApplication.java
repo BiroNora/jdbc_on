@@ -1,6 +1,6 @@
 package com.norab;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
@@ -36,7 +36,7 @@ public class DemoApplication {
 		System.out.println(actor);*/
 
         System.out.println("\nActors ----------------------------------------------\n");
-        List<Actor> actors = actorDao.selectActors();
+        List<Person> actors = actorDao.selectActors();
         actors.forEach(System.out::println);
 
         System.out.println("\nMovies ----------------------------------------------\n");

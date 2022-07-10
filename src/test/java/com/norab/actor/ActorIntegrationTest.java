@@ -54,10 +54,10 @@ public class ActorIntegrationTest {
     @Test
     @Order(4)
     void getMoviesByActor() throws Exception {
-        mockMvc.perform(get("/api/v1/actors/1/movies"))
+        mockMvc.perform(get("/api/v1/crossed/movies/actor/1"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Carib")));
+            .andExpect(content().string(containsString("Karib")));
     }
 
     @Test

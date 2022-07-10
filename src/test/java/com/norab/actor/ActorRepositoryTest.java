@@ -26,8 +26,8 @@ class ActorRepositoryTest {
     @Test
     @Order(2)
     void selectActors() {
-        List<Actor> actors = repository.selectActors();
-        for (Actor a : actors) {
+        List<Person> actors = repository.selectActors();
+        for (Person a : actors) {
             System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());
         }
@@ -38,19 +38,19 @@ class ActorRepositoryTest {
     @Test
     @Order(3)
     void insertLiving_DeceasedActor() {
-        Actor actorLiv = new Actor("Helen Hunt",
+        Person actorLiv = new Person("Helen Hunt",
             LocalDate.of(1963, Month.JUNE, 15));
-        Actor actorDec = new Actor("Marlon Brando",
+        Person actorDec = new Person("Marlon Brando",
             LocalDate.of(1924, Month.APRIL, 3),
             LocalDate.of(2004, Month.JULY, 1));
 
-        long idLiv = repository.insertActor(actorLiv);
-        var actorLiv1 = repository.selectActorById(idLiv);
+        int idLiv = repository.insertActor(actorLiv);
+        var actorLiv1 = repository.selectActorById((int) idLiv);
         assertTrue(actorLiv1.isPresent());
         assertEquals(actorLiv1.get().getActorId(), 4);
 
-        long idDec = repository.insertActor(actorDec);
-        var actorDec1 = repository.selectActorById(idDec);
+        int idDec = repository.insertActor(actorDec);
+        var actorDec1 = repository.selectActorById((int) idDec);
         assertTrue(actorDec1.isPresent());
         assertEquals(actorDec1.get().getActorId(), 5);
 
@@ -59,11 +59,11 @@ class ActorRepositoryTest {
     @Test
     @Order(4)
     void deleteActor() {
-        Long id = 1L;
+        Integer id = 1;
         int result = repository.deleteActor(id);
         assertEquals(1, result);
 
-        Long id1 = 223L;
+        Integer id1 = 223;
         int result1 = repository.deleteActor(id1);
         assertEquals(0, result1);
     }
@@ -71,30 +71,30 @@ class ActorRepositoryTest {
     @Test
     @Order(5)
     void selectActorById() {
-        Long id = 2L;
-        Optional<Actor> selected = repository.selectActorById(id);
+        Integer id = 2;
+        Optional<Person> selected = repository.selectActorById(id);
         assertEquals(selected.orElseThrow().getFullName(), "Alan Arkin");
 
-        Long id1 = 202L;
-        Optional<Actor> selected1 = repository.selectActorById(id1);
+        Integer id1 = 202;
+        Optional<Person> selected1 = repository.selectActorById(id1);
         assertTrue(selected1.isEmpty());
     }
 
     @Test
     @Order(6)
     void updateActor() {
-        Actor act = repository.selectActorById(2L).orElseThrow();
+        Person act = repository.selectActorById(2).orElseThrow();
         act.setFullName("Liza Minelli");
-        int result = repository.updateActor(2L, act);
+        int result = repository.updateActor(2, act);
         assertEquals(1, result);
         assertNotEquals(act.getFullName(), "Alan Arkin");
         assertEquals(act.getFullName(), "Liza Minelli");
         assertEquals(act.getBirthDate(), LocalDate.of(1934, Month.MARCH, 26));
 
-        Actor act1 = new Actor("Monica Vitti",
+        Person act1 = new Person("Monica Vitti",
             LocalDate.of(1931, Month.NOVEMBER, 3),
             LocalDate.of(2022, Month.FEBRUARY, 2));
-        int result1 = repository.updateActor(202L, act1);
+        int result1 = repository.updateActor(202, act1);
         assertEquals(0, result1);
     }
 }

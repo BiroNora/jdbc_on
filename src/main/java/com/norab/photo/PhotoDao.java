@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface PhotoDao<Photo> {
     List<Photo> selectPhotos();
 
-    long insertPhoto(Photo photo);
+    int insertPhoto(Photo photo);
 
-    boolean deletePhoto(Long photoId);
+    boolean deletePhoto(Integer photoId);
 
-    Optional<Photo> selectPhotoById(Long photoId);
+    Optional<Photo> selectPhotoById(Integer photoId);
 
-    boolean updatePhoto(Long photoId, Photo photo);
+    boolean updatePhoto(Integer photoId, Photo photo);
 }

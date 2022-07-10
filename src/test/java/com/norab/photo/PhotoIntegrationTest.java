@@ -55,7 +55,7 @@ public class PhotoIntegrationTest {
     @Order(4)
     void updatePhoto() throws Exception {
         String data = """
-            {            
+            {
             "photoUrl": "https://github.com/babo/hard-loan",
             "movieId": 1
             }
@@ -66,7 +66,7 @@ public class PhotoIntegrationTest {
             .andExpect(status().isOk());
 
         String data1 = """
-            {            
+            {
             "photoUrl": "https://github.com/babo/hard-loan",
             "actorId": 1
             }
@@ -86,7 +86,7 @@ public class PhotoIntegrationTest {
     @Order(5)
     void insertPhoto() throws Exception {
         String data = """
-            {            
+            {
             "photoUrl": "https://github.com/BiroNora/JDBC_template_Flyway_SpringBoot",
             "roleId": 1
             }
@@ -101,7 +101,7 @@ public class PhotoIntegrationTest {
     @Order(5)
     void insertPhotoByValidId_WithNotExistingMovieId() throws Exception {
         String data = """
-            {            
+            {
             "photoUrl": "https://github.com/BiroNora/JDBC_template_Flyway",
             "movieId": 100
             }
@@ -116,7 +116,7 @@ public class PhotoIntegrationTest {
     @Order(6)
     void insertPhotoByValidId_WithNotExistingActorId() throws Exception {
         String data = """
-            {            
+            {
             "photoUrl": "https://github.com/BiroNora/JDBC_template",
             "actorId": 100
             }
@@ -131,7 +131,7 @@ public class PhotoIntegrationTest {
     @Order(7)
     void insertPhotoByValidId_WithNotExistingRoleId() throws Exception {
         String data = """
-            {            
+            {
             "photoUrl": "https://github.com/BiroNora/JDBC",
             "roleId": 100
             }

@@ -15,27 +15,28 @@ public class ActorController {
     }
 
     @GetMapping
-    public List<Actor> listActors() {
+    public List<Person> listActors() {
         return actorService.getActors();
     }
 
     @GetMapping("{id}")
-    public Actor getActorId(@PathVariable("id") Long actorId) {
+    public Person getActorId(@PathVariable("id") Integer actorId) {
+
         return actorService.getActor(actorId);
     }
 
     @PostMapping
-    public ActorId addActor(@RequestBody Actor actor) {
+    public ActorId addActor(@RequestBody Person actor) {
         return new ActorId(actorService.insertActor(actor));
     }
 
     @DeleteMapping("{id}")
-    public void deleteActor(@PathVariable("id") Long actorId) {
+    public void deleteActor(@PathVariable("id") Integer actorId) {
         actorService.deleteActor(actorId);
     }
 
     @PutMapping("{id}")
-    public void updateActor(@PathVariable("id") Long actorId, @RequestBody(required = false) Actor actor) {
+    public void updateActor(@PathVariable("id") Integer actorId, @RequestBody(required = false) Person actor) {
         actorService.updateActor(actorId, actor);
     }
 }

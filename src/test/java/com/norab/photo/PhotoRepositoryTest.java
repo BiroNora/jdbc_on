@@ -1,6 +1,6 @@
 package com.norab.photo;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
@@ -48,10 +48,10 @@ class PhotoRepositoryTest {
     @Test
     @Order(2)
     void insertPhoto() {
-        Photo photo = new Photo("https://ZZZzzzzz", 1L, null, null);
+        Photo photo = new Photo("https://ZZZzzzzz", 1, null, null);
 
-        long id = repository.insertPhoto(photo);
-        Optional<Photo> photo1 = repository.selectPhotoById(id);
+        int photoId = repository.insertPhoto(photo);
+        Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());
         assertEquals(photo1.get().getMovieId(), 1);
         assertEquals(photo1.get().getPhotoUrl(), "https://ZZZzzzzz");
@@ -62,21 +62,21 @@ class PhotoRepositoryTest {
     @Order(3)
     void insertPhotoByInvalidIds() {
         {
-            Photo photo = new Photo("https://hun", 1024L, null, null);
+            Photo photo = new Photo("https://hun", 1024, null, null);
 
             assertThrows(InvalidInputException.class, () ->
                 repository.insertPhoto(photo));
         }
 
         {
-            Photo photo = new Photo(null, 1L, null, null);
+            Photo photo = new Photo(null, 1, null, null);
 
             assertThrows(InvalidInputException.class, () ->
                 repository.insertPhoto(photo));
         }
 
         {
-            Photo photo = new Photo("      ", 1L, null, null);
+            Photo photo = new Photo("      ", 1, null, null);
 
             assertThrows(InvalidInputException.class, () ->
                 repository.insertPhoto(photo));
@@ -86,42 +86,42 @@ class PhotoRepositoryTest {
     @Test
     @Order(4)
     void deletePhoto() {
-        Long id = 2L;
-        boolean result = repository.deletePhoto(id);
+        Integer photoId = 2;
+        boolean result = repository.deletePhoto(photoId);
         assertEquals(true, result);
 
-        Long id1 = 2224L;
-        boolean result1 = repository.deletePhoto(id1);
+        Integer photoId1 = 2224;
+        boolean result1 = repository.deletePhoto(photoId1);
         assertEquals(false, result1);
     }
 
     @Test
     @Order(5)
     void selectPhotoByValidId() {
-        Long id = 3L;
-        Optional<Photo> selected = repository.selectPhotoById(id);
+        Integer photoId = 3;
+        Optional<Photo> selected = repository.selectPhotoById(photoId);
         assertEquals(selected.orElseThrow().getPhotoUrl(), "https://dumbo");
     }
 
     @Test
     @Order(6)
     void selectPhotoByInvalidId() {
-        Long id = 278901L;
-        Optional<Photo> selected = repository.selectPhotoById(id);
+        Integer photoId = 278901;
+        Optional<Photo> selected = repository.selectPhotoById(photoId);
         assertTrue(selected.isEmpty());
     }
 
     @Test
     @Order(7)
     void updatePhoto() {
-        Photo pho = repository.selectPhotoById(3L).orElseThrow();
+        Photo pho = repository.selectPhotoById(3).orElseThrow();
         System.out.println(pho);
         pho.setPhotoUrl("http://pinocchio");
-        pho.setMovieId(1L);
-        pho.setActorId(1L);
+        pho.setMovieId(1);
+        pho.setActorId(1);
         pho.setRoleId(null);
         System.out.println(pho);
-        boolean result = repository.updatePhoto(3L, pho);
+        boolean result = repository.updatePhoto(3, pho);
         assertEquals(true, result);
         assertNotEquals(pho.getRoleId(), 0);
     }
@@ -129,39 +129,39 @@ class PhotoRepositoryTest {
     @Test
     @Order(8)
     void updatePhotoByInvalidIds() {
-        Photo pho = repository.selectPhotoById(3L).orElseThrow();
+        Photo pho = repository.selectPhotoById(3).orElseThrow();
         System.out.println(pho);
-        pho.setMovieId(11L);
-        pho.setActorId(1L);
-        pho.setRoleId(2L);
-        assertEquals(pho.getRoleId(), 2L);
+        pho.setMovieId(11);
+        pho.setActorId(1);
+        pho.setRoleId(2);
+        assertEquals(pho.getRoleId(), 2);
 
         System.out.println(pho);
         assertThrows(InvalidInputException.class, () ->
-            repository.updatePhoto(3L, pho));
+            repository.updatePhoto(3, pho));
 
-        Photo pho1 = repository.selectPhotoById(3L).orElseThrow();
+        Photo pho1 = repository.selectPhotoById(3).orElseThrow();
         System.out.println(pho1);
-        pho1.setMovieId(1L);
-        pho1.setActorId(11L);
-        pho1.setRoleId(2L);
+        pho1.setMovieId(1);
+        pho1.setActorId(11);
+        pho1.setRoleId(2);
         System.out.println(pho1);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(3L, pho1);
+            repository.updatePhoto(3, pho1);
         });
 
-        Photo pho2 = repository.selectPhotoById(3L).orElseThrow();
+        Photo pho2 = repository.selectPhotoById(3).orElseThrow();
         System.out.println(pho2);
-        pho2.setMovieId(1L);
-        pho2.setActorId(1L);
-        pho2.setRoleId(22L);
+        pho2.setMovieId(1);
+        pho2.setActorId(1);
+        pho2.setRoleId(22);
         System.out.println(pho2);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(3L, pho2);
+            repository.updatePhoto(3, pho2);
         });
 
-        Photo pho3 = new Photo("https://pinokkio", 1L, 1L, 1L);
-        boolean result = repository.updatePhoto(22022L, pho3);
+        Photo pho3 = new Photo("https://pinokkio", 1, 1, 1);
+        boolean result = repository.updatePhoto(22022, pho3);
         assertEquals(false, result);
     }
 
@@ -169,16 +169,16 @@ class PhotoRepositoryTest {
     @Order(9)
     void doubleInsertPhoto() {
         String url = "https://CCC";
-        Photo photoOrig = new Photo(url, 1L, null, null);
+        Photo photoOrig = new Photo(url, 1, null, null);
 
-        long id = repository.insertPhoto(photoOrig);
-        repository.deletePhoto(id);
-        long id1 = repository.insertPhoto(photoOrig);
+        Integer photoId = repository.insertPhoto(photoOrig);
+        repository.deletePhoto(photoId);
+        Integer photoId1 = repository.insertPhoto(photoOrig);
 
-        Optional<Photo> photo = repository.selectPhotoById(id);
+        Optional<Photo> photo = repository.selectPhotoById(photoId);
         assertTrue(photo.isEmpty());
 
-        Optional<Photo> photo1 = repository.selectPhotoById(id1);
+        Optional<Photo> photo1 = repository.selectPhotoById(photoId1);
         assertTrue(photo1.isPresent());
         assertEquals(photo1.get().getMovieId(), 1);
         assertEquals(photo1.get().getPhotoUrl(), url);
@@ -194,12 +194,12 @@ class PhotoRepositoryTest {
     @Order(10)
     void deleteReferredMovie() {
         Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22), true);
-        long movieId = movieRepository.insertMovie(movie);
+        Integer movieId = movieRepository.insertMovie(movie);
 
         Photo photo = new Photo("https://kleo", movieId, null, null);
-        long photoId = repository.insertPhoto(photo);
+        Integer photoId = repository.insertPhoto(photo);
 
-        int del = movieRepository.deleteMovie(movieId);
+        Integer del = movieRepository.deleteMovie(movieId);
         assertEquals(1, del);
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
@@ -210,13 +210,13 @@ class PhotoRepositoryTest {
     @Test
     @Order(11)
     void deleteReferredActor() {
-        Actor actor = new Actor("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
-        long actorId = actorRepository.insertActor(actor);
+        Person actor = new Person("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        Integer actorId = actorRepository.insertActor(actor);
 
-        Photo photo = new Photo("https://gretagarbo", null, actorId, null);
-        long photoId = repository.insertPhoto(photo);
+        Photo photo = new Photo("https://gretagarbo", null, Math.toIntExact(actorId), null);
+        Integer photoId = repository.insertPhoto(photo);
 
-        int del = actorRepository.deleteActor(actorId);
+        int del = actorRepository.deleteActor(Math.toIntExact(actorId));
         assertEquals(1, del);
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);

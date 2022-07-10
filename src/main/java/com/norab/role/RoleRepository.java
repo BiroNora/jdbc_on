@@ -35,7 +35,7 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public long insertRole(Plays plays) {
+    public int insertRole(Plays plays) {
         var sql = """
             INSERT into plays(role_name, movie_id, actor_id) VALUES (?, ?, ?);
             """;
@@ -45,12 +45,12 @@ public class RoleRepository implements RoleDao<Plays> {
                 PreparedStatement ps = connection.prepareStatement(sql, new String[]{"role_id"});
                 ps.setString(1, plays.getRoleName());
                 if (plays.getMovieId() != null) {
-                    ps.setLong(2, plays.getMovieId());
+                    ps.setInt(2, plays.getMovieId());
                 } else {
                     ps.setNull(2, Types.BIGINT);
                 }
                 if (plays.getActorId() != null) {
-                    ps.setLong(3, plays.getActorId());
+                    ps.setInt(3, plays.getActorId());
                 } else {
                     ps.setNull(3, Types.BIGINT);
                 }
@@ -65,11 +65,11 @@ public class RoleRepository implements RoleDao<Plays> {
             log.error(e.getMessage());
             throw new NotFoundException("Illegal id");
         }
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKeyAs(Integer.class);
     }
 
     @Override
-    public int deleteRole(Long roleId) {
+    public int deleteRole(Integer roleId) {
         var sql = """
             DELETE FROM plays
             WHERE role_id = ?;
@@ -82,7 +82,7 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public Optional<Plays> selectRoleById(Long roleId) {
+    public Optional<Plays> selectRoleById(Integer roleId) {
         var sql = """
             SELECT role_id, role_name, movie_id, actor_id
             FROM plays
@@ -98,7 +98,7 @@ public class RoleRepository implements RoleDao<Plays> {
     }
 
     @Override
-    public int updateRole(Long roleId, Plays plays) throws InvalidInputException {
+    public int updateRole(Integer roleId, Plays plays) throws InvalidInputException {
         var sql = """
             UPDATE plays
             SET role_name = ?, movie_id = ?, actor_id = ?

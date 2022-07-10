@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface ActorDao<Actor> {
     List<Actor> selectActors();
 
-    long insertActor(Actor actor) throws IllegalStateException;
+    int insertActor(Actor actor) throws IllegalStateException;
 
-    int deleteActor(Long actorId);
+    int deleteActor(Integer actorId);
 
-    Optional<Actor> selectActorById(Long actorId);
+    Optional<Actor> selectActorById(Integer actorId);
 
-    int updateActor(Long actorId, Actor actor);
+    int updateActor(Integer actorId, Actor actor);
 }

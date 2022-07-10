@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface RoleDao<Plays> {
     List<Plays> selectRoles();
 
-    long insertRole(Plays plays);
+    int insertRole(Plays plays);
 
-    int deleteRole(Long photoId);
+    int deleteRole(Integer photoId);
 
-    Optional<Plays> selectRoleById(Long photoId);
+    Optional<Plays> selectRoleById(Integer photoId);
 
-    int updateRole(Long photoId, Plays plays);
+    int updateRole(Integer photoId, Plays plays);
 }

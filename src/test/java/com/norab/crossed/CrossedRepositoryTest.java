@@ -1,6 +1,6 @@
 package com.norab.crossed;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.movie.Movie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ class CrossedRepositoryTest {
 
     @Test
     void allMoviesByActor() {
-        Long id = 1L;
+        Integer id = 1;
         List<CrossedDao.MoviesByActor> movies = repository.allMoviesByActor(id);
         assertEquals(movies.size(), 1);
         assertEquals(movies.get(0).title(), "A Karib-tenger kalózai: A Fekete Gyöngy átka");
@@ -38,8 +38,8 @@ class CrossedRepositoryTest {
     @Test
     void selectActorByBirthDate() {
         String date = "1963%";
-        List<Actor> actors = repository.searchByActorBirthDate(date);
-        for (Actor a : actors) {
+        List<Person> actors = repository.searchByActorBirthDate(date);
+        for (Person a : actors) {
             System.out.println(a);
         }
         assertTrue(actors.size() > 0);

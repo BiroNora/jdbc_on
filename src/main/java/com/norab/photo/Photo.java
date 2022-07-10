@@ -4,23 +4,23 @@ import org.springframework.data.annotation.Id;
 
 public class Photo {
     @Id
-    private Long photoId;
+    private Integer photoId;
     private String photoUrl;
-    private Long movieId;
-    private Long actorId;
-    private Long roleId;
+    private Integer movieId;
+    private Integer actorId;
+    private Integer roleId;
 
     public Photo() {
     }
 
-    public Photo(String photoUrl, Long movieId, Long actorId, Long roleId) {
+    public Photo(String photoUrl, Integer movieId, Integer actorId, Integer roleId) {
         this.photoUrl = photoUrl;
         this.movieId = movieId;
         this.actorId = actorId;
         this.roleId = roleId;
     }
 
-    public Photo(Long photoId, String photoUrl, Long movieId, Long actorId, Long roleId) {
+    public Photo(Integer photoId, String photoUrl, Integer movieId, Integer actorId, Integer roleId) {
         this.photoId = photoId;
         this.photoUrl = photoUrl;
         this.movieId = movieId;
@@ -28,11 +28,11 @@ public class Photo {
         this.roleId = roleId;
     }
 
-    public Long getPhotoId() {
+    public Integer getPhotoId() {
         return photoId;
     }
 
-    public void setPhotoId(Long photoId) {
+    public void setPhotoId(Integer photoId) {
         this.photoId = photoId;
     }
 
@@ -44,27 +44,27 @@ public class Photo {
         this.photoUrl = photoUrl;
     }
 
-    public Long getMovieId() {
+    public Integer getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Long movieId) {
+    public void setMovieId(Integer movieId) {
         this.movieId = movieId;
     }
 
-    public Long getActorId() {
+    public Integer getActorId() {
         return actorId;
     }
 
-    public void setActorId(Long actorId) {
+    public void setActorId(Integer actorId) {
         this.actorId = actorId;
     }
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 

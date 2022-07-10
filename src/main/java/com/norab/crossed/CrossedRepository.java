@@ -1,6 +1,6 @@
 package com.norab.crossed;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
 import com.norab.actor.ActorRowMapper;
 import com.norab.movie.Movie;
@@ -27,7 +27,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<MoviesByActor> allMoviesByActor(Long id) {
+    public List<MoviesByActor> allMoviesByActor(Integer id) {
         var sql = """
             SELECT role_name, movies.movie_id, title, title_original, release_date, movie_film
             FROM movies
@@ -84,7 +84,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Actor> searchByActorBirthDate(String date) {
+    public List<Person> searchByActorBirthDate(String date) {
         var sql = """
             SELECT * FROM actors WHERE birth_date like ?;
             """;
@@ -121,57 +121,57 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Actor> allActorsByAbcOrderAsc() {
+    public List<Person> allActorsByAbcOrderAsc() {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Plays> allPlaysByActor(Long id) {
+    public List<Plays> allPlaysByActor(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Plays> allPlaysByFilm(Long id) {
+    public List<Plays> allPlaysByFilm(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Photo> allPhotosByActor(Long id) {
+    public List<Photo> allPhotosByActor(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Photo> allPhotosByFilm(Long id) {
+    public List<Photo> allPhotosByFilm(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Photo> allPhotosByPlays(Long id) {
+    public List<Photo> allPhotosByPlays(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }
 
     @Override
-    public List<Photo> allPhotosByMovie(Long id) {
+    public List<Photo> allPhotosByMovie(Integer id) {
         var sql = """
-                        
+
             """;
         return null;
     }

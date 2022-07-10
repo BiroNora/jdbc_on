@@ -42,7 +42,7 @@ class MovieRepositoryTest {
             "Avatar",
             LocalDate.of(2009, Month.DECEMBER, 17),
             true);
-        long id1 = repository.insertMovie(movie);
+        int id1 = repository.insertMovie(movie);
         var movie1 = repository.selectMovieById(id1);
         assertTrue(movie1.isPresent());
         assertEquals(movie1.get().getMovieId(), 10);
@@ -51,11 +51,11 @@ class MovieRepositoryTest {
     @Test
     @Order(3)
     void deleteMovie() {
-        Long id = 1L;
+        Integer id = 1;
         int result = repository.deleteMovie(id);
         assertEquals(1, result);
 
-        Long id1 = 2245L;
+        Integer id1 = 2245;
         int result1 = repository.deleteMovie(id1);
         assertEquals(0, result1);
     }
@@ -63,11 +63,11 @@ class MovieRepositoryTest {
     @Test
     @Order(4)
     void selectMovieById() {
-        Long id = 2L;
+        Integer id = 2;
         Optional<Movie> selected = repository.selectMovieById(id);
         assertEquals(selected.get().getTitleOriginal(), "Little Miss Sunshine");
 
-        Long id1 = 2144L;
+        Integer id1 = 2144;
         Optional<Movie> selected1 = repository.selectMovieById(id1);
         assertTrue(selected1.isEmpty());
     }
@@ -75,9 +75,9 @@ class MovieRepositoryTest {
     @Test
     @Order(5)
     void updateMovie() {
-        Movie mov = repository.selectMovieById(2L).get();
+        Movie mov = repository.selectMovieById(2).get();
         mov.setTitleOriginal("Parenthood");
-        int result = repository.updateMovie(2L, mov);
+        int result = repository.updateMovie(2, mov);
         assertEquals(1, result);
         assertNotEquals(mov.getTitleOriginal(), "Little Miss Sunshine");
         assertEquals(mov.getTitle(), "A család kicsi kincse");
@@ -88,7 +88,7 @@ class MovieRepositoryTest {
             "I Care a Lot",
             LocalDate.of(2021, Month.FEBRUARY, 19),
             false);
-        int result1 = repository.updateMovie(20022L, movie);
+        int result1 = repository.updateMovie(20022, movie);
         assertEquals(0, result1);
 
     }

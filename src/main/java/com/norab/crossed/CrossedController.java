@@ -1,6 +1,6 @@
 package com.norab.crossed;
 
-import com.norab.actor.Actor;
+import com.norab.actor.Person;
 import com.norab.movie.Movie;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ public class CrossedController {
     }
 
     @GetMapping("/movies/actor/{id}")
-    public List<CrossedDao.MoviesByActor> allMoviesByActor(@PathVariable("id") Long id) {
+    public List<CrossedDao.MoviesByActor> allMoviesByActor(@PathVariable("id") Integer id) {
         return crossedService.allMoviesByActor(id);
     }
 
@@ -33,7 +33,7 @@ public class CrossedController {
     }
 
     @GetMapping("/actors/date/{date}")
-    public List<Actor> searchByActorBirthDate(@PathVariable("date") String date) {
+    public List<Person> searchByActorBirthDate(@PathVariable("date") String date) {
         return crossedService.selectActorByBirthDate(date);
     }
 

@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface MovieDao<Movie> {
     List<Movie> selectMovies();
 
-    long insertMovie(Movie movie) throws IllegalStateException;
+    int insertMovie(Movie movie) throws IllegalStateException;
 
-    int deleteMovie(Long movieId);
+    int deleteMovie(Integer movieId);
 
-    Optional<Movie> selectMovieById(Long movieId);
+    Optional<Movie> selectMovieById(Integer movieId);
 
-    int updateMovie(Long movieId, Movie movie);
+    int updateMovie(Integer movieId, Movie movie);
 }

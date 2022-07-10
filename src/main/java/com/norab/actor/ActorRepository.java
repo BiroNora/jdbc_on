@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ActorRepository implements ActorDao<Actor> {
+public class ActorRepository implements ActorDao<Person> {
     private static final Logger log = LoggerFactory.getLogger(ActorRepository.class);
 
     @Autowired
@@ -28,7 +28,7 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public List<Actor> selectActors() {
+    public List<Person> selectActors() {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date
             FROM actors
@@ -38,9 +38,9 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public long insertActor(Actor actor) {
+    public int insertActor(Person actor) {
         var sql = """
-            INSERT INTO actors(full_name, birth_date, death_date) VALUES(?, ?, ?);                        
+            INSERT INTO actors(full_name, birth_date, death_date) VALUES(?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -61,11 +61,11 @@ public class ActorRepository implements ActorDao<Actor> {
         }
         log.info("New actor inserted: " + actor);
 
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKeyAs(Integer.class);
     }
 
     @Override
-    public int deleteActor(Long actorId) {
+    public int deleteActor(Integer actorId) {
         var sql = """
             DELETE FROM actors
             WHERE actor_id = ?;
@@ -78,13 +78,13 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public Optional<Actor> selectActorById(Long actorId) {
+    public Optional<Person> selectActorById(Integer actorId) {
         var sql = """
             SELECT actor_id, full_name, birth_date, death_date
             FROM actors
             WHERE actor_id = ?;
             """;
-        Optional<Actor> selected = jdbcTemplate.query(sql, new ActorRowMapper(), actorId)
+        Optional<Person> selected = jdbcTemplate.query(sql, new ActorRowMapper(), actorId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
@@ -94,7 +94,7 @@ public class ActorRepository implements ActorDao<Actor> {
     }
 
     @Override
-    public int updateActor(Long actorId, Actor actor) {
+    public int updateActor(Integer actorId, Person actor) {
         var sql = """
             UPDATE actors
             SET full_name = ?, birth_date = ?, death_date = ?

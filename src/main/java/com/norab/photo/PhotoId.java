@@ -1,4 +1,4 @@
 package com.norab.photo;
 
-public record PhotoId(Long id) {
+public record PhotoId(Integer id) {
 }
