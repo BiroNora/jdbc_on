@@ -13,8 +13,6 @@ public class Person {
     private String fullName;
     private LocalDate birthDate;
     private LocalDate deathDate;
-    @Transient
-    private Integer age;
 
     public Person() {
     }
@@ -70,11 +68,10 @@ public class Person {
     }
 
     public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+        if (this.deathDate == null) {
+            return Period.between(birthDate, LocalDate.now()).getYears();
+        }
+        return Period.between(birthDate, deathDate).getYears();
     }
 
     @Override
@@ -84,9 +81,7 @@ public class Person {
             ", fullName='" + fullName + '\'' +
             ", birthDate=" + birthDate +
             ", deathDate=" + deathDate +
-            ", age=" + age +
+            ", age=" + getAge() +
             '}';
     }
 }
-
-
