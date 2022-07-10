@@ -39,10 +39,6 @@ public class Person {
         return actorId;
     }
 
-    public void setActorId(Integer actorId) {
-        this.actorId = actorId;
-    }
-
     public String getFullName() {
         return fullName;
     }
