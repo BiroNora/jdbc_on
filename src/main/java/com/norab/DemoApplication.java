@@ -2,6 +2,8 @@ package com.norab;
 
 import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
+import com.norab.director.Director;
+import com.norab.director.DirectorRepository;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
 import com.norab.photo.Photo;
@@ -19,13 +21,16 @@ public class DemoApplication {
     private static MovieRepository movieDao;
     private static RoleRepository roleDao;
     private static PhotoRepository photoDao;
+    private static DirectorRepository directorDao;
+
 
     public DemoApplication(
-        ActorRepository actorDao, MovieRepository movieDao, RoleRepository roleDao, PhotoRepository photoDao) {
+        ActorRepository actorDao, MovieRepository movieDao, RoleRepository roleDao, PhotoRepository photoDao, DirectorRepository directorDao) {
         this.actorDao = actorDao;
         this.movieDao = movieDao;
         this.roleDao = roleDao;
         this.photoDao = photoDao;
+        this.directorDao = directorDao;
     }
 
     public static void main(String[] args) {
@@ -50,6 +55,10 @@ public class DemoApplication {
         System.out.println("\nPhotos ----------------------------------------------\n");
         List<Photo> photos = photoDao.selectPhotos();
         photos.forEach(System.out::println);
+
+        System.out.println("\nDirectors -------------------------------------------\n");
+        List<Director> directors = directorDao.selectDirectors();
+        directors.forEach(System.out::println);
     }
 
 }

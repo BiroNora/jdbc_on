@@ -2,7 +2,7 @@ app:
   datasource:
     main:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5432/norab
+      jdbc-url: jdbc:postgresql://localhost:5432/imdb_hu
       password: '1234'
       pool-size: 30
       username: norab
@@ -14,4 +14,4 @@ server:
 
 spring:
   flyway:
-    enabled: false
+    enabled: true
