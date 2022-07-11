@@ -26,8 +26,8 @@ public class ActorController {
     }
 
     @PostMapping
-    public ActorId addActor(@RequestBody Person actor) {
-        return new ActorId(actorService.insertActor(actor));
+    public ActorID addActor(@RequestBody Person actor) {
+        return new ActorID(actorService.insertActor(actor));
     }
 
     @DeleteMapping("{id}")
