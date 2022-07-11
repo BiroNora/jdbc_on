@@ -8,9 +8,8 @@ public interface DirectorDao<Director> {
 
     int insertDirector(Director director);
 
-    boolean deleteDirector(Integer actorId);
+    boolean deleteDirector(Integer actorId, Integer movieId);
 
-    Optional<Director> selectDirectorById(Integer actorId);
-
-    boolean updateDirector(Integer actorId, Director director);
+    //if relation exists between specified director & movie
+    Optional<Director> selectDirectorById(Integer actorId, Integer movieId);
 }

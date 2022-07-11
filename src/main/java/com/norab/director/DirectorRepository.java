@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -38,72 +36,49 @@ public class DirectorRepository implements DirectorDao<Director> {
         var sql = """
             INSERT into directors(actor_id, movie_id) VALUES (?, ?);
             """;
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"actor_id"});
+            int update = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setInt(1, director.getActorId());
                 ps.setInt(2, director.getMovieId());
                 return ps;
-            }, keyHolder);
+            });
 
             log.info("New director inserted: " + director);
+            return update;
         } catch (DataAccessException e) {
             log.error(e.getMessage());
             throw new InvalidInputException("Illegal id");
         }
-        return keyHolder.getKeyAs(Integer.class);
     }
 
     @Override
-    public boolean deleteDirector(Integer actorId) {
+    public boolean deleteDirector(Integer actorId, Integer movieId) {
         var sql = """
             DELETE FROM directors
-            WHERE actor_id = ?;
+            WHERE actor_id = ? AND movie_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, actorId);
+        int delete = jdbcTemplate.update(sql, actorId, movieId);
         if (delete == 1) {
-            log.info(String.format("Director with id: %d is deleted.", actorId));
+            log.info(String.format("Director %d with movie %d is deleted.", actorId, movieId));
         }
         return delete == 1;
     }
 
     @Override
-    public Optional<Director> selectDirectorById(Integer actorId) {
+    public Optional<Director> selectDirectorById(Integer actorId, Integer movieId) {
         var sql = """
             SELECT actor_id, movie_id
             FROM directors
-            WHERE actor_id = ?;
+            WHERE actor_id = ? AND movie_id = ?;
             """;
-        Optional<Director> selected = jdbcTemplate.query(sql, new DirectorRowMapper(), actorId)
+        Optional<Director> selected = jdbcTemplate.query(sql, new DirectorRowMapper(), actorId, movieId)
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Director with id: %d is selected.", actorId));
+            log.info(String.format("Director %d with movie %d is selected.", actorId, movieId));
         }
         return selected;
     }
 
-    @Override
-    public boolean updateDirector(Integer actorId, Director director) {
-        var sql = """
-            UPDATE directors
-            SET actor_id = ?, movie_id = ?
-            WHERE actor_id = ?;
-            """;
-        try {
-            int update = jdbcTemplate.update(
-                sql,
-                director.getActorId(),
-                director.getMovieId(),
-                actorId);
-            if (update == 1) {
-                log.info(String.format("Director with id: %d is updated.", actorId));
-            }
-            return update == 1;
-        } catch (DataAccessException e) {
-            log.error(e.getMessage());
-            throw new InvalidInputException("Invalid ID");
-        }
-    }
 }

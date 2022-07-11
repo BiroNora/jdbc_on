@@ -14,20 +14,27 @@ public class DirectorController {
     }
 
     @GetMapping
-    public List<Director> listDirectors() { return directorService.getDirectors(); }
+    public List<Director> listDirectors() {
+        return directorService.getDirectors();
+    }
 
-    @GetMapping("{id}")
-    public Director getDirector(@PathVariable("id") Integer actorId) { return directorService.getDirector(actorId); }
+    @GetMapping("{actorId}/{movieId}")
+    public Director getDirector(
+        @PathVariable("actorId") Integer actorId,
+        @PathVariable("movieId") Integer movieId) {
+        return directorService.getDirector(actorId, movieId);
+    }
 
     @PostMapping
-    public DirectorID addDirector(@RequestBody Director director) { return new DirectorID(directorService.insertDirector(director)); }
-
-    @DeleteMapping("{id}")
-    public void deleteDirector(@PathVariable("id") Integer actorId) { directorService.deleteDirector(actorId);}
-
-    @PutMapping("{id}")
-    public void updateDirector(
-        @PathVariable("id") Integer actorId, @RequestBody Director director) {
-        directorService.updateDirector(actorId, director);
+    public DirectorID addDirector(@RequestBody Director director) {
+        return new DirectorID(directorService.insertDirector(director));
     }
+
+    @DeleteMapping("{actorId}/{movieId}")
+    public void deleteDirector(
+        @PathVariable("actorId") Integer actorId,
+        @PathVariable("movieId") Integer movieId) {
+        directorService.deleteDirector(actorId, movieId);
+    }
+
 }

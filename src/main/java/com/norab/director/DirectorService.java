@@ -30,10 +30,10 @@ public class DirectorService {
         return directorDao.insertDirector(director);
     }
 
-    public void deleteDirector(Integer actorId) {
-        Optional<Director> director1 = directorDao.selectDirectorById(actorId);
+    public void deleteDirector(Integer actorId, Integer movieId) {
+        Optional<Director> director1 = directorDao.selectDirectorById(actorId, movieId);
         director1.ifPresentOrElse(director -> {
-            boolean result = directorDao.deleteDirector(actorId);
+            boolean result = directorDao.deleteDirector(actorId, movieId);
             if (!result) {
                 throw new IllegalStateException("oops could not delete director");
             }
@@ -42,21 +42,12 @@ public class DirectorService {
         });
     }
 
-    public Director getDirector(Integer actorId) {
+    public Director getDirector(Integer actorId, Integer movieId) {
         try {
-            return (Director) directorDao.selectDirectorById(actorId)
+            return (Director) directorDao.selectDirectorById(actorId, movieId)
                 .orElseThrow(() -> new NotFoundException(String.format("Director with id %s not found", actorId)));
         } catch (Throwable e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public void updateDirector(Integer actorId, Director director) {
-        if (directorDao.selectDirectorById(actorId).isPresent()) {
-            Director director1 = new Director(actorId, director.getMovieId());
-            directorDao.updateDirector(actorId, director1);
-        } else {
-            throw new NotFoundException(String.format("Director with id %s not found", actorId));
         }
     }
 }
