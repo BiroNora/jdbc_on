@@ -45,12 +45,12 @@ class ActorRepositoryTest {
             LocalDate.of(2004, Month.JULY, 1));
 
         int idLiv = repository.insertActor(actorLiv);
-        var actorLiv1 = repository.selectActorById((int) idLiv);
+        var actorLiv1 = repository.selectActorById(idLiv);
         assertTrue(actorLiv1.isPresent());
         assertEquals(actorLiv1.get().getActorId(), 4);
 
         int idDec = repository.insertActor(actorDec);
-        var actorDec1 = repository.selectActorById((int) idDec);
+        var actorDec1 = repository.selectActorById(idDec);
         assertTrue(actorDec1.isPresent());
         assertEquals(actorDec1.get().getActorId(), 5);
 

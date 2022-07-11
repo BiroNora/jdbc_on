@@ -1,8 +1,8 @@
 package com.norab.crossed;
 
-import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
 import com.norab.actor.ActorRowMapper;
+import com.norab.actor.Person;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRowMapper;
 import com.norab.photo.Photo;

@@ -34,7 +34,7 @@ public interface CrossedDao {
 
     List<Photo> allPhotosByMovie(Integer id);
 
-    public record MoviesByActor(
+    record MoviesByActor(
         String roleName,
         String title
     ) {

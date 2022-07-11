@@ -12,7 +12,7 @@ public class ActorRowMapper implements RowMapper<Person> {
     public Person mapRow(ResultSet resultSet, int i) throws SQLException {
         String death_date = resultSet.getString("death_date");
 
-        return new Person (
+        return new Person(
             resultSet.getInt("actor_id"),
             resultSet.getString("full_name"),
             LocalDate.parse(resultSet.getString("birth_date")),

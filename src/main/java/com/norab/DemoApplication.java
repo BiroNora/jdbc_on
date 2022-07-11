@@ -1,7 +1,7 @@
 package com.norab;
 
-import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
+import com.norab.actor.Person;
 import com.norab.director.Director;
 import com.norab.director.DirectorRepository;
 import com.norab.movie.Movie;
@@ -26,11 +26,11 @@ public class DemoApplication {
 
     public DemoApplication(
         ActorRepository actorDao, MovieRepository movieDao, RoleRepository roleDao, PhotoRepository photoDao, DirectorRepository directorDao) {
-        this.actorDao = actorDao;
-        this.movieDao = movieDao;
-        this.roleDao = roleDao;
-        this.photoDao = photoDao;
-        this.directorDao = directorDao;
+        DemoApplication.actorDao = actorDao;
+        DemoApplication.movieDao = movieDao;
+        DemoApplication.roleDao = roleDao;
+        DemoApplication.photoDao = photoDao;
+        DemoApplication.directorDao = directorDao;
     }
 
     public static void main(String[] args) {

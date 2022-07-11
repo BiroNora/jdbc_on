@@ -1,7 +1,7 @@
 package com.norab.role;
 
-import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
+import com.norab.actor.Person;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
@@ -173,10 +173,10 @@ class RoleRepositoryTest {
         Person actor = new Person("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
         int actorId = actorRepository.insertActor(actor);
 
-        Plays plays = new Plays("Krisztina Királynő", (Integer) null, (int) actorId);
+        Plays plays = new Plays("Krisztina Királynő", null, actorId);
         int roleId = repository.insertRole(plays);
 
-        int del = actorRepository.deleteActor((int) actorId);
+        int del = actorRepository.deleteActor(actorId);
         assertEquals(1, del);
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);

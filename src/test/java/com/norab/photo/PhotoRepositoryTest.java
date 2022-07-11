@@ -1,7 +1,7 @@
 package com.norab.photo;
 
-import com.norab.actor.Person;
 import com.norab.actor.ActorRepository;
+import com.norab.actor.Person;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
