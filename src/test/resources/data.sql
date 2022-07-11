@@ -23,4 +23,12 @@ VALUES('http://101kiskutya', 1, null, null);
 INSERT INTO photos(url, movie_id, actor_id, role_id)
 VALUES('https://dumbo', null, null, null);
 
+INSERT INTO directors(actor_id, movie_id) VALUES(1, 1);
+INSERT INTO directors(actor_id, movie_id) VALUES(1, 9);
+INSERT INTO directors(actor_id, movie_id) VALUES(1, 5);
+INSERT INTO directors(actor_id, movie_id) VALUES(2, 2);
+INSERT INTO directors(actor_id, movie_id) VALUES(3, 1);
+INSERT INTO directors(actor_id, movie_id) VALUES(3, 4);
+INSERT INTO directors(actor_id, movie_id) VALUES(3, 6);
+
 
