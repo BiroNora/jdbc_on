@@ -4,13 +4,13 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
-public class Movie{
+public class Movie {
     @Id
     private Integer movieId;
     private String title;
     private String titleOriginal;
-    LocalDate releaseDate;
-    boolean isMovieFilm;
+    private LocalDate releaseDate;
+    private boolean isMovieFilm;
 
     public Movie() {
     }
