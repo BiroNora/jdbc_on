@@ -94,6 +94,22 @@ public class ActorRepository implements ActorDao<Person> {
     }
 
     @Override
+    public Optional<Person> selectActorByName(String name) {
+        var sql = """
+            SELECT actor_id, full_name
+            FROM actors
+            WHERE LOWER(full_name) LIKE LOWER(?);
+            """;
+        Optional<Person> selected = jdbcTemplate.query(sql, new ActorRowMapper(), name)
+            .stream()
+            .findFirst();
+        if (selected.isPresent()) {
+            log.info(String.format("Actor with id: %d is selected.", name));
+        }
+        return selected;
+    }
+
+    @Override
     public int updateActor(Integer actorId, Person actor) {
         var sql = """
             UPDATE actors

@@ -50,4 +50,8 @@ public class DirectorService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(String name) {
+        return directorDao.selectMoviesByDirector(name);
+    }
 }

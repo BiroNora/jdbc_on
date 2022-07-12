@@ -7,6 +7,7 @@ import com.norab.movie.Movie;
 import com.norab.movie.MovieRowMapper;
 import com.norab.photo.Photo;
 import com.norab.role.Plays;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class CrossedRepository implements CrossedDao {
 
     @Override
     public List<Movie> searchByMovieTitle(String title, SearchLocation location) {
-        String q = title.strip();
+        String q = Utils.addPercent(title);
         var sql0 = """
             SELECT * FROM movies WHERE LOWER(title) LIKE LOWER(?);
             """;
@@ -64,12 +65,6 @@ public class CrossedRepository implements CrossedDao {
         var sql2 = """
             SELECT * FROM movies WHERE LOWER(title) LIKE LOWER(?) OR LOWER(title_original) like LOWER(?);
             """;
-        if (!q.startsWith("%")) {
-            q = "%" + q;
-        }
-        if (!q.endsWith("%")) {
-            q = q + "%";
-        }
         switch (location) {
             case TITLE -> {
                 return jdbcTemplate.query(sql0, new MovieRowMapper(), q);
@@ -93,19 +88,13 @@ public class CrossedRepository implements CrossedDao {
 
     @Override
     public List<ActorsByFilm> allActorsByFilm(String title) {
-        String q = title.strip();
-        if (!q.startsWith("%")) {
-            q = "%" + q;
-        }
-        if (!q.endsWith("%")) {
-            q = q + "%";
-        }
+        String q = Utils.addPercent(title);
         var sql = """
             SELECT pm.title AS title, pm.title_original AS title_original,
                    full_name, pm.role_name AS role_name
             FROM actors
             JOIN
-            (SELECT actor_id, role_name, m.title, m.title_original
+                (SELECT actor_id, role_name, m.title, m.title_original
             FROM plays
             JOIN
             	(SELECT movie_id, title, title_original

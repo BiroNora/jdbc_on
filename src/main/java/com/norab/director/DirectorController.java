@@ -37,4 +37,10 @@ public class DirectorController {
         directorService.deleteDirector(actorId, movieId);
     }
 
+    @GetMapping("/movies")
+    public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(
+        @RequestParam(name = "name", required = true) String name) {
+        return directorService.selectMoviesByDirector(name);
+    }
+
 }

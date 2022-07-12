@@ -14,6 +14,7 @@ public interface ActorDao<Actor> {
     int deleteActor(Integer actorId);
 
     Optional<Actor> selectActorById(Integer actorId);
+    Optional<Actor> selectActorByName(String name);
 
     int updateActor(Integer actorId, Actor actor);
 }

@@ -61,4 +61,15 @@ class DirectorRepositoryTest {
         assertTrue(director.isPresent());
     }
 
+    @Test
+    @Order(5)
+    void selectMoviesByDirector() {
+        List<DirectorDao.MoviesByDirector> moviesByDirectors
+            = repository.selectMoviesByDirector("%ohnn%");
+        for (DirectorDao.MoviesByDirector m : moviesByDirectors) {
+            System.out.println(m);
+        }
+        assertEquals(3, moviesByDirectors.size());
+    }
+
 }

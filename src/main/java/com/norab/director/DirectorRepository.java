@@ -1,6 +1,10 @@
 package com.norab.director;
 
+import com.norab.crossed.CrossedDao;
 import com.norab.exception.InvalidInputException;
+import com.norab.movie.Movie;
+import com.norab.movie.MovieRowMapper;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -8,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +84,39 @@ public class DirectorRepository implements DirectorDao<Director> {
             log.info(String.format("Director %d with movie %d is selected.", actorId, movieId));
         }
         return selected;
+    }
+
+    @Override
+    public List<MoviesByDirector> selectMoviesByDirector(String name) {
+        String q = Utils.addPercent(name);
+        var sql = """
+           SELECT title, title_original, release_date
+           FROM movies
+           JOIN
+           ((SELECT actor_id, movie_id
+           FROM directors) AS dir
+           JOIN
+           (SELECT actor_id, full_name
+           FROM actors
+           WHERE LOWER(full_name) LIKE LOWER(?)) AS act
+           USING(actor_id))
+           USING(movie_id)
+            """;
+        return jdbcTemplate.query(
+            sql, (resultSet, i) -> new MoviesByDirector(
+                resultSet.getString("title"),
+                resultSet.getString("title_original"),
+                LocalDate.parse(resultSet.getString("release_date"))), q);
+    }
+
+    @Override
+    public Optional<Director> selectDirectorsByMovieId(Integer movieId) {
+        var sql = """
+            SELECT actor_id, movie_id
+            FROM directors
+            WHERE actor_id = ?;
+            """;
+        return Optional.empty();
     }
 
 }
