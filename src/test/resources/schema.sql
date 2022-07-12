@@ -48,19 +48,12 @@ CREATE TABLE photos (
 );
 
 CREATE TABLE directors (
-        actor_id INTEGER,
-        movie_id INTEGER,
-        CONSTRAINT fk_directors_movie_id
-                    FOREIGN KEY (movie_id)
-                    REFERENCES movies (movie_id)
-                    ON DELETE SET NULL,
-        CONSTRAINT fk_directors_actor_id
-                    FOREIGN KEY (actor_id)
-                    REFERENCES actors (actor_id)
-                    ON DELETE SET NULL
+        actor_id INTEGER NOT NULL,
+        movie_id INTEGER NOT NULL,
+        CONSTRAINT PK_directors PRIMARY KEY (actor_id, movie_id)
     );
 
 CREATE TABLE genre (
-        movie_id INTEGER,
-        genre TEXT
+        movie_id INTEGER NOT NULL,
+        genre TEXT NOT NULL
     );

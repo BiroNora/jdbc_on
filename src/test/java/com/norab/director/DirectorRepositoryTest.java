@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.exception.InvalidInputException;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
@@ -41,35 +41,41 @@ class DirectorRepositoryTest {
         Director dir2 = new Director(2, 7);
         result = repository.insertDirector(dir2);
         assertEquals(1, result);
-
-        /*Director dir3 = new Director(1, 1);
-        result = repository.insertDirector(dir3);
-        assertEquals(0, result);*/
     }
 
     @Test
     @Order(3)
+    void insertDuplicateDirector() {
+        Director dir = new Director(22, 8);
+        int result = repository.insertDirector(dir);
+        assertEquals(1, result);
+
+        assertThrows(InvalidInputException.class, () -> repository.insertDirector(dir));
+    }
+
+    @Test
+    @Order(4)
     void deleteDirector() {
         boolean b = repository.deleteDirector(1, 1);
         assertEquals(true, b);
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void selectDirectorById() {
         Optional<Director> director = repository.selectDirectorById(1, 9);
         assertTrue(director.isPresent());
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void selectMoviesByDirector() {
         List<DirectorDao.MoviesByDirector> moviesByDirectors
             = repository.selectMoviesByDirector("%ohnn%");
         for (DirectorDao.MoviesByDirector m : moviesByDirectors) {
             System.out.println(m);
         }
-        assertEquals(3, moviesByDirectors.size());
+        assertEquals(2, moviesByDirectors.size());
     }
 
 }
