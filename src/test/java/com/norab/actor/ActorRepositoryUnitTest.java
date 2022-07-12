@@ -21,8 +21,8 @@ public class ActorRepositoryUnitTest {
     void selectActorByValidId() {
         Integer id = 1;
         Person actor = new Person("John Wick",
-            LocalDate.of(2000, Month.DECEMBER, 12),
-            LocalDate.of(2053, Month.FEBRUARY, 10));
+            (short) 2000,
+            (short) 2053);
         repo.insertActor(actor);
 
         Optional<Person> expected = repo.selectActorById(id);

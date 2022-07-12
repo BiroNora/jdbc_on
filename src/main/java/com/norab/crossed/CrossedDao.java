@@ -12,7 +12,7 @@ import java.util.List;
 public interface CrossedDao {
     List<MoviesByActor> allMoviesByActor(Integer id);
 
-    List<Person> searchByActorBirthDate(String date);
+    List<Person> searchByActorBirthDate(Short date);
 
     List<Movie> allMoviesByReleaseDateAsc();
 

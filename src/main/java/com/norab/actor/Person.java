@@ -10,24 +10,24 @@ public class Person {
     @Id
     private Integer actorId;
     private String fullName;
-    private LocalDate birthDate;
-    private LocalDate deathDate;
+    private Short birthDate;
+    private Short deathDate;
 
     public Person() {
     }
 
-    public Person(String fullName, LocalDate birthDate) {
+    public Person(String fullName, Short birthDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
     }
 
-    public Person(String fullName, LocalDate birthDate, LocalDate deathDate) {
+    public Person(String fullName, Short birthDate, Short deathDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
     }
 
-    public Person(Integer actorId, String fullName, LocalDate birthDate, LocalDate deathDate) {
+    public Person(Integer actorId, String fullName, Short birthDate, Short deathDate) {
         this.actorId = actorId;
         this.fullName = fullName;
         this.birthDate = birthDate;
@@ -46,27 +46,27 @@ public class Person {
         this.fullName = fullName;
     }
 
-    public LocalDate getBirthDate() {
+    public Short getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Short birthDate) {
         this.birthDate = birthDate;
     }
 
-    public LocalDate getDeathDate() {
+    public Short getDeathDate() {
         return deathDate;
     }
 
-    public void setDeathDate(LocalDate deathDate) {
+    public void setDeathDate(Short deathDate) {
         this.deathDate = deathDate;
     }
 
     public Integer getAge() {
-        if (this.deathDate == null) {
-            return Period.between(birthDate, LocalDate.now()).getYears();
+        if (deathDate == null) {
+            return LocalDate.now().getYear() - birthDate;
         }
-        return Period.between(birthDate, deathDate).getYears();
+        return deathDate - birthDate;
     }
 
     @Override

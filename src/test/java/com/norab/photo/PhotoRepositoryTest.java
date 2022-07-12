@@ -193,7 +193,7 @@ class PhotoRepositoryTest {
     @Test
     @Order(10)
     void deleteReferredMovie() {
-        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22), true);
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002, true);
         Integer movieId = movieRepository.insertMovie(movie);
 
         Photo photo = new Photo("https://kleo", movieId, null, null);
@@ -210,7 +210,7 @@ class PhotoRepositoryTest {
     @Test
     @Order(11)
     void deleteReferredActor() {
-        Person actor = new Person("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        Person actor = new Person("Greta Garbo", (short) 2002);
         Integer actorId = actorRepository.insertActor(actor);
 
         Photo photo = new Photo("https://gretagarbo", null, Math.toIntExact(actorId), null);

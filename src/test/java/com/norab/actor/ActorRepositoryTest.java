@@ -39,10 +39,10 @@ class ActorRepositoryTest {
     @Order(3)
     void insertLiving_DeceasedActor() {
         Person actorLiv = new Person("Helen Hunt",
-            LocalDate.of(1963, Month.JUNE, 15));
+            (short) 1963);
         Person actorDec = new Person("Marlon Brando",
-            LocalDate.of(1924, Month.APRIL, 3),
-            LocalDate.of(2004, Month.JULY, 1));
+            (short) 1924,
+            (short) 2004);
 
         int idLiv = repository.insertActor(actorLiv);
         var actorLiv1 = repository.selectActorById(idLiv);
@@ -89,11 +89,11 @@ class ActorRepositoryTest {
         assertEquals(1, result);
         assertNotEquals(act.getFullName(), "Alan Arkin");
         assertEquals(act.getFullName(), "Liza Minelli");
-        assertEquals(act.getBirthDate(), LocalDate.of(1934, Month.MARCH, 26));
+        assertEquals(act.getBirthDate(), (short) 1934);
 
         Person act1 = new Person("Monica Vitti",
-            LocalDate.of(1931, Month.NOVEMBER, 3),
-            LocalDate.of(2022, Month.FEBRUARY, 2));
+            (short) 1931,
+            (short) 2022);
         int result1 = repository.updateActor(202, act1);
         assertEquals(0, result1);
     }

@@ -27,11 +27,11 @@ public class ActorRepositoryMockTests {
     void selectActors() {
         when(repository.selectActors()).thenReturn(Stream
             .of(new Person("Greg Kinnear",
-                    LocalDate.of(1963, Month.AUGUST, 17),
-                    LocalDate.of(2070, Month.AUGUST, 17)),
+                    (short) 1963,
+                    (short) 2070),
                 new Person("Max Kinnear",
-                    LocalDate.of(1963, Month.AUGUST, 17),
-                    LocalDate.of(2700, Month.AUGUST, 1))
+                    (short) 1963,
+                    (short) 2700)
             ).collect(Collectors.toList()));
 
         System.out.println("Data from DB: " + repository.selectActors().toString());
@@ -44,8 +44,8 @@ public class ActorRepositoryMockTests {
         Integer id = 6;
         when(repository.selectActorById(id)).thenReturn(
             Optional.of(new Person(6, "Greg Kinnear",
-                LocalDate.of(1963, Month.AUGUST, 17),
-                LocalDate.of(2070, Month.AUGUST, 17))));
+                (short) 1963,
+                (short) 2070)));
 
         assertNotNull(repository.selectActorById(id));
         verify(repository).selectActorById(id);
@@ -67,8 +67,8 @@ public class ActorRepositoryMockTests {
     @Test
     void insertActor() {
         Person actor = new Person("Greg Kinnear",
-            LocalDate.of(1963, Month.AUGUST, 17),
-            LocalDate.of(2070, Month.AUGUST, 17));
+            (short) 1963,
+            (short) 2070);
         when(repository.insertActor(actor)).thenReturn(1);
 
         assertEquals(1, repository.insertActor(actor));
@@ -87,8 +87,8 @@ public class ActorRepositoryMockTests {
     void updateActor() {
         Integer id = 2;
         Person actor = new Person(2, "Greg Kinnear",
-            LocalDate.of(1963, Month.AUGUST, 17),
-            LocalDate.of(2070, Month.AUGUST, 17));
+            (short) 1963,
+            (short) 2070);
         when(repository.updateActor(id, actor)).thenReturn(1);
 
         assertEquals(1, repository.updateActor(id, actor));

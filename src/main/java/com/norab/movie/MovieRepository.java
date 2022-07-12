@@ -60,7 +60,7 @@ public class MovieRepository implements MovieDao<Movie> {
             } else {
                 ps.setNull(2, Types.VARCHAR);
             }
-            ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
+            ps.setShort(3, movie.getReleaseDate());
             ps.setBoolean(4, movie.isMovieFilm());
             return ps;
         }, keyHolder);

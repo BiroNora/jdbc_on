@@ -106,7 +106,7 @@ public class DirectorRepository implements DirectorDao<Director> {
             sql, (resultSet, i) -> new MoviesByDirector(
                 resultSet.getString("title"),
                 resultSet.getString("title_original"),
-                LocalDate.parse(resultSet.getString("release_date"))), q);
+                resultSet.getShort("release_date")), q);
     }
 
     @Override

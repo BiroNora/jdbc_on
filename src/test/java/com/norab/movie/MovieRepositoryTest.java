@@ -40,7 +40,7 @@ class MovieRepositoryTest {
         Movie movie = new Movie(
             "Avatar",
             "Avatar",
-            LocalDate.of(2009, Month.DECEMBER, 17),
+            (short) 2009,
             true);
         int id1 = repository.insertMovie(movie);
         var movie1 = repository.selectMovieById(id1);
@@ -81,12 +81,12 @@ class MovieRepositoryTest {
         assertEquals(1, result);
         assertNotEquals(mov.getTitleOriginal(), "Little Miss Sunshine");
         assertEquals(mov.getTitle(), "A család kicsi kincse");
-        assertEquals(mov.getReleaseDate(), LocalDate.of(2007, Month.FEBRUARY, 22));
+        assertEquals(mov.getReleaseDate(), (short) 2007);
 
         Movie movie = new Movie(
             "Fontos vagy nekem",
             "I Care a Lot",
-            LocalDate.of(2021, Month.FEBRUARY, 19),
+            (short) 2021,
             false);
         int result1 = repository.updateMovie(20022, movie);
         assertEquals(0, result1);

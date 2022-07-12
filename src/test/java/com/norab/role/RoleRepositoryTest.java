@@ -153,7 +153,7 @@ class RoleRepositoryTest {
     @Test
     @Order(8)
     void deleteReferredMovie() {
-        Movie movie = new Movie("Kleo", "Patra", LocalDate.of(2002, Month.JULY, 22), true);
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002, true);
         int movieId = movieRepository.insertMovie(movie);
 
         Plays plays = new Plays("Julius Cezar", movieId, null);
@@ -170,7 +170,7 @@ class RoleRepositoryTest {
     @Test
     @Order(8)
     void deleteReferredActor() {
-        Person actor = new Person("Greta Garbo", LocalDate.of(2002, Month.JULY, 22));
+        Person actor = new Person("Greta Garbo", (short) 2002);
         int actorId = actorRepository.insertActor(actor);
 
         Plays plays = new Plays("Krisztina Királynő", null, actorId);

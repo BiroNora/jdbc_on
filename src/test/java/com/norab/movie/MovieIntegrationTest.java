@@ -55,9 +55,9 @@ public class MovieIntegrationTest {
     @Order(4)
     void updateMovie() throws Exception {
         String data = """
-            {            
+            {
             "title": "Minden végzet nehéz",
-            "releaseDate": "2003-12-12",
+            "releaseDate": 2003,
             "isMovieFilm": 1
             }
             """;
@@ -67,10 +67,10 @@ public class MovieIntegrationTest {
             .andExpect(status().isOk());
 
         String data1 = """
-            {            
+            {
             "title": "Minden végzet nehéz",
             "titleOriginal": "Something''s Gotta Give",
-            "releaseDate": "2003-12-12",
+            "releaseDate": 2003,
             "isMovieFilm": 0
             }
             """;
@@ -88,10 +88,10 @@ public class MovieIntegrationTest {
     @Test
     @Order(5)
     void insertMovie() throws Exception {
-        String data = """                       
-            {            
+        String data = """
+            {
             "title": "A szajré",
-            "releaseDate": "2001-07-09",
+            "releaseDate": 2001,
             "isMovieFilm": 1
             }
             """;

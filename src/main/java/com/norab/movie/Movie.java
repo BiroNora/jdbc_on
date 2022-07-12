@@ -9,20 +9,20 @@ public class Movie {
     private Integer movieId;
     private String title;
     private String titleOriginal;
-    private LocalDate releaseDate;
+    private Short releaseDate;
     private boolean isMovieFilm;
 
     public Movie() {
     }
 
-    public Movie(String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
+    public Movie(String title, String titleOriginal, Short releaseDate, boolean isMovieFilm) {
         this.title = title;
         this.titleOriginal = titleOriginal;
         this.releaseDate = releaseDate;
         this.isMovieFilm = isMovieFilm;
     }
 
-    public Movie(Integer movieId, String title, String titleOriginal, LocalDate releaseDate, boolean isMovieFilm) {
+    public Movie(Integer movieId, String title, String titleOriginal, Short releaseDate, boolean isMovieFilm) {
         this.movieId = movieId;
         this.title = title;
         this.titleOriginal = titleOriginal;
@@ -54,11 +54,11 @@ public class Movie {
         this.titleOriginal = titleOriginal;
     }
 
-    public LocalDate getReleaseDate() {
+    public Short getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(Short releaseDate) {
         this.releaseDate = releaseDate;
     }
 

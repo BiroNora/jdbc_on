@@ -26,7 +26,7 @@ public class CrossedService {
         return crossedDao.searchByMovieTitle(title, location);
     }
 
-    public List<Person> selectActorByBirthDate(String date) {
+    public List<Person> selectActorByBirthDate(Short date) {
         return crossedDao.searchByActorBirthDate(date);
     }
 

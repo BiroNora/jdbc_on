@@ -37,7 +37,7 @@ class CrossedRepositoryTest {
 
     @Test
     void selectActorByBirthDate() {
-        String date = "1963%";
+        Short date = 1963;
         List<Person> actors = repository.searchByActorBirthDate(date);
         for (Person a : actors) {
             System.out.println(a);

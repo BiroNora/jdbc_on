@@ -64,9 +64,9 @@ public class ActorIntegrationTest {
     @Order(5)
     void updateActor() throws Exception {
         String data = """
-            {            
+            {
             "fullName": "Haumann Péter",
-            "birthDate": "1941-05-17"
+            "birthDate": 1941
             }
             """;
         mockMvc.perform(post("/api/v1/actors")
@@ -75,10 +75,10 @@ public class ActorIntegrationTest {
             .andExpect(status().isOk());
 
         String data1 = """
-            {            
+            {
             "fullName": "Haumann Péter",
-            "birthDate": "1941-05-17",
-            "deathDate": "2022-05-28"
+            "birthDate": 1941,
+            "deathDate": 2022
             }
             """;
         mockMvc.perform(put("/api/v1/actors/4")
@@ -96,9 +96,9 @@ public class ActorIntegrationTest {
     @Order(6)
     void insertActor() throws Exception {
         String data = """
-            {            
+            {
             "fullName": "Fedák Sári",
-            "birthDate": "1879-09-27"
+            "birthDate": 1879
             }
             """;
         mockMvc.perform(post("/api/v1/actors")

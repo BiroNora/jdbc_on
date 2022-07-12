@@ -79,7 +79,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<Person> searchByActorBirthDate(String date) {
+    public List<Person> searchByActorBirthDate(Short date) {
         var sql = """
             SELECT * FROM actors WHERE birth_date like ?;
             """;

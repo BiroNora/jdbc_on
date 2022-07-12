@@ -33,7 +33,7 @@ public class CrossedController {
     }
 
     @GetMapping("/actors/date/{date}")
-    public List<Person> searchByActorBirthDate(@PathVariable("date") String date) {
+    public List<Person> searchByActorBirthDate(@PathVariable("date") Short date) {
         return crossedService.selectActorByBirthDate(date);
     }
 

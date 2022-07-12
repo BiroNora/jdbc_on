@@ -1,8 +1,8 @@
 create TABLE actors (
     actor_id INTEGER PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
-    birth_date DATE NOT NULL ,
-    death_date DATE DEFAULT NULL,
+    birth_date SMALLINT NOT NULL ,
+    death_date SMALLINT DEFAULT NULL,
     unique (full_name)
 );
 
@@ -10,7 +10,7 @@ CREATE TABLE movies (
     movie_id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     title_original TEXT,
-    release_date DATE NOT NULL,
+    release_date SMALLINT NOT NULL,
     movie_film BOOLEAN NOT NULL
 );
 CREATE TABLE plays (
@@ -49,27 +49,27 @@ CREATE TABLE photos (
 );
 
 INSERT INTO actors(full_name, birth_date) VALUES
-    ('Johnny Depp', '1963-06-09'),
-    ('Alan Arkin', '1934-03-26'),
-    ('Geoffry Rush', '1951-07-06'),
-    ('Greg Kinnear', '1963-06-17'),
-    ('Giovanni Ribisi', '1974-12-17'),
-    ('Al Pacino', '1940-04-25'),
-    ('Jack Nicholson', '1937-04-22'),
-    ('Mads Mikkelsen', '1965-11-22'),
-    ('Sigourney Weaver', '1949-10-08');
+    ('Johnny Depp', 1963),
+    ('Alan Arkin', 1934),
+    ('Geoffry Rush', 1951),
+    ('Greg Kinnear', 1963),
+    ('Giovanni Ribisi', 1974),
+    ('Al Pacino', 1940),
+    ('Jack Nicholson', 1937),
+    ('Mads Mikkelsen', 1965),
+    ('Sigourney Weaver', 1949);
 
 INSERT INTO actors(full_name, birth_date, death_date) VALUES
-    ('John Casale', '1935-08-12', '1978-03-13');
+    ('John Casale', 1935, 1978);
 
 INSERT INTO movies(title, title_original, release_date, movie_film) VALUES
-    ('A Karib-tenger kalózai: A Fekete Gyöngy átka', 'Pirates of the Caribbean: The Curse of the Black Pearl', '2003-07-09', 1),
-    ('A család kicsi kincse', 'Little Miss Sunshine', '2007-02-22', 0),
-    ('Avatar','	Avatar', '2009-12-17', 1),
-    ('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', '2011-05-07', 1),
-    ('Kánikulai délután', 'Dog Day Afternoon', '1975-09-21', 0),
-    ('Rossz álmok', 'The Gift', '2001-04-19', 0),
-    ('Lesz ez még így se', 'As Good As It Gets', '1998-03-12', 0);
+    ('A Karib-tenger kalózai: A Fekete Gyöngy átka', 'Pirates of the Caribbean: The Curse of the Black Pearl', 2003, 1),
+    ('A család kicsi kincse', 'Little Miss Sunshine', 2007, 0),
+    ('Avatar','	Avatar', 2009, 1),
+    ('A Karib-tenger kalózai: Ismeretlen vizeken', 'Pirates of the Caribbean: On Stranger Tides', 2011, 1),
+    ('Kánikulai délután', 'Dog Day Afternoon', 1975, 0),
+    ('Rossz álmok', 'The Gift', 2001, 0),
+    ('Lesz ez még így se', 'As Good As It Gets', 1998, 0);
 
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES
     ('Jack Sparrow', 1, 1),
