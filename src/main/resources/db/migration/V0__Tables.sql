@@ -1,8 +1,9 @@
 CREATE TABLE actors (
     actor_id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
-    birth_date SMALLINT NOT NULL,
-    death_date SMALLINT DEFAULT NULL
+    birth_date SMALLINT NULL,
+    death_date SMALLINT DEFAULT NULL,
+    orig_actor_id TEXT NULL
 );
 
 CREATE TABLE movies (
@@ -10,7 +11,10 @@ CREATE TABLE movies (
     title VARCHAR(255) NOT NULL,
     title_original VARCHAR(255),
     release_date SMALLINT NOT NULL,
-    movie_film BOOLEAN NOT NULL
+    end_date SMALLINT NULL,
+    m_type TEXT,
+    is_adult BOOLEAN,
+    orig_movie_id TEXT NULL
 );
 
 CREATE TABLE plays (
@@ -63,7 +67,11 @@ CREATE TABLE directors (
 );
 
 CREATE TABLE genre (
-    movie_id INTEGER,
-    genre TEXT,
+    movie_id INTEGER NOT NULL,
+    genre TEXT NOT NULL,
+    CONSTRAINT fk_genre_movie_id
+                FOREIGN KEY (movie_id)
+                REFERENCES movies (movie_id)
+                ON DELETE SET NULL,
     CONSTRAINT fk_genre PRIMARY KEY (movie_id, genre)
 );
