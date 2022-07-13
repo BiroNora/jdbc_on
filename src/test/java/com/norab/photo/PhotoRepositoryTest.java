@@ -193,7 +193,7 @@ class PhotoRepositoryTest {
     @Test
     @Order(10)
     void deleteReferredMovie() {
-        Movie movie = new Movie("Kleo", "Patra", (short) 2002, true);
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
         Integer movieId = movieRepository.insertMovie(movie);
 
         Photo photo = new Photo("https://kleo", movieId, null, null);

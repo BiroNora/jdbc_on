@@ -9,8 +9,7 @@ CREATE TABLE movies (
     movie_id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     title_original TEXT,
-    release_date SMALLINT NOT NULL,
-    movie_film BOOLEAN NOT NULL
+    release_date SMALLINT NOT NULL
 );
 CREATE TABLE plays (
     role_id SERIAL PRIMARY KEY,

@@ -40,8 +40,7 @@ class MovieRepositoryTest {
         Movie movie = new Movie(
             "Avatar",
             "Avatar",
-            (short) 2009,
-            true);
+            (short) 2009);
         int id1 = repository.insertMovie(movie);
         var movie1 = repository.selectMovieById(id1);
         assertTrue(movie1.isPresent());
@@ -86,8 +85,7 @@ class MovieRepositoryTest {
         Movie movie = new Movie(
             "Fontos vagy nekem",
             "I Care a Lot",
-            (short) 2021,
-            false);
+            (short) 2021);
         int result1 = repository.updateMovie(20022, movie);
         assertEquals(0, result1);
 

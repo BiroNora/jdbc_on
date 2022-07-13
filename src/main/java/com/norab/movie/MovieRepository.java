@@ -26,7 +26,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT movie_id, title, title_original, release_date, movie_film
+            SELECT movie_id, title, title_original, release_date
             FROM movies
             LIMIT 10;
             """;
@@ -48,7 +48,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public int insertMovie(Movie movie) {
         var sql = """
-            INSERT INTO movies(title, title_original, release_date, movie_film) VALUES (?, ?, ?, ?);
+            INSERT INTO movies(title, title_original, release_date) VALUES (?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -61,7 +61,6 @@ public class MovieRepository implements MovieDao<Movie> {
                 ps.setNull(2, Types.VARCHAR);
             }
             ps.setShort(3, movie.getReleaseDate());
-            ps.setBoolean(4, movie.isMovieFilm());
             return ps;
         }, keyHolder);
 
@@ -89,7 +88,7 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public Optional<Movie> selectMovieById(Integer movieId) {
         var sql = """
-            SELECT movie_id, title, title_original, release_date, movie_film
+            SELECT movie_id, title, title_original, release_date
             FROM movies
             WHERE movie_id = ?;
             """;
@@ -106,7 +105,7 @@ public class MovieRepository implements MovieDao<Movie> {
     public int updateMovie(Integer movieId, Movie movie) {
         var sql = """
             UPDATE movies
-            SET title = ?, title_original = ?, release_date = ?, movie_film = ?
+            SET title = ?, title_original = ?, release_date = ?
             WHERE movie_id = ?;
             """;
         int update = jdbcTemplate.update(
@@ -114,7 +113,6 @@ public class MovieRepository implements MovieDao<Movie> {
             movie.getTitle(),
             movie.getTitleOriginal(),
             movie.getReleaseDate(),
-            movie.isMovieFilm(),
             movie.getMovieId()
         );
         if (update == 1) {

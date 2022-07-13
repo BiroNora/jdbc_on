@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,7 +151,7 @@ class RoleRepositoryTest {
     @Test
     @Order(8)
     void deleteReferredMovie() {
-        Movie movie = new Movie("Kleo", "Patra", (short) 2002, true);
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
         int movieId = movieRepository.insertMovie(movie);
 
         Plays plays = new Plays("Julius Cezar", movieId, null);

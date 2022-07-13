@@ -57,8 +57,7 @@ public class MovieIntegrationTest {
         String data = """
             {
             "title": "Minden végzet nehéz",
-            "releaseDate": 2003,
-            "isMovieFilm": 1
+            "releaseDate": 2003
             }
             """;
         mockMvc.perform(post("/api/v1/movies")
@@ -70,8 +69,7 @@ public class MovieIntegrationTest {
             {
             "title": "Minden végzet nehéz",
             "titleOriginal": "Something''s Gotta Give",
-            "releaseDate": 2003,
-            "isMovieFilm": 0
+            "releaseDate": 2003
             }
             """;
         mockMvc.perform(put("/api/v1/movies/3")
@@ -91,8 +89,7 @@ public class MovieIntegrationTest {
         String data = """
             {
             "title": "A szajré",
-            "releaseDate": 2001,
-            "isMovieFilm": 1
+            "releaseDate": 2001
             }
             """;
         mockMvc.perform(post("/api/v1/movies")
