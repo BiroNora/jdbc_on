@@ -19,6 +19,7 @@ __pycache__/
 *.pyc
 /.nb-gradle/
 /dist/
+/hudata/mini.sql
 /nbbuild/
 /nbdist/
 /nbproject/private/
