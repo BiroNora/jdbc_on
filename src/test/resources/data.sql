@@ -1,7 +1,7 @@
-INSERT INTO movies VALUES(3,'Lesz ez még így se!','As Good as It Gets',1997,NULL,'movie',0);
-INSERT INTO movies VALUES(4,'Rossz álmok','The Gift',2000,NULL,'movie',0);
 INSERT INTO movies VALUES(1,'A Karib-tenger kalózai: A Fekete Gyöngy átka','Pirates of the Caribbean: The Curse of the Black Pearl',2003,NULL,'movie',0);
 INSERT INTO movies VALUES(2,'A Karib-tenger kalózai: Ismeretlen vizeken','Pirates of the Caribbean: On Stranger Tides',2011,NULL,'movie',0);
+INSERT INTO movies VALUES(3,'Lesz ez még így se!','As Good as It Gets',1997,NULL,'movie',0);
+INSERT INTO movies VALUES(4,'Rossz álmok','The Gift',2000,NULL,'movie',0);
 INSERT INTO movies VALUES(5,'Senki többet','La migliore offerta',2013,NULL,'movie',0);
 
 INSERT INTO actors VALUES(1,'Johnny Depp',1963,NULL);

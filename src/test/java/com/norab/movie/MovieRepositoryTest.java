@@ -31,7 +31,7 @@ class MovieRepositoryTest {
             System.out.println(m.getTitle());
         }
         assertEquals(movies.size(), 5);
-        assertEquals(movies.get(4).getTitleOriginal(), "The Gift");
+        assertEquals(movies.get(3).getTitleOriginal(), "The Gift");
     }
 
     @Test
@@ -50,9 +50,9 @@ class MovieRepositoryTest {
     @Test
     @Order(3)
     void deleteMovie() {
-        Integer id = 1;
+        /*Integer id = 1;
         int result = repository.deleteMovie(id);
-        assertEquals(1, result);
+        assertEquals(1, result);*/
 
         Integer id1 = 2245;
         int result1 = repository.deleteMovie(id1);
@@ -64,7 +64,7 @@ class MovieRepositoryTest {
     void selectMovieById() {
         Integer id = 2;
         Optional<Movie> selected = repository.selectMovieById(id);
-        assertEquals(selected.get().getTitleOriginal(), "Little Miss Sunshine");
+        assertEquals(selected.get().getTitle(), "A Karib-tenger kalózai: Ismeretlen vizeken");
 
         Integer id1 = 2144;
         Optional<Movie> selected1 = repository.selectMovieById(id1);
@@ -78,9 +78,9 @@ class MovieRepositoryTest {
         mov.setTitleOriginal("Parenthood");
         int result = repository.updateMovie(2, mov);
         assertEquals(1, result);
-        assertNotEquals(mov.getTitleOriginal(), "Little Miss Sunshine");
-        assertEquals(mov.getTitle(), "A család kicsi kincse");
-        assertEquals(mov.getReleaseDate(), (short) 2007);
+        assertEquals(mov.getTitleOriginal(), "Parenthood");
+        assertEquals(mov.getTitle(), "A Karib-tenger kalózai: Ismeretlen vizeken");
+        assertEquals(mov.getReleaseDate(), (short) 2011);
 
         Movie movie = new Movie(
             "Fontos vagy nekem",
