@@ -30,8 +30,8 @@ class MovieRepositoryTest {
             System.out.print(m.getMovieId() + " ");
             System.out.println(m.getTitle());
         }
-        assertEquals(movies.size(), 9);
-        assertEquals(movies.get(1).getTitleOriginal(), "Little Miss Sunshine");
+        assertEquals(movies.size(), 5);
+        assertEquals(movies.get(4).getTitleOriginal(), "The Gift");
     }
 
     @Test
@@ -44,7 +44,7 @@ class MovieRepositoryTest {
         int id1 = repository.insertMovie(movie);
         var movie1 = repository.selectMovieById(id1);
         assertTrue(movie1.isPresent());
-        assertEquals(movie1.get().getMovieId(), 10);
+        assertEquals(id1, movie1.get().getMovieId());
     }
 
     @Test
