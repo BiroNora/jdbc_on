@@ -40,7 +40,7 @@ public class MovieIntegrationTest {
         mockMvc.perform(get("/api/v1/movies/2"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("kicsi")));
+            .andExpect(content().string(containsString("Ismeretlen")));
     }
 
     @Test

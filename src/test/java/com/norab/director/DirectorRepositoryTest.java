@@ -28,17 +28,17 @@ class DirectorRepositoryTest {
         for (Director d : directors) {
             System.out.println(d);
         }
-        assertEquals(7, directors.size());
+        assertEquals(5, directors.size());
     }
 
     @Test
     @Order(2)
     void insertDirector() {
-        Director dir1 = new Director(2, 8);
+        Director dir1 = new Director(2, 5);
         int result = repository.insertDirector(dir1);
         assertEquals(1, result);
 
-        Director dir2 = new Director(2, 7);
+        Director dir2 = new Director(2, 4);
         result = repository.insertDirector(dir2);
         assertEquals(1, result);
     }
@@ -46,9 +46,9 @@ class DirectorRepositoryTest {
     @Test
     @Order(3)
     void insertDuplicateDirector() {
-        Director dir = new Director(22, 8);
+        Director dir = new Director(5, 4);
         int result = repository.insertDirector(dir);
-        assertEquals(1, result);
+        assertEquals(0, result);
 
         assertThrows(InvalidInputException.class, () -> repository.insertDirector(dir));
     }
@@ -56,14 +56,14 @@ class DirectorRepositoryTest {
     @Test
     @Order(4)
     void deleteDirector() {
-        boolean b = repository.deleteDirector(1, 1);
+        boolean b = repository.deleteDirector(5, 4);
         assertEquals(true, b);
     }
 
     @Test
     @Order(5)
     void selectDirectorById() {
-        Optional<Director> director = repository.selectDirectorById(1, 9);
+        Optional<Director> director = repository.selectDirectorById(6, 3);
         assertTrue(director.isPresent());
     }
 
@@ -71,11 +71,11 @@ class DirectorRepositoryTest {
     @Order(6)
     void selectMoviesByDirector() {
         List<DirectorDao.MoviesByDirector> moviesByDirectors
-            = repository.selectMoviesByDirector("%ohnn%");
+            = repository.selectMoviesByDirector("%L.%");
         for (DirectorDao.MoviesByDirector m : moviesByDirectors) {
             System.out.println(m);
         }
-        assertEquals(2, moviesByDirectors.size());
+        assertEquals(1, moviesByDirectors.size());
     }
 
 }

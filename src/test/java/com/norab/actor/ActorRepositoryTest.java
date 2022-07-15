@@ -31,8 +31,8 @@ class ActorRepositoryTest {
             System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());
         }
-        assertEquals(actors.size(), 3);
-        assertEquals(actors.get(2).getFullName(), "Geoffry Rush");
+        assertEquals(10, actors.size());
+        assertEquals("Geoffrey Rush", actors.get(2).getFullName());
     }
 
     @Test
@@ -47,12 +47,12 @@ class ActorRepositoryTest {
         int idLiv = repository.insertActor(actorLiv);
         var actorLiv1 = repository.selectActorById(idLiv);
         assertTrue(actorLiv1.isPresent());
-        assertEquals(actorLiv1.get().getActorId(), 4);
+        assertEquals(23, actorLiv1.get().getActorId());
 
         int idDec = repository.insertActor(actorDec);
         var actorDec1 = repository.selectActorById(idDec);
         assertTrue(actorDec1.isPresent());
-        assertEquals(actorDec1.get().getActorId(), 5);
+        assertEquals(24, actorDec1.get().getActorId());
 
     }
 
@@ -73,7 +73,7 @@ class ActorRepositoryTest {
     void selectActorById() {
         Integer id = 2;
         Optional<Person> selected = repository.selectActorById(id);
-        assertEquals(selected.orElseThrow().getFullName(), "Alan Arkin");
+        assertEquals("Greg Kinnear", selected.orElseThrow().getFullName());
 
         Integer id1 = 202;
         Optional<Person> selected1 = repository.selectActorById(id1);
@@ -87,9 +87,9 @@ class ActorRepositoryTest {
         act.setFullName("Liza Minelli");
         int result = repository.updateActor(2, act);
         assertEquals(1, result);
-        assertNotEquals(act.getFullName(), "Alan Arkin");
+        assertNotEquals(act.getFullName(), "Greg Kinnear");
         assertEquals(act.getFullName(), "Liza Minelli");
-        assertEquals(act.getBirthDate(), (short) 1934);
+        assertEquals((short) 1963, act.getBirthDate());
 
         Person act1 = new Person("Monica Vitti",
             (short) 1931,

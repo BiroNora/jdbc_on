@@ -31,7 +31,7 @@ public class RoleIntegrationTest {
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Jimmy")));
+            .andExpect(content().string(containsString("Buddy")));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class RoleIntegrationTest {
         mockMvc.perform(get("/api/v1/roles/2"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("oove")));
+            .andExpect(content().string(containsString("Sach")));
     }
 
     @Test
@@ -131,14 +131,14 @@ public class RoleIntegrationTest {
     @Test
     @Order(8)
     void deleteRoleByValidId_WithReference() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/1"))
+        mockMvc.perform(delete("/api/v1/roles/3"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Jack"))))
-            .andExpect(content().string((containsString("McGinty"))));
+            .andExpect(content().string(not(containsString("Cole"))))
+            .andExpect(content().string((containsString("Donnie"))));
     }
 
     @Test

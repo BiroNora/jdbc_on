@@ -39,8 +39,8 @@ class RoleRepositoryTest {
             System.out.print(p.getRoleId() + ". ");
             System.out.println(p.getRoleName());
         }
-        assertEquals(roles.size(), 3);
-        assertEquals(roles.get(1).getMovieId(), 2);
+        assertEquals(10, roles.size());
+        assertEquals(1, roles.get(0).getMovieId());
     }
 
     @Test
@@ -96,7 +96,7 @@ class RoleRepositoryTest {
     void selectRoleByValidId1() {
         Integer roleId = 3;
         Optional<Plays> selected = repository.selectRoleById(roleId);
-        assertEquals(selected.orElseThrow().getRoleName(), "Jimmy McGinty");
+        assertEquals("Buddy Cole", selected.orElseThrow().getRoleName());
     }
 
     @Test
