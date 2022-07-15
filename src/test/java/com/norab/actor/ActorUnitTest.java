@@ -5,29 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
-public class ActorRepositoryUnitTest {
+public class ActorUnitTest {
     @Autowired
     private ActorRepository repo;
 
     @Test
-    void selectActorByValidId() {
-        Integer id = 1;
+    void insertActor() {
         Person actor = new Person("John Wick",
             (short) 2000,
             (short) 2053);
-        repo.insertActor(actor);
+        Integer id = repo.insertActor(actor);
 
         Optional<Person> expected = repo.selectActorById(id);
 
         assertThat(expected).isPresent();
+        assertThat(expected.get()).isEqualTo(actor);
     }
 
 }

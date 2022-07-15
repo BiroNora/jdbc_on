@@ -109,7 +109,7 @@ public class MovieIntegrationTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("Fekete"))))
-            .andExpect(content().string((containsString("kicsi"))));
+            .andExpect(content().string((containsString("Karib"))));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class MovieIntegrationTest {
 
     @Test
     @Order(8)
-    void deleteMovieByValidId() throws Exception {
+    void deleteMovieByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/7175"))
             .andExpect(status().is4xxClientError());
     }

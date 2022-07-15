@@ -96,7 +96,7 @@ class RoleRepositoryTest {
     void selectRoleByValidId1() {
         Integer roleId = 3;
         Optional<Plays> selected = repository.selectRoleById(roleId);
-        assertEquals("Buddy Cole", selected.orElseThrow().getRoleName());
+        assertEquals("Virgil Oldman", selected.orElseThrow().getRoleName());
     }
 
     @Test

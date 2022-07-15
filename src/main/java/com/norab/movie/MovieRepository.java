@@ -2,6 +2,7 @@ package com.norab.movie;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -78,11 +79,17 @@ public class MovieRepository implements MovieDao<Movie> {
             DELETE FROM movies
             WHERE movie_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, movieId);
-        if (delete == 1) {
-            log.info(String.format("Movie with id: %d is deleted.", movieId));
+
+        try {
+            int delete = jdbcTemplate.update(sql, movieId);
+            if (delete == 1) {
+                log.info(String.format("Movie with id: %d is deleted.", movieId));
+            }
+            return delete;
+        } catch (DataAccessException e) {
+            log.info(String.format("Movie with id: %d is failed to delete: %s", movieId, e.getMessage()));
         }
-        return delete;
+        return 0;
     }
 
     @Override

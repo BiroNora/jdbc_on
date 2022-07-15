@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +35,7 @@ class ActorRepositoryTest {
 
     @Test
     @Order(3)
-    void insertLiving_DeceasedActor() {
+    void insertAlive_DeceasedActor() {
         Person actorLiv = new Person("Helen Hunt",
             (short) 1963);
         Person actorDec = new Person("Marlon Brando",
@@ -47,12 +45,12 @@ class ActorRepositoryTest {
         int idLiv = repository.insertActor(actorLiv);
         var actorLiv1 = repository.selectActorById(idLiv);
         assertTrue(actorLiv1.isPresent());
-        assertEquals(23, actorLiv1.get().getActorId());
+        assertEquals(idLiv, actorLiv1.get().getActorId());
 
         int idDec = repository.insertActor(actorDec);
         var actorDec1 = repository.selectActorById(idDec);
         assertTrue(actorDec1.isPresent());
-        assertEquals(24, actorDec1.get().getActorId());
+        assertEquals(idDec, actorDec1.get().getActorId());
 
     }
 
@@ -83,14 +81,23 @@ class ActorRepositoryTest {
     @Test
     @Order(6)
     void updateActor() {
-        Person act = repository.selectActorById(2).orElseThrow();
-        act.setFullName("Liza Minelli");
-        int result = repository.updateActor(2, act);
+        Integer id = 5;
+        Person act0 = repository.selectActorById(id).orElseThrow();
+        String origName = act0.getFullName();
+        act0.setFullName("Liza Minelli");
+        int result = repository.updateActor(id, act0);
         assertEquals(1, result);
-        assertNotEquals(act.getFullName(), "Greg Kinnear");
-        assertEquals(act.getFullName(), "Liza Minelli");
-        assertEquals((short) 1963, act.getBirthDate());
 
+        Optional<Person> act1 = repository.selectActorById(id);
+        assertTrue(act1.isPresent());
+        assertNotEquals(origName, act1.get().getFullName());
+        assertEquals("Liza Minelli", act1.get().getFullName());
+        assertEquals(act0.getBirthDate(), act1.get().getBirthDate());
+    }
+
+    @Test
+    @Order(7)
+    void updateActorWithInvalidId() {
         Person act1 = new Person("Monica Vitti",
             (short) 1931,
             (short) 2022);

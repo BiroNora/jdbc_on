@@ -4,7 +4,6 @@ package com.norab.actor;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 public class Person {
     @Id
@@ -67,6 +66,27 @@ public class Person {
             return LocalDate.now().getYear() - birthDate;
         }
         return deathDate - birthDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (fullName == null || person.fullName == null || !fullName.equals(person.fullName)) return false;
+        if (birthDate != null && person.birthDate != null && !birthDate.equals(person.birthDate)) return false;
+        return deathDate == null || person.deathDate == null || deathDate.equals(person.deathDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = actorId != null ? actorId.hashCode() : 0;
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + birthDate.hashCode();
+        result = 31 * result + deathDate.hashCode();
+        return result;
     }
 
     @Override

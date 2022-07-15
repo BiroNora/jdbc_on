@@ -46,9 +46,9 @@ class DirectorRepositoryTest {
     @Test
     @Order(3)
     void insertDuplicateDirector() {
-        Director dir = new Director(5, 4);
+        Director dir = new Director(22, 1);
         int result = repository.insertDirector(dir);
-        assertEquals(0, result);
+        assertEquals(1, result);
 
         assertThrows(InvalidInputException.class, () -> repository.insertDirector(dir));
     }

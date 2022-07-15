@@ -22,8 +22,8 @@ class CrossedRepositoryTest {
     void allMoviesByActor() {
         Integer id = 1;
         List<CrossedDao.MoviesByActor> movies = repository.allMoviesByActor(id);
-        assertEquals(movies.size(), 1);
-        assertEquals(movies.get(0).title(), "A Karib-tenger kalózai: A Fekete Gyöngy átka");
+        assertEquals(2, movies.size());
+        assertEquals("A Karib-tenger kalózai: A Fekete Gyöngy átka", movies.get(0).title());
     }
 
     @Test
@@ -32,7 +32,7 @@ class CrossedRepositoryTest {
         for (Movie m : movies) {
             System.out.println(m);
         }
-        assertEquals(movies.size(), 9);
+        assertEquals(5, movies.size());
     }
 
     @Test

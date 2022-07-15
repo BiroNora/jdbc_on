@@ -31,7 +31,7 @@ public class RoleIntegrationTest {
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Buddy")));
+            .andExpect(content().string(containsString("Jack Sparrow")));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class RoleIntegrationTest {
         mockMvc.perform(get("/api/v1/roles/2"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Sach")));
+            .andExpect(content().string(containsString("Billy Whistler")));
     }
 
     @Test
@@ -131,27 +131,27 @@ public class RoleIntegrationTest {
     @Test
     @Order(8)
     void deleteRoleByValidId_WithReference() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/3"))
+        mockMvc.perform(delete("/api/v1/roles/1"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Cole"))))
-            .andExpect(content().string((containsString("Donnie"))));
+            .andExpect(content().string(not(containsString("Jack"))))
+            .andExpect(content().string((containsString("Billy"))));
     }
 
     @Test
     @Order(9)
     void deleteRoleByValidId_WithNoReference() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/3"))
+        mockMvc.perform(delete("/api/v1/roles/5"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("McGinty"))))
-            .andExpect(content().string((containsString("oov"))));
+            .andExpect(content().string(not(containsString("Elizabeth Swann"))))
+            .andExpect(content().string((containsString("Virgil Oldman"))));
     }
 
     @Test
