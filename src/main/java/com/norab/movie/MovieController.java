@@ -29,12 +29,12 @@ public class MovieController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteMovie(@PathVariable("id") Integer id) {
-        movieService.deleteMovie(id);
+    public void deleteMovie(@PathVariable("id") Integer movieId) {
+        movieService.deleteMovie(movieId);
     }
 
     @PutMapping("{id}")
-    public void updateMovie(@PathVariable("id") Integer id, @RequestBody Movie movie) {
-        movieService.updateMovie(id, movie);
+    public void updateMovie(@PathVariable("id") Integer movieId, @RequestBody Movie movie) {
+        movieService.updateMovie(movieId, movie);
     }
 }

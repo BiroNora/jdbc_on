@@ -21,9 +21,7 @@ public class ActorRepository implements ActorDao<Person> {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ActorRepository(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 
