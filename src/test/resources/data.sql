@@ -71,3 +71,9 @@ INSERT INTO genre VALUES(2,'fantasy');
 INSERT INTO genre VALUES(5,'crime');
 INSERT INTO genre VALUES(5,'drama');
 INSERT INTO genre VALUES(5,'mystery');
+
+INSERT INTO photos(url, movie_id, actor_id, role_id) VALUES
+    ('https://fictional.com/role/images/1.jpg', 1, 1, 1),
+    ('https://fictional.com/movie/images/2.jpg', 2, NULL, NULL),
+    ('https://fictional.com/actor/images/3.jpg', NULL, 3, NULL),
+    ('https://fictional.com/deleted/images/4.jpg', NULL, NULL, NULL);

@@ -31,7 +31,7 @@ public class PhotoIntegrationTest {
         mockMvc.perform(get("/api/v1/photos"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("101")));
+            .andExpect(content().string(containsString("/2.jpg")));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class PhotoIntegrationTest {
         mockMvc.perform(get("/api/v1/photos/2"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("kiskuty")));
+            .andExpect(content().string(containsString("movie/images/2.jpg")));
     }
 
     @Test
@@ -151,8 +151,8 @@ public class PhotoIntegrationTest {
         mockMvc.perform(get("/api/v1/photos"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("2291379"))))
-            .andExpect(content().string((containsString("101kis"))));
+            .andExpect(content().string(not(containsString("/1.jpg"))))
+            .andExpect(content().string((containsString("/2.jpg"))));
     }
 
     @Test
@@ -164,8 +164,8 @@ public class PhotoIntegrationTest {
         mockMvc.perform(get("/api/v1/photos"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("dumbo"))))
-            .andExpect(content().string((containsString("101kis"))));
+            .andExpect(content().string(not(containsString("/3.jpg"))))
+            .andExpect(content().string((containsString("/4.jpg"))));
     }
 
     @Test

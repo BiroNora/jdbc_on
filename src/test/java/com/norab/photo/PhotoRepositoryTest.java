@@ -42,21 +42,23 @@ class PhotoRepositoryTest {
             System.out.print(p.getPhotoId() + ". ");
             System.out.println(p.getPhotoUrl());
         }
-        assertEquals(photos.size(), 3);
-        assertEquals(photos.get(2).getActorId(), 0);
+        assertEquals(4, photos.size());
+        assertEquals(3, photos.get(2).getActorId());
     }
 
     @Test
     @Order(2)
     void insertPhoto() {
-        Photo photo = new Photo("https://ZZZzzzzz", 1, null, null);
+        String url = "https://ZZZzzzzz";
+        Photo photo = new Photo(url, 1, null, null);
 
         int photoId = repository.insertPhoto(photo);
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());
-        assertEquals(photo1.get().getMovieId(), 1);
-        assertEquals(photo1.get().getPhotoUrl(), "https://ZZZzzzzz");
-        assertEquals(photo1.get().getPhotoId(), 4);
+        assertEquals(1, photo1.get().getMovieId());
+        assertEquals(url, photo1.get().getPhotoUrl());
+        assertEquals(photoId, photo1.get().getPhotoId());
+        //TODO: create equals object
     }
 
     @Test
@@ -101,7 +103,9 @@ class PhotoRepositoryTest {
     void selectPhotoByValidId() {
         Integer photoId = 3;
         Optional<Photo> selected = repository.selectPhotoById(photoId);
-        assertEquals(selected.orElseThrow().getPhotoUrl(), "https://dumbo");
+        assertTrue(selected.isPresent());
+        assertEquals("https://fictional.com/actor/images/3.jpg", selected.get().getPhotoUrl());
+
     }
 
     @Test
@@ -130,7 +134,8 @@ class PhotoRepositoryTest {
     @Test
     @Order(8)
     void updatePhotoByInvalidIds() {
-        Photo pho = repository.selectPhotoById(3).orElseThrow();
+        int photoId = 3;
+        Photo pho = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho);
         pho.setMovieId(11);
         pho.setActorId(1);
@@ -139,26 +144,26 @@ class PhotoRepositoryTest {
 
         System.out.println(pho);
         assertThrows(InvalidInputException.class, () ->
-            repository.updatePhoto(3, pho));
+            repository.updatePhoto(photoId, pho));
 
-        Photo pho1 = repository.selectPhotoById(3).orElseThrow();
+        Photo pho1 = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho1);
         pho1.setMovieId(1);
-        pho1.setActorId(11);
+        pho1.setActorId(41);
         pho1.setRoleId(2);
         System.out.println(pho1);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(3, pho1);
+            repository.updatePhoto(photoId, pho1);
         });
 
-        Photo pho2 = repository.selectPhotoById(3).orElseThrow();
+        Photo pho2 = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho2);
         pho2.setMovieId(1);
         pho2.setActorId(1);
-        pho2.setRoleId(22);
+        pho2.setRoleId(82);
         System.out.println(pho2);
         assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(3, pho2);
+            repository.updatePhoto(photoId, pho2);
         });
 
         Photo pho3 = new Photo("https://pinokkio", 1, 1, 1);
