@@ -1,5 +1,6 @@
 package com.norab.movie;
 
+import com.norab.utils.DeleteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.List;
@@ -64,21 +64,22 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public int deleteMovie(Integer movieId) {
+    public DeleteResult deleteMovie(Integer movieId) {
         var sql = """
             DELETE FROM movies
             WHERE movie_id = ?;
             """;
         try {
             int delete = jdbcTemplate.update(sql, movieId);
-            if (delete == 1) {
-                log.info(String.format("Movie with id: %d is deleted.", movieId));
+            if (delete == 0) {
+                return DeleteResult.INVALID_ID;
             }
-            return delete;
         } catch (DataAccessException e) {
             log.info(String.format("Movie with id: %d is failed to delete: %s", movieId, e.getMessage()));
+            return DeleteResult.JDBC_ERROR;
         }
-        return 0;
+        log.info(String.format("Movie with id: %d is deleted.", movieId));
+        return DeleteResult.SUCCESS;
     }
 
     @Override

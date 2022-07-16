@@ -61,9 +61,17 @@ class ActorRepositoryTest {
         int result = repository.deleteActor(id);
         assertEquals(1, result);
 
+        Integer id2 = 23;
+        int result2= repository.deleteActor(id2);
+        assertEquals(1, result2);
+
         Integer id1 = 223;
         int result1 = repository.deleteActor(id1);
         assertEquals(0, result1);
+
+        Integer id3 = 5;
+        int result3= repository.deleteActor(id3);
+        assertEquals(0, result3);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.norab.movie;
 
+import com.norab.utils.DeleteResult;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface MovieDao<Movie> {
 
     int insertMovie(Movie movie) throws IllegalStateException;
 
-    int deleteMovie(Integer movieId);
+    DeleteResult deleteMovie(Integer movieId);
 
     Optional<Movie> selectMovieById(Integer movieId);
 

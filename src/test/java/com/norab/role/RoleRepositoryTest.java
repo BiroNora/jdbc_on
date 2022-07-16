@@ -5,6 +5,7 @@ import com.norab.actor.Person;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
+import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -157,8 +158,7 @@ class RoleRepositoryTest {
         Plays plays = new Plays("Julius Cezar", movieId, null);
         int roleId = repository.insertRole(plays);
 
-        int del = movieRepository.deleteMovie(movieId);
-        assertEquals(1, del);
+        assertEquals(DeleteResult.SUCCESS, movieRepository.deleteMovie(movieId));
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);
         assertTrue(plays1.isPresent());

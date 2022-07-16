@@ -3,6 +3,7 @@ INSERT INTO movies(title, title_original, release_date, end_date, m_type, is_adu
 INSERT INTO movies(title, title_original, release_date, end_date, m_type, is_adult) VALUES('Lesz ez még így se!','As Good as It Gets',1997,NULL,'movie',0);
 INSERT INTO movies(title, title_original, release_date, end_date, m_type, is_adult) VALUES('Rossz álmok','The Gift',2000,NULL,'movie',0);
 INSERT INTO movies(title, title_original, release_date, end_date, m_type, is_adult) VALUES('Senki többet','La migliore offerta',2013,NULL,'movie',0);
+INSERT INTO movies(title, title_original, release_date, end_date, m_type, is_adult) VALUES('Az élet szép','La vita e bella',1997,NULL,'movie',0);
 
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('Johnny Depp',1963,NULL);
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('Greg Kinnear',1963,NULL);
@@ -26,6 +27,7 @@ INSERT INTO actors(full_name, birth_date, death_date) VALUES('Jim Sturgess',1978
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('Sylvia Hoeks',1983,NULL);
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('Helen Hunt',1963,NULL);
 INSERT INTO actors(full_name, birth_date, death_date) VALUES('Keanu Reeves',1964,NULL);
+INSERT INTO actors(full_name, birth_date, death_date) VALUES('Roberto Benigni',1952,NULL);
 
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Jack Sparrow',1,1);
 INSERT INTO plays(role_name, movie_id, actor_id) VALUES('Billy Whistler',5,14);

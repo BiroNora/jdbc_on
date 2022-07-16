@@ -5,6 +5,7 @@ import com.norab.actor.Person;
 import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
+import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -199,8 +200,7 @@ class PhotoRepositoryTest {
         Photo photo = new Photo("https://kleo", movieId, null, null);
         Integer photoId = repository.insertPhoto(photo);
 
-        Integer del = movieRepository.deleteMovie(movieId);
-        assertEquals(1, del);
+        assertEquals(DeleteResult.SUCCESS, movieRepository.deleteMovie(movieId));
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());

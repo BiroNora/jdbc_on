@@ -1,5 +1,6 @@
 package com.norab.movie;
 
+import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -8,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
@@ -30,7 +30,7 @@ class MovieRepositoryTest {
             System.out.print(m.getMovieId() + " ");
             System.out.println(m.getTitle());
         }
-        assertEquals(movies.size(), 5);
+        assertEquals(movies.size(), 6);
         assertEquals(movies.get(3).getTitleOriginal(), "The Gift");
     }
 
@@ -50,13 +50,11 @@ class MovieRepositoryTest {
     @Test
     @Order(3)
     void deleteMovie() {
-        /*Integer id = 1;
-        int result = repository.deleteMovie(id);
-        assertEquals(1, result);*/
-
-        Integer id1 = 2245;
-        int result1 = repository.deleteMovie(id1);
-        assertEquals(0, result1);
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
+        int movieId = repository.insertMovie(movie);
+        assertEquals(DeleteResult.JDBC_ERROR, repository.deleteMovie(1));
+        assertEquals(DeleteResult.INVALID_ID, repository.deleteMovie(2255));
+        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId));
     }
 
     @Test

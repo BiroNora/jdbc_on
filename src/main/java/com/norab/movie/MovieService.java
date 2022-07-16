@@ -1,11 +1,11 @@
 package com.norab.movie;
 
 import com.norab.exception.AlreadyExistsException;
+import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieService {
@@ -31,15 +31,11 @@ public class MovieService {
     }
 
     public void deleteMovie(Integer movieId) {
-        Optional<Movie> movie1 = movieDao.selectMovieById(movieId);
-        movie1.ifPresentOrElse(movie -> {
-            int result = movieDao.deleteMovie(movieId);
-            if (result != 1) {
-                throw new IllegalStateException("oops could not delete movie");
-            }
-        }, () -> {
-            throw new NotFoundException(String.format("Movie with id %s not found", movieId));
-        });
+        switch (movieDao.deleteMovie(movieId)) {
+            case INVALID_ID: throw new NotFoundException(String.format("Movie with id %s not found", movieId));
+            case JDBC_ERROR: throw new InvalidInputException("oops could not delete movie");
+            case SUCCESS: return;
+        }
     }
 
     public Movie getMovie(Integer movieId) {
