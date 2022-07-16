@@ -36,18 +36,6 @@ public class MovieRepository implements MovieDao<Movie> {
         return jdbcTemplate.query(sql, new MovieRowMapper());
     }
 
-    /*@Override
-    public int insertMovie(Movie movie) {
-        var sql = """
-            INSERT INTO movies(title, title_original, release_date) VALUES (?, ?, ?);
-            """;
-        int insert = jdbcTemplate.update(sql, movie.getTitle(), movie.getTitleOriginal(), movie.getReleaseDate());
-        if (insert == 1) {
-            log.info("New movie inserted: " + movie);
-        }
-        return insert;
-    }*/
-
     @Override
     public int insertMovie(Movie movie) {
         var sql = """
