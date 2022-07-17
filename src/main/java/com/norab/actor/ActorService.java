@@ -1,11 +1,11 @@
 package com.norab.actor;
 
 import com.norab.exception.AlreadyExistsException;
+import com.norab.exception.InternalServerExeption;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ActorService {
@@ -31,16 +31,17 @@ public class ActorService {
         return actorDao.insertActor(actor);
     }
 
-    public void deleteActor(Integer actorId) {
-        Optional<Person> actor1 = actorDao.selectActorById(actorId);
-        actor1.ifPresentOrElse(actor -> {
-            int result = actorDao.deleteActor(actorId);
-            if (result != 1) {
-                throw new IllegalStateException("oops could not delete actor");
-            }
-        }, () -> {
-            throw new NotFoundException(String.format("Actor with id %s not found", actorId));
-        });
+    public void deleteActor(Integer actorId, boolean force) {
+        switch (actorDao.deleteActor(actorId, force)) {
+            case INVALID_ID:
+                throw new NotFoundException(String.format("Actor with id %s not found", actorId));
+            case JDBC_ERROR:
+                throw new InternalServerExeption("Could not delete actor");
+            case HAS_REFERENCES:
+                throw new AlreadyExistsException("Warning: this actor has references");
+            case SUCCESS:
+                return;
+        }
     }
 
     public Person getActor(Integer actorId) {

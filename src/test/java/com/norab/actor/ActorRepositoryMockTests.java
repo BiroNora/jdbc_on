@@ -79,8 +79,8 @@ public class ActorRepositoryMockTests {
     @Test
     void deleteActor() {
         Integer id = 5;
-        repository.deleteActor(id);
-        verify(repository, times(1)).deleteActor(id);
+        repository.deleteActor(id, false);
+        verify(repository, times(1)).deleteActor(id, false);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.norab.actor;
 
+import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @SpringBootTest
 class ActorRepositoryTest {
@@ -22,7 +22,6 @@ class ActorRepositoryTest {
 
 
     @Test
-    @Order(2)
     void selectActors() {
         List<Person> actors = repository.selectActors();
         for (Person a : actors) {
@@ -34,7 +33,6 @@ class ActorRepositoryTest {
     }
 
     @Test
-    @Order(3)
     void insertAlive_DeceasedActor() {
         Person actorLiv = new Person("Helen Hunt",
             (short) 1963);
@@ -55,27 +53,28 @@ class ActorRepositoryTest {
     }
 
     @Test
-    @Order(4)
-    void deleteActor() {
-        Integer id = 1;
-        int result = repository.deleteActor(id);
-        assertEquals(1, result);
-
-        Integer id2 = 23;
-        int result2= repository.deleteActor(id2);
-        assertEquals(1, result2);
-
-        Integer id1 = 223;
-        int result1 = repository.deleteActor(id1);
-        assertEquals(0, result1);
-
-        Integer id3 = 5;
-        int result3= repository.deleteActor(id3);
-        assertEquals(0, result3);
+    void deleteActor_InvalidId() {
+        assertEquals(DeleteResult.INVALID_ID, repository.deleteActor(2255, false));
+        assertEquals(DeleteResult.INVALID_ID, repository.deleteActor(2255, true));
     }
 
     @Test
-    @Order(5)
+    void deleteActor_NoReference() {
+        Person actor = new Person("Julius Cesare", (short) 100, (short) 44);
+        int actorId = repository.insertActor(actor);
+        assertEquals(DeleteResult.SUCCESS, repository.deleteActor(actorId, false));
+
+        actorId = repository.insertActor(actor);
+        assertEquals(DeleteResult.SUCCESS, repository.deleteActor(actorId, true));
+    }
+
+    @Test
+    void deleteActor_WithReferences() {
+        assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteActor(6, false));
+        assertEquals(DeleteResult.SUCCESS, repository.deleteActor(6, true));
+    }
+
+    @Test
     void selectActorById() {
         Integer id = 2;
         Optional<Person> selected = repository.selectActorById(id);
@@ -87,7 +86,6 @@ class ActorRepositoryTest {
     }
 
     @Test
-    @Order(6)
     void updateActor() {
         Integer id = 5;
         Person act0 = repository.selectActorById(id).orElseThrow();
@@ -104,7 +102,6 @@ class ActorRepositoryTest {
     }
 
     @Test
-    @Order(7)
     void updateActorWithInvalidId() {
         Person act1 = new Person("Monica Vitti",
             (short) 1931,

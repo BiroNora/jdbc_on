@@ -31,8 +31,11 @@ public class ActorController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteActor(@PathVariable("id") Integer actorId) {
-        actorService.deleteActor(actorId);
+    public void deleteActor(
+        @PathVariable("id") Integer actorId,
+        @RequestParam(name = "force", required = false, defaultValue = "false") String forceParam) {
+        boolean force = forceParam != null && forceParam.equalsIgnoreCase("true");
+        actorService.deleteActor(actorId, force);
     }
 
     @PutMapping("{id}")

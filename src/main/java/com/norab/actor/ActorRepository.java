@@ -1,14 +1,15 @@
 package com.norab.actor;
 
+import com.norab.utils.DeleteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.List;
@@ -63,16 +64,42 @@ public class ActorRepository implements ActorDao<Person> {
     }
 
     @Override
-    public int deleteActor(Integer actorId) {
+    public DeleteResult deleteActor(Integer actorId, boolean force) {
         var sql = """
             DELETE FROM actors
             WHERE actor_id = ?;
             """;
-        int delete = jdbcTemplate.update(sql, actorId);
-        if (delete == 1) {
-            log.info(String.format("Actor with id: %d is deleted.", actorId));
+        String checkUsage = """
+            SELECT
+                count(DISTINCT directors.movie_id) +
+                count(DISTINCT plays.movie_id) AS numOfRefs
+              FROM directors, plays
+              WHERE
+                directors.actor_id = ? AND
+                plays.actor_id = ?
+            ;
+            """;
+        try {
+            if (!force) {
+                List<Boolean> result = jdbcTemplate.query(
+                    checkUsage,
+                    (resultSet, i) -> resultSet.getInt("numOfRefs") > 0,
+                    actorId, actorId);
+                log.info(String.format("Result %d.", result.get(0)? 1 : 0));
+                if (result.contains(true)) {
+                    return DeleteResult.HAS_REFERENCES;
+                }
+            }
+            int delete = jdbcTemplate.update(sql, actorId);
+            if (delete == 0) {
+                return DeleteResult.INVALID_ID;
+            }
+        } catch (DataAccessException e) {
+            log.info(String.format("Actor with id: %d is failed to delete: %s", actorId, e.getMessage()));
+            return DeleteResult.JDBC_ERROR;
         }
-        return delete;
+        log.info(String.format("Actor with id: %d is deleted.", actorId));
+        return DeleteResult.SUCCESS;
     }
 
     @Override

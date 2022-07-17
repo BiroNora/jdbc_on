@@ -206,8 +206,7 @@ class PhotoRepositoryTest {
         Photo photo = new Photo("https://gretagarbo", null, Math.toIntExact(actorId), null);
         Integer photoId = repository.insertPhoto(photo);
 
-        int del = actorRepository.deleteActor(Math.toIntExact(actorId));
-        assertEquals(1, del);
+        assertEquals(DeleteResult.SUCCESS, actorRepository.deleteActor(actorId, false));
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());

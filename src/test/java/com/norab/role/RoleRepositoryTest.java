@@ -7,7 +7,6 @@ import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @SpringBootTest
 class RoleRepositoryTest {
@@ -33,7 +32,6 @@ class RoleRepositoryTest {
     private ActorRepository actorRepository;
 
     @Test
-    @Order(1)
     void selectRoles() {
         List<Plays> roles = repository.selectRoles();
         for (Plays p : roles) {
@@ -45,7 +43,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(2)
     void insertRole() {
         Plays plays = new Plays("Sheryl Hoover", 2, null);
 
@@ -58,7 +55,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(3)
     void deleteRole() {
         Integer roleId = 2;
         int result = repository.deleteRole(roleId);
@@ -71,7 +67,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(3)
     void selectRoleByValidId() {
         Plays plays = new Plays("Olive Hoover", 2, null);
         try {
@@ -93,7 +88,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(4)
     void selectRoleByValidId1() {
         Integer roleId = 3;
         Optional<Plays> selected = repository.selectRoleById(roleId);
@@ -101,14 +95,12 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(5)
     void selectRoleByInvalidId() {
         var plays = repository.selectRoleById(1024);
         assertTrue(plays.isEmpty());
     }
 
     @Test
-    @Order(6)
     void updateRole() {
         Plays role = repository.selectRoleById(3).orElseThrow();
         System.out.println(role);
@@ -122,7 +114,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(7)
     void updateRoleByInvalidIds() {
         Plays role = repository.selectRoleById(3).orElseThrow();
         System.out.println(role);
@@ -150,7 +141,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(8)
     void deleteReferredMovie() {
         Movie movie = new Movie("Kleo", "Patra", (short) 2002);
         int movieId = movieRepository.insertMovie(movie);
@@ -166,7 +156,6 @@ class RoleRepositoryTest {
     }
 
     @Test
-    @Order(8)
     void deleteReferredActor() {
         Person actor = new Person("Greta Garbo", (short) 2002);
         int actorId = actorRepository.insertActor(actor);
@@ -174,12 +163,10 @@ class RoleRepositoryTest {
         Plays plays = new Plays("Krisztina Királynő", null, actorId);
         int roleId = repository.insertRole(plays);
 
-        int del = actorRepository.deleteActor(actorId);
-        assertEquals(1, del);
+        assertEquals(DeleteResult.SUCCESS, actorRepository.deleteActor(actorId, false));
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);
         assertTrue(plays1.isPresent());
         assertEquals(0, plays1.get().getActorId());
     }
-
 }

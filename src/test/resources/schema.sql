@@ -27,7 +27,7 @@ CREATE TABLE plays (
     CONSTRAINT fk_plays_actor_id
 		FOREIGN KEY (actor_id)
 		REFERENCES actors (actor_id)
-		ON DELETE SET NULL
+		ON DELETE CASCADE
 );
 
 CREATE TABLE photos (
@@ -60,7 +60,7 @@ CREATE TABLE directors (
     CONSTRAINT fk_directors_actor_id
         FOREIGN KEY (actor_id)
         REFERENCES actors (actor_id)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
     CONSTRAINT fk_directors PRIMARY KEY (actor_id, movie_id)
 );
 
