@@ -70,15 +70,15 @@ public class MovieRepository implements MovieDao<Movie> {
             WHERE movie_id = ?;
             """;
         String checkUsage = """
-            SELECT
-                count(DISTINCT genre) +
-                count(DISTINCT directors.actor_id) +
-                count(DISTINCT plays.actor_id) AS numOfRefs
-            FROM directors, plays, genre
-            WHERE
-                directors.movie_id = ? AND
-                plays.movie_id = ? AND
-                genre.movie_id = ?
+            SELECT sum(c) AS numOfRefs FROM
+              (SELECT count(*) AS c FROM directors
+              WHERE movie_id = ?
+              UNION
+              SELECT count(*) FROM plays
+              WHERE movie_id = ?
+              UNION
+              SELECT count(*) FROM genre
+              WHERE movie_id = ?)
             ;
             """;
         try {

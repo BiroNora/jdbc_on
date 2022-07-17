@@ -110,7 +110,7 @@ public class ActorIntegrationTest {
     @Test
     @Order(7)
     void deleteActorByValidId_NoReferenceConflict() throws Exception {
-        mockMvc.perform(delete("/api/v1/actors/2"))
+        mockMvc.perform(delete("/api/v1/actors/23"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors"))
@@ -123,13 +123,20 @@ public class ActorIntegrationTest {
     @Order(8)
     void deleteActorByValidId_ReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/1"))
+            .andExpect(status().isConflict());
+
+        mockMvc.perform(get("/api/v1/actors"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string((containsString("Depp"))));
+
+        mockMvc.perform(delete("/api/v1/actors/1?force=true"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("1963"))))
-            .andExpect(content().string((containsString("Rush"))));
+            .andExpect(content().string(not(containsString("Depp"))));
     }
 
     @Test

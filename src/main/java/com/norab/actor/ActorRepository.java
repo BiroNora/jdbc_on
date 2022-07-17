@@ -70,13 +70,12 @@ public class ActorRepository implements ActorDao<Person> {
             WHERE actor_id = ?;
             """;
         String checkUsage = """
-            SELECT
-                count(DISTINCT directors.movie_id) +
-                count(DISTINCT plays.movie_id) AS numOfRefs
-              FROM directors, plays
-              WHERE
-                directors.actor_id = ? AND
-                plays.actor_id = ?
+            SELECT sum(c) AS numOfRefs FROM
+              (SELECT count(*) AS c FROM directors
+              WHERE actor_id = ?
+              UNION
+              SELECT count(*) FROM plays
+              WHERE actor_id = ?)
             ;
             """;
         try {
@@ -85,7 +84,6 @@ public class ActorRepository implements ActorDao<Person> {
                     checkUsage,
                     (resultSet, i) -> resultSet.getInt("numOfRefs") > 0,
                     actorId, actorId);
-                log.info(String.format("Result %d.", result.get(0)? 1 : 0));
                 if (result.contains(true)) {
                     return DeleteResult.HAS_REFERENCES;
                 }

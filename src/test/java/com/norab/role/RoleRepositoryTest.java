@@ -148,7 +148,7 @@ class RoleRepositoryTest {
         Plays plays = new Plays("Julius Cezar", movieId, null);
         int roleId = repository.insertRole(plays);
 
-        assertEquals(DeleteResult.SUCCESS, movieRepository.deleteMovie(movieId, false));
+        assertEquals(DeleteResult.HAS_REFERENCES, movieRepository.deleteMovie(movieId, false));
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);
         assertTrue(plays1.isPresent());
