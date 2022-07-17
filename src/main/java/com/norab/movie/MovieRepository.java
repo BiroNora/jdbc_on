@@ -71,9 +71,9 @@ public class MovieRepository implements MovieDao<Movie> {
             """;
         String checkUsage = """
             SELECT
-                count(DISTINCT genre) AS numOfGenre,
-                count(DISTINCT directors.actor_id) AS numOfDirs,
-                count(DISTINCT plays.actor_id) AS numOfChars
+                count(DISTINCT genre) +
+                count(DISTINCT directors.actor_id) +
+                count(DISTINCT plays.actor_id) AS numOfRefs
             FROM directors, plays, genre
             WHERE
                 directors.movie_id = ? AND
@@ -83,12 +83,10 @@ public class MovieRepository implements MovieDao<Movie> {
             """;
         try {
             if (!force) {
-                List<Boolean> result = jdbcTemplate.query(checkUsage, (resultSet, i) -> {
-                    int numOfGenre = resultSet.getInt("numOfGenre");
-                    int numOfDirs = resultSet.getInt("numOfDirs");
-                    int numOfChars = resultSet.getInt("numOfChars");
-                    return numOfChars + numOfDirs + numOfGenre > 0;
-                }, movieId, movieId, movieId);
+                List<Boolean> result = jdbcTemplate.query(
+                    checkUsage,
+                    (resultSet, i) -> resultSet.getInt("numOfRefs") > 0,
+                    movieId, movieId, movieId);
                 if (result.contains(true)) {
                     return DeleteResult.HAS_REFERENCES;
                 }
