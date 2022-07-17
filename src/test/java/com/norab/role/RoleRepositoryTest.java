@@ -152,7 +152,7 @@ class RoleRepositoryTest {
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);
         assertTrue(plays1.isPresent());
-        assertEquals(0, plays1.get().getMovieId());
+        assertEquals(movieId, plays1.get().getMovieId());
     }
 
     @Test
@@ -163,10 +163,10 @@ class RoleRepositoryTest {
         Plays plays = new Plays("Krisztina Királynő", null, actorId);
         int roleId = repository.insertRole(plays);
 
-        assertEquals(DeleteResult.SUCCESS, actorRepository.deleteActor(actorId, false));
+        assertEquals(DeleteResult.HAS_REFERENCES, actorRepository.deleteActor(actorId, false));
 
         Optional<Plays> plays1 = repository.selectRoleById(roleId);
         assertTrue(plays1.isPresent());
-        assertEquals(0, plays1.get().getActorId());
+        assertEquals(actorId, plays1.get().getActorId());
     }
 }

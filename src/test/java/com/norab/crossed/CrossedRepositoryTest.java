@@ -32,7 +32,7 @@ class CrossedRepositoryTest {
         for (Movie m : movies) {
             System.out.println(m);
         }
-        assertEquals(5, movies.size());
+        assertEquals(6, movies.size());
     }
 
     @Test
