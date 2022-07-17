@@ -29,8 +29,11 @@ public class MovieController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteMovie(@PathVariable("id") Integer movieId) {
-        movieService.deleteMovie(movieId);
+    public void deleteMovie(
+        @PathVariable("id") Integer movieId,
+        @RequestParam(name = "force", required = false, defaultValue = "false") String forceParam) {
+        boolean force = forceParam != null && forceParam.equalsIgnoreCase("true");
+        movieService.deleteMovie(movieId, force);
     }
 
     @PutMapping("{id}")

@@ -205,7 +205,7 @@ class PhotoRepositoryTest {
         Photo photo = new Photo("https://kleo", movieId, null, null);
         Integer photoId = repository.insertPhoto(photo);
 
-        assertEquals(DeleteResult.SUCCESS, movieRepository.deleteMovie(movieId));
+        assertEquals(DeleteResult.SUCCESS, movieRepository.deleteMovie(movieId, false));
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());

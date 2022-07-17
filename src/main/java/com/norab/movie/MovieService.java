@@ -30,10 +30,11 @@ public class MovieService {
         return movieDao.insertMovie(movie);
     }
 
-    public void deleteMovie(Integer movieId) {
-        switch (movieDao.deleteMovie(movieId)) {
+    public void deleteMovie(Integer movieId, boolean force) {
+        switch (movieDao.deleteMovie(movieId, force)) {
             case INVALID_ID: throw new NotFoundException(String.format("Movie with id %s not found", movieId));
             case JDBC_ERROR: throw new InvalidInputException("oops could not delete movie");
+            case HAS_REFERENCES: throw new AlreadyExistsException("Warning: this movie has references");
             case SUCCESS: return;
         }
     }

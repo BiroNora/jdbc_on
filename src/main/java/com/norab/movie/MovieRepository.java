@@ -64,12 +64,35 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public DeleteResult deleteMovie(Integer movieId) {
+    public DeleteResult deleteMovie(Integer movieId, boolean force) {
         var sql = """
             DELETE FROM movies
             WHERE movie_id = ?;
             """;
+        String checkUsage = """
+            SELECT
+                count(DISTINCT genre) AS numOfGenre,
+                count(DISTINCT directors.actor_id) AS numOfDirs,
+                count(DISTINCT plays.actor_id) AS numOfChars
+            FROM directors, plays, genre
+            WHERE
+                directors.movie_id = ? AND
+                plays.movie_id = ? AND
+                genre.movie_id = ?
+            ;
+            """;
         try {
+            if (!force) {
+                List<Boolean> result = jdbcTemplate.query(checkUsage, (resultSet, i) -> {
+                    int numOfGenre = resultSet.getInt("numOfGenre");
+                    int numOfDirs = resultSet.getInt("numOfDirs");
+                    int numOfChars = resultSet.getInt("numOfChars");
+                    return numOfChars + numOfDirs + numOfGenre > 0;
+                }, movieId, movieId, movieId);
+                if (result.contains(true)) {
+                    return DeleteResult.HAS_REFERENCES;
+                }
+            }
             int delete = jdbcTemplate.update(sql, movieId);
             if (delete == 0) {
                 return DeleteResult.INVALID_ID;

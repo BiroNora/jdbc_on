@@ -2,7 +2,6 @@ package com.norab.movie;
 
 import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @SpringBootTest
 class MovieRepositoryTest {
@@ -23,19 +22,16 @@ class MovieRepositoryTest {
     private MovieRepository repository;
 
     @Test
-    @Order(1)
     void selectMovies() {
         List<Movie> movies = repository.selectMovies();
         for (Movie m : movies) {
             System.out.print(m.getMovieId() + " ");
             System.out.println(m.getTitle());
         }
-        assertEquals(movies.size(), 6);
-        assertEquals(movies.get(3).getTitleOriginal(), "The Gift");
+        assertTrue(movies.size() > 0);
     }
 
     @Test
-    @Order(2)
     void insertMovie() {
         Movie movie = new Movie(
             "Avatar",
@@ -48,17 +44,28 @@ class MovieRepositoryTest {
     }
 
     @Test
-    @Order(3)
-    void deleteMovie() {
-        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
-        int movieId = repository.insertMovie(movie);
-        assertEquals(DeleteResult.JDBC_ERROR, repository.deleteMovie(1));
-        assertEquals(DeleteResult.INVALID_ID, repository.deleteMovie(2255));
-        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId));
+    void deleteMovie_InvalidId() {
+        assertEquals(DeleteResult.INVALID_ID, repository.deleteMovie(2255, false));
+        assertEquals(DeleteResult.INVALID_ID, repository.deleteMovie(2255, true));
     }
 
     @Test
-    @Order(4)
+    void deleteMovie_NoReference() {
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
+        int movieId = repository.insertMovie(movie);
+        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId, false));
+
+        movieId = repository.insertMovie(movie);
+        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId, true));
+    }
+
+    @Test
+    void deleteMovie_WithReferences() {
+        assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteMovie(1, false));
+        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(1, true));
+    }
+
+    @Test
     void selectMovieById() {
         Integer id = 2;
         Optional<Movie> selected = repository.selectMovieById(id);
@@ -70,7 +77,6 @@ class MovieRepositoryTest {
     }
 
     @Test
-    @Order(5)
     void updateMovie() {
         Movie mov = repository.selectMovieById(2).get();
         mov.setTitleOriginal("Parenthood");
@@ -86,7 +92,5 @@ class MovieRepositoryTest {
             (short) 2021);
         int result1 = repository.updateMovie(20022, movie);
         assertEquals(0, result1);
-
     }
-
 }

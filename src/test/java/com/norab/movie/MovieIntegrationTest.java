@@ -103,12 +103,21 @@ public class MovieIntegrationTest {
     @Order(6)
     void deleteMovieByValidId_ReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/1"))
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isConflict());
 
         mockMvc.perform(get("/api/v1/movies"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string((containsString("Fekete"))))
+            .andExpect(content().string((containsString("Karib"))));
+
+        mockMvc.perform(delete("/api/v1/movies/1?force=true"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/movies"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(not(containsString("Fekete"))))
             .andExpect(content().string((containsString("Karib"))));
     }
 

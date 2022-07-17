@@ -12,7 +12,7 @@ public interface MovieDao<Movie> {
 
     int insertMovie(Movie movie) throws IllegalStateException;
 
-    DeleteResult deleteMovie(Integer movieId);
+    DeleteResult deleteMovie(Integer movieId, boolean force);
 
     Optional<Movie> selectMovieById(Integer movieId);
 
