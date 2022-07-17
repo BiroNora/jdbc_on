@@ -1,6 +1,7 @@
 package com.norab.movie;
 
 import com.norab.exception.AlreadyExistsException;
+import com.norab.exception.InternalServerExeption;
 import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class MovieService {
     public void deleteMovie(Integer movieId, boolean force) {
         switch (movieDao.deleteMovie(movieId, force)) {
             case INVALID_ID: throw new NotFoundException(String.format("Movie with id %s not found", movieId));
-            case JDBC_ERROR: throw new InvalidInputException("oops could not delete movie");
+            case JDBC_ERROR: throw new InternalServerExeption("Could not delete movie");
             case HAS_REFERENCES: throw new AlreadyExistsException("Warning: this movie has references");
             case SUCCESS: return;
         }
