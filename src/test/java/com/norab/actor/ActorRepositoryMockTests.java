@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
