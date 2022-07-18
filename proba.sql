@@ -166,3 +166,87 @@ join (select group_concat(genre) as genres, movie_id from genre group by movie_i
 where title like '%ove%'
 order by title
 ;
+
+--29822
+SELECT * FROM movies
+WHERE title LIKE 'rossz%'
+ORDER BY title
+;
+
+SELECT count(*) FROM directors
+WHERE movie_id = 29822
+;
+
+SELECT count(*) FROM plays
+WHERE movie_id = 29822
+;
+
+SELECT count(*) FROM genre
+WHERE movie_id = 29822
+;
+--12
+SELECT * FROM directors, plays, genre
+WHERE directors.movie_id = 29822 AND
+plays.movie_id = 29822 AND genre.movie_id = 29822
+;
+--3, 1, 4
+SELECT
+count(DISTINCT genre) AS NumOfGenre,
+count(DISTINCT directors.person_id) AS NumOfDirs,
+count(DISTINCT plays.person_id) AS NumOfChars
+FROM directors, plays, genre
+WHERE directors.movie_id = 29822 AND
+plays.movie_id = 29822 AND genre.movie_id = 29822
+;
+--549
+SELECT * FROM people
+WHERE full_name LIKE 'Greg%'
+ORDER BY full_name
+;
+
+SELECT
+count(DISTINCT directors.movie_id) AS NumOfDirs,
+count(DISTINCT plays.movie_id) AS NumOfChars
+FROM directors, plays
+WHERE directors.person_id = 549 AND
+plays.person_id = 549
+;
+SELECT title, role_name
+FROM movies
+JOIN
+(SELECT
+directors.movie_id AS dm,
+plays.movie_id AS pm,
+role_name
+FROM directors, plays
+WHERE directors.person_id = 549 AND
+plays.person_id = 549) AS dirs
+ON(dm = movie_id OR pm = movie_id)
+GROUP BY title
+ORDER BY title
+;
+
+SELECT
+count(DISTINCT genre) +
+count(DISTINCT directors.person_id) +
+count(DISTINCT plays.person_id) AS NumOfChars
+FROM directors, plays, genre
+WHERE directors.movie_id = 29822 AND
+plays.movie_id = 29822 AND genre.movie_id = 29822
+;
+
+SELECT
+count(DISTINCT directors.movie_id) +
+count(DISTINCT plays.movie_id) AS NumOfMovies
+FROM directors, plays
+WHERE directors.person_id = 10 OR
+plays.person_id = 10
+;
+
+SELECT sum(dir) FROM
+(SELECT count(*) AS dir FROM directors
+WHERE person_id = 5
+UNION
+SELECT count(*) FROM plays
+WHERE person_id = 5)
+;
