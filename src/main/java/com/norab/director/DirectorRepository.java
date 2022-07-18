@@ -90,23 +90,25 @@ public class DirectorRepository implements DirectorDao<Director> {
     public List<MoviesByDirector> selectMoviesByDirector(String name) {
         String q = Utils.addPercent(name);
         var sql = """
-           SELECT title, title_original, release_date
+           SELECT title, title_original, release_date, full_name
            FROM movies
            JOIN
            ((SELECT actor_id, movie_id
            FROM directors) AS dir
            JOIN
            (SELECT actor_id, full_name
-           FROM actors
-           WHERE LOWER(full_name) LIKE LOWER(?)) AS act
+                FROM actors
+                WHERE LOWER(full_name) LIKE LOWER(?)) AS act
            USING(actor_id))
            USING(movie_id)
+           ;
             """;
         return jdbcTemplate.query(
             sql, (resultSet, i) -> new MoviesByDirector(
                 resultSet.getString("title"),
                 resultSet.getString("title_original"),
-                resultSet.getShort("release_date")), q);
+                resultSet.getShort("release_date"),
+                resultSet.getString("full_name")), q);
     }
 
     @Override

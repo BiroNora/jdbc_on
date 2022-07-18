@@ -21,7 +21,8 @@ public interface DirectorDao<Director> {
     record MoviesByDirector(
         String title,
         String titleOriginal,
-        Short releaseDate
+        Short releaseDate,
+        String fullName
     ) {
     }
 
