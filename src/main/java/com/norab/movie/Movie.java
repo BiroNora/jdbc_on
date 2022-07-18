@@ -10,11 +10,8 @@ public class Movie {
     private String title;
     private String titleOriginal;
     private Short releaseDate;
-
     private Short endDate;
-
     private String mType;
-
     private boolean isAdult;
 
     public Movie() {
