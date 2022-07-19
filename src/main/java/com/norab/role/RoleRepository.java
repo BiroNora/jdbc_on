@@ -29,6 +29,7 @@ public class RoleRepository implements RoleDao<Plays> {
         var sql = """
             SELECT role_id, role_name, movie_id, actor_id
             FROM plays
+            ORDER BY role_name asc
             LIMIT 10;
             """;
         return jdbcTemplate.query(sql, new RoleRowMapper());

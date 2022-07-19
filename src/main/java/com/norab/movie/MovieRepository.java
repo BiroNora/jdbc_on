@@ -38,6 +38,7 @@ public class MovieRepository implements MovieDao<Movie> {
                 m_type, 
                 is_adult
             FROM movies
+            ORDER BY title asc
             LIMIT 10
             ;
             """;

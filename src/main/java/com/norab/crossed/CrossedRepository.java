@@ -33,11 +33,11 @@ public class CrossedRepository implements CrossedDao {
             SELECT role_name, title
             FROM movies
             JOIN
-            (SELECT role_name, movie_id
-            FROM plays
-            WHERE actor_id = ?) AS p
+                (SELECT role_name, movie_id
+                FROM plays
+                WHERE actor_id = ?) AS p
             USING (movie_id)
-            LIMIT 10;
+            ;
             """;
         return jdbcTemplate.query(
             sql, (resultSet, i) -> new MoviesByActor(
