@@ -62,6 +62,7 @@ public class Person {
     }
 
     public Integer getAge() {
+        if (birthDate == null) return null;
         if (deathDate == null) {
             return LocalDate.now().getYear() - birthDate;
         }

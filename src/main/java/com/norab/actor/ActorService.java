@@ -61,4 +61,8 @@ public class ActorService {
             throw new NotFoundException(String.format("Actor with id %s not found", actorId));
         }
     }
+
+    public List<Person> selectActorByName(String name, boolean match) {
+        return actorDao.selectActorByName(name, match);
+    }
 }

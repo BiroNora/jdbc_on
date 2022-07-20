@@ -15,7 +15,7 @@ public interface ActorDao<Actor> {
     DeleteResult deleteActor(Integer actorId, boolean force);
 
     Optional<Actor> selectActorById(Integer actorId);
-    Optional<Actor> selectActorByName(String name);
+    List<Person> selectActorByName(String name, boolean match);
 
     int updateActor(Integer actorId, Actor actor);
 }

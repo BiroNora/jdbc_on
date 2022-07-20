@@ -1,6 +1,7 @@
 package com.norab.actor;
 
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,19 +119,14 @@ public class ActorRepository implements ActorDao<Person> {
     }
 
     @Override
-    public Optional<Person> selectActorByName(String name) {
+    public List<Person> selectActorByName(String name, boolean match) {
         var sql = """
-            SELECT actor_id, full_name
+            SELECT actor_id, full_name, birth_date, death_date
             FROM actors
             WHERE LOWER(full_name) LIKE LOWER(?);
             """;
-        Optional<Person> selected = jdbcTemplate.query(sql, new ActorRowMapper(), name)
-            .stream()
-            .findFirst();
-        if (selected.isPresent()) {
-            log.info(String.format("Actor with id: %d is selected.", name));
-        }
-        return selected;
+        String q = match ? Utils.addPercent(name) : name;
+        return jdbcTemplate.query(sql, new ActorRowMapper(), q);
     }
 
     @Override

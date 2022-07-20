@@ -10,7 +10,6 @@ public class ActorController {
     private final ActorService actorService;
 
     public ActorController(ActorService actorService) {
-
         this.actorService = actorService;
     }
 
@@ -21,8 +20,15 @@ public class ActorController {
 
     @GetMapping("{id}")
     public Person getActorId(@PathVariable("id") Integer actorId) {
-
         return actorService.getActor(actorId);
+    }
+
+    @GetMapping("/find")
+    public List<Person> selectActorByName(
+        @RequestParam(name = "name", required = true) String name,
+        @RequestParam(name = "match", required = false, defaultValue = "false") String match) {
+        boolean m = match != null && match.equalsIgnoreCase("true");
+        return actorService.selectActorByName(name, m);
     }
 
     @PostMapping
