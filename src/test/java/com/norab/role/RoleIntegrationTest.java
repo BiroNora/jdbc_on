@@ -55,7 +55,7 @@ public class RoleIntegrationTest {
     @Order(4)
     void updateRole() throws Exception {
         String data = """
-            {            
+            {
             "roleName": "Barbossa",
             "movieId": 1
             }
@@ -66,7 +66,7 @@ public class RoleIntegrationTest {
             .andExpect(status().isOk());
 
         String data1 = """
-            {            
+            {
             "roleName": "Barbossa",
             "movieId": 1,
             "actorId": 3
@@ -87,7 +87,7 @@ public class RoleIntegrationTest {
     @Order(5)
     void insertRole() throws Exception {
         String data = """
-            {            
+            {
             "roleName": "Norrington",
             "movieId": 1
             }
@@ -102,7 +102,7 @@ public class RoleIntegrationTest {
     @Order(6)
     void insertRoleWithNotExistingMovieId() throws Exception {
         String data = """
-            {            
+            {
             "roleName": "Murtogg",
             "movieId": 100
             }
@@ -117,7 +117,7 @@ public class RoleIntegrationTest {
     @Order(7)
     void insertRoleWithNotExistingActorId() throws Exception {
         String data = """
-            {            
+            {
             "roleName": "Cotton",
             "actorId": 1001
             }

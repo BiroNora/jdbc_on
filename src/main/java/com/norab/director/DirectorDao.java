@@ -13,7 +13,7 @@ public interface DirectorDao<Director> {
 
     boolean deleteDirector(Integer actorId, Integer movieId);
 
-    //if relation exists between specified director & movie
+    //If relation exists between specified director & movie
     Optional<Director> selectDirectorById(Integer actorId, Integer movieId);
 
     //CROSSED one director and related films
@@ -23,9 +23,8 @@ public interface DirectorDao<Director> {
         String titleOriginal,
         Short releaseDate,
         String fullName
-    ) {
-    }
+    ) {}
 
-    //films of one director
+    //Films of one director
     Optional<Director> selectDirectorsByMovieId(Integer movieId);
 }

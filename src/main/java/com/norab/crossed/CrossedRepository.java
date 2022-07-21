@@ -97,11 +97,11 @@ public class CrossedRepository implements CrossedDao {
                 (SELECT actor_id, role_name, m.title, m.title_original
             FROM plays
             JOIN
-            	(SELECT movie_id, title, title_original
-            	FROM movies
-            	WHERE LOWER(title) LIKE LOWER(?)
-            	OR LOWER(title_original) LIKE LOWER(?)
-            	) AS m
+                (SELECT movie_id, title, title_original
+                FROM movies
+                WHERE LOWER(title) LIKE LOWER(?)
+                OR LOWER(title_original) LIKE LOWER(?)
+                ) AS m
             USING (movie_id)) AS pm
             USING (actor_id)
             ORDER BY full_name;

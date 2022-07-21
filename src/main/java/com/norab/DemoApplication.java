@@ -36,9 +36,9 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
 
-		/*System.out.println("\nFirstActor ----------------------------------------------\n");
-		Optional<Actor> actor = actorDao.selectActors().stream().findFirst();
-		System.out.println(actor);*/
+        /*System.out.println("\nFirstActor ----------------------------------------------\n");
+        Optional<Actor> actor = actorDao.selectActors().stream().findFirst();
+        System.out.println(actor);*/
 
         System.out.println("\nActors ----------------------------------------------\n");
         List<Person> actors = actorDao.selectActors();

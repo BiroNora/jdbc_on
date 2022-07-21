@@ -1,9 +1,6 @@
 package com.norab.director;
 
-import com.norab.crossed.CrossedDao;
 import com.norab.exception.InvalidInputException;
-import com.norab.movie.Movie;
-import com.norab.movie.MovieRowMapper;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
