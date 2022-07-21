@@ -5,7 +5,6 @@ import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DirectorService {
@@ -31,24 +30,14 @@ public class DirectorService {
     }
 
     public void deleteDirector(Integer actorId, Integer movieId) {
-        Optional<Director> director1 = directorDao.selectDirectorById(actorId, movieId);
-        director1.ifPresentOrElse(director -> {
-            boolean result = directorDao.deleteDirector(actorId, movieId);
-            if (!result) {
-                throw new IllegalStateException("oops could not delete director");
-            }
-        }, () -> {
-            throw new NotFoundException(String.format("Director with id %s not found", actorId));
-        });
+        boolean result = directorDao.deleteDirector(actorId, movieId);
+        if (!result) {
+            throw new IllegalStateException("oops could not delete director");
+        }
     }
 
-    public Director getDirector(Integer actorId, Integer movieId) {
-        try {
-            return (Director) directorDao.selectDirectorById(actorId, movieId)
-                .orElseThrow(() -> new NotFoundException(String.format("Director with id %s not found", actorId)));
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+    public boolean getDirector(Integer actorId, Integer movieId) {
+        return directorDao.selectDirectorById(actorId, movieId);
     }
 
     public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(String name) {

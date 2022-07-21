@@ -63,8 +63,8 @@ class DirectorRepositoryTest {
     @Test
     @Order(5)
     void selectDirectorById() {
-        Optional<Director> director = repository.selectDirectorById(6, 3);
-        assertTrue(director.isPresent());
+        boolean exists = repository.selectDirectorById(6, 3);
+        assertTrue(exists);
     }
 
     @Test

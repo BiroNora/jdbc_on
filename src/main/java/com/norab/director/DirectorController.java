@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.utils.ValidationResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +19,11 @@ public class DirectorController {
         return directorService.getDirectors();
     }
 
-    @GetMapping("{actorId}/{movieId}")
-    public Director getDirector(
-        @PathVariable("actorId") Integer actorId,
-        @PathVariable("movieId") Integer movieId) {
-        return directorService.getDirector(actorId, movieId);
+    @GetMapping("/exists")
+    public ValidationResult getDirector(
+        @RequestParam(name = "actor_id", required = true) Integer actorId,
+        @RequestParam(name = "movie_id", required = true) Integer movieId) {
+        return new ValidationResult(directorService.getDirector(actorId, movieId));
     }
 
     @PostMapping

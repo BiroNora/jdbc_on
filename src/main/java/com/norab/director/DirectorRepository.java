@@ -67,7 +67,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public Optional<Director> selectDirectorById(Integer actorId, Integer movieId) {
+    public boolean selectDirectorById(Integer actorId, Integer movieId) {
         var sql = """
             SELECT actor_id, movie_id
             FROM directors
@@ -79,7 +79,7 @@ public class DirectorRepository implements DirectorDao<Director> {
         if (selected.isPresent()) {
             log.info(String.format("Director %d with movie %d is selected.", actorId, movieId));
         }
-        return selected;
+        return selected.isPresent();
     }
 
     @Override
