@@ -9,6 +9,7 @@ app:
 spring:
   jpa:
     defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: false
   jackson:

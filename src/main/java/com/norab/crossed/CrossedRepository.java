@@ -81,7 +81,7 @@ public class CrossedRepository implements CrossedDao {
     @Override
     public List<Person> searchByActorBirthDate(Short date) {
         var sql = """
-            SELECT * FROM actors WHERE birth_date like ?;
+            SELECT * FROM actors WHERE birth_date = ?;
             """;
         return jdbcTemplate.query(sql, new ActorRowMapper(), date);
     }
