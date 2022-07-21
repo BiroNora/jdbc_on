@@ -1,11 +1,13 @@
 package com.norab.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
 public class Movie {
     @Id
+    @JsonIgnore
     private Integer movieId;
     private String title;
     private String titleOriginal;

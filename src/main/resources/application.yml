@@ -15,3 +15,9 @@ server:
 spring:
   flyway:
     enabled: true
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      FAIL_ON_IGNORED_PROPERTIES: true
+    serialization:
+      INDENT_OUTPUT: true

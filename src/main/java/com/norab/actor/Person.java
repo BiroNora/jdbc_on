@@ -1,12 +1,14 @@
 package com.norab.actor;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
 public class Person {
     @Id
+    @JsonIgnore
     private Integer actorId;
     private String fullName;
     private Short birthDate;

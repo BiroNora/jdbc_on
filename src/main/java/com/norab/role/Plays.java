@@ -1,9 +1,11 @@
 package com.norab.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 public class Plays {
     @Id
+    @JsonIgnore
     private int roleId;
     private String roleName;
     private Integer movieId;

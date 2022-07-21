@@ -1,9 +1,11 @@
 package com.norab.photo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 public class Photo {
     @Id
+    @JsonIgnore
     private Integer photoId;
     private String photoUrl;
     private Integer movieId;

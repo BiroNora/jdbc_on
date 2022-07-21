@@ -11,6 +11,12 @@ spring:
     defer-datasource-initialization: true
   flyway:
     enabled: false
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      FAIL_ON_IGNORED_PROPERTIES: true
+    serialization:
+      INDENT_OUTPUT: true
 
 server:
   error:
