@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.crossed.SearchLocation;
 import com.norab.utils.ValidationResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,19 @@ public class DirectorController {
         return new ValidationResult(directorService.getDirector(actorId, movieId));
     }
 
+    @GetMapping("/movies")
+    public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(
+        @RequestParam(name = "name", required = true) String name) {
+        return directorService.selectMoviesByDirector(name);
+    }
+
+    @GetMapping("/dirbymovie")
+    public List<String> selectDirectorsByMovieTitle(
+        @RequestParam(name = "title", required = true) String title,
+        @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
+        return directorService.selectDirectorsByMovieTitle(title, location);
+    }
+
     @PostMapping
     public DirectorID addDirector(@RequestBody Director director) {
         return new DirectorID(directorService.insertDirector(director));
@@ -37,11 +51,4 @@ public class DirectorController {
         @PathVariable("movieId") Integer movieId) {
         directorService.deleteDirector(actorId, movieId);
     }
-
-    @GetMapping("/movies")
-    public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(
-        @RequestParam(name = "name", required = true) String name) {
-        return directorService.selectMoviesByDirector(name);
-    }
-
 }

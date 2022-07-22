@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
@@ -86,19 +87,19 @@ public class DirectorRepository implements DirectorDao<Director> {
     public List<MoviesByDirector> selectMoviesByDirector(String name) {
         String q = Utils.addPercent(name);
         var sql = """
-           SELECT title, title_original, release_date, full_name
-           FROM movies
-           JOIN
-           ((SELECT actor_id, movie_id
-           FROM directors) AS dir
-           JOIN
-           (SELECT actor_id, full_name
-                FROM actors
-                WHERE LOWER(full_name) LIKE LOWER(?)) AS act
-           USING(actor_id))
-           USING(movie_id)
-           ;
-            """;
+            SELECT title, title_original, release_date, full_name
+            FROM movies
+            JOIN
+            ((SELECT actor_id, movie_id
+            FROM directors) AS dir
+            JOIN
+            (SELECT actor_id, full_name
+                 FROM actors
+                 WHERE LOWER(full_name) LIKE LOWER(?)) AS act
+            USING(actor_id))
+            USING(movie_id)
+            ;
+             """;
         return jdbcTemplate.query(
             sql, (resultSet, i) -> new MoviesByDirector(
                 resultSet.getString("title"),
@@ -108,13 +109,66 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public Optional<Director> selectDirectorsByMovieId(Integer movieId) {
-        var sql = """
-            SELECT actor_id, movie_id
-            FROM directors
-            WHERE actor_id = ?;
+    public List<String> selectDirectorsByMovieTitle(String title, SearchLocation location) {
+        String q = Utils.addPercent(title);
+        var sql0 = """
+             SELECT full_name, title
+             FROM actors AS a
+             JOIN
+                 ((SELECT actor_id, movie_id
+                 FROM directors) AS d
+                 JOIN
+                     (SELECT movie_id, title, title_original
+                     FROM movies) AS m
+                     USING(movie_id))
+                 USING(actor_id)
+            WHERE LOWER(m.title) LIKE LOWER(?)
+            ;
             """;
-        return Optional.empty();
+        var sql1 = """
+             SELECT full_name, title
+             FROM actors AS a
+             JOIN
+                 ((SELECT actor_id, movie_id
+                 FROM directors) AS d
+                 JOIN
+                     (SELECT movie_id, title, title_original
+                     FROM movies) AS m
+                     USING(movie_id))
+                 USING(actor_id)
+            WHERE LOWER(m.title_original) LIKE LOWER(?)
+            ;
+            """;
+        var sql2 = """
+             SELECT full_name, title
+             FROM actors AS a
+             JOIN
+                 ((SELECT actor_id, movie_id
+                 FROM directors) AS d
+                 JOIN
+                     (SELECT movie_id, title, title_original
+                     FROM movies) AS m
+                     USING(movie_id))
+                 USING(actor_id)
+            WHERE LOWER(m.title) LIKE LOWER(?) OR LOWER(m.title_original) LIKE LOWER(?)
+            ;
+            """;
+        switch (location) {
+            case TITLE -> {
+                return jdbcTemplate.query(
+                    sql0, (resultSet, i) ->
+                        resultSet.getString("full_name"), q);
+            }
+            case ORIGTITLE -> {
+                return jdbcTemplate.query(
+                    sql1, (resultSet, i) ->
+                        resultSet.getString("full_name"), q);
+            }
+            default -> {
+                return jdbcTemplate.query(
+                    sql2, (resultSet, i) ->
+                        resultSet.getString("full_name"), q, q);
+            }
+        }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.crossed.SearchLocation;
 import com.norab.movie.Movie;
 
 import java.time.LocalDate;
@@ -26,5 +27,5 @@ public interface DirectorDao<Director> {
     ) {}
 
     //Films of one director
-    Optional<Director> selectDirectorsByMovieId(Integer movieId);
+    List<String> selectDirectorsByMovieTitle(String title, SearchLocation location);
 }

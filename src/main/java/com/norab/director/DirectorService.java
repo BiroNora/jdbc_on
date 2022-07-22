@@ -1,5 +1,6 @@
 package com.norab.director;
 
+import com.norab.crossed.SearchLocation;
 import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,9 @@ public class DirectorService {
 
     public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(String name) {
         return directorDao.selectMoviesByDirector(name);
+    }
+
+    public List<String> selectDirectorsByMovieTitle(String title, SearchLocation location) {
+        return directorDao.selectDirectorsByMovieTitle(title, location);
     }
 }

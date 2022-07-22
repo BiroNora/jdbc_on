@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
+import static com.norab.crossed.SearchLocation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -76,6 +77,30 @@ class DirectorRepositoryTest {
             System.out.println(m);
         }
         assertEquals(1, moviesByDirectors.size());
+    }
+
+    @Test
+    @Order(7)
+    void selectDirectorsByMovieTitle() {
+        List<String> directors = repository.selectDirectorsByMovieTitle("%oss%", TITLE);
+        assertTrue(directors.size() > 0);
+    }
+
+    @Test
+    @Order(8)
+    void selectDirectorsByMovieOriginalTitle() {
+        List<String> directors = repository.selectDirectorsByMovieTitle("%ood%", ORIGTITLE);
+        assertTrue(directors.size() > 0);
+    }
+
+    @Test
+    @Order(9)
+    void selectDirectorsByMovieOriginalTitleAndTitle() {
+        List<String> directors = repository.selectDirectorsByMovieTitle("%ki%", ALL);
+        assertTrue(directors.size() > 0);
+
+        List<String> directors1 = repository.selectDirectorsByMovieTitle("%off%", ALL);
+        assertTrue(directors1.size() > 0);
     }
 
 }
