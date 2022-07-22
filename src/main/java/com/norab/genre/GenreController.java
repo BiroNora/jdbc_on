@@ -31,6 +31,12 @@ public class GenreController {
         return genreService.selectGenreById(id, genre);
     }
 
+    @GetMapping("/genre/{id}")
+    public List<String> selectGenresByMovieId(
+        @PathVariable("id") Integer movieId) {
+        return genreService.selectGenresByMovieId(movieId);
+    }
+
     @GetMapping("/genre")
     public List<GenreDao.MoviesByGenre> selectMoviesByGenre(
         @RequestParam(name = "genre", required = true) String genre) {

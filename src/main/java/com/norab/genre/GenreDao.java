@@ -16,6 +16,8 @@ public interface GenreDao<Genre> {
     //If relation exists between specified movie & genre
     boolean selectGenreById(Integer movieId, String genre);
 
+    List<String> selectGenresByMovieId(Integer movieId);
+
     //CROSSED one genre and related films
     List<MoviesByGenre> selectMoviesByGenre(String genre);
 

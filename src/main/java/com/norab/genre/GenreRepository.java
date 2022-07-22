@@ -55,7 +55,7 @@ public class GenreRepository implements GenreDao<Genre> {
             int update = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setInt(1, genre.getMovieId());
-                ps.setString(2, genre.getGenre());
+                ps.setString(2, genre.getGenre().toLowerCase());
                 return ps;
             });
             log.info("New genre inserted: " + genre);
@@ -96,6 +96,17 @@ public class GenreRepository implements GenreDao<Genre> {
     }
 
     @Override
+    public List<String> selectGenresByMovieId(Integer movieId) {
+        var sql = """
+            SELECT genre FROM genre 
+            WHERE movie_id = ?
+            ORDER BY genre ASC;
+            """;
+        return jdbcTemplate.query(sql, (resultSet, i) ->
+            resultSet.getString("genre"), movieId);
+    }
+
+    @Override
     public List<MoviesByGenre> selectMoviesByGenre(String genre) {
         String q = Utils.addPercent(genre);
         var sql = """
@@ -104,7 +115,7 @@ public class GenreRepository implements GenreDao<Genre> {
              JOIN
              (SELECT movie_id, genre
                  FROM genre
-                 WHERE LOWER(genre) LIKE LOWER(?)) AS g
+                 WHERE genre LIKE LOWER(?)) AS g
              USING(movie_id)
              ORDER BY title ASC
             ;
@@ -162,28 +173,28 @@ public class GenreRepository implements GenreDao<Genre> {
             """;
         switch (location) {
             case TITLE -> {
-                return new ArrayList<>(jdbcTemplate.query(
+                return jdbcTemplate.query(
                     sql0, (resultSet, i) -> new MoviesByGenre(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q));
+                        resultSet.getString("genre")), q);
             }
             case ORIGTITLE -> {
-                return new ArrayList<>(jdbcTemplate.query(
+                return jdbcTemplate.query(
                     sql1, (resultSet, i) ->new MoviesByGenre(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q));
+                        resultSet.getString("genre")), q);
             }
             default -> {
-                return new ArrayList<>(jdbcTemplate.query(
+                return jdbcTemplate.query(
                     sql2, (resultSet, i) ->new MoviesByGenre(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q, q));
+                        resultSet.getString("genre")), q, q);
             }
         }
     }

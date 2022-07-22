@@ -43,6 +43,10 @@ public class GenreService {
         return genreDao.selectGenreById(movieId, genre);
     }
 
+    public List<String> selectGenresByMovieId(Integer movieId) {
+        return genreDao.selectGenresByMovieId(movieId);
+    }
+
     //CROSSED one genre and related films
     List<GenreDao.MoviesByGenre> selectMoviesByGenre(String genre) {
         return genreDao.selectMoviesByGenre(genre);
