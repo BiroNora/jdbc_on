@@ -1,7 +1,9 @@
 __pycache__/
 .apt_generated
 .classpath
+.DS_Store
 .factorypath
+.gradle/
 .idea
 .project
 .settings
@@ -10,7 +12,6 @@ __pycache__/
 .vscode/
 *.class
 *.db
-*.DS_Store
 *.iml
 *.ipr
 *.iws
