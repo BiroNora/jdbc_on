@@ -252,14 +252,23 @@ WHERE person_id = 5)
 ;
 
 SELECT title, title_original, release_date, full_name
-           FROM movies
-           JOIN
-           ((SELECT actor_id, movie_id
-           FROM directors) AS dir
-           JOIN
-           (SELECT actor_id, full_name
-                FROM actors
-                WHERE LOWER(full_name) LIKE LOWER('Will%')) AS act
-           USING(actor_id))
-           USING(movie_id)
-           ;
+FROM movies
+JOIN
+((SELECT actor_id, movie_id
+FROM directors) AS dir
+JOIN
+(SELECT actor_id, full_name
+    FROM actors
+    WHERE LOWER(full_name) LIKE LOWER('Will%')) AS act
+USING(actor_id))
+USING(movie_id)
+;
+
+SELECT title, title_original,
+release_date, genre
+FROM movies
+JOIN
+(SELECT DISTINCT genre, movie_id
+FROM genre
+ORDER BY genre)
+USING(movie_id);
