@@ -17,6 +17,11 @@ class GenreRepositoryTest {
 
     @Test
     void selectGenres() {
+        List<String> genres = repository.selectAllGenre();
+        for (String g : genres) {
+            System.out.println(g);
+        }
+        assertTrue(genres.size() > 0);
     }
 
     @Test
@@ -26,22 +31,36 @@ class GenreRepositoryTest {
     }
 
     @Test
-    void insertGenre() {
-    }
+    void insertGenre_DeleteGenre() {
+        Genre g1 = new Genre(5, "dramatic");
+        int result = repository.insertGenre(g1);
+        assertEquals(1, result);
 
-    @Test
-    void deleteGenre() {
+        boolean b = repository.deleteGenre(g1.getMovieId(), g1.getGenre());
+        assertTrue(b);
     }
 
     @Test
     void selectGenreById() {
+        boolean exists = repository.selectGenreById(3, "comedy");
+        assertTrue(exists);
     }
 
     @Test
     void selectMoviesByGenre() {
+        List<GenreDao.MoviesByGenre> genres = repository.selectMoviesByGenre("%med%");
+        for (GenreDao.MoviesByGenre g : genres) {
+            System.out.println(g);
+        }
+        assertTrue(genres.size() > 0);
     }
 
     @Test
     void selectGenresByMovieId() {
+        List<String> strings = repository.selectGenresByMovieId(5);
+        for (String s : strings) {
+            System.out.println(s);
+        }
+        assertTrue(strings.size() > 0);
     }
 }
