@@ -44,12 +44,12 @@ class PhotoRepositoryTest {
     @Test
     void insertPhoto() {
         String url = "https://ZZZzzzzz";
-        Photo photo = new Photo(url, 1, null, null);
+        Photo photo = new Photo(url, 5, null, null);
 
         int photoId = repository.insertPhoto(photo);
         Optional<Photo> photo1 = repository.selectPhotoById(photoId);
         assertTrue(photo1.isPresent());
-        assertEquals(1, photo1.get().getMovieId());
+        assertEquals(5, photo1.get().getMovieId());
         assertEquals(url, photo1.get().getPhotoUrl());
         assertEquals(photoId, photo1.get().getPhotoId());
         //TODO: create equals object
@@ -108,11 +108,12 @@ class PhotoRepositoryTest {
 
     @Test
     void updatePhoto() {
-        Photo pho = repository.selectPhotoById(3).orElseThrow();
-        System.out.println(pho);
+        Optional<Photo> photo = repository.selectPhotoById(3);
+        assertTrue(photo.isPresent());
+        Photo pho = photo.get();
         pho.setPhotoUrl("http://pinocchio");
-        pho.setMovieId(1);
-        pho.setActorId(1);
+        pho.setMovieId(5);
+        pho.setActorId(5);
         pho.setRoleId(null);
         System.out.println(pho);
         boolean result = repository.updatePhoto(3, pho);
@@ -162,7 +163,10 @@ class PhotoRepositoryTest {
     @Test
     void doubleInsertPhoto() {
         String url = "https://CCC";
-        Photo photoOrig = new Photo(url, 1, null, null);
+        Movie movie = new Movie("Dupla_Foto", "Double_Insert_Photo", (short) 2022, (short) 2023, "test", true);
+        int movieId = movieRepository.insertMovie(movie);
+
+        Photo photoOrig = new Photo(url, movieId, null, null);
 
         Integer photoId = repository.insertPhoto(photoOrig);
         repository.deletePhoto(photoId);
@@ -173,8 +177,8 @@ class PhotoRepositoryTest {
 
         Optional<Photo> photo1 = repository.selectPhotoById(photoId1);
         assertTrue(photo1.isPresent());
-        assertEquals(photo1.get().getMovieId(), 1);
-        assertEquals(photo1.get().getPhotoUrl(), url);
+        assertEquals(movieId, photo1.get().getMovieId());
+        assertEquals(url, photo1.get().getPhotoUrl());
 
         List<Photo> photos = repository.selectPhotos();
         long count = photos.stream()

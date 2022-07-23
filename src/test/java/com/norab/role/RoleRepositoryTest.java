@@ -38,8 +38,7 @@ class RoleRepositoryTest {
             System.out.print(p.getRoleId() + ". ");
             System.out.println(p.getRoleName());
         }
-        assertEquals(10, roles.size());
-        assertEquals(1, roles.get(0).getMovieId());
+        assertTrue(roles.size() > 10);
     }
 
     @Test
@@ -56,14 +55,15 @@ class RoleRepositoryTest {
 
     @Test
     void deleteRole() {
-        Integer roleId = 2;
+        Plays plays = new Plays("Olive Hoover", 2, null);
+        int roleId = repository.insertRole(plays);
         int result = repository.deleteRole(roleId);
         assertEquals(1, result);
 
         Integer roleId1 = 772;
         int result1 = repository.deleteRole(roleId1);
         assertEquals(0, result1);
-
+        //TODO: boolean delete!
     }
 
     @Test

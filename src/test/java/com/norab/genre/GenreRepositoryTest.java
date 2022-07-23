@@ -34,7 +34,7 @@ class GenreRepositoryTest {
     void insertGenre_DeleteGenre() {
         Genre g1 = new Genre(5, "dramatic");
         boolean result = repository.insertGenre(g1);
-        assertEquals(1, result);
+        assertEquals(true, result);
 
         boolean b = repository.deleteGenre(g1.getMovieId(), g1.getGenre());
         assertTrue(b);

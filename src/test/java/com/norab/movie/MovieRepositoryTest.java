@@ -1,5 +1,7 @@
 package com.norab.movie;
 
+import com.norab.director.Director;
+import com.norab.director.DirectorRepository;
 import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MovieRepositoryTest {
     @Autowired
     private MovieRepository repository;
+
+    @Autowired
+    private DirectorRepository directorRepository;
 
     @Test
     void selectMovies() {
@@ -61,8 +66,13 @@ class MovieRepositoryTest {
 
     @Test
     void deleteMovie_WithReferences() {
-        assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteMovie(1, false));
-        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(1, true));
+        Movie movie = new Movie("Kleo", "Patra", (short) 2002);
+        int movieId = repository.insertMovie(movie);
+        Director dir = new Director(22, movieId);
+        int result = directorRepository.insertDirector(dir);
+        assertEquals(1, result);
+        assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteMovie(movieId, false));
+        assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId, true));
     }
 
     @Test

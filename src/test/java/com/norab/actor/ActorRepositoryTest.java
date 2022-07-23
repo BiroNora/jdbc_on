@@ -28,8 +28,7 @@ class ActorRepositoryTest {
             System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());
         }
-        assertEquals(10, actors.size());
-        assertEquals("Geoffrey Rush", actors.get(2).getFullName());
+        assertTrue(actors.size() > 0);
     }
 
     @Test
@@ -72,15 +71,18 @@ class ActorRepositoryTest {
     void deleteActor_WithReferences() {
         assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteActor(6, false));
         assertEquals(DeleteResult.SUCCESS, repository.deleteActor(6, true));
+        //TODO: actor 6!
     }
 
     @Test
     void selectActorById() {
-        Integer id = 2;
-        Optional<Person> selected = repository.selectActorById(id);
-        assertEquals("Greg Kinnear", selected.orElseThrow().getFullName());
+        Person actor = new Person("Julius Cesare", (short) 100, (short) 44);
+        int actorId = repository.insertActor(actor);
+        Optional<Person> selected = repository.selectActorById(actorId);
+        assertTrue(selected.isPresent());
+        assertEquals("Julius Cesare", selected.get().getFullName());
 
-        Integer id1 = 202;
+        Integer id1 = 2202;
         Optional<Person> selected1 = repository.selectActorById(id1);
         assertTrue(selected1.isEmpty());
     }
