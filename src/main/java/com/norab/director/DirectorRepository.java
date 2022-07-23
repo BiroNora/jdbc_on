@@ -28,7 +28,7 @@ public class DirectorRepository implements DirectorDao<Director> {
         var sql = """
             SELECT actor_id, movie_id
             FROM directors
-            LIMIT 10;
+            ;
             """;
         return jdbcTemplate.query(sql, new DirectorRowMapper());
     }

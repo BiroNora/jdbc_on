@@ -33,7 +33,7 @@ public class ActorRepository implements ActorDao<Person> {
             SELECT actor_id, full_name, birth_date, death_date
             FROM actors
             ORDER BY full_name asc
-            LIMIT 10;
+            ;
             """;
         return jdbcTemplate.query(sql, new ActorRowMapper());
     }

@@ -29,17 +29,17 @@ public class MovieRepository implements MovieDao<Movie> {
     @Override
     public List<Movie> selectMovies() {
         var sql = """
-            SELECT 
-                movie_id, 
-                title, 
-                title_original, 
-                release_date, 
-                end_date, 
-                m_type, 
+            SELECT
+                movie_id,
+                title,
+                title_original,
+                release_date,
+                end_date,
+                m_type,
                 is_adult
             FROM movies
             ORDER BY title asc
-            LIMIT 10
+
             ;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper());

@@ -28,7 +28,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
         var sql = """
             SELECT photo_id, url, movie_id, actor_id, role_id
             FROM photos
-            LIMIT 10;
+            ;
             """;
         return jdbcTemplate.query(sql, new PhotoRowMapper());
     }
