@@ -12,6 +12,10 @@ public class Genre {
         this.genre = genre;
     }
 
+    public boolean isValid() {
+        return movieId != null && genre != null && !genre.isBlank();
+    }
+
     public Integer getMovieId() {
         return movieId;
     }

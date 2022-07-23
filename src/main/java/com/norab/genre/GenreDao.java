@@ -9,7 +9,7 @@ public interface GenreDao<Genre> {
 
     List<String> selectAllGenre();
 
-    int insertGenre(Genre genre);
+    boolean insertGenre(Genre genre);
 
     boolean deleteGenre(Integer movieId, String genre);
 

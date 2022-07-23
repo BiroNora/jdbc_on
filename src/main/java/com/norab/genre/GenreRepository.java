@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,10 +46,14 @@ public class GenreRepository implements GenreDao<Genre> {
     }
 
     @Override
-    public int insertGenre(Genre genre) {
+    public boolean insertGenre(Genre genre) {
+        if (!genre.isValid()) {
+            throw new InvalidInputException("Invalid genre");
+        }
         var sql = """
             INSERT into genre(movie_id, genre) VALUES (?, ?);
             """;
+        log.info("WWW" + (genre.getGenre() == null ? "NULL" : genre.getGenre()));
         try {
             int update = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql);
@@ -59,9 +62,9 @@ public class GenreRepository implements GenreDao<Genre> {
                 return ps;
             });
             log.info("New genre inserted: " + genre);
-            return update;
+            return update == 1;
         } catch (DataAccessException e) {
-            log.error(e.getMessage());
+            log.error("XXX" + e.getMessage());
             throw new InvalidInputException("Illegal id");
         }
     }

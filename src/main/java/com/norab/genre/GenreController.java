@@ -51,7 +51,7 @@ public class GenreController {
     }
 
     @PostMapping
-    public int insertGenre(@RequestBody Genre genre) {
+    public boolean insertGenre(@RequestBody Genre genre) {
         return genreService.insertGenre(genre);
     }
 

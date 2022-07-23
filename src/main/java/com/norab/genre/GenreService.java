@@ -5,7 +5,10 @@ import com.norab.crossed.SearchLocation;
 import com.norab.exception.AlreadyExistsException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -23,11 +26,17 @@ public class GenreService {
         return genreDao.selectAllGenre();
     }
 
-    int insertGenre(Genre genre) {
+    boolean insertGenre(Genre genre) {
         Integer movieId = genre.getMovieId();
+        System.out.println(movieId);
         List<Genre> genres = genreDao.selectGenres();
+        for (Genre g : genres) {
+            if (Objects.equals(g.getMovieId(), movieId))
+            System.out.println(g);
+        }
         List<Genre> collect = genres.stream()
-            .filter(x -> x.getMovieId() == movieId).toList();
+            .filter(x -> Objects.equals(x.getMovieId(), movieId)).toList();
+        System.out.println(collect.size());
         if (collect.size() != 0) {
             throw new AlreadyExistsException("This id already exists");
         }
