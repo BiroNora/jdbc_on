@@ -108,13 +108,17 @@ public class GenreIntegrationTest {
         String data = """
             {
             "movieId": 2,
-            "genre": "ebéd"
+            "genre": "success"
             }
             """;
         mockMvc.perform(post("/api/v1/genres")
             .content(data)
-            .header("Content-Type", "application/json"))
-            .andDo(print())
+            .contentType("application/json"))
             .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/v1/genres")
+                .content(data)
+                .contentType("application/json"))
+            .andExpect(status().is4xxClientError());
     }
 }

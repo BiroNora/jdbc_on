@@ -27,19 +27,6 @@ public class GenreService {
     }
 
     boolean insertGenre(Genre genre) {
-        Integer movieId = genre.getMovieId();
-        System.out.println(movieId);
-        List<Genre> genres = genreDao.selectGenres();
-        for (Genre g : genres) {
-            if (Objects.equals(g.getMovieId(), movieId))
-            System.out.println(g);
-        }
-        List<Genre> collect = genres.stream()
-            .filter(x -> Objects.equals(x.getMovieId(), movieId)).toList();
-        System.out.println(collect.size());
-        if (collect.size() != 0) {
-            throw new AlreadyExistsException("This id already exists");
-        }
         return genreDao.insertGenre(genre);
     }
 

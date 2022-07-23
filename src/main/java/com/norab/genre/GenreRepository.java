@@ -10,7 +10,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,18 +52,14 @@ public class GenreRepository implements GenreDao<Genre> {
         var sql = """
             INSERT into genre(movie_id, genre) VALUES (?, ?);
             """;
-        log.info("WWW" + (genre.getGenre() == null ? "NULL" : genre.getGenre()));
         try {
-            int update = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ps.setInt(1, genre.getMovieId());
-                ps.setString(2, genre.getGenre().toLowerCase());
-                return ps;
-            });
+            int update = jdbcTemplate.update(
+                sql,
+                genre.getMovieId(),
+                genre.getGenre().toLowerCase());
             log.info("New genre inserted: " + genre);
             return update == 1;
         } catch (DataAccessException e) {
-            log.error("XXX" + e.getMessage());
             throw new InvalidInputException("Illegal id");
         }
     }
@@ -185,7 +180,7 @@ public class GenreRepository implements GenreDao<Genre> {
             }
             case ORIGTITLE -> {
                 return jdbcTemplate.query(
-                    sql1, (resultSet, i) ->new MoviesByGenre(
+                    sql1, (resultSet, i) -> new MoviesByGenre(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
@@ -193,7 +188,7 @@ public class GenreRepository implements GenreDao<Genre> {
             }
             default -> {
                 return jdbcTemplate.query(
-                    sql2, (resultSet, i) ->new MoviesByGenre(
+                    sql2, (resultSet, i) -> new MoviesByGenre(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
