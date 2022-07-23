@@ -15,6 +15,7 @@ server:
 spring:
   flyway:
     enabled: true
+    locations: classpath:/db/migration,classpath:/db/data
   jackson:
     default-property-inclusion: non_null
     deserialization:

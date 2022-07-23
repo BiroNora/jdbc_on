@@ -3,7 +3,7 @@ app:
     main:
       driver-class-name: org.h2.Driver
       jdbc-url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
-      password: 'sa'
+      password: "sa"
       username: sa
 
 spring:
@@ -11,7 +11,8 @@ spring:
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
-    enabled: false
+    enabled: true
+    locations: classpath:/db/migration,classpath:/db/testdata
   jackson:
     default-property-inclusion: non_null
     deserialization:

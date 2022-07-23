@@ -66,7 +66,7 @@ CREATE TABLE directors (
 
 CREATE TABLE genre (
     movie_id INTEGER NOT NULL,
-    genre TEXT NOT NULL,
+    genre VARCHAR(40) NOT NULL,
     CONSTRAINT fk_genre_movie_id
         FOREIGN KEY (movie_id)
         REFERENCES movies (movie_id)
