@@ -23,31 +23,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ActorIntegrationTest {
-    private record ActorRecord(
-        String fullName,
-        Short birthDate,
-        Short deathDate
-    ) {
-        @Override
-        public String toString() {
-            Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
-            return JsonWriter.objectToJson(this, conf);
-        }
-    }
-
     @Test
     void recordTest() {
-        ActorRecord a = new ActorRecord("Fedák Sári", (short) 1879, (short) 1955);
+        Person a = new Person("Fedák Sári", (short) 1879, (short) 1955);
         String expected = """
             {"fullName":"Fedák Sári","birthDate":1879,"deathDate":1955}
             """.strip();
-        assertEquals(expected, a.toString());
+        assertEquals(expected, a.jsonString());
 
-        ActorRecord b = new ActorRecord("Blaha Lujza", null, null);
+        Person b = new Person("Blaha Lujza", null, null);
         String expected1 = """
             {"fullName":"Blaha Lujza"}
             """.strip();
-        assertEquals(expected1, b.toString());
+        assertEquals(expected1, b.jsonString());
     }
 
     @Autowired
@@ -86,11 +74,11 @@ public class ActorIntegrationTest {
 
     @Test
     void updateActor() throws Exception {
-        Long actorId = insertActor("Haumann Péter", (short) 1941, null);
-        ActorRecord actor = new ActorRecord("Haumann Péter", (short) 1941, (short) 2022);
+        Long actorId = insertActor("Haumann Péter", (short) 1941);
+        Person actor = new Person("Haumann Péter", (short) 1941, (short) 2022);
 
         mockMvc.perform(put("/api/v1/actors/" + actorId)
-                .content(actor.toString())
+                .content(actor.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
@@ -102,9 +90,9 @@ public class ActorIntegrationTest {
 
     @Test
     void insertActorTest() throws Exception {
-        ActorRecord a = new ActorRecord("Fedák Sári", (short) 1879, (short) 1955);
+        Person a = new Person("Fedák Sári", (short) 1879, (short) 1955);
         mockMvc.perform(post("/api/v1/actors")
-                .content(a.toString())
+                .content(a.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.actor_id").exists())
@@ -113,7 +101,7 @@ public class ActorIntegrationTest {
 
     @Test
     void deleteActorByValidId_NoReferenceConflict() throws Exception {
-        Long actorId = insertActor("Dakota Johnson", (short) 1989, null);
+        Long actorId = insertActor("Dakota Johnson", (short) 1989);
         mockMvc.perform(delete("/api/v1/actors/" + actorId))
             .andExpect(status().isOk());
 
@@ -125,7 +113,7 @@ public class ActorIntegrationTest {
 
     @Test
     void deleteActorByValidId_ReferenceConflict() throws Exception {
-        Long actorId = insertActor("Melanie Griffith", (short) 1957, null);
+        Long actorId = insertActor("Melanie Griffith", (short) 1957);
         String actorUrl = "/api/v1/actors/" + actorId;
 
         Map<String, Object> lp = Map.of("roleName", "LP", "movieId", 3L, "actorId", actorId);
@@ -158,10 +146,10 @@ public class ActorIntegrationTest {
             .andExpect(status().is4xxClientError());
     }
 
-    Long insertActor(String fullName, Short birthDate, Short deathDate) throws Exception {
-        ActorRecord a = new ActorRecord(fullName, birthDate, deathDate);
+    Long insertActor(String fullName, Short birthDate) throws Exception {
+        Person a = new Person(fullName, birthDate);
         MvcResult result = mockMvc.perform(post("/api/v1/actors")
-                .content(a.toString())
+                .content(a.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.actor_id").exists())
