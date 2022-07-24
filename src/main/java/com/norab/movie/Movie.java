@@ -1,9 +1,11 @@
 package com.norab.movie;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class Movie {
     @Id
@@ -118,5 +120,10 @@ public class Movie {
             ", mType='" + mType + '\'' +
             ", isAdult=" + isAdult +
             '}';
+    }
+
+    public String jsonString() {
+        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
+        return JsonWriter.objectToJson(this, conf);
     }
 }

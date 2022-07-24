@@ -1,32 +1,59 @@
 package com.norab.actor;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import com.cedarsoftware.util.io.JsonReader;
+import com.cedarsoftware.util.io.JsonWriter;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ActorIntegrationTest {
+    private record ActorRecord(
+        String fullName,
+        Short birthDate,
+        Short deathDate
+    ) {
+        @Override
+        public String toString() {
+            Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
+            return JsonWriter.objectToJson(this, conf);
+        }
+    }
+
+    @Test
+    void recordTest() {
+        ActorRecord a = new ActorRecord("Fedák Sári", (short) 1879, (short) 1955);
+        String expected = """
+            {"fullName":"Fedák Sári","birthDate":1879,"deathDate":1955}
+            """.strip();
+        assertEquals(expected, a.toString());
+
+        ActorRecord b = new ActorRecord("Blaha Lujza", null, null);
+        String expected1 = """
+            {"fullName":"Blaha Lujza"}
+            """.strip();
+        assertEquals(expected1, b.toString());
+    }
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
     public void listAllActors() throws Exception {
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
@@ -35,7 +62,6 @@ public class ActorIntegrationTest {
     }
 
     @Test
-    @Order(2)
     void getActorByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/2"))
             .andDo(print())
@@ -44,7 +70,6 @@ public class ActorIntegrationTest {
     }
 
     @Test
-    @Order(3)
     void getActorByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/123456"))
             .andDo(print())
@@ -52,7 +77,6 @@ public class ActorIntegrationTest {
     }
 
     @Test
-    @Order(4)
     void getMoviesByActor() throws Exception {
         mockMvc.perform(get("/api/v1/crossed/movies/actor/1"))
             .andDo(print())
@@ -61,89 +85,90 @@ public class ActorIntegrationTest {
     }
 
     @Test
-    @Order(5)
     void updateActor() throws Exception {
-        String data = """
-            {
-            "fullName": "Haumann Péter",
-            "birthDate": 1941
-            }
-            """;
-        mockMvc.perform(post("/api/v1/actors")
-                .content(data)
+        Long actorId = insertActor("Haumann Péter", (short) 1941, null);
+        ActorRecord actor = new ActorRecord("Haumann Péter", (short) 1941, (short) 2022);
+
+        mockMvc.perform(put("/api/v1/actors/" + actorId)
+                .content(actor.toString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
-        String data1 = """
-            {
-            "fullName": "Haumann Péter",
-            "birthDate": 1941,
-            "deathDate": 2022
-            }
-            """;
-        mockMvc.perform(put("/api/v1/actors/4")
-                .content(data1)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
-
-        mockMvc.perform(get("/api/v1/actors/4"))
+        mockMvc.perform(get("/api/v1/actors/" + actorId))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("2022")));
     }
 
     @Test
-    @Order(6)
-    void insertActor() throws Exception {
-        String data = """
-            {
-            "fullName": "Fedák Sári",
-            "birthDate": 1879
-            }
-            """;
+    void insertActorTest() throws Exception {
+        ActorRecord a = new ActorRecord("Fedák Sári", (short) 1879, (short) 1955);
         mockMvc.perform(post("/api/v1/actors")
-                .content(data)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
+                .content(a.toString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.actor_id").exists())
+            .andExpect(jsonPath("$.actor_id").isNumber());
     }
 
     @Test
-    @Order(7)
     void deleteActorByValidId_NoReferenceConflict() throws Exception {
-        mockMvc.perform(delete("/api/v1/actors/23"))
+        Long actorId = insertActor("Dakota Johnson", (short) 1989, null);
+        mockMvc.perform(delete("/api/v1/actors/" + actorId))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("1934"))));
+            .andExpect(content().string(not(containsString("Dakota Johnson"))));
     }
 
     @Test
-    @Order(8)
     void deleteActorByValidId_ReferenceConflict() throws Exception {
-        mockMvc.perform(delete("/api/v1/actors/1"))
+        Long actorId = insertActor("Melanie Griffith", (short) 1957, null);
+        String actorUrl = "/api/v1/actors/" + actorId;
+
+        Map<String, Object> lp = Map.of("roleName", "LP", "movieId", 3L, "actorId", actorId);
+        String roleData = JsonWriter.objectToJson(lp);
+        mockMvc.perform(post("/api/v1/roles")
+                .content(roleData)
+                .contentType("application/json"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete(actorUrl))
             .andExpect(status().isConflict());
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string((containsString("Depp"))));
+            .andExpect(content().string((containsString("Melanie Griffith"))));
 
-        mockMvc.perform(delete("/api/v1/actors/1?force=true"))
+        mockMvc.perform(delete(actorUrl + "?force=true"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Depp"))));
+            .andExpect(content().string(not(containsString("Melanie Griffith"))));
     }
 
     @Test
-    @Order(9)
     void deleteActorByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2222"))
             .andExpect(status().is4xxClientError());
     }
 
+    Long insertActor(String fullName, Short birthDate, Short deathDate) throws Exception {
+        ActorRecord a = new ActorRecord(fullName, birthDate, deathDate);
+        MvcResult result = mockMvc.perform(post("/api/v1/actors")
+                .content(a.toString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.actor_id").exists())
+            .andExpect(jsonPath("$.actor_id").isNumber())
+            .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Map contentMap = JsonReader.jsonToMaps(content);
+        return (Long) contentMap.get("actor_id");
+    }
 }

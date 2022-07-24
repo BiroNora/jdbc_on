@@ -1,5 +1,8 @@
 package com.norab.movie;
 
+import com.cedarsoftware.util.io.JsonReader;
+import com.cedarsoftware.util.io.JsonWriter;
+import com.norab.actor.ActorIntegrationTest;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,13 +12,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
@@ -86,39 +93,54 @@ public class MovieIntegrationTest {
     @Test
     @Order(5)
     void insertMovie() throws Exception {
-        String data = """
-            {
-            "title": "A szajré",
-            "releaseDate": 2001
-            }
-            """;
+        String s = new Movie("A szajré", "The Score", (short) 2001).jsonString();
+
         mockMvc.perform(post("/api/v1/movies")
-                .content(data)
-                .header("Content-Type", "application/json"))
-            .andDo(print())
-            .andExpect(status().isOk());
+                .content(s)
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.movie_id").exists())
+            .andExpect(jsonPath("$.movie_id").isNumber());
+    }
+
+    @Test
+    void recordTest() {
+        Movie m = new Movie("Szemtől szemben", "Szemtől szemben", (short) 1984);
+        String expected = """
+            {"title":"Szemtől szemben","titleOriginal":"Szemtől szemben","releaseDate":1984,"isAdult":false}
+            """.strip();
+        assertEquals(expected, m.jsonString());
     }
 
     @Test
     @Order(6)
     void deleteMovieByValidId_ReferenceConflict() throws Exception {
-        mockMvc.perform(delete("/api/v1/movies/1"))
+        String title = "Szemtől szemben";
+        Long movieId = insertMovie(title, (short) 1984);
+        String movieUrl = "/api/v1/movies/" + movieId;
+
+        Map<String, Object> lp = Map.of("roleName", "LP", "movieId", movieId, "actorId", 4L);
+        String roleData = JsonWriter.objectToJson(lp);
+
+        mockMvc.perform(post("/api/v1/roles")
+                .content(roleData)
+                .contentType("application/json"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete(movieUrl))
             .andExpect(status().isConflict());
 
         mockMvc.perform(get("/api/v1/movies"))
-            .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string((containsString("Fekete"))))
-            .andExpect(content().string((containsString("Karib"))));
+            .andExpect(content().string(containsString(title)));
 
-        mockMvc.perform(delete("/api/v1/movies/1?force=true"))
+        mockMvc.perform(delete(movieUrl + "?force=true"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/movies"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Fekete"))))
-            .andExpect(content().string((containsString("Karib"))));
+            .andExpect(content().string(not(containsString(title))));
     }
 
     @Test
@@ -138,6 +160,20 @@ public class MovieIntegrationTest {
     void deleteMovieByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/7175"))
             .andExpect(status().is4xxClientError());
+    }
+
+    Long insertMovie(String title, Short releaseDate) throws Exception {
+        Movie m = new Movie(title, title, releaseDate);
+        MvcResult result = mockMvc.perform(post("/api/v1/movies")
+                .content(m.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.movie_id").exists())
+            .andExpect(jsonPath("$.movie_id").isNumber())
+            .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Map contentMap = JsonReader.jsonToMaps(content);
+        return (Long) contentMap.get("movie_id");
     }
 
 }

@@ -63,7 +63,6 @@ class RoleRepositoryTest {
         Integer roleId1 = 772;
         int result1 = repository.deleteRole(roleId1);
         assertEquals(0, result1);
-        //TODO: boolean delete!
     }
 
     @Test
