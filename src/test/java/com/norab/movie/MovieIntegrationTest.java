@@ -115,9 +115,10 @@ public class MovieIntegrationTest {
     @Test
     @Order(6)
     void deleteMovieByValidId_ReferenceConflict() throws Exception {
-        String title = "Szemtől szemben";
+        String title = "Szemtl szemben";
         Long movieId = insertMovie(title, (short) 1984);
         String movieUrl = "/api/v1/movies/" + movieId;
+        //TODO: UTF-8
 
         Map<String, Object> lp = Map.of("roleName", "LP", "movieId", movieId, "actorId", 4L);
         String roleData = JsonWriter.objectToJson(lp);
