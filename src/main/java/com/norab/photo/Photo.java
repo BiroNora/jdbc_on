@@ -16,19 +16,6 @@ public class Photo {
     private Integer actorId;
     private Integer roleId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Photo photo = (Photo) o;
-        return photoId.equals(photo.photoId) && photoUrl.equals(photo.photoUrl) && movieId.equals(photo.movieId) && actorId.equals(photo.actorId) && roleId.equals(photo.roleId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(photoId, photoUrl, movieId, actorId, roleId);
-    }
-
     public Photo() {
     }
 
@@ -45,6 +32,19 @@ public class Photo {
         this.movieId = movieId;
         this.actorId = actorId;
         this.roleId = roleId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Photo photo = (Photo) o;
+        return photoId.equals(photo.photoId) && photoUrl.equals(photo.photoUrl) && movieId.equals(photo.movieId) && actorId.equals(photo.actorId) && roleId.equals(photo.roleId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(photoId, photoUrl, movieId, actorId, roleId);
     }
 
     public Integer getPhotoId() {

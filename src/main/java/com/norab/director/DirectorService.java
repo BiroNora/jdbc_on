@@ -2,7 +2,6 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.AlreadyExistsException;
-import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

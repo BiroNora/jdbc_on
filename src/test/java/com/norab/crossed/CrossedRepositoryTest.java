@@ -1,9 +1,7 @@
 package com.norab.crossed;
 
-import com.norab.actor.ActorRepository;
 import com.norab.actor.Person;
 import com.norab.movie.Movie;
-import com.norab.movie.MovieRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

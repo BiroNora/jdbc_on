@@ -4,7 +4,6 @@ import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 public class Movie {

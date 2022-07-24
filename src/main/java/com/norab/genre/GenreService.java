@@ -2,13 +2,9 @@ package com.norab.genre;
 
 
 import com.norab.crossed.SearchLocation;
-import com.norab.exception.AlreadyExistsException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class GenreService {

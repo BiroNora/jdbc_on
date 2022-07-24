@@ -21,13 +21,14 @@ public interface GenreDao<Genre> {
     //CROSSED one genre and related films
     List<MoviesByGenre> selectMoviesByGenre(String genre);
 
+    //Genres of one film
+    List<MoviesByGenre> selectGenresByMovieTitle(String title, SearchLocation location);
+
     record MoviesByGenre(
         String title,
         String titleOriginal,
         Short releaseDate,
         String genre
-    ) {}
-
-    //Genres of one film
-    List<MoviesByGenre> selectGenresByMovieTitle(String title, SearchLocation location);
+    ) {
+    }
 }

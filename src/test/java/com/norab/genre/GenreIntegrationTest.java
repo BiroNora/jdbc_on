@@ -1,6 +1,5 @@
 package com.norab.genre;
 
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -58,7 +57,7 @@ public class GenreIntegrationTest {
     @Test
     public void selectMoviesByGenre() throws Exception {
         mockMvc.perform(get("/api/v1/genres/genre")
-            .param("genre", "crime"))
+                .param("genre", "crime"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("enk")));
@@ -120,8 +119,8 @@ public class GenreIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/genres")
-            .content(data)
-            .contentType("application/json"))
+                .content(data)
+                .contentType("application/json"))
             .andExpect(status().isOk());
 
         mockMvc.perform(post("/api/v1/genres")

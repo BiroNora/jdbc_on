@@ -23,6 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ActorIntegrationTest {
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
     void recordTest() {
         Person a = new Person("Fedák Sári", (short) 1879, (short) 1955);
@@ -37,9 +40,6 @@ public class ActorIntegrationTest {
             """.strip();
         assertEquals(expected1, b.jsonString());
     }
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Test
     public void listAllActors() throws Exception {
