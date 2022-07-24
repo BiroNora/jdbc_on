@@ -35,20 +35,20 @@ class DirectorRepositoryTest {
     @Order(2)
     void insertDirector() {
         Director dir1 = new Director(2, 5);
-        int result = repository.insertDirector(dir1);
-        assertEquals(1, result);
+        boolean result = repository.insertDirector(dir1);
+        assertTrue(result);
 
         Director dir2 = new Director(2, 4);
         result = repository.insertDirector(dir2);
-        assertEquals(1, result);
+        assertTrue(result);
     }
 
     @Test
     @Order(3)
     void insertDuplicateDirector() {
         Director dir = new Director(22, 3);
-        int result = repository.insertDirector(dir);
-        assertEquals(1, result);
+        boolean result = repository.insertDirector(dir);
+        assertTrue(result);
 
         assertThrows(InvalidInputException.class, () -> repository.insertDirector(dir));
     }
@@ -57,11 +57,10 @@ class DirectorRepositoryTest {
     @Order(4)
     void deleteDirector() {
         Director dir = new Director(12, 3);
-        int result = repository.insertDirector(dir);
-        assertEquals(1, result);
-        //TODO: insert director boolean!
+        boolean result = repository.insertDirector(dir);
+        assertTrue(result);
         boolean b = repository.deleteDirector(12, 3);
-        assertEquals(true, b);
+        assertTrue(b);
     }
 
     @Test

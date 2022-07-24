@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface DirectorDao<Director> {
     List<Director> selectDirectors();
 
-    int insertDirector(Director director);
+    boolean insertDirector(Director director);
 
     boolean deleteDirector(Integer actorId, Integer movieId);
 

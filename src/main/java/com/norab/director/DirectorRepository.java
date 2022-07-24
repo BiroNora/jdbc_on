@@ -34,7 +34,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public int insertDirector(Director director) {
+    public boolean insertDirector(Director director) {
         var sql = """
             INSERT into directors(actor_id, movie_id) VALUES (?, ?);
             """;
@@ -47,7 +47,7 @@ public class DirectorRepository implements DirectorDao<Director> {
             });
 
             log.info("New director inserted: " + director);
-            return update;
+            return update == 1;
         } catch (DataAccessException e) {
             log.error(e.getMessage());
             throw new InvalidInputException("Illegal id");

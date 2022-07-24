@@ -41,8 +41,8 @@ public class DirectorController {
     }
 
     @PostMapping
-    public DirectorID addDirector(@RequestBody Director director) {
-        return new DirectorID(directorService.insertDirector(director));
+    public boolean addDirector(@RequestBody Director director) {
+        return directorService.insertDirector(director);
     }
 
     @DeleteMapping("{actorId}/{movieId}")

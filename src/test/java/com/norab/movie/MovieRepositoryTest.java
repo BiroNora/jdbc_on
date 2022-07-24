@@ -69,8 +69,8 @@ class MovieRepositoryTest {
         Movie movie = new Movie("Kleo", "Patra", (short) 2002);
         int movieId = repository.insertMovie(movie);
         Director dir = new Director(22, movieId);
-        int result = directorRepository.insertDirector(dir);
-        assertEquals(1, result);
+        boolean result = directorRepository.insertDirector(dir);
+        assertTrue(result);
         assertEquals(DeleteResult.HAS_REFERENCES, repository.deleteMovie(movieId, false));
         assertEquals(DeleteResult.SUCCESS, repository.deleteMovie(movieId, true));
     }

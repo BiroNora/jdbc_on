@@ -19,7 +19,7 @@ public class DirectorService {
         return directorDao.selectDirectors();
     }
 
-    public int insertDirector(Director director) {
+    public boolean insertDirector(Director director) {
         Integer movieId = director.getMovieId();
         List<Director> directors = directorDao.selectDirectors();
         List<Director> collect = directors.stream()
