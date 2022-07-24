@@ -5,6 +5,7 @@ __pycache__/
 .factorypath
 .gradle/
 .idea
+.mvn/
 .project
 .settings
 .springBeans
@@ -29,3 +30,4 @@ build/
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
