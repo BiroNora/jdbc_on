@@ -49,32 +49,19 @@ public class PhotoIntegrationTest {
 
     @Test
     void updatePhoto() throws Exception {
-        String data = """
-            {
-            "photoUrl": "https://github.com/babo/hard-loan",
-            "movieId": 1
-            }
-            """;
-        mockMvc.perform(post("/api/v1/photos")
-                .content(data)
+        long photo_id = insertPhoto("https://github.com/hard-loan", 1, null, null);
+        String url = "/api/v1/photos/" + photo_id;
+        Photo p = new Photo("https://github.com/soft-loan", 1, 1, null);
+
+        mockMvc.perform(put(url)
+                .content(p.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
-        String data1 = """
-            {
-            "photoUrl": "https://github.com/babo/hard-loan",
-            "actorId": 1
-            }
-            """;
-        mockMvc.perform(put("/api/v1/photos/3")
-                .content(data1)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
-
-        mockMvc.perform(get("/api/v1/photos/3"))
+        mockMvc.perform(get(url))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("hard")));
+            .andExpect(content().string(containsString("soft-loan")));
     }
 
     @Test
