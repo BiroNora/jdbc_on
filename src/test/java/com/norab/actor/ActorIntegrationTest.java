@@ -101,7 +101,7 @@ public class ActorIntegrationTest {
 
     @Test
     void insertUnknown() throws Exception {
-        Person a = new Person("Fedák Sári", null);
+        Person a = new Person("Kiss Manyi", null);
         mockMvc.perform(post("/api/v1/actors")
                 .content(a.jsonString())
                 .contentType("application/json"))

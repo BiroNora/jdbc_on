@@ -1,23 +1,24 @@
 package com.norab.role;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import com.cedarsoftware.util.io.JsonReader;
+import com.norab.photo.Photo;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -26,7 +27,6 @@ public class RoleIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
     public void listAllRoles() throws Exception {
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
@@ -35,7 +35,6 @@ public class RoleIntegrationTest {
     }
 
     @Test
-    @Order(2)
     void getRoleByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/roles/2"))
             .andDo(print())
@@ -44,7 +43,6 @@ public class RoleIntegrationTest {
     }
 
     @Test
-    @Order(3)
     void getRoleByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/roles/771256"))
             .andDo(print())
@@ -52,54 +50,41 @@ public class RoleIntegrationTest {
     }
 
     @Test
-    @Order(4)
     void updateRole() throws Exception {
-        String data = """
-            {
-            "roleName": "Barbossa",
-            "movieId": 1
-            }
-            """;
-        mockMvc.perform(post("/api/v1/roles")
-                .content(data)
+        Long role_id = insertRole("Pink Panther", 4, null);
+        String url = "/api/v1/roles/" + role_id;
+
+        Plays play = new Plays("Purple Panther", 4, 3);
+        mockMvc.perform(put(url)
+                .content(play.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
-        String data1 = """
-            {
-            "roleName": "Barbossa",
-            "movieId": 1,
-            "actorId": 3
-            }
-            """;
-        mockMvc.perform(put("/api/v1/roles/4")
-                .content(data1)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
-
-        mockMvc.perform(get("/api/v1/roles/4"))
+        mockMvc.perform(get(url))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("bossa")));
+            .andExpect(content().string(containsString("Purple Panther")));
     }
 
     @Test
-    @Order(5)
-    void insertRole() throws Exception {
-        String data = """
-            {
-            "roleName": "Norrington",
-            "movieId": 1
-            }
-            """;
+    void testOfJson() {
+        Plays p = new Plays("Norrington", 1, null);
+        String exp = "{\"roleName\":\"Norrington\",\"movieId\":1}";
+        assertEquals(exp, p.jsonString());
+    }
+
+    @Test
+    void insertRoleTest() throws Exception {
+        Plays p = new Plays("Norrington", 1, null);
         mockMvc.perform(post("/api/v1/roles")
-                .content(data)
-                .header("Content-Type", "application/json"))
-            .andExpect(status().isOk());
+                .content(p.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.role_id").exists())
+            .andExpect(jsonPath("$.role_id").isNumber());
     }
 
     @Test
-    @Order(6)
     void insertRoleWithNotExistingMovieId() throws Exception {
         String data = """
             {
@@ -114,7 +99,6 @@ public class RoleIntegrationTest {
     }
 
     @Test
-    @Order(7)
     void insertRoleWithNotExistingActorId() throws Exception {
         String data = """
             {
@@ -129,33 +113,37 @@ public class RoleIntegrationTest {
     }
 
     @Test
-    @Order(8)
     void deleteRoleByValidId_WithReference() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/1"))
+        long role_id = insertRole("Norfolk Earl", 2, 5);
+        Photo p = new Photo("https", 2, 5, (int) role_id);
+
+        mockMvc.perform(post("/api/v1/photos")
+                .content(p.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/v1/roles/" + role_id))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Jack"))))
-            .andExpect(content().string((containsString("Billy"))));
+            .andExpect(content().string(not(containsString("Norfolk Earl"))));
     }
 
     @Test
-    @Order(9)
     void deleteRoleByValidId_WithNoReference() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/5"))
+        Long role_id = insertRole("Norfolk Earl", 2, 5);
+        mockMvc.perform(delete("/api/v1/roles/" + role_id))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(not(containsString("Elizabeth Swann"))))
-            .andExpect(content().string((containsString("Virgil Oldman"))));
+            .andExpect(content().string(not(containsString("Norfolk Earl"))));
     }
 
     @Test
-    @Order(10)
     void deleteRoleByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/roles/33333"))
             .andExpect(status().is4xxClientError());
@@ -163,5 +151,19 @@ public class RoleIntegrationTest {
         mockMvc.perform(get("/api/v1/roles"))
             .andDo(print())
             .andExpect(status().isOk());
+    }
+
+    Long insertRole(String roleName, Integer movieId, Integer actorId) throws Exception {
+        Plays p = new Plays(roleName, movieId, actorId);
+        MvcResult result = mockMvc.perform(post("/api/v1/roles")
+                .content(p.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.role_id").exists())
+            .andExpect(jsonPath("$.role_id").isNumber())
+            .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Map contentMap = JsonReader.jsonToMaps(content);
+        return (Long) contentMap.get("role_id");
     }
 }

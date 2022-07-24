@@ -9,7 +9,7 @@ import java.util.Map;
 public class Plays {
     @Id
     @JsonIgnore
-    private int roleId;
+    private Integer roleId;
     private String roleName;
     private Integer movieId;
     private Integer actorId;
@@ -30,7 +30,7 @@ public class Plays {
         this.actorId = actorId;
     }
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 

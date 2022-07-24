@@ -65,9 +65,17 @@ public class GenreIntegrationTest {
     }
 
     @Test
+    public void invalidLocation() throws Exception {
+        mockMvc.perform(get("/api/v1/genres/filmgen")
+                .param("title", "ossz")
+                .param("location", "rabbit"))
+            .andExpect(status().is4xxClientError());
+    }
+
+    @Test
     public void selectGenresByMovieTitle() throws Exception {
         mockMvc.perform(get("/api/v1/genres/filmgen")
-                .param("title", "lesz")
+                .param("title", "ossz")
                 .param("location", "TITLE"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -77,7 +85,7 @@ public class GenreIntegrationTest {
     @Test
     public void selectGenresByMovieOriginaltitle() throws Exception {
         mockMvc.perform(get("/api/v1/genres/filmgen")
-                .param("title", "ood")
+                .param("title", "Gift")
                 .param("location", "ORIGTITLE"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -87,7 +95,7 @@ public class GenreIntegrationTest {
     @Test
     public void selectGenresByMovieTitle_Originaltitle() throws Exception {
         mockMvc.perform(get("/api/v1/genres/filmgen")
-                .param("title", "ood")
+                .param("title", "Gift")
                 .param("location", "ALL"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -97,7 +105,7 @@ public class GenreIntegrationTest {
     @Test
     public void selectGenresByMovieDefault() throws Exception {
         mockMvc.perform(get("/api/v1/genres/filmgen")
-                .param("title", "ood"))
+                .param("title", "The Gift"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("dra")));

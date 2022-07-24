@@ -126,7 +126,7 @@ class PhotoRepositoryTest {
         int photoId = 3;
         Photo pho = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho);
-        pho.setMovieId(11);
+        pho.setMovieId(110);
         pho.setActorId(1);
         pho.setRoleId(2);
         assertEquals(pho.getRoleId(), 2);
@@ -138,7 +138,7 @@ class PhotoRepositoryTest {
         Photo pho1 = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho1);
         pho1.setMovieId(1);
-        pho1.setActorId(41);
+        pho1.setActorId(410);
         pho1.setRoleId(2);
         System.out.println(pho1);
         assertThrows(InvalidInputException.class, () -> {
@@ -149,7 +149,7 @@ class PhotoRepositoryTest {
         System.out.println(pho2);
         pho2.setMovieId(1);
         pho2.setActorId(1);
-        pho2.setRoleId(82);
+        pho2.setRoleId(820);
         System.out.println(pho2);
         assertThrows(InvalidInputException.class, () -> {
             repository.updatePhoto(photoId, pho2);
