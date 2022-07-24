@@ -48,7 +48,11 @@ public class ActorRepository implements ActorDao<Person> {
         int result = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"actor_id"});
             ps.setString(1, actor.getFullName());
-            ps.setShort(2, actor.getBirthDate());
+            if (actor.getBirthDate() != null) {
+                ps.setShort(2, actor.getBirthDate());
+            } else {
+                ps.setNull(2, Types.SMALLINT);
+            }
             if (actor.getDeathDate() != null) {
                 ps.setShort(3, actor.getDeathDate());
             } else {

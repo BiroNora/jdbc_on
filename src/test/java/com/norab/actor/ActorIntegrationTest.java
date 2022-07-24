@@ -100,6 +100,17 @@ public class ActorIntegrationTest {
     }
 
     @Test
+    void insertUnknown() throws Exception {
+        Person a = new Person("Fedák Sári", null);
+        mockMvc.perform(post("/api/v1/actors")
+                .content(a.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.actor_id").exists())
+            .andExpect(jsonPath("$.actor_id").isNumber());
+    }
+
+    @Test
     void deleteActorByValidId_NoReferenceConflict() throws Exception {
         Long actorId = insertActor("Dakota Johnson", (short) 1989);
         mockMvc.perform(delete("/api/v1/actors/" + actorId))
