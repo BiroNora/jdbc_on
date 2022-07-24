@@ -3,9 +3,7 @@ package com.norab.movie;
 import com.norab.director.Director;
 import com.norab.director.DirectorRepository;
 import com.norab.utils.DeleteResult;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,7 +14,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @ActiveProfiles("test")
 @SpringBootTest
 class MovieRepositoryTest {

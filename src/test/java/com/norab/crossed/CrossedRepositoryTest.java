@@ -20,12 +20,6 @@ class CrossedRepositoryTest {
     @Autowired
     private CrossedRepository crossedRepository;
 
-    @Autowired
-    private ActorRepository actorRepository;
-
-    @Autowired
-    private MovieRepository movieRepository;
-
     @Test
     void allMoviesByActor() {
         List<CrossedDao.MoviesByActor> movies = crossedRepository.allMoviesByActor(1);
