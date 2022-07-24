@@ -1,5 +1,9 @@
 package com.norab.director;
 
+import com.cedarsoftware.util.io.JsonWriter;
+
+import java.util.Map;
+
 public class Director {
     private Integer actorId;
     private Integer movieId;
@@ -31,5 +35,10 @@ public class Director {
             "actorId=" + actorId +
             ", movieId=" + movieId +
             '}';
+    }
+
+    public String jsonString() {
+        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
+        return JsonWriter.objectToJson(this, conf);
     }
 }

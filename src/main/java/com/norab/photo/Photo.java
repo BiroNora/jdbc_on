@@ -1,7 +1,11 @@
 package com.norab.photo;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
+
+import java.util.Map;
+import java.util.Objects;
 
 public class Photo {
     @Id
@@ -11,6 +15,19 @@ public class Photo {
     private Integer movieId;
     private Integer actorId;
     private Integer roleId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Photo photo = (Photo) o;
+        return photoId.equals(photo.photoId) && photoUrl.equals(photo.photoUrl) && movieId.equals(photo.movieId) && actorId.equals(photo.actorId) && roleId.equals(photo.roleId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(photoId, photoUrl, movieId, actorId, roleId);
+    }
 
     public Photo() {
     }
@@ -79,5 +96,10 @@ public class Photo {
             ", actorId=" + actorId +
             ", roleId=" + roleId +
             '}';
+    }
+
+    public String jsonString() {
+        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
+        return JsonWriter.objectToJson(this, conf);
     }
 }

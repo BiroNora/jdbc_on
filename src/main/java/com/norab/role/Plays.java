@@ -1,7 +1,10 @@
 package com.norab.role;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
+
+import java.util.Map;
 
 public class Plays {
     @Id
@@ -67,5 +70,10 @@ public class Plays {
             ", movieId=" + movieId +
             ", actorId=" + actorId +
             '}';
+    }
+
+    public String jsonString() {
+        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
+        return JsonWriter.objectToJson(this, conf);
     }
 }
