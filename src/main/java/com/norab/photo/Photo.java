@@ -34,6 +34,21 @@ public class Photo {
         this.roleId = roleId;
     }
 
+    public boolean isValid1() {
+        return !(photoUrl == null ||
+            photoUrl.isBlank() ||
+            (movieId == null && actorId == null && roleId == null));
+    }
+
+    public boolean isValid() {
+        return !(photoUrl == null || photoUrl.isBlank() ||
+            (movieId == null && actorId == null && roleId == null) ||
+            !((movieId == null || movieId > 0) &&
+                (actorId == null || actorId > 0) &&
+                (roleId == null || roleId > 0))
+        );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,6 +1,6 @@
 package com.norab.photo;
 
-import com.norab.exception.AlreadyExistsException;
+import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +19,9 @@ public class PhotoService {
         return photoDao.selectPhotos();
     }
 
-    public int insertPhoto(Photo photo) {
-        String roleUrl = photo.getPhotoUrl();
-        List<Photo> photos = photoDao.selectPhotos();
-        List<Photo> collect = photos.stream()
-            .filter(x -> x.getPhotoUrl().equals(roleUrl)).toList();
-        if (collect.size() != 0) {
-            throw new AlreadyExistsException("This photo already exists");
+    public int insertPhoto(Photo photo) throws InvalidInputException {
+        if (photo == null || !photo.isValid()) {
+            throw new InvalidInputException("Invalid data");
         }
         return photoDao.insertPhoto(photo);
     }
