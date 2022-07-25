@@ -1,6 +1,6 @@
 package com.norab.crossed;
 
-public record ActorsByFilm(
+public record ActorsByMovie(
     String title,
     String title_original,
     String full_name,

@@ -2,8 +2,6 @@ package com.norab.crossed;
 
 import com.norab.actor.Person;
 import com.norab.movie.Movie;
-import com.norab.photo.Photo;
-import com.norab.role.Plays;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,31 +10,63 @@ import java.util.List;
 public interface CrossedDao {
     List<MoviesByActor> allMoviesByActor(Integer id);
 
-    List<Person> searchByActorBirthDate(Short date);
-
     List<Movie> allMoviesByReleaseDateAsc();
 
     List<Movie> searchByMovieTitle(String title, SearchLocation location);
 
-    List<Plays> allPlaysByActor(Integer id);
+    List<Person> searchByActorBirthDate(Short date);
 
-    List<ActorsByFilm> allActorsByFilm(String title);
+    List<ActorsByMovie> allActorsByMovie(String title);
 
-    List<Person> allActorsByAbcOrderAsc();
+    List<String> allPlaysByActor(String actorName);
 
-    List<Plays> allPlaysByFilm(Integer id);
+    List<AllMoviesByActor> allMoviesByActor(String actorName);
 
-    List<Photo> allPhotosByActor(Integer id);
+    List<AllMoviesAndPlaysByActor> allMoviesAndPlaysByActor(String actorName);
 
-    List<Photo> allPhotosByFilm(Integer id);
 
-    List<Photo> allPhotosByPlays(Integer id);
+    List<AllPlaysAndActorsByMovie> allPlaysAndActorsByMovie(String movieTitle, SearchLocation location);
 
-    List<Photo> allPhotosByMovie(Integer id);
+    List<String> allPhotosByActor(String actorName);
+
+    List<String> allPhotosByPlays(String roleName);
+
+    List<String> allPhotosByMovie(String movieTitle, SearchLocation location);
+
+    List<MovieSpecs> movieSpecification(String movieTitle, SearchLocation location);
 
     record MoviesByActor(
         String roleName,
         String title
+    ) {
+    }
+
+    record AllMoviesByActor(
+        String title,
+        String titleOriginal
+    ) {
+    }
+
+    record AllMoviesAndPlaysByActor(
+        String title,
+        String titleOriginal,
+        String roleName
+    ) {
+    }
+
+    record AllPlaysAndActorsByMovie(
+        String roleName,
+        String fullName
+    ) {
+    }
+
+    record MovieSpecs(
+        String title,
+        String title_original,
+        String role_name,
+        List<String> actor_name,
+        List<String> director_name,
+        List<String> genres
     ) {
     }
 }

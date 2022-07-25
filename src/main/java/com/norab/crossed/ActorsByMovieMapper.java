@@ -5,10 +5,10 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ActorsByFilmMapper implements RowMapper<ActorsByFilm> {
+public class ActorsByMovieMapper implements RowMapper<ActorsByMovie> {
     @Override
-    public ActorsByFilm mapRow(ResultSet resultSet, int i) throws SQLException {
-        ActorsByFilm actor = new ActorsByFilm(
+    public ActorsByMovie mapRow(ResultSet resultSet, int i) throws SQLException {
+        ActorsByMovie actor = new ActorsByMovie(
             resultSet.getString("title"),
             resultSet.getString("title_original"),
             resultSet.getString("full_name"),
