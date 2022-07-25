@@ -7,7 +7,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
@@ -35,7 +34,7 @@ class GenreRepositoryTest {
     void insertGenre_DeleteGenre() {
         Genre g1 = new Genre(5, "dramatic");
         boolean result = repository.insertGenre(g1);
-        assertEquals(true, result);
+        assertTrue(result);
 
         boolean b = repository.deleteGenre(g1.getMovieId(), g1.getGenre());
         assertTrue(b);

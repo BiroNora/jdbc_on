@@ -1,7 +1,7 @@
 plugins {
-  id 'org.springframework.boot' version '2.7.2'
-  id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-  id 'java'
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'java'
 }
 
 group = 'com.norab'
@@ -9,25 +9,25 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-  implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.flywaydb:flyway-core'
-  implementation 'com.cedarsoftware:json-io:4.13.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'com.cedarsoftware:json-io:4.13.0'
 
-  runtimeOnly 'com.h2database:h2'
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-  implementation 'info.picocli:picocli:4.6.3'
-  runtimeOnly 'org.postgresql:postgresql'
+    implementation 'info.picocli:picocli:4.6.3'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
-  useJUnitPlatform()
+    useJUnitPlatform()
 }
