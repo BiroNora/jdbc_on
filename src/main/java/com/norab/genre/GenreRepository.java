@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +26,15 @@ public class GenreRepository implements GenreDao<Genre> {
 
 
     @Override
-    public List<Genre> selectGenres() {
+    public List<GenresByMovie> selectGenres() {
         var sql = """
-            SELECT movie_id, genre
-            FROM genre;
+            SELECT movie_id, STRING_AGG(genre, ', ') as genres
+            FROM genre GROUP BY movie_id;
             """;
-        return jdbcTemplate.query(sql, new GenreRowMapper());
+        return jdbcTemplate.query(sql, (resultSet, i) -> new GenresByMovie(
+            resultSet.getInt("movie_id"),
+            Collections.singletonList(resultSet.getString("genres"))
+        ));
     }
 
     @Override

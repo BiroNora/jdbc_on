@@ -15,7 +15,7 @@ public class GenreController {
     }
 
     @GetMapping
-    public List<Genre> selectGenres() {
+    public List<GenreDao.GenresByMovie> selectGenres() {
         return genreService.selectGenres();
     }
 

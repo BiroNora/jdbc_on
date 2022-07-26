@@ -14,7 +14,7 @@ public class GenreService {
         this.genreDao = genreDao;
     }
 
-    public List<Genre> selectGenres() {
+    public List<GenreDao.GenresByMovie> selectGenres() {
         return genreDao.selectGenres();
     }
 
