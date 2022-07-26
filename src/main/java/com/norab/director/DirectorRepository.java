@@ -40,26 +40,27 @@ public class DirectorRepository implements DirectorDao<Director> {
     @Override
     public List<Directors> listDirectorsAndMovies() {
         var sql = """
-            SELECT STRING_AGG(full_name, ', ') AS director, 
-            title, title_original, release_date
-            FROM movies
-            JOIN
-                ((SELECT actor_id, movie_id
-                FROM directors) AS dir
-                JOIN
-                    (SELECT actor_id, full_name
-                         FROM actors) AS act
-                USING(actor_id))
-            USING(movie_id)
-            GROUP BY movie_id
-            ORDER BY director
-            ;
+            SELECT STRING_AGG(full_name, '|') AS director, title, title_original, release_date
+             FROM movies
+             JOIN
+                 (SELECT movie_id, full_name FROM directors
+                     JOIN
+                         (SELECT actor_id, full_name FROM actors) AS act USING(actor_id)
+                     ORDER BY full_name
+                 ) as b
+                 USING(movie_id)
+             GROUP BY movie_id
+             ORDER BY director
+             ;
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) -> new Directors(
-            Collections.singletonList(resultSet.getString("director")),
-            resultSet.getString("title"),
-            resultSet.getString("title_original"),
-            resultSet.getShort("release_date")));
+        return jdbcTemplate.query(sql, (resultSet, i) -> {
+            String[] directors = resultSet.getString("director").split("\\|");
+            return new Directors(
+                List.of(directors),
+                resultSet.getString("title"),
+                resultSet.getString("title_original"),
+                resultSet.getShort("release_date"));
+        });
     }
 
     @Override
