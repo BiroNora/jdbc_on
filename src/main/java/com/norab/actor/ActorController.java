@@ -25,7 +25,7 @@ public class ActorController {
 
     @GetMapping("/find")
     public List<Person> selectActorByName(
-        @RequestParam(name = "name", required = true) String name,
+        @RequestParam(name = "name") String name,
         @RequestParam(name = "match", required = false, defaultValue = "false") String match) {
         boolean m = match != null && match.equalsIgnoreCase("true");
         return actorService.selectActorByName(name, m);

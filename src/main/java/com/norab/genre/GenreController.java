@@ -26,8 +26,8 @@ public class GenreController {
 
     @GetMapping("/id")
     public boolean selectGenreById(
-        @RequestParam(name = "id", required = true) Integer id,
-        @RequestParam(name = "genre", required = true) String genre) {
+        @RequestParam(name = "id") Integer id,
+        @RequestParam(name = "genre") String genre) {
         return genreService.selectGenreById(id, genre);
     }
 
@@ -39,13 +39,13 @@ public class GenreController {
 
     @GetMapping("/genre")
     public List<GenreDao.MoviesByGenre> selectMoviesByGenre(
-        @RequestParam(name = "genre", required = true) String genre) {
+        @RequestParam(name = "genre") String genre) {
         return genreService.selectMoviesByGenre(genre);
     }
 
     @GetMapping("/filmgen")
     List<GenreDao.MoviesByGenre> selectGenresByMovieTitle(
-        @RequestParam(name = "title", required = true) String title,
+        @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return genreService.selectGenresByMovieTitle(title, location);
     }
@@ -58,7 +58,7 @@ public class GenreController {
     @DeleteMapping("{id}")
     public void deleteGenre(
         @PathVariable("id") Integer movieId,
-        @RequestParam(name = "genre", required = true) String genre) {
+        @RequestParam(name = "genre") String genre) {
         genreService.deleteGenre(movieId, genre);
     }
 

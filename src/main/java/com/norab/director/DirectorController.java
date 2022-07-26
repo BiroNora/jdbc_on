@@ -28,20 +28,20 @@ public class DirectorController {
 
     @GetMapping("/exists")
     public ValidationResult getDirector(
-        @RequestParam(name = "actor_id", required = true) Integer actorId,
-        @RequestParam(name = "movie_id", required = true) Integer movieId) {
+        @RequestParam(name = "actor_id") Integer actorId,
+        @RequestParam(name = "movie_id") Integer movieId) {
         return new ValidationResult(directorService.getDirector(actorId, movieId));
     }
 
     @GetMapping("/movies")
     public List<DirectorDao.MoviesByDirector> selectMoviesByDirector(
-        @RequestParam(name = "name", required = true) String name) {
+        @RequestParam(name = "name") String name) {
         return directorService.selectMoviesByDirector(name);
     }
 
     @GetMapping("/dirbymovie")
     public List<String> selectDirectorsByMovieTitle(
-        @RequestParam(name = "title", required = true) String title,
+        @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return directorService.selectDirectorsByMovieTitle(title, location);
     }
