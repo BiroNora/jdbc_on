@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,17 +25,48 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public List<Director> selectDirectors() {
+    public List<String> listDirectors() {
         var sql = """
-            SELECT actor_id, movie_id
-            FROM directors
+            SELECT DISTINCT full_name AS directors FROM directors
+                          JOIN
+                          (SELECT full_name, actor_id FROM actors) AS dn USING(actor_id)
+                          ORDER BY directors asc;
             ;
             """;
-        return jdbcTemplate.query(sql, new DirectorRowMapper());
+        return jdbcTemplate.query(sql, (resultSet, i) ->
+            resultSet.getString("directors"));
+    }
+
+    @Override
+    public List<Directors> listDirectorsAndMovies() {
+        var sql = """
+            SELECT STRING_AGG(full_name, ', ') AS director, 
+            title, title_original, release_date
+            FROM movies
+            JOIN
+                ((SELECT actor_id, movie_id
+                FROM directors) AS dir
+                JOIN
+                    (SELECT actor_id, full_name
+                         FROM actors) AS act
+                USING(actor_id))
+            USING(movie_id)
+            GROUP BY movie_id
+            ORDER BY director
+            ;
+            """;
+        return jdbcTemplate.query(sql, (resultSet, i) -> new Directors(
+            Collections.singletonList(resultSet.getString("director")),
+            resultSet.getString("title"),
+            resultSet.getString("title_original"),
+            resultSet.getShort("release_date")));
     }
 
     @Override
     public boolean insertDirector(Director director) {
+        if (!director.isValid() || selectDirectorById(director.getActorId(), director.getMovieId())) {
+            throw new InvalidInputException("Invalid director");
+        }
         var sql = """
             INSERT into directors(actor_id, movie_id) VALUES (?, ?);
             """;

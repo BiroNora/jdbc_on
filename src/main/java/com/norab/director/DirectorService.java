@@ -14,18 +14,15 @@ public class DirectorService {
         this.directorDao = directorDao;
     }
 
-    public List<Director> getDirectors() {
-        return directorDao.selectDirectors();
+    public List<String> listDirectors() {
+        return directorDao.listDirectors();
+    }
+
+    public List<DirectorDao.Directors> listDirectorsAndMovies() {
+        return directorDao.listDirectorsAndMovies();
     }
 
     public boolean insertDirector(Director director) {
-        Integer movieId = director.getMovieId();
-        List<Director> directors = directorDao.selectDirectors();
-        List<Director> collect = directors.stream()
-            .filter(x -> x.getMovieId() == movieId).toList();
-        if (collect.size() != 0) {
-            throw new AlreadyExistsException("This id already exists");
-        }
         return directorDao.insertDirector(director);
     }
 

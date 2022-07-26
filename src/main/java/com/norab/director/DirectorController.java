@@ -16,9 +16,15 @@ public class DirectorController {
     }
 
     @GetMapping
-    public List<Director> listDirectors() {
-        return directorService.getDirectors();
+    public List<String> listDirectors() {
+        return directorService.listDirectors();
     }
+
+    @GetMapping("/all")
+    public List<DirectorDao.Directors> listDirectorsAndMovies() {
+        return directorService.listDirectorsAndMovies();
+    }
+
 
     @GetMapping("/exists")
     public ValidationResult getDirector(
@@ -41,7 +47,7 @@ public class DirectorController {
     }
 
     @PostMapping
-    public boolean addDirector(@RequestBody Director director) {
+    public boolean insertDirector(@RequestBody Director director) {
         return directorService.insertDirector(director);
     }
 

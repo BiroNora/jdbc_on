@@ -5,7 +5,9 @@ import com.norab.crossed.SearchLocation;
 import java.util.List;
 
 public interface DirectorDao<Director> {
-    List<Director> selectDirectors();
+    List<String> listDirectors();
+
+    List<Directors> listDirectorsAndMovies();
 
     boolean insertDirector(Director director);
 
@@ -25,6 +27,12 @@ public interface DirectorDao<Director> {
         String titleOriginal,
         Short releaseDate,
         String fullName
-    ) {
-    }
+    ) {}
+
+    record Directors(
+        List<String> fullName,
+        String title,
+        String title_original,
+        Short releaseDate
+    ) {}
 }

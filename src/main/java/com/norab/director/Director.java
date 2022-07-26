@@ -13,6 +13,10 @@ public class Director {
         this.movieId = movieId;
     }
 
+    public boolean isValid() {
+        return actorId != null && movieId != null;
+    }
+
     public Integer getActorId() {
         return actorId;
     }

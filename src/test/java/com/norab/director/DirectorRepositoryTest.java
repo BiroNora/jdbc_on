@@ -20,8 +20,8 @@ class DirectorRepositoryTest {
 
     @Test
     void selectDirectors() {
-        List<Director> directors = repository.selectDirectors();
-        for (Director d : directors) {
+        List<String> directors = repository.listDirectors();
+        for (String d : directors) {
             System.out.println(d);
         }
         assertTrue(directors.size() > 0);
