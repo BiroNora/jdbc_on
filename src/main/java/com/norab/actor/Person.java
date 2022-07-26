@@ -1,13 +1,11 @@
 package com.norab.actor;
 
 
-import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Person extends ToJsonString {
     @Id
