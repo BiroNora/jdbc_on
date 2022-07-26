@@ -285,11 +285,11 @@ public class CrossedRepository implements CrossedDao {
         var sql0 = """
             SELECT title, title_original, p.role_name, actor_name, director_name, genres FROM movies
             JOIN
-                (SELECT STRING_AGG(genre, ', ') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
+                (SELECT STRING_AGG(genre, '|') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
             JOIN
                 (SELECT role_name, actor_id, movie_id FROM plays) as p USING(movie_id)
             JOIN
-                (SELECT STRING_AGG(full_name, ', ') as director_name, movie_id FROM directors
+                (SELECT STRING_AGG(full_name, '|') as director_name, movie_id FROM directors
                     JOIN
                         (SELECT full_name, actor_id FROM actors) AS dn USING(actor_id)
                     GROUP BY movie_id
@@ -302,11 +302,11 @@ public class CrossedRepository implements CrossedDao {
         var sql1 = """
             SELECT title, title_original, p.role_name, actor_name, director_name, genres FROM movies
             JOIN
-                (SELECT STRING_AGG(genre, ', ') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
+                (SELECT STRING_AGG(genre, '|') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
             JOIN
                 (SELECT role_name, actor_id, movie_id FROM plays) as p USING(movie_id)
             JOIN
-                (SELECT STRING_AGG(full_name, ', ') as director_name, movie_id FROM directors
+                (SELECT STRING_AGG(full_name, '|') as director_name, movie_id FROM directors
                     JOIN
                         (SELECT full_name, actor_id FROM actors) AS dn USING(actor_id)
                     GROUP BY movie_id
@@ -319,11 +319,11 @@ public class CrossedRepository implements CrossedDao {
         var sql2 = """
             SELECT title, title_original, p.role_name, actor_name, director_name, genres FROM movies
             JOIN
-                (SELECT STRING_AGG(genre, ', ') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
+                (SELECT STRING_AGG(genre, '|') as genres, movie_id FROM genre GROUP BY movie_id) as g USING(movie_id)
             JOIN
                 (SELECT role_name, actor_id, movie_id FROM plays) as p USING(movie_id)
             JOIN
-                (SELECT STRING_AGG(full_name, ', ') as director_name, movie_id FROM directors
+                (SELECT STRING_AGG(full_name, '|') as director_name, movie_id FROM directors
                     JOIN
                         (SELECT full_name, actor_id FROM actors) AS dn USING(actor_id)
                     GROUP BY movie_id
@@ -335,31 +335,46 @@ public class CrossedRepository implements CrossedDao {
             """;
         switch (location) {
             case TITLE -> {
-                return jdbcTemplate.query(sql0, (resultSet, i) -> new MovieSpecs(
-                    resultSet.getString("title"),
-                    resultSet.getString("title_original"),
-                    resultSet.getString("role_name"),
-                    Collections.singletonList(resultSet.getString("actor_name")),
-                    Collections.singletonList(resultSet.getString("director_name")),
-                    Collections.singletonList(resultSet.getString("genres"))), q);
+                return jdbcTemplate.query(sql0, (resultSet, i) -> {
+                    String[] actorNames = resultSet.getString("actor_name").split("\\|");
+                    String[] directorNames = resultSet.getString("director_name").split("\\|");
+                    String[] genres = resultSet.getString("genres").split("\\|");
+                    return new MovieSpecs(
+                        resultSet.getString("title"),
+                        resultSet.getString("title_original"),
+                        resultSet.getString("role_name"),
+                        List.of(actorNames),
+                        List.of(directorNames),
+                        List.of(genres));
+                }, q);
             }
             case ORIGTITLE -> {
-                return jdbcTemplate.query(sql1, (resultSet, i) -> new MovieSpecs(
-                    resultSet.getString("title"),
-                    resultSet.getString("title_original"),
-                    resultSet.getString("role_name"),
-                    Collections.singletonList(resultSet.getString("actor_name")),
-                    Collections.singletonList(resultSet.getString("director_name")),
-                    Collections.singletonList(resultSet.getString("genres"))), q);
+                return jdbcTemplate.query(sql1, (resultSet, i) -> {
+                    String[] actorNames = resultSet.getString("actor_name").split("\\|");
+                    String[] directorNames = resultSet.getString("director_name").split("\\|");
+                    String[] genres = resultSet.getString("genres").split("\\|");
+                    return new MovieSpecs(
+                        resultSet.getString("title"),
+                        resultSet.getString("title_original"),
+                        resultSet.getString("role_name"),
+                        List.of(actorNames),
+                        List.of(directorNames),
+                        List.of(genres));
+                }, q);
             }
             default -> {
-                return jdbcTemplate.query(sql2, (resultSet, i) -> new MovieSpecs(
-                    resultSet.getString("title"),
-                    resultSet.getString("title_original"),
-                    resultSet.getString("role_name"),
-                    Collections.singletonList(resultSet.getString("actor_name")),
-                    Collections.singletonList(resultSet.getString("director_name")),
-                    Collections.singletonList(resultSet.getString("genres"))), q, q);
+                return jdbcTemplate.query(sql2, (resultSet, i) -> {
+                    String[] actorNames = resultSet.getString("actor_name").split("\\|");
+                    String[] directorNames = resultSet.getString("director_name").split("\\|");
+                    String[] genres = resultSet.getString("genres").split("\\|");
+                    return new MovieSpecs(
+                        resultSet.getString("title"),
+                        resultSet.getString("title_original"),
+                        resultSet.getString("role_name"),
+                        List.of(actorNames),
+                        List.of(directorNames),
+                        List.of(genres));
+                }, q, q);
             }
         }
     }
