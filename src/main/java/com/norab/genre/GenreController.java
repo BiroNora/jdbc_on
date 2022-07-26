@@ -15,7 +15,7 @@ public class GenreController {
     }
 
     @GetMapping
-    public List<GenreDao.GenresByMovie> selectGenres() {
+    public List<GenreDao.GenresByMovieId> selectGenres() {
         return genreService.selectGenres();
     }
 
@@ -44,7 +44,7 @@ public class GenreController {
     }
 
     @GetMapping("/filmgen")
-    List<GenreDao.MoviesByGenre> selectGenresByMovieTitle(
+    List<GenreDao.GenresByMovie> selectGenresByMovieTitle(
         @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return genreService.selectGenresByMovieTitle(title, location);

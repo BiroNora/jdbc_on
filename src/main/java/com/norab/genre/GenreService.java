@@ -14,7 +14,7 @@ public class GenreService {
         this.genreDao = genreDao;
     }
 
-    public List<GenreDao.GenresByMovie> selectGenres() {
+    public List<GenreDao.GenresByMovieId> selectGenres() {
         return genreDao.selectGenres();
     }
 
@@ -45,7 +45,7 @@ public class GenreService {
     }
 
     //Genres of one film
-    List<GenreDao.MoviesByGenre> selectGenresByMovieTitle(String title, SearchLocation location) {
+    List<GenreDao.GenresByMovie> selectGenresByMovieTitle(String title, SearchLocation location) {
         return genreDao.selectGenresByMovieTitle(title, location);
     }
 }

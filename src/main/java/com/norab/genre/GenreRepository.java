@@ -10,7 +10,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,15 +25,17 @@ public class GenreRepository implements GenreDao<Genre> {
 
 
     @Override
-    public List<GenresByMovie> selectGenres() {
+    public List<GenresByMovieId> selectGenres() {
         var sql = """
-            SELECT movie_id, STRING_AGG(genre, ', ') as genres
+            SELECT movie_id, STRING_AGG(genre, '|') as genres
             FROM genre GROUP BY movie_id;
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) -> new GenresByMovie(
-            resultSet.getInt("movie_id"),
-            Collections.singletonList(resultSet.getString("genres"))
-        ));
+        return jdbcTemplate.query(sql, (resultSet, i) -> {
+            String[] genres = resultSet.getString("genres").split("\\|");
+            return new GenresByMovieId(
+                resultSet.getInt("movie_id"),
+                List.of(genres));
+        });
     }
 
     @Override
@@ -100,7 +101,7 @@ public class GenreRepository implements GenreDao<Genre> {
     @Override
     public List<String> selectGenresByMovieId(Integer movieId) {
         var sql = """
-            SELECT genre FROM genre 
+            SELECT genre FROM genre
             WHERE movie_id = ?
             ORDER BY genre ASC;
             """;
@@ -132,11 +133,11 @@ public class GenreRepository implements GenreDao<Genre> {
     }
 
     @Override
-    public List<MoviesByGenre> selectGenresByMovieTitle(String title, SearchLocation location) {
+    public List<GenresByMovie> selectGenresByMovieTitle(String title, SearchLocation location) {
         String q = Utils.addPercent(title);
         var sql0 = """
             SELECT title, title_original, release_date,
-                   STRING_AGG(genre, ', ') as genre
+                   STRING_AGG(genre, '|') as genre
             FROM movies as movies
             JOIN
             (SELECT movie_id, genre
@@ -149,7 +150,7 @@ public class GenreRepository implements GenreDao<Genre> {
             """;
         var sql1 = """
             SELECT title, title_original, release_date,
-                   STRING_AGG(genre, ', ') as genre
+                   STRING_AGG(genre, '|') as genre
             FROM movies as movies
             JOIN
             (SELECT movie_id, genre
@@ -162,7 +163,7 @@ public class GenreRepository implements GenreDao<Genre> {
             """;
         var sql2 = """
             SELECT title, title_original, release_date,
-                   STRING_AGG(genre, ', ') as genre
+                   STRING_AGG(genre, '|') as genre
             FROM movies as movies
             JOIN
             (SELECT movie_id, genre
@@ -175,28 +176,34 @@ public class GenreRepository implements GenreDao<Genre> {
             """;
         switch (location) {
             case TITLE -> {
-                return jdbcTemplate.query(
-                    sql0, (resultSet, i) -> new MoviesByGenre(
+                return jdbcTemplate.query(sql0, (resultSet, i) -> {
+                    String[] genre = resultSet.getString("genre").split("\\|");
+                    return new GenresByMovie(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q);
+                        List.of(genre));
+                }, q);
             }
             case ORIGTITLE -> {
-                return jdbcTemplate.query(
-                    sql1, (resultSet, i) -> new MoviesByGenre(
+                return jdbcTemplate.query(sql1, (resultSet, i) -> {
+                    String[] genre = resultSet.getString("genre").split("\\|");
+                    return new GenresByMovie(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q);
+                        List.of(genre));
+                }, q);
             }
             default -> {
-                return jdbcTemplate.query(
-                    sql2, (resultSet, i) -> new MoviesByGenre(
+                return jdbcTemplate.query(sql2, (resultSet, i) -> {
+                    String[] genre = resultSet.getString("genre").split("\\|");
+                    return new GenresByMovie(
                         resultSet.getString("title"),
                         resultSet.getString("title_original"),
                         resultSet.getShort("release_date"),
-                        resultSet.getString("genre")), q, q);
+                        List.of(genre));
+                }, q, q);
             }
         }
     }

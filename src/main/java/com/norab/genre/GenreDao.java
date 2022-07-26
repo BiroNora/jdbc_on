@@ -5,7 +5,7 @@ import com.norab.crossed.SearchLocation;
 import java.util.List;
 
 public interface GenreDao<Genre> {
-    List<GenresByMovie> selectGenres();
+    List<GenresByMovieId> selectGenres();
 
     List<String> selectAllGenre();
 
@@ -22,8 +22,12 @@ public interface GenreDao<Genre> {
     List<MoviesByGenre> selectMoviesByGenre(String genre);
 
     //Genres of one film
-    List<MoviesByGenre> selectGenresByMovieTitle(String title, SearchLocation location);
+    List<GenresByMovie> selectGenresByMovieTitle(String title, SearchLocation location);
 
+    record GenresByMovieId(
+        Integer movieId,
+        List<String> genres
+    ) {}
     record MoviesByGenre(
         String title,
         String titleOriginal,
@@ -32,7 +36,9 @@ public interface GenreDao<Genre> {
     ) {}
 
     record GenresByMovie(
-        Integer movieId,
+        String title,
+        String titleOriginal,
+        Short releaseDate,
         List<String> genres
     ) {}
 }
