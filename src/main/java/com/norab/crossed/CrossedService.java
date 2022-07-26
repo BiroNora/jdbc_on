@@ -65,4 +65,8 @@ public class CrossedService {
     public List<CrossedDao.MovieSpecs> movieSpecification(String movieTitle, SearchLocation location) {
         return crossedDao.movieSpecification(movieTitle, location);
     }
+
+    public List<CrossedDao.GenreActor> genresPerActor(String actorName) {
+        return crossedDao.genresPerActor(actorName);
+    }
 }

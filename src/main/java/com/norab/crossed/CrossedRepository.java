@@ -363,4 +363,28 @@ public class CrossedRepository implements CrossedDao {
             }
         }
     }
+
+    @Override
+    public List<GenreActor> genresPerActor(String actorName) {
+        String q = Utils.addPercent(actorName);
+        var sql = """
+            SELECT full_name, STRING_AGG(genre, '|') as genres FROM
+            (SELECT DISTINCT genre, full_name FROM actors
+            JOIN
+            (SELECT actor_id, movie_id FROM plays) AS p USING (actor_id)
+            JOIN
+            (SELECT movie_id, genre FROM genre) as g
+                        USING (movie_id)
+            WHERE LOWER(full_name) LIKE LOWER(?)
+            ORDER BY full_name, genre) AS d
+            GROUP BY full_name
+            ;
+            """;
+        return jdbcTemplate.query(sql, (resultSet, i) -> {
+            String[] genres = resultSet.getString("genres").split("\\|");
+            return new GenreActor(
+                resultSet.getString("full_name"),
+                List.of(genres));
+        }, q);
+    }
 }

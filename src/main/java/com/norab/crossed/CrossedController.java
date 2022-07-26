@@ -87,10 +87,16 @@ public class CrossedController {
         return crossedService.allPhotosByMovie(roleName, location);
     }
 
-    @GetMapping("/specsbymovie")
+    @GetMapping("/moviespec")
     public List<CrossedDao.MovieSpecs> movieSpecification(
         @RequestParam(name = "name") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return crossedService.movieSpecification(title, location);
+    }
+
+    @GetMapping("/actgenres")
+    public List<CrossedDao.GenreActor> genresPerActor(
+        @RequestParam(name = "name") String actorName) {
+        return crossedService.genresPerActor(actorName);
     }
 }

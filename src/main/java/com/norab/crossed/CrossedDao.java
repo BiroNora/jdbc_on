@@ -35,6 +35,8 @@ public interface CrossedDao {
 
     List<MovieSpecs> movieSpecification(String movieTitle, SearchLocation location);
 
+    List<GenreActor> genresPerActor(String actorName);
+
     record MoviesByActor(
         String roleName,
         String title
@@ -69,4 +71,9 @@ public interface CrossedDao {
         List<String> genres
     ) {
     }
+
+    record GenreActor(
+        String fullName,
+        List<String> genres
+    ){}
 }
