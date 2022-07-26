@@ -1,13 +1,12 @@
 package com.norab.photo;
 
-import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 
-import java.util.Map;
 import java.util.Objects;
 
-public class Photo {
+public class Photo extends ToJsonString {
     @Id
     @JsonIgnore
     private Integer photoId;
@@ -111,10 +110,5 @@ public class Photo {
             ", actorId=" + actorId +
             ", roleId=" + roleId +
             '}';
-    }
-
-    public String jsonString() {
-        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
-        return JsonWriter.objectToJson(this, conf);
     }
 }

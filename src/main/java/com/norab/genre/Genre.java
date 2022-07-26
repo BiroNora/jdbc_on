@@ -1,10 +1,8 @@
 package com.norab.genre;
 
-import com.cedarsoftware.util.io.JsonWriter;
+import com.norab.utils.ToJsonString;
 
-import java.util.Map;
-
-public class Genre {
+public class Genre extends ToJsonString {
     private Integer movieId;
     private String genre;
 
@@ -42,10 +40,5 @@ public class Genre {
             "movieId=" + movieId +
             ", genre='" + genre + '\'' +
             '}';
-    }
-
-    public String jsonString() {
-        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
-        return JsonWriter.objectToJson(this, conf);
     }
 }

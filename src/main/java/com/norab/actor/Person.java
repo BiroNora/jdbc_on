@@ -3,12 +3,13 @@ package com.norab.actor;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 import java.util.Map;
 
-public class Person {
+public class Person extends ToJsonString {
     @Id
     @JsonIgnore
     private Integer actorId;
@@ -104,10 +105,5 @@ public class Person {
             ", deathDate=" + deathDate +
             ", age=" + getAge() +
             '}';
-    }
-
-    public String jsonString() {
-        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
-        return JsonWriter.objectToJson(this, conf);
     }
 }

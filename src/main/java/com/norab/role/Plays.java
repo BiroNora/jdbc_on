@@ -1,12 +1,10 @@
 package com.norab.role;
 
-import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 
-import java.util.Map;
-
-public class Plays {
+public class Plays extends ToJsonString {
     @Id
     @JsonIgnore
     private Integer roleId;
@@ -32,10 +30,6 @@ public class Plays {
 
     public Integer getRoleId() {
         return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
     }
 
     public String getRoleName() {
@@ -70,10 +64,5 @@ public class Plays {
             ", movieId=" + movieId +
             ", actorId=" + actorId +
             '}';
-    }
-
-    public String jsonString() {
-        Map<String, Object> conf = Map.of(JsonWriter.SKIP_NULL_FIELDS, true, JsonWriter.TYPE, false);
-        return JsonWriter.objectToJson(this, conf);
     }
 }
