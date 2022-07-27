@@ -99,4 +99,10 @@ public class CrossedController {
         @RequestParam(name = "name") String actorName) {
         return crossedService.genresPerActor(actorName);
     }
+
+    @GetMapping("/dirgenres")
+    public List<CrossedDao.GenreActor> genresPerDirector(
+        @RequestParam(name = "name") String actorName) {
+        return crossedService.genresPerDirector(actorName);
+    }
 }

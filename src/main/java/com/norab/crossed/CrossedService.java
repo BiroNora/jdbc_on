@@ -69,4 +69,8 @@ public class CrossedService {
     public List<CrossedDao.GenreActor> genresPerActor(String actorName) {
         return crossedDao.genresPerActor(actorName);
     }
+
+    public List<CrossedDao.GenreActor> genresPerDirector(String actorName) {
+        return crossedDao.genresPerDirector(actorName);
+    }
 }

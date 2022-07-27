@@ -37,6 +37,8 @@ public interface CrossedDao {
 
     List<GenreActor> genresPerActor(String actorName);
 
+    List<GenreActor> genresPerDirector(String actorName);
+
     record MoviesByActor(
         String roleName,
         String title
