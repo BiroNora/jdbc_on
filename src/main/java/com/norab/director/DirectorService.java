@@ -1,6 +1,7 @@
 package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.exception.InvalidInputException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class DirectorService {
     }
 
     public void deleteDirector(Integer actorId, Integer movieId) {
+        if (actorId == null || actorId < 1 || movieId == null || movieId < 1) {
+            throw new InvalidInputException("Invalid id");
+        }
         boolean result = directorDao.deleteDirector(actorId, movieId);
         if (!result) {
             throw new IllegalStateException("oops could not delete director");
