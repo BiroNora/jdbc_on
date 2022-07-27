@@ -1,6 +1,7 @@
 package com.norab.genre;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.BooleanResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,8 +52,8 @@ public class GenreController {
     }
 
     @PostMapping
-    public boolean insertGenre(@RequestBody Genre genre) {
-        return genreService.insertGenre(genre);
+    public BooleanResponse insertGenre(@RequestBody Genre genre) {
+        return new BooleanResponse(genreService.insertGenre(genre));
     }
 
     @DeleteMapping("{id}")

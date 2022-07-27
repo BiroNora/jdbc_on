@@ -1,6 +1,7 @@
 package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.BooleanResponse;
 import com.norab.utils.ValidationResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +48,8 @@ public class DirectorController {
     }
 
     @PostMapping
-    public boolean insertDirector(@RequestBody Director director) {
-        return directorService.insertDirector(director);
+    public BooleanResponse insertDirector(@RequestBody Director director) {
+        return new BooleanResponse(directorService.insertDirector(director));
     }
 
     @DeleteMapping("{actorId}/{movieId}")
