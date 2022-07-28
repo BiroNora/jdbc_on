@@ -53,7 +53,7 @@ class DirectorIntegrationTest {
 
     @Test
     void selectMoviesByDirector() throws Exception {
-        String path = url + "/exists?actorid=6&movieid=3";
+        String path = url + "/exists?actorid=8&movieid=1";
         mockMvc.perform(get(path))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.is_valid").exists())
