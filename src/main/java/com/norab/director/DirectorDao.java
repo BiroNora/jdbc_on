@@ -27,12 +27,14 @@ public interface DirectorDao<Director> {
         String titleOriginal,
         Short releaseDate,
         String fullName
-    ) {}
+    ) {
+    }
 
     record Directors(
         List<String> fullName,
         String title,
         String title_original,
         Short releaseDate
-    ) {}
+    ) {
+    }
 }

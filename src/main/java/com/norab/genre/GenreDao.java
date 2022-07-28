@@ -27,18 +27,22 @@ public interface GenreDao<Genre> {
     record GenresByMovieId(
         Integer movieId,
         List<String> genres
-    ) {}
+    ) {
+    }
+
     record MoviesByGenre(
         String title,
         String titleOriginal,
         Short releaseDate,
         String genre
-    ) {}
+    ) {
+    }
 
     record GenresByMovie(
         String title,
         String titleOriginal,
         Short releaseDate,
         List<String> genres
-    ) {}
+    ) {
+    }
 }
