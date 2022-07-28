@@ -2,6 +2,7 @@ package com.norab.crossed;
 
 import com.norab.actor.Person;
 import com.norab.movie.Movie;
+import com.norab.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class CrossedService {
         return crossedDao.allActorsByMovie(title);
     }
 
-    public List<String> allPlaysByActor(String actorName) {
+    public List<ResultResponse> allPlaysByActor(String actorName) {
         return crossedDao.allPlaysByActor(actorName);
     }
 
@@ -50,15 +51,15 @@ public class CrossedService {
         return crossedDao.allPlaysAndActorsByMovie(movieTitle, location);
     }
 
-    public List<String> allPhotosByActor(String actorName) {
+    public List<ResultResponse> allPhotosByActor(String actorName) {
         return crossedDao.allPhotosByActor(actorName);
     }
 
-    public List<String> allPhotosByPlays(String roleName) {
+    public List<ResultResponse> allPhotosByPlays(String roleName) {
         return crossedDao.allPhotosByPlays(roleName);
     }
 
-    public List<String> allPhotosByMovie(String movieTitle, SearchLocation location) {
+    public List<ResultResponse> allPhotosByMovie(String movieTitle, SearchLocation location) {
         return crossedDao.allPhotosByMovie(movieTitle, location);
     }
 

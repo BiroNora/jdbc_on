@@ -2,6 +2,7 @@ package com.norab.crossed;
 
 import com.norab.actor.Person;
 import com.norab.movie.Movie;
+import com.norab.utils.ResultResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CrossedController {
 
     @GetMapping("/movies")
     public List<Movie> searchByMovieTitle(
-        @RequestParam(name = "q") String title,
+        @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return crossedService.searchByMovieTitle(title, location);
     }
@@ -39,12 +40,12 @@ public class CrossedController {
 
     @GetMapping("/actorsbymovie")
     public List<ActorsByMovie> allActorsByMovie(
-        @RequestParam(name = "q") String title) {
+        @RequestParam(name = "title") String title) {
         return crossedService.allActorsByMovie(title);
     }
 
     @GetMapping("/playsbyactor")
-    public List<String> allPlaysByActor(
+    public List<ResultResponse> allPlaysByActor(
         @RequestParam(name = "name") String actorName) {
         return crossedService.allPlaysByActor(actorName);
     }
@@ -69,19 +70,19 @@ public class CrossedController {
     }
 
     @GetMapping("/photosbyactor")
-    public List<String> allPhotosByActor(
+    public List<ResultResponse> allPhotosByActor(
         @RequestParam(name = "name") String actorName) {
         return crossedService.allPhotosByActor(actorName);
     }
 
     @GetMapping("/photosbyrole")
-    public List<String> allPhotosByPlays(
+    public List<ResultResponse> allPhotosByPlays(
         @RequestParam(name = "name") String roleName) {
         return crossedService.allPhotosByPlays(roleName);
     }
 
     @GetMapping("/photosbymovie")
-    public List<String> allPhotosByMovie(
+    public List<ResultResponse> allPhotosByMovie(
         @RequestParam(name = "name") String roleName,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return crossedService.allPhotosByMovie(roleName, location);

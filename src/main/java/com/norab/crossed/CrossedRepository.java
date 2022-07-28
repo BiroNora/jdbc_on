@@ -5,6 +5,7 @@ import com.norab.actor.ActorRowMapper;
 import com.norab.actor.Person;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRowMapper;
+import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -109,7 +109,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<String> allPlaysByActor(String actorName) {
+    public List<ResultResponse> allPlaysByActor(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """
             SELECT DISTINCT role_name FROM plays join
@@ -117,8 +117,8 @@ public class CrossedRepository implements CrossedDao {
                 WHERE LOWER(full_name) like LOWER(?)) AS a
             USING(actor_id);
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("role_name"), q);
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("role_name")), q);
     }
 
     @Override
@@ -212,7 +212,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<String> allPhotosByActor(String actorName) {
+    public List<ResultResponse> allPhotosByActor(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """
             SELECT url FROM photos
@@ -221,12 +221,12 @@ public class CrossedRepository implements CrossedDao {
             WHERE LOWER(full_name) LIKE LOWER(?)) AS a
             USING (actor_id);
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("url"), q);
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("url")), q);
     }
 
     @Override
-    public List<String> allPhotosByPlays(String roleName) {
+    public List<ResultResponse> allPhotosByPlays(String roleName) {
         String q = Utils.addPercent(roleName);
         var sql = """
             SELECT url FROM photos
@@ -235,12 +235,12 @@ public class CrossedRepository implements CrossedDao {
                 WHERE LOWER(role_name) LIKE LOWER(?)) AS p
             USING(role_id);                     
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("url"), q);
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("url")), q);
     }
 
     @Override
-    public List<String> allPhotosByMovie(String movieTitle, SearchLocation location) {
+    public List<ResultResponse> allPhotosByMovie(String movieTitle, SearchLocation location) {
         String q = Utils.addPercent(movieTitle);
         var sql0 = """
             SELECT url FROM photos
@@ -265,16 +265,16 @@ public class CrossedRepository implements CrossedDao {
             """;
         switch (location) {
             case TITLE -> {
-                return jdbcTemplate.query(sql0, (resultSet, i) ->
-                    resultSet.getString("url"), q);
+                return jdbcTemplate.query(sql0, (resultSet, i) -> new ResultResponse(
+                    resultSet.getString("url")), q);
             }
             case ORIGTITLE -> {
-                return jdbcTemplate.query(sql1, (resultSet, i) ->
-                    resultSet.getString("url"), q);
+                return jdbcTemplate.query(sql1, (resultSet, i) -> new ResultResponse(
+                    resultSet.getString("url")), q);
             }
             default -> {
-                return jdbcTemplate.query(sql2, (resultSet, i) ->
-                    resultSet.getString("url"), q, q);
+                return jdbcTemplate.query(sql2, (resultSet, i) -> new ResultResponse(
+                    resultSet.getString("url")), q, q);
             }
         }
     }
