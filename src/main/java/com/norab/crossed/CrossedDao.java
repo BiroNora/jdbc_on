@@ -25,7 +25,6 @@ public interface CrossedDao {
 
     List<AllMoviesAndPlaysByActor> allMoviesAndPlaysByActor(String actorName);
 
-
     List<AllPlaysAndActorsByMovie> allPlaysAndActorsByMovie(String movieTitle, SearchLocation location);
 
     List<ResultResponse> allPhotosByActor(String actorName);
@@ -67,10 +66,10 @@ public interface CrossedDao {
 
     record MovieSpecs(
         String title,
-        String title_original,
-        String role_name,
-        List<String> actor_name,
-        List<String> director_name,
+        String titleOriginal,
+        String roleName,
+        List<String> actorName,
+        List<String> directorName,
         List<String> genres
     ) {
     }

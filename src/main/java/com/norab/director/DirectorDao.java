@@ -34,7 +34,7 @@ public interface DirectorDao<Director> {
     record Directors(
         List<String> fullName,
         String title,
-        String title_original,
+        String titleOriginal,
         Short releaseDate
     ) {
     }

@@ -28,10 +28,10 @@ public class GenreController {
     }
 
     @GetMapping("/id")
-    public boolean selectGenreById(
+    public BooleanResponse selectGenreById(
         @RequestParam(name = "id") Integer id,
         @RequestParam(name = "genre") String genre) {
-        return genreService.selectGenreById(id, genre);
+        return new BooleanResponse(genreService.selectGenreById(id, genre));
     }
 
     @GetMapping("/genre/{id}")
