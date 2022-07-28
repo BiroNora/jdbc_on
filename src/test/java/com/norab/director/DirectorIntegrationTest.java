@@ -8,7 +8,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -52,10 +51,11 @@ class DirectorIntegrationTest {
 
     @Test
     void selectMoviesByDirector() throws Exception {
-        String path = url + "/exists";
+        String path = url + "/exists?actorid=6&movieid=3";
         mockMvc.perform(get(path))
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("James L. Brooks")));
+            .andExpect(jsonPath("$.success").exists())
+            .andExpect(jsonPath("$.success").isBoolean());
     }
 
     @Test

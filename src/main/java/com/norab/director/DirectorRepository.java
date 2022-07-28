@@ -48,8 +48,8 @@ public class DirectorRepository implements DirectorDao<Director> {
                          (SELECT actor_id, full_name FROM actors) AS act USING(actor_id)
                      ORDER BY full_name
                  ) as b
-                 USING(movie_id)
-             GROUP BY movie_id
+                 ON b.movie_id = movies.movie_id
+             GROUP BY movies.movie_id
              ORDER BY director
              ;
             """;
