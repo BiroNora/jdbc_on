@@ -2,6 +2,7 @@ package com.norab.genre;
 
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class GenreService {
         return genreDao.selectGenres();
     }
 
-    List<String> selectAllGenre() {
+    List<ResultResponse> selectAllGenre() {
         return genreDao.selectAllGenre();
     }
 
@@ -35,7 +36,7 @@ public class GenreService {
         return genreDao.selectGenreById(movieId, genre);
     }
 
-    public List<String> selectGenresByMovieId(Integer movieId) {
+    public List<ResultResponse> selectGenresByMovieId(Integer movieId) {
         return genreDao.selectGenresByMovieId(movieId);
     }
 

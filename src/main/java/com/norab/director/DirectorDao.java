@@ -1,11 +1,12 @@
 package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.ResultResponse;
 
 import java.util.List;
 
 public interface DirectorDao<Director> {
-    List<String> listDirectors();
+    List<ResultResponse> listDirectors();
 
     List<Directors> listDirectorsAndMovies();
 
@@ -20,7 +21,7 @@ public interface DirectorDao<Director> {
     List<MoviesByDirector> selectMoviesByDirector(String name);
 
     //Films of one director
-    List<String> selectDirectorsByMovieTitle(String title, SearchLocation location);
+    List<ResultResponse> selectDirectorsByMovieTitle(String title, SearchLocation location);
 
     record MoviesByDirector(
         String title,

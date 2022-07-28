@@ -1,6 +1,7 @@
 package com.norab.director;
 
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +21,8 @@ class DirectorRepositoryTest {
 
     @Test
     void selectDirectors() {
-        List<String> directors = repository.listDirectors();
-        for (String d : directors) {
+        List<ResultResponse> directors = repository.listDirectors();
+        for (ResultResponse d : directors) {
             System.out.println(d);
         }
         assertTrue(directors.size() > 0);
@@ -74,22 +75,22 @@ class DirectorRepositoryTest {
 
     @Test
     void selectDirectorsByMovieTitle() {
-        List<String> directors = repository.selectDirectorsByMovieTitle("%oss%", TITLE);
+        List<ResultResponse> directors = repository.selectDirectorsByMovieTitle("%oss%", TITLE);
         assertTrue(directors.size() > 0);
     }
 
     @Test
     void selectDirectorsByMovieOriginalTitle() {
-        List<String> directors = repository.selectDirectorsByMovieTitle("%ood%", ORIGTITLE);
+        List<ResultResponse> directors = repository.selectDirectorsByMovieTitle("%ood%", ORIGTITLE);
         assertTrue(directors.size() > 0);
     }
 
     @Test
     void selectDirectorsByMovieOriginalTitleAndTitle() {
-        List<String> directors = repository.selectDirectorsByMovieTitle("%ki%", ALL);
+        List<ResultResponse> directors = repository.selectDirectorsByMovieTitle("%ki%", ALL);
         assertTrue(directors.size() > 0);
 
-        List<String> directors1 = repository.selectDirectorsByMovieTitle("%off%", ALL);
+        List<ResultResponse> directors1 = repository.selectDirectorsByMovieTitle("%off%", ALL);
         assertTrue(directors1.size() > 0);
     }
 }

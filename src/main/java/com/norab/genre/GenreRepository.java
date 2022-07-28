@@ -3,6 +3,7 @@ package com.norab.genre;
 import com.norab.crossed.SearchLocation;
 import com.norab.director.DirectorRepository;
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +40,14 @@ public class GenreRepository implements GenreDao<Genre> {
     }
 
     @Override
-    public List<String> selectAllGenre() {
+    public List<ResultResponse> selectAllGenre() {
         var sql = """
             SELECT DISTINCT genre
             FROM genre
             ORDER BY genre;
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("genre"));
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("genre")));
     }
 
     @Override
@@ -99,14 +100,14 @@ public class GenreRepository implements GenreDao<Genre> {
     }
 
     @Override
-    public List<String> selectGenresByMovieId(Integer movieId) {
+    public List<ResultResponse> selectGenresByMovieId(Integer movieId) {
         var sql = """
             SELECT genre FROM genre
             WHERE movie_id = ?
             ORDER BY genre ASC;
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("genre"), movieId);
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("genre")), movieId);
     }
 
     @Override

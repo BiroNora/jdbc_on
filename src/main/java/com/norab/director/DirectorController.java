@@ -2,6 +2,7 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.utils.BooleanResponse;
+import com.norab.utils.ResultResponse;
 import com.norab.utils.ValidationResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class DirectorController {
     }
 
     @GetMapping
-    public List<String> listDirectors() {
+    public List<ResultResponse> listDirectors() {
         return directorService.listDirectors();
     }
 
@@ -41,7 +42,7 @@ public class DirectorController {
     }
 
     @GetMapping("/dirbymovie")
-    public List<String> selectDirectorsByMovieTitle(
+    public List<ResultResponse> selectDirectorsByMovieTitle(
         @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return directorService.selectDirectorsByMovieTitle(title, location);

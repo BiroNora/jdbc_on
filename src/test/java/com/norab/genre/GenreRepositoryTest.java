@@ -1,5 +1,6 @@
 package com.norab.genre;
 
+import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +18,8 @@ class GenreRepositoryTest {
 
     @Test
     void selectGenres() {
-        List<String> genres = repository.selectAllGenre();
-        for (String g : genres) {
+        List<GenreDao.GenresByMovieId> genres = repository.selectGenres();
+        for (GenreDao.GenresByMovieId g : genres) {
             System.out.println(g);
         }
         assertTrue(genres.size() > 0);
@@ -26,7 +27,7 @@ class GenreRepositoryTest {
 
     @Test
     void selectAllGenre() {
-        List<String> genres = repository.selectAllGenre();
+        List<ResultResponse> genres = repository.selectAllGenre();
         assertTrue(genres.size() > 0);
     }
 
@@ -57,8 +58,8 @@ class GenreRepositoryTest {
 
     @Test
     void selectGenresByMovieId() {
-        List<String> strings = repository.selectGenresByMovieId(5);
-        for (String s : strings) {
+        List<ResultResponse> strings = repository.selectGenresByMovieId(5);
+        for (ResultResponse s : strings) {
             System.out.println(s);
         }
         assertTrue(strings.size() > 0);

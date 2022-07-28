@@ -2,6 +2,7 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public List<String> listDirectors() {
+    public List<ResultResponse> listDirectors() {
         var sql = """
             SELECT DISTINCT full_name AS directors FROM directors
                           JOIN
@@ -32,8 +33,8 @@ public class DirectorRepository implements DirectorDao<Director> {
                           ORDER BY directors asc;
             ;
             """;
-        return jdbcTemplate.query(sql, (resultSet, i) ->
-            resultSet.getString("directors"));
+        return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
+            resultSet.getString("directors")));
     }
 
     @Override
@@ -141,7 +142,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public List<String> selectDirectorsByMovieTitle(String title, SearchLocation location) {
+    public List<ResultResponse> selectDirectorsByMovieTitle(String title, SearchLocation location) {
         String q = Utils.addPercent(title);
         var sql0 = """
              SELECT full_name, title
@@ -188,18 +189,18 @@ public class DirectorRepository implements DirectorDao<Director> {
         switch (location) {
             case TITLE -> {
                 return jdbcTemplate.query(
-                    sql0, (resultSet, i) ->
-                        resultSet.getString("full_name"), q);
+                    sql0, (resultSet, i) -> new ResultResponse(
+                        resultSet.getString("full_name")), q);
             }
             case ORIGTITLE -> {
                 return jdbcTemplate.query(
-                    sql1, (resultSet, i) ->
-                        resultSet.getString("full_name"), q);
+                    sql1, (resultSet, i) -> new ResultResponse(
+                        resultSet.getString("full_name")), q);
             }
             default -> {
                 return jdbcTemplate.query(
-                    sql2, (resultSet, i) ->
-                        resultSet.getString("full_name"), q, q);
+                    sql2, (resultSet, i) -> new ResultResponse(
+                        resultSet.getString("full_name")), q, q);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.norab.genre;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.utils.BooleanResponse;
+import com.norab.utils.ResultResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class GenreController {
     }
 
     @GetMapping("/all")
-    public List<String> selectAllGenre() {
+    public List<ResultResponse> selectAllGenre() {
         return genreService.selectAllGenre();
     }
 
@@ -33,7 +34,7 @@ public class GenreController {
     }
 
     @GetMapping("/genre/{id}")
-    public List<String> selectGenresByMovieId(
+    public List<ResultResponse> selectGenresByMovieId(
         @PathVariable("id") Integer movieId) {
         return genreService.selectGenresByMovieId(movieId);
     }

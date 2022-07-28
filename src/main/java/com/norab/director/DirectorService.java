@@ -2,6 +2,7 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class DirectorService {
         this.directorDao = directorDao;
     }
 
-    public List<String> listDirectors() {
+    public List<ResultResponse> listDirectors() {
         return directorDao.listDirectors();
     }
 
@@ -44,7 +45,7 @@ public class DirectorService {
         return directorDao.selectMoviesByDirector(name);
     }
 
-    public List<String> selectDirectorsByMovieTitle(String title, SearchLocation location) {
+    public List<ResultResponse> selectDirectorsByMovieTitle(String title, SearchLocation location) {
         return directorDao.selectDirectorsByMovieTitle(title, location);
     }
 }

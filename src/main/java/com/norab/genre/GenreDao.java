@@ -1,13 +1,14 @@
 package com.norab.genre;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.ResultResponse;
 
 import java.util.List;
 
 public interface GenreDao<Genre> {
     List<GenresByMovieId> selectGenres();
 
-    List<String> selectAllGenre();
+    List<ResultResponse> selectAllGenre();
 
     boolean insertGenre(Genre genre);
 
@@ -16,7 +17,7 @@ public interface GenreDao<Genre> {
     //If relation exists between specified movie & genre
     boolean selectGenreById(Integer movieId, String genre);
 
-    List<String> selectGenresByMovieId(Integer movieId);
+    List<ResultResponse> selectGenresByMovieId(Integer movieId);
 
     //CROSSED one genre and related films
     List<MoviesByGenre> selectMoviesByGenre(String genre);
