@@ -143,6 +143,6 @@ public class GenreIntegrationTest {
     @Test
     void deleteGenreByInvalidValues() throws Exception {
         mockMvc.perform(delete("/api/v1/genres/100?genre=dramatic"))
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isNotFound());
     }
 }

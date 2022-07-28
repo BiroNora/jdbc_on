@@ -1,6 +1,7 @@
 package com.norab.genre;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.exception.NotFoundException;
 import com.norab.utils.BooleanResponse;
 import com.norab.utils.ResultResponse;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +62,8 @@ public class GenreController {
     public void deleteGenre(
         @PathVariable("id") Integer movieId,
         @RequestParam(name = "genre") String genre) {
-        genreService.deleteGenre(movieId, genre);
+        if (!genreService.deleteGenre(movieId, genre)) {
+            throw new NotFoundException("Genre not found");
+        }
     }
-
 }

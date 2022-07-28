@@ -1,6 +1,7 @@
 package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.exception.NotFoundException;
 import com.norab.utils.BooleanResponse;
 import com.norab.utils.ResultResponse;
 import com.norab.utils.ValidationResult;
@@ -57,6 +58,8 @@ public class DirectorController {
     public void deleteDirector(
         @PathVariable("actorid") Integer actorId,
         @PathVariable("movieid") Integer movieId) {
-        directorService.deleteDirector(actorId, movieId);
+        if (!directorService.deleteDirector(actorId, movieId)) {
+            throw new NotFoundException("Director is not found");
+        }
     }
 }

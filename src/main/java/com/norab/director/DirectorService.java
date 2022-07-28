@@ -27,14 +27,11 @@ public class DirectorService {
         return directorDao.insertDirector(director);
     }
 
-    public void deleteDirector(Integer actorId, Integer movieId) {
+    public boolean deleteDirector(Integer actorId, Integer movieId) {
         if (actorId == null || actorId < 1 || movieId == null || movieId < 1) {
             throw new InvalidInputException("Invalid id");
         }
-        boolean result = directorDao.deleteDirector(actorId, movieId);
-        if (!result) {
-            throw new IllegalStateException("oops could not delete director");
-        }
+        return directorDao.deleteDirector(actorId, movieId);
     }
 
     public boolean getDirector(Integer actorId, Integer movieId) {

@@ -32,7 +32,7 @@ class DirectorIntegrationTest {
         String path = url + "/all";
         mockMvc.perform(get(path))
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("James L. Brooks")));
+            .andExpect(content().string(containsString("Gore Verbinski")));
     }
 
     @Test
@@ -46,7 +46,9 @@ class DirectorIntegrationTest {
     void selectDirectorByInvalidId() throws Exception {
         String path = url + "/exists?actorid=1&movieid=7";
         mockMvc.perform(get(path))
-            .andExpect(status().isNotFound());
+            .andExpect(jsonPath("$.is_valid").exists())
+            .andExpect(jsonPath("$.is_valid").isBoolean())
+            .andExpect(jsonPath("$.is_valid").value(false));
     }
 
     @Test
@@ -54,8 +56,9 @@ class DirectorIntegrationTest {
         String path = url + "/exists?actorid=6&movieid=3";
         mockMvc.perform(get(path))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.success").exists())
-            .andExpect(jsonPath("$.success").isBoolean());
+            .andExpect(jsonPath("$.is_valid").exists())
+            .andExpect(jsonPath("$.is_valid").isBoolean())
+            .andExpect(jsonPath("$.is_valid").value(true));
     }
 
     @Test
@@ -92,6 +95,6 @@ class DirectorIntegrationTest {
     @Test
     void deleteDirectorByInvalidValues() throws Exception {
         mockMvc.perform(delete("/api/v1/directors/100/101"))
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isNotFound());
     }
 }
