@@ -2,10 +2,7 @@ package com.norab.movie;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -31,7 +28,6 @@ public class MovieIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
     public void listAllMovies() throws Exception {
         mockMvc.perform(get("/api/v1/movies"))
             .andDo(print())
@@ -40,7 +36,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(2)
     void getMovieByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/movies/2"))
             .andDo(print())
@@ -49,7 +44,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(3)
     void getMovieByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/765432"))
             .andDo(print())
@@ -57,7 +51,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(4)
     void updateMovie() throws Exception {
         String data = """
             {
@@ -89,7 +82,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(5)
     void insertMovie() throws Exception {
         String s = new Movie("A szajré", "The Score", (short) 2001).jsonString();
 
@@ -111,7 +103,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(6)
     void deleteMovieByValidId_ReferenceConflict() throws Exception {
         String title = "Szemtl szemben";
         Long movieId = insertMovie(title, (short) 1984);
@@ -143,7 +134,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(7)
     void deleteMovieByValidId_NoReferenceConflict() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/6"))
             .andExpect(status().isOk());
@@ -155,7 +145,6 @@ public class MovieIntegrationTest {
     }
 
     @Test
-    @Order(8)
     void deleteMovieByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/movies/7175"))
             .andExpect(status().is4xxClientError());

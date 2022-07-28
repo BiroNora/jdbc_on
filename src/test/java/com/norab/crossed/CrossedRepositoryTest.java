@@ -19,8 +19,8 @@ class CrossedRepositoryTest {
     private CrossedRepository crossedRepository;
 
     @Test
-    void allMoviesByActor() {
-        List<CrossedDao.MoviesByActor> movies = crossedRepository.allMoviesByActor(1);
+    void allMoviesByActorById() {
+        List<CrossedDao.MoviesByActor> movies = crossedRepository.allMoviesByActorById(1);
         assertEquals(2, movies.size());
         assertEquals("A Karib-tenger kalózai: A Fekete Gyöngy átka", movies.get(0).title());
     }

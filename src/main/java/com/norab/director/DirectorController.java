@@ -30,8 +30,8 @@ public class DirectorController {
 
     @GetMapping("/exists")
     public ValidationResult getDirector(
-        @RequestParam(name = "actor_id") Integer actorId,
-        @RequestParam(name = "movie_id") Integer movieId) {
+        @RequestParam(name = "actorid") Integer actorId,
+        @RequestParam(name = "movieid") Integer movieId) {
         return new ValidationResult(directorService.getDirector(actorId, movieId));
     }
 
@@ -53,10 +53,10 @@ public class DirectorController {
         return new BooleanResponse(directorService.insertDirector(director));
     }
 
-    @DeleteMapping("{actorId}/{movieId}")
+    @DeleteMapping("{actorid}/{movieid}")
     public void deleteDirector(
-        @PathVariable("actorId") Integer actorId,
-        @PathVariable("movieId") Integer movieId) {
+        @PathVariable("actorid") Integer actorId,
+        @PathVariable("movieid") Integer movieId) {
         directorService.deleteDirector(actorId, movieId);
     }
 }

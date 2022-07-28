@@ -6,9 +6,7 @@ import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.MethodName.class)
+
 @ActiveProfiles("test")
 @SpringBootTest
 class PhotoRepositoryTest {
@@ -92,11 +90,12 @@ class PhotoRepositoryTest {
 
     @Test
     void selectPhotoByValidId() {
-        Integer photoId = 3;
+        String url = "https://Huhuhuhuhuu";
+        Photo photo = new Photo(url, 2, null, null);
+
+        int photoId = repository.insertPhoto(photo);
         Optional<Photo> selected = repository.selectPhotoById(photoId);
         assertTrue(selected.isPresent());
-        assertEquals("https://fictional.com/actor/images/3.jpg", selected.get().getPhotoUrl());
-
     }
 
     @Test

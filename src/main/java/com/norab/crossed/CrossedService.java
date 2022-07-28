@@ -15,8 +15,9 @@ public class CrossedService {
         this.crossedDao = crossedDao;
     }
 
-    public List<CrossedDao.MoviesByActor> allMoviesByActor(Integer id) {
-        return crossedDao.allMoviesByActor(id);
+    public List<CrossedDao.MoviesByActor> allMoviesByActorById(Integer id) {
+
+        return crossedDao.allMoviesByActorById(id);
     }
 
     public List<Movie> allMoviesByReleaseDateAsc() {
@@ -39,8 +40,8 @@ public class CrossedService {
         return crossedDao.allPlaysByActor(actorName);
     }
 
-    public List<CrossedDao.AllMoviesByActor> allMoviesByActor(String actorName) {
-        return crossedDao.allMoviesByActor(actorName);
+    public List<CrossedDao.AllMoviesByActor> allMoviesByActorByName(String actorName) {
+        return crossedDao.allMoviesByActorByName(actorName);
     }
 
     public List<CrossedDao.AllMoviesAndPlaysByActor> allMoviesAndPlaysByActor(String actorName) {

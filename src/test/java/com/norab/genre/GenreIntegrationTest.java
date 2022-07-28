@@ -8,8 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -126,6 +125,24 @@ public class GenreIntegrationTest {
         mockMvc.perform(post("/api/v1/genres")
                 .content(data)
                 .contentType("application/json"))
+            .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void deleteGenreByValidValues() throws Exception {
+        String g = new Genre(1, "dramatic").jsonString();
+        mockMvc.perform(post("/api/v1/genres")
+                .content(g)
+                .contentType("application/json"))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/v1/genres/1?genre=dramatic"))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteGenreByInvalidValues() throws Exception {
+        mockMvc.perform(delete("/api/v1/genres/100?genre=dramatic"))
             .andExpect(status().is4xxClientError());
     }
 }

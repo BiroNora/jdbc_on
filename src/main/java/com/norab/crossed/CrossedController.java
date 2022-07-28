@@ -18,7 +18,7 @@ public class CrossedController {
 
     @GetMapping("/movies/actor/{id}")
     public List<CrossedDao.MoviesByActor> allMoviesByActor(@PathVariable("id") Integer id) {
-        return crossedService.allMoviesByActor(id);
+        return crossedService.allMoviesByActorById(id);
     }
 
     @GetMapping("/movies/date")
@@ -51,9 +51,9 @@ public class CrossedController {
     }
 
     @GetMapping("/moviesbyactor")
-    public List<CrossedDao.AllMoviesByActor> allMoviesByActor(
+    public List<CrossedDao.AllMoviesByActor> allMoviesByActorByName(
         @RequestParam(name = "name") String actorName) {
-        return crossedService.allMoviesByActor(actorName);
+        return crossedService.allMoviesByActorByName(actorName);
     }
 
     @GetMapping("/moviesplaysbyactor")
@@ -64,7 +64,7 @@ public class CrossedController {
 
     @GetMapping("/playsactorsbymovie")
     public List<CrossedDao.AllPlaysAndActorsByMovie> allPlaysAndActorsByMovie(
-        @RequestParam(name = "name") String title,
+        @RequestParam(name = "title") String title,
         @RequestParam(name = "location", required = false, defaultValue = "ALL") SearchLocation location) {
         return crossedService.allPlaysAndActorsByMovie(title, location);
     }

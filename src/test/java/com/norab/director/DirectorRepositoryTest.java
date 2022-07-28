@@ -10,8 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static com.norab.crossed.SearchLocation.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -20,9 +19,18 @@ class DirectorRepositoryTest {
     private DirectorRepository repository;
 
     @Test
-    void selectDirectors() {
+    void listDirectors() {
         List<ResultResponse> directors = repository.listDirectors();
         for (ResultResponse d : directors) {
+            System.out.println(d);
+        }
+        assertTrue(directors.size() > 0);
+    }
+
+    @Test
+    void listDirectorsAndMovies() {
+        List<DirectorDao.Directors> directors = repository.listDirectorsAndMovies();
+        for (DirectorDao.Directors d : directors) {
             System.out.println(d);
         }
         assertTrue(directors.size() > 0);
@@ -61,6 +69,12 @@ class DirectorRepositoryTest {
     void selectDirectorById() {
         boolean exists = repository.selectDirectorById(7, 5);
         assertTrue(exists);
+    }
+
+    @Test
+    void selectDirectorByInvalidId() {
+        boolean exists = repository.selectDirectorById(1, 5);
+        assertFalse(exists);
     }
 
     @Test

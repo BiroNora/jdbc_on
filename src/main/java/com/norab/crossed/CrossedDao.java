@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public interface CrossedDao {
-    List<MoviesByActor> allMoviesByActor(Integer id);
+    List<MoviesByActor> allMoviesByActorById(Integer id);
 
     List<Movie> allMoviesByReleaseDateAsc();
 
@@ -21,7 +21,7 @@ public interface CrossedDao {
 
     List<ResultResponse> allPlaysByActor(String actorName);
 
-    List<AllMoviesByActor> allMoviesByActor(String actorName);
+    List<AllMoviesByActor> allMoviesByActorByName(String actorName);
 
     List<AllMoviesAndPlaysByActor> allMoviesAndPlaysByActor(String actorName);
 

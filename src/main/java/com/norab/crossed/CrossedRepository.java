@@ -27,7 +27,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<MoviesByActor> allMoviesByActor(Integer id) {
+    public List<MoviesByActor> allMoviesByActorById(Integer id) {
         var sql = """
             SELECT role_name, title
             FROM movies
@@ -122,7 +122,7 @@ public class CrossedRepository implements CrossedDao {
     }
 
     @Override
-    public List<AllMoviesByActor> allMoviesByActor(String actorName) {
+    public List<AllMoviesByActor> allMoviesByActorByName(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """
             SELECT title, title_original FROM movies
@@ -389,7 +389,7 @@ public class CrossedRepository implements CrossedDao {
             (SELECT actor_id, movie_id FROM plays) AS p USING (actor_id)
             JOIN
             (SELECT movie_id, genre FROM genre) as g
-                        USING (movie_id)
+                        ON g.movie_id = p.movie_id
             WHERE LOWER(full_name) LIKE LOWER(?)
             ORDER BY full_name, genre) AS d
             GROUP BY full_name
@@ -408,11 +408,11 @@ public class CrossedRepository implements CrossedDao {
         String q = Utils.addPercent(actorName);
         var sql = """
             SELECT full_name, STRING_AGG(DISTINCT genre, '|') as genres FROM genre
-             JOIN    
-                 (SELECT actor_id, full_name, movie_id FROM actors
+             JOIN   
+                 (SELECT actors.actor_id, full_name, movie_id FROM actors
                  JOIN
                      (SELECT actor_id, movie_id FROM  directors) AS d
-                     USING (actor_id)
+                     ON d.actor_id = actors.actor_id
                  WHERE LOWER(full_name) LIKE LOWER(?)) AS dir
              USING (movie_id)
              GROUP BY full_name
