@@ -1,5 +1,6 @@
 package com.norab.actor;
 
+import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,8 @@ public class ActorRepositoryMockTests {
 
     @Test
     void selectActors() {
-        when(repository.selectActors()).thenReturn(Stream
+        Page page = new Page(1, 10);
+        when(repository.selectActors(page)).thenReturn(Stream
             .of(new Person("Greg Kinnear",
                     (short) 1963,
                     (short) 2070),
@@ -32,9 +34,9 @@ public class ActorRepositoryMockTests {
                     (short) 2700)
             ).collect(Collectors.toList()));
 
-        System.out.println("Data from DB: " + repository.selectActors().toString());
-        verify(repository).selectActors();
-        assertEquals(2, service.getActors().size());
+        System.out.println("Data from DB: " + repository.selectActors(page).toString());
+        verify(repository).selectActors(page);
+        assertEquals(2, service.getActors(new Page(1, 10)).size());
     }
 
     @Test

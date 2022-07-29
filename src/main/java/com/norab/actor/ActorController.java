@@ -1,5 +1,6 @@
 package com.norab.actor;
 
+import com.norab.utils.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +15,10 @@ public class ActorController {
     }
 
     @GetMapping
-    public List<Person> listActors() {
-        return actorService.getActors();
+    public List<Person> listActors(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return actorService.getActors(Page.of(page, size));
     }
 
     @GetMapping("{id}")

@@ -3,6 +3,7 @@ package com.norab.actor;
 import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.InternalServerExeption;
 import com.norab.exception.NotFoundException;
+import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,15 +16,15 @@ public class ActorService {
         this.actorDao = actorDao;
     }
 
-    public List<Person> getActors() {
-        List<Person> actors = actorDao.selectActors();
+    public List<Person> getActors(Page page) {
+        List<Person> actors = actorDao.selectActors(page);
         return actors;
     }
 
     public int insertActor(Person actor) {
+        List<Person> people = selectActorByName(actor.getFullName(), true);
         String actorName = actor.getFullName();
-        List<Person> actors = actorDao.selectActors();
-        List<Person> collect = actors.stream()
+        List<Person> collect = people.stream()
             .filter(x -> x.getFullName().equals(actorName)).toList();
         if (collect.size() != 0) {
             throw new AlreadyExistsException("This artist already exists");

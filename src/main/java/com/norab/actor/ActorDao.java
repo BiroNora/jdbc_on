@@ -1,6 +1,7 @@
 package com.norab.actor;
 
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 @Component
 public interface ActorDao<Actor> {
-    List<Actor> selectActors();
+    List<Actor> selectActors(Page page);
 
     int insertActor(Actor actor) throws IllegalStateException;
 

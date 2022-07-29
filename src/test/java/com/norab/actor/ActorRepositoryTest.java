@@ -1,6 +1,7 @@
 package com.norab.actor;
 
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -23,7 +24,8 @@ class ActorRepositoryTest {
 
     @Test
     void selectActors() {
-        List<Person> actors = repository.selectActors();
+        Page page = new Page(1, 10);
+        List<Person> actors = repository.selectActors(page);
         for (Person a : actors) {
             System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());
