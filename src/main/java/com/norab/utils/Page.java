@@ -3,9 +3,7 @@ package com.norab.utils;
 import java.util.Objects;
 
 public final class Page {
-
     private final long page;
-
     private final long size;
 
     public Page(long page, long size) {
@@ -13,6 +11,14 @@ public final class Page {
         this.size = size;
     }
 
+    public static Page of(long page, long size) {
+        if (page <= 0) {
+            throw new IllegalArgumentException("The page cannot be either zero or negative");
+        } else if (size <= 0) {
+            throw new IllegalArgumentException("The size cannot be either zero or negative");
+        }
+        return new Page(page, size);
+    }
 
     public long getLimit() {
         return size;
@@ -49,14 +55,5 @@ public final class Page {
             "page=" + page +
             ", size=" + size +
             '}';
-    }
-
-    public static Page of(long page, long size) {
-        if (page <= 0) {
-            throw new IllegalArgumentException("The page cannot be either zero or negative");
-        } else if (size <= 0) {
-            throw new IllegalArgumentException("The size cannot be either zero or negative");
-        }
-        return new Page(page, size);
     }
 }

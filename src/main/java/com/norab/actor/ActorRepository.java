@@ -30,14 +30,9 @@ public class ActorRepository implements ActorDao<Person> {
 
     @Override
     public List<Person> selectActors(Page page) {
-        var sql = """
-            SELECT actor_id, full_name, birth_date, death_date
-            FROM actors
-            ORDER BY full_name asc
-            LIMIT '" + page.getLimit() + "'
-            OFFSET '" + page.getOffset() + '"
-            ;
-            """;
+        var sql = "SELECT actor_id, full_name, birth_date, death_date " +
+            "FROM actors ORDER BY full_name asc LIMIT '" + page.getLimit() + "' " +
+            "OFFSET '" + page.getOffset() + "'";
         return jdbcTemplate.query(sql, new ActorRowMapper());
     }
 

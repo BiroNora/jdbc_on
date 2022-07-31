@@ -43,10 +43,26 @@ public class ActorIntegrationTest {
 
     @Test
     public void listAllActors() throws Exception {
-        mockMvc.perform(get("/api/v1/actors"))
+        mockMvc.perform(get("/api/v1/actors?page=1&size=10"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(containsString("John")));
+            .andExpect(content().string(containsString("Donald Sutherland")));
+    }
+
+    @Test
+    public void listAllActorsWithInsert() throws Exception {
+        Person a = new Person("Jacky Nichols", (short) 1940);
+        mockMvc.perform(post("/api/v1/actors")
+                .content(a.jsonString())
+                .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.actor_id").exists())
+            .andExpect(jsonPath("$.actor_id").isNumber());
+
+        mockMvc.perform(get("/api/v1/actors?page=2&size=10"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("Jacky Nichols")));
     }
 
     @Test
@@ -139,8 +155,7 @@ public class ActorIntegrationTest {
 
         mockMvc.perform(get("/api/v1/actors"))
             .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().string((containsString("Melanie Griffith"))));
+            .andExpect(status().isOk());
 
         mockMvc.perform(delete(actorUrl + "?force=true"))
             .andExpect(status().isOk());
