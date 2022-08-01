@@ -1,8 +1,11 @@
 package com.norab.movie;
 
+import com.norab.crossed.CrossedDao;
+import com.norab.crossed.SearchLocation;
 import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.InternalServerExeption;
 import com.norab.exception.NotFoundException;
+import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,23 +13,26 @@ import java.util.List;
 @Service
 public class MovieService {
     private final MovieDao movieDao;
+    private final CrossedDao crossedDao;
 
-    public MovieService(MovieDao movieDao) {
+    public MovieService(MovieDao movieDao, CrossedDao crossedDao) {
         this.movieDao = movieDao;
+        this.crossedDao = crossedDao;
     }
 
-    public List<Movie> getMovies() {
-        return movieDao.selectMovies();
+    public List<Movie> listMovies(Page page) {
+        return movieDao.listMovies(page);
     }
 
     public int insertMovie(Movie movie) {
-        String movieTitle = movie.getTitle();
-        List<Movie> movies = movieDao.selectMovies();
+        //RoleRepo mintájára
+        /*String movieTitle = movie.getTitle();
+        List<Movie> movies = crossedDao.searchByMovieTitle(movie.getTitle(), SearchLocation.ALL);
         List<Movie> collect = movies.stream()
             .filter(x -> x.getTitle().equals(movieTitle)).toList();
         if (collect.size() != 0) {
             throw new AlreadyExistsException("this movie already exists");
-        }
+        }*/
         return movieDao.insertMovie(movie);
     }
 

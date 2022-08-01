@@ -1,5 +1,6 @@
 package com.norab.movie;
 
+import com.norab.utils.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +11,15 @@ public class MovieController {
     private final MovieService movieService;
 
     public MovieController(MovieService movieService) {
+
         this.movieService = movieService;
     }
 
     @GetMapping
-    public List<Movie> listMovies() {
-        return movieService.getMovies();
+    public List<Movie> listMovies(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return movieService.listMovies(Page.of(page, size));
     }
 
     @GetMapping("{id}")

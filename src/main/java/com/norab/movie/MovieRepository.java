@@ -1,6 +1,7 @@
 package com.norab.movie;
 
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MovieRepository implements MovieDao<Movie> {
     }
 
     @Override
-    public List<Movie> selectMovies() {
+    public List<Movie> listMovies(Page page) {
         var sql = """
             SELECT
                 movie_id,
