@@ -25,14 +25,6 @@ public class MovieService {
     }
 
     public int insertMovie(Movie movie) {
-        //RoleRepo mintájára
-        /*String movieTitle = movie.getTitle();
-        List<Movie> movies = crossedDao.searchByMovieTitle(movie.getTitle(), SearchLocation.ALL);
-        List<Movie> collect = movies.stream()
-            .filter(x -> x.getTitle().equals(movieTitle)).toList();
-        if (collect.size() != 0) {
-            throw new AlreadyExistsException("this movie already exists");
-        }*/
         return movieDao.insertMovie(movie);
     }
 

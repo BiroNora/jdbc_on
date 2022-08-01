@@ -50,8 +50,8 @@ public class MovieIntegrationTest {
             .andExpect(status().is4xxClientError());
     }
 
-    @Test
-    void updateMovie() throws Exception {
+    /*@Test
+    void updateMovie1() throws Exception {
         String data = """
             {
             "title": "Minden végzet nehéz",
@@ -76,6 +76,23 @@ public class MovieIntegrationTest {
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/movies/3"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("Give")));
+    }
+*/
+    @Test
+    void updateMovie() throws Exception {
+        Long id = insertMovie("Minden végzet nehéz", (short) 2003);
+        Movie movie = new Movie("Minden végzet nehéz", "Something''s Gotta Give", (short) 2003);
+
+        mockMvc.perform(put("/api/v1/movies/" + id)
+                .content(movie.jsonString())
+                .header("Content-Type", "application/json"))
+                .andDo(print())
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/movies/" + id))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Give")));

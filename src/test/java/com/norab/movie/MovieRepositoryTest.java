@@ -3,6 +3,7 @@ package com.norab.movie;
 import com.norab.director.Director;
 import com.norab.director.DirectorRepository;
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +26,8 @@ class MovieRepositoryTest {
 
     @Test
     void selectMovies() {
-        List<Movie> movies = repository.selectMovies();
+        Page page = new Page(1, 10);
+        List<Movie> movies = repository.listMovies(page);
         for (Movie m : movies) {
             System.out.print(m.getMovieId() + " ");
             System.out.println(m.getTitle());

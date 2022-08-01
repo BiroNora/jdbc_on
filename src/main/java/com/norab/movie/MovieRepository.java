@@ -1,7 +1,9 @@
 package com.norab.movie;
 
+import com.norab.exception.AlreadyExistsException;
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +31,37 @@ public class MovieRepository implements MovieDao<Movie> {
 
     @Override
     public List<Movie> listMovies(Page page) {
-        var sql = """
-            SELECT
-                movie_id,
-                title,
-                title_original,
-                release_date,
-                end_date,
-                m_type,
-                is_adult
-            FROM movies
-            ORDER BY title asc
-
-            ;
-            """;
+        var sql = "SELECT " +
+            "movie_id, " +
+            "title, " +
+            "title_original, " +
+            "release_date, " +
+            "end_date, " +
+            "m_type, " +
+            "is_adult " +
+            "FROM movies " +
+            "ORDER BY title asc " +
+            "LIMIT '" + page.getLimit() + "' " +
+            "OFFSET '" + page.getOffset() + "'";
         return jdbcTemplate.query(sql, new MovieRowMapper());
+    }
+
+    public boolean isMovieExists(Movie movie) {
+        String title = Utils.addPercent(movie.getTitle());
+        String origTitle = Utils.addPercent(movie.getTitleOriginal());
+        var sql0 = """
+            SELECT * FROM movies WHERE title LIKE ? OR title_original LIKE ?;
+            """;
+        List<Movie> movies = jdbcTemplate.query(sql0, new MovieRowMapper(), title, origTitle);
+        return movies.stream()
+            .filter(x -> x.getReleaseDate().equals(movie.getReleaseDate())).toList().size() > 0;
     }
 
     @Override
     public int insertMovie(Movie movie) {
+        if (isMovieExists(movie)) {
+            throw new AlreadyExistsException("This movie already exists");
+        }
         var sql = """
             INSERT INTO movies(
             title,
@@ -103,7 +117,7 @@ public class MovieRepository implements MovieDao<Movie> {
               WHERE movie_id = ?
               UNION
               SELECT count(*) FROM genre
-              WHERE movie_id = ?)
+              WHERE movie_id = ?) AS d
             ;
             """;
         try {
