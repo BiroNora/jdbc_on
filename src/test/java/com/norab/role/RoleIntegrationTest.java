@@ -27,8 +27,16 @@ public class RoleIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void listAllRoles() throws Exception {
+    public void listAllRolesDefault() throws Exception {
         mockMvc.perform(get("/api/v1/roles"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("Barbossa")));
+    }
+
+    @Test
+    public void listAllRoles() throws Exception {
+        mockMvc.perform(get("/api/v1/roles?page=2&size=10"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Jack Sparrow")));
@@ -51,7 +59,7 @@ public class RoleIntegrationTest {
 
     @Test
     void updateRole() throws Exception {
-        Long role_id = insertRole("Pink Panther", 4, null);
+        Long role_id = insertRole("Pink Panther", 4, 1);
         String url = "/api/v1/roles/" + role_id;
 
         Plays play = new Plays("Purple Panther", 4, 3);
@@ -75,7 +83,7 @@ public class RoleIntegrationTest {
 
     @Test
     void insertRoleTest() throws Exception {
-        Plays p = new Plays("Norrington", 1, null);
+        Plays p = new Plays("Norrington", 1, 1);
         mockMvc.perform(post("/api/v1/roles")
                 .content(p.jsonString())
                 .contentType("application/json"))

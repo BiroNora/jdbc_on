@@ -1,10 +1,14 @@
 package com.norab.role;
 
+import com.norab.utils.Page;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface RoleDao<Plays> {
-    List<Plays> selectRoles();
+    List<Plays> listRoles(Page page);
+
+    boolean selectRoleByRole(Plays plays);
 
     int insertRole(Plays plays);
 

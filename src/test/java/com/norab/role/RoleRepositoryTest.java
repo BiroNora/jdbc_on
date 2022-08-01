@@ -6,6 +6,7 @@ import com.norab.exception.InvalidInputException;
 import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,30 +31,31 @@ class RoleRepositoryTest {
     private ActorRepository actorRepository;
 
     @Test
-    void selectRoles() {
-        List<Plays> roles = repository.selectRoles();
+    void listRoles() {
+        Page page = new Page(1, 10);
+        List<Plays> roles = repository.listRoles(page);
         for (Plays p : roles) {
             System.out.print(p.getRoleId() + ". ");
             System.out.println(p.getRoleName());
         }
-        assertTrue(roles.size() > 10);
+        assertEquals(10, roles.size());
     }
 
     @Test
     void insertRole() {
-        Plays plays = new Plays("Sheryl Hoover", 2, null);
+        Plays plays = new Plays("Sheryl Hoover", 2, 3);
 
         int roleId = repository.insertRole(plays);
         Optional<Plays> role1 = repository.selectRoleById(roleId);
         assertTrue(role1.isPresent());
         assertEquals(role1.get().getRoleName(), "Sheryl Hoover");
         assertEquals(role1.get().getMovieId(), 2);
-        assertEquals(role1.get().getActorId(), 0);
+        assertEquals(role1.get().getActorId(), 3);
     }
 
     @Test
     void deleteRole() {
-        Plays plays = new Plays("Olive Hoover", 2, null);
+        Plays plays = new Plays("Olive Hoover", 2, 3);
         int roleId = repository.insertRole(plays);
         int result = repository.deleteRole(roleId);
         assertEquals(1, result);
@@ -64,8 +66,23 @@ class RoleRepositoryTest {
     }
 
     @Test
+    void selectRoleByRole_InvalidInsert() {
+        Plays plays = new Plays("Jack Sparrow", 1, 1);
+        boolean b = repository.selectRoleByRole(plays);
+        assertTrue(b);
+    }
+
+    @Test
+    void selectRoleByRole_ValidInsert() {
+        Plays plays = new Plays("Jack Sparrow", 1, 1);
+        boolean b = repository.selectRoleByRole(plays);
+        assertTrue(b);
+    }
+
+    @Test
     void selectRoleByValidId() {
-        Plays plays = new Plays("Olive Hoover", 2, null);
+        Page page = new Page(1, 10);
+        Plays plays = new Plays("Olive Hoover", 2, 2);
         try {
             int roleId = repository.insertRole(plays);
             var plays1 = repository.selectRoleById(roleId);
@@ -74,7 +91,7 @@ class RoleRepositoryTest {
             fail(e.getMessage());
         }
 
-        List<Plays> expected = repository.selectRoles();
+        List<Plays> expected = repository.listRoles(page);
 
         assertNotNull(expected);
         for (Plays p : expected) {
@@ -132,7 +149,7 @@ class RoleRepositoryTest {
             repository.updateRole(3, role1);
         });
 
-        Plays role3 = new Plays("Paul Vitti", 2, null);
+        Plays role3 = new Plays("Paul Vitti", 2, 2);
         int result = repository.updateRole(255587, role3);
         assertEquals(0, result);
     }
@@ -142,7 +159,7 @@ class RoleRepositoryTest {
         Movie movie = new Movie("Kleo", "Patra", (short) 2002);
         int movieId = movieRepository.insertMovie(movie);
 
-        Plays plays = new Plays("Julius Cezar", movieId, null);
+        Plays plays = new Plays("Julius Cezar", movieId, 2);
         int roleId = repository.insertRole(plays);
 
         assertEquals(DeleteResult.HAS_REFERENCES, movieRepository.deleteMovie(movieId, false));
@@ -157,7 +174,7 @@ class RoleRepositoryTest {
         Person actor = new Person("Greta Garbo", (short) 2002);
         int actorId = actorRepository.insertActor(actor);
 
-        Plays plays = new Plays("Krisztina Királynő", null, actorId);
+        Plays plays = new Plays("Krisztina Királynő", 1, actorId);
         int roleId = repository.insertRole(plays);
 
         assertEquals(DeleteResult.HAS_REFERENCES, actorRepository.deleteActor(actorId, false));

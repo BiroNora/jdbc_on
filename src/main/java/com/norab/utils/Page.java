@@ -3,15 +3,15 @@ package com.norab.utils;
 import java.util.Objects;
 
 public final class Page {
-    private final long page;
-    private final long size;
+    private final Integer page;
+    private final Integer size;
 
-    public Page(long page, long size) {
+    public Page(Integer page, Integer size) {
         this.page = page;
         this.size = size;
     }
 
-    public static Page of(long page, long size) {
+    public static Page of(Integer page, Integer size) {
         if (page <= 0) {
             throw new IllegalArgumentException("The page cannot be either zero or negative");
         } else if (size <= 0) {
@@ -20,11 +20,11 @@ public final class Page {
         return new Page(page, size);
     }
 
-    public long getLimit() {
+    public Integer getLimit() {
         return size;
     }
 
-    public long getOffset() {
+    public Integer getOffset() {
         return (page - 1) * size;
     }
 

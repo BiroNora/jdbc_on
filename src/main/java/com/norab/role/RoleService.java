@@ -2,6 +2,7 @@ package com.norab.role;
 
 import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
+import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,18 +16,11 @@ public class RoleService {
         this.roleDao = roleDao;
     }
 
-    public List<Plays> getRoles() {
-        return roleDao.selectRoles();
+    public List<Plays> getRoles(Page page) {
+        return roleDao.listRoles(page);
     }
 
     public int insertRole(Plays plays) {
-        String role = plays.getRoleName();
-        List<Plays> playsList = roleDao.selectRoles();
-        List<Plays> collect = playsList.stream()
-            .filter(x -> x.getRoleName().equals(role)).toList();
-        if (collect.size() != 0) {
-            throw new AlreadyExistsException("This role already exists");
-        }
         return roleDao.insertRole(plays);
     }
 

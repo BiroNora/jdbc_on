@@ -28,6 +28,10 @@ public class Plays extends ToJsonString {
         this.actorId = actorId;
     }
 
+    public boolean isValid() {
+        return  movieId != null && movieId > 0 && actorId != null && actorId > 0;
+    }
+
     public Integer getRoleId() {
         return roleId;
     }

@@ -1,5 +1,6 @@
 package com.norab.role;
 
+import com.norab.utils.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +15,10 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Plays> listRoles() {
-        return roleService.getRoles();
+    public List<Plays> listRoles(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return roleService.getRoles(Page.of(page, size));
     }
 
     @GetMapping("{id}")
