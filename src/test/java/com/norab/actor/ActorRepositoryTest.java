@@ -23,9 +23,9 @@ class ActorRepositoryTest {
 
 
     @Test
-    void selectActors() {
+    void listActors() {
         Page page = new Page(1, 10);
-        List<Person> actors = repository.selectActors(page);
+        List<Person> actors = repository.listActors(page);
         for (Person a : actors) {
             System.out.print(a.getActorId() + " ");
             System.out.println(a.getFullName());

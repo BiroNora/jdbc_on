@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Component
 public interface ActorDao<Actor> {
-    List<Actor> selectActors(Page page);
+    List<Actor> listActors(Page page);
 
     int insertActor(Actor actor) throws IllegalStateException;
 

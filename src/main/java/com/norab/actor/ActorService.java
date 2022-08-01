@@ -16,8 +16,8 @@ public class ActorService {
         this.actorDao = actorDao;
     }
 
-    public List<Person> getActors(Page page) {
-        List<Person> actors = actorDao.selectActors(page);
+    public List<Person> listActors(Page page) {
+        List<Person> actors = actorDao.listActors(page);
         return actors;
     }
 

@@ -18,7 +18,7 @@ public class ActorController {
     public List<Person> listActors(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return actorService.getActors(Page.of(page, size));
+        return actorService.listActors(Page.of(page, size));
     }
 
     @GetMapping("{id}")

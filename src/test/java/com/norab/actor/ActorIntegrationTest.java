@@ -50,6 +50,13 @@ public class ActorIntegrationTest {
     }
 
     @Test
+    public void listAllActors_DefaultParameters() throws Exception {
+        mockMvc.perform(get("/api/v1/actors"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("Donald Sutherland")));
+    }
+    @Test
     public void listAllActorsWithInsert() throws Exception {
         Person a = new Person("Jacky Nichols", (short) 1940);
         mockMvc.perform(post("/api/v1/actors")

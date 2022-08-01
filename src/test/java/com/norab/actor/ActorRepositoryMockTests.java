@@ -25,7 +25,7 @@ public class ActorRepositoryMockTests {
     @Test
     void selectActors() {
         Page page = new Page(1, 10);
-        when(repository.selectActors(page)).thenReturn(Stream
+        when(repository.listActors(page)).thenReturn(Stream
             .of(new Person("Greg Kinnear",
                     (short) 1963,
                     (short) 2070),
@@ -34,9 +34,9 @@ public class ActorRepositoryMockTests {
                     (short) 2700)
             ).collect(Collectors.toList()));
 
-        System.out.println("Data from DB: " + repository.selectActors(page).toString());
-        verify(repository).selectActors(page);
-        assertEquals(2, service.getActors(new Page(1, 10)).size());
+        System.out.println("Data from DB: " + repository.listActors(page).toString());
+        verify(repository).listActors(page);
+        assertEquals(2, service.listActors(new Page(1, 10)).size());
     }
 
     @Test
