@@ -39,7 +39,6 @@ public class MovieService {
             case HAS_REFERENCES:
                 throw new AlreadyExistsException("Warning: this movie has references");
             case SUCCESS:
-                return;
         }
     }
 

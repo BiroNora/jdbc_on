@@ -119,7 +119,7 @@ public class GenreRepository implements GenreDao<Genre> {
              JOIN
              (SELECT movie_id, genre
                  FROM genre
-                 WHERE genre LIKE LOWER(?)) AS g
+                 WHERE LOWER(genre) LIKE LOWER(?)) AS g
              USING(movie_id)
              ORDER BY title ASC
             ;

@@ -29,7 +29,7 @@ public class Plays extends ToJsonString {
     }
 
     public boolean isValid() {
-        return  movieId != null && movieId > 0 && actorId != null && actorId > 0;
+        return movieId != null && movieId > 0 && actorId != null && actorId > 0;
     }
 
     public Integer getRoleId() {
