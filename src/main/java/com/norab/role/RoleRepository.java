@@ -3,6 +3,8 @@ package com.norab.role;
 import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
 import com.norab.utils.Page;
+import com.norab.utils.ResultResponse;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -42,7 +44,7 @@ public class RoleRepository implements RoleDao<Plays> {
             .stream()
             .findFirst();
         if (selected.isPresent()) {
-            log.info(String.format("Role is selected."));
+            log.info("Role is selected.");
         }
         return selected.isPresent();
     }
@@ -103,6 +105,18 @@ public class RoleRepository implements RoleDao<Plays> {
             log.info(String.format("Role with id: %d is selected.", roleId));
         }
         return selected;
+    }
+
+    @Override
+    public List<ResultResponse> selectRolesByName(String rolename) {
+        String q = Utils.addPercent(rolename);
+        var sql = """
+            SELECT DISTINCT role_name
+            FROM plays
+            WHERE LOWER(role_name) LIKE LOWER(?);
+            """;
+        return jdbcTemplate.query(sql, (resultset, i) ->
+            new ResultResponse(resultset.getString("role_name")), q);
     }
 
     @Override

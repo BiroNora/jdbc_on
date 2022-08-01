@@ -1,8 +1,8 @@
 package com.norab.role;
 
-import com.norab.exception.AlreadyExistsException;
 import com.norab.exception.NotFoundException;
 import com.norab.utils.Page;
+import com.norab.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +43,10 @@ public class RoleService {
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<ResultResponse> selectRoleByName(String rolename) {
+        return roleDao.selectRolesByName(rolename);
     }
 
     public void updateRole(Integer roleId, Plays plays) {

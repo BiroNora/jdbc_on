@@ -1,6 +1,7 @@
 package com.norab.role;
 
 import com.norab.utils.Page;
+import com.norab.utils.ResultResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public class RoleController {
     @GetMapping("{id}")
     public Plays getRoleId(@PathVariable("id") Integer roleId) {
         return roleService.getRole(roleId);
+    }
+
+    @GetMapping("/rolename")
+    public List<ResultResponse> selectRoleByName(@RequestParam(name = "role") String role) {
+        return roleService.selectRoleByName(role);
     }
 
     @PostMapping

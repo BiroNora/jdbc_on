@@ -7,6 +7,7 @@ import com.norab.movie.Movie;
 import com.norab.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
+import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +40,14 @@ class RoleRepositoryTest {
             System.out.println(p.getRoleName());
         }
         assertEquals(10, roles.size());
+    }
+
+    @Test
+    void selectRolesByName() {
+        String rolename = "el";
+        List<ResultResponse> result = repository.selectRolesByName(rolename);
+        System.out.println(result);
+        assertFalse(result.isEmpty());
     }
 
     @Test
