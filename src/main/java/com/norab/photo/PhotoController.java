@@ -15,7 +15,7 @@ public class PhotoController {
 
     @GetMapping
     public List<Photo> listPhotos() {
-        return photoService.getPhotos();
+        return photoService.listPhotos();
     }
 
     @GetMapping("{id}")

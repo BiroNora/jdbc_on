@@ -24,7 +24,7 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public List<Photo> selectPhotos() {
+    public List<Photo> listPhotos() {
         var sql = """
             SELECT photo_id, url, movie_id, actor_id, role_id
             FROM photos

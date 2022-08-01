@@ -15,8 +15,8 @@ public class PhotoService {
         this.photoDao = photoDao;
     }
 
-    public List<Photo> getPhotos() {
-        return photoDao.selectPhotos();
+    public List<Photo> listPhotos() {
+        return photoDao.listPhotos();
     }
 
     public int insertPhoto(Photo photo) throws InvalidInputException {

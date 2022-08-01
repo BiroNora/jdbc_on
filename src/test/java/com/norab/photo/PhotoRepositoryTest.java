@@ -31,7 +31,7 @@ class PhotoRepositoryTest {
 
     @Test
     void selectPhotos() {
-        List<Photo> photos = repository.selectPhotos();
+        List<Photo> photos = repository.listPhotos();
         for (Photo p : photos) {
             System.out.print(p.getPhotoId() + ". ");
             System.out.println(p.getPhotoUrl());
@@ -81,11 +81,11 @@ class PhotoRepositoryTest {
     void deletePhoto() {
         Integer photoId = 2;
         boolean result = repository.deletePhoto(photoId);
-        assertEquals(true, result);
+        assertTrue(result);
 
         Integer photoId1 = 2224;
         boolean result1 = repository.deletePhoto(photoId1);
-        assertEquals(false, result1);
+        assertFalse(result1);
     }
 
     @Test
@@ -116,7 +116,7 @@ class PhotoRepositoryTest {
         pho.setRoleId(null);
         System.out.println(pho);
         boolean result = repository.updatePhoto(3, pho);
-        assertEquals(true, result);
+        assertTrue(result);
         assertNotEquals(pho.getRoleId(), 0);
     }
 
@@ -140,9 +140,7 @@ class PhotoRepositoryTest {
         pho1.setActorId(410);
         pho1.setRoleId(2);
         System.out.println(pho1);
-        assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(photoId, pho1);
-        });
+        assertThrows(InvalidInputException.class, () -> repository.updatePhoto(photoId, pho1));
 
         Photo pho2 = repository.selectPhotoById(photoId).orElseThrow();
         System.out.println(pho2);
@@ -150,13 +148,11 @@ class PhotoRepositoryTest {
         pho2.setActorId(1);
         pho2.setRoleId(820);
         System.out.println(pho2);
-        assertThrows(InvalidInputException.class, () -> {
-            repository.updatePhoto(photoId, pho2);
-        });
+        assertThrows(InvalidInputException.class, () -> repository.updatePhoto(photoId, pho2));
 
         Photo pho3 = new Photo("https://pinokkio", 1, 1, 1);
         boolean result = repository.updatePhoto(22022, pho3);
-        assertEquals(false, result);
+        assertFalse(result);
     }
 
     @Test
@@ -179,7 +175,7 @@ class PhotoRepositoryTest {
         assertEquals(movieId, photo1.get().getMovieId());
         assertEquals(url, photo1.get().getPhotoUrl());
 
-        List<Photo> photos = repository.selectPhotos();
+        List<Photo> photos = repository.listPhotos();
         long count = photos.stream()
             .filter(x -> x.getPhotoUrl().equals(url))
             .count();
