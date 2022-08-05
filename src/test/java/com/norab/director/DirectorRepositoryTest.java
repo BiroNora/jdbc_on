@@ -1,6 +1,7 @@
 package com.norab.director;
 
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ class DirectorRepositoryTest {
 
     @Test
     void listDirectors() {
-        List<ResultResponse> directors = repository.listDirectors();
+        Page page = new Page(1, 10);
+        List<ResultResponse> directors = repository.listDirectors(page);
         for (ResultResponse d : directors) {
             System.out.println(d);
         }

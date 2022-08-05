@@ -3,6 +3,7 @@ package com.norab.director;
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.NotFoundException;
 import com.norab.utils.BooleanResponse;
+import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import com.norab.utils.ValidationResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,10 @@ public class DirectorController {
     }
 
     @GetMapping
-    public List<ResultResponse> listDirectors() {
-        return directorService.listDirectors();
+    public List<ResultResponse> listDirectors(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return directorService.listDirectors(Page.of(page, size));
     }
 
     @GetMapping("/all")

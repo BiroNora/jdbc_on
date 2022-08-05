@@ -2,6 +2,7 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     }
 
     @Override
-    public List<ResultResponse> listDirectors() {
+    public List<ResultResponse> listDirectors(Page page) {
         var sql = """
             SELECT DISTINCT full_name AS directors FROM directors
                           JOIN

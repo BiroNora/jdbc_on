@@ -1,12 +1,13 @@
 package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
+import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 
 import java.util.List;
 
 public interface DirectorDao<Director> {
-    List<ResultResponse> listDirectors();
+    List<ResultResponse> listDirectors(Page page);
 
     List<Directors> listDirectorsAndMovies();
 

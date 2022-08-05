@@ -26,7 +26,7 @@ public class CrossedRepository implements CrossedDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
+    @Override // +pagination
     public List<MoviesByActor> allMoviesByActorById(Integer id) {
         var sql = """
             SELECT role_name, title
@@ -44,15 +44,15 @@ public class CrossedRepository implements CrossedDao {
                 resultSet.getString("title")), id);
     }
 
-    @Override
+    @Override // +pagination
     public List<Movie> allMoviesByReleaseDateAsc() {
         var sql = """
-            SELECT * FROM movies ORDER BY release_date ASC;
+            SELECT * FROM movies ORDER BY release_date DESC;
             """;
         return jdbcTemplate.query(sql, new MovieRowMapper());
     }
 
-    @Override
+    @Override //*
     public List<Movie> searchByMovieTitle(String title, SearchLocation location) {
         String q = Utils.addPercent(title);
         var sql0 = """
@@ -77,7 +77,7 @@ public class CrossedRepository implements CrossedDao {
         }
     }
 
-    @Override
+    @Override // +pagination
     public List<Person> searchByActorBirthDate(Short date) {
         var sql = """
             SELECT * FROM actors WHERE birth_date = ?;
@@ -108,7 +108,7 @@ public class CrossedRepository implements CrossedDao {
         return jdbcTemplate.query(sql, new ActorsByMovieMapper(), q, q);
     }
 
-    @Override
+    @Override // +pagination
     public List<ResultResponse> allPlaysByActor(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """
@@ -121,7 +121,7 @@ public class CrossedRepository implements CrossedDao {
             resultSet.getString("role_name")), q);
     }
 
-    @Override
+    @Override // +pagination
     public List<AllMoviesByActor> allMoviesByActorByName(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """
@@ -139,7 +139,7 @@ public class CrossedRepository implements CrossedDao {
             resultSet.getString("title_original")), q);
     }
 
-    @Override
+    @Override // +pagination
     public List<AllMoviesAndPlaysByActor> allMoviesAndPlaysByActor(String actorName) {
         String q = Utils.addPercent(actorName);
         var sql = """

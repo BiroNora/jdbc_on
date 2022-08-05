@@ -2,6 +2,7 @@ package com.norab.director;
 
 import com.norab.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public class DirectorService {
         this.directorDao = directorDao;
     }
 
-    public List<ResultResponse> listDirectors() {
-        return directorDao.listDirectors();
+    public List<ResultResponse> listDirectors(Page page) {
+        return directorDao.listDirectors(page);
     }
 
     public List<DirectorDao.Directors> listDirectorsAndMovies() {
