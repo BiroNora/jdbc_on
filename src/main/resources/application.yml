@@ -6,6 +6,12 @@ app:
       password: '1234'
       pool-size: 30
       username: norab
+    admin:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5433/admin
+      password: '1234'
+      pool-size: 30
+      username: norab
 
 server:
   error:
