@@ -8,7 +8,7 @@ app:
       username: norab
     admin:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5433/user
+      jdbc-url: jdbc:postgresql://localhost:5433/users
       password: '1234'
       pool-size: 30
       username: norab
