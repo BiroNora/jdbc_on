@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AdminDataSourceConfig {
     @Bean
-    @Primary
     @ConfigurationProperties("app.datasource.admin")
     public HikariDataSource hikariDataSource() {
         return DataSourceBuilder

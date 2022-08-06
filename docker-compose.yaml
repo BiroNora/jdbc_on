@@ -1,5 +1,5 @@
 services:
-  postgres:
+  pgostgres:
     container_name: postgres
     image: postgres
     environment:
@@ -10,6 +10,21 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pg10:
+    container_name: postgres3
+    image: postgres
+    environment:
+      POSTGRES_USER: norab
+      POSTGRES_PASSWORD: 1234
+      PGDATA: /userdata/postgres
+    volumes:
+      - postgres:/userdata/postgres
+    ports:
+      - "5433:5432"
     networks:
       - postgres
     restart: unless-stopped

@@ -8,7 +8,7 @@ app:
       username: norab
     admin:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5433/admin
+      jdbc-url: jdbc:postgresql://localhost:5433/user
       password: '1234'
       pool-size: 30
       username: norab
@@ -22,7 +22,7 @@ server:
 spring:
   flyway:
     enabled: true
-    locations: classpath:/db/migration,classpath:/db/data
+    locations: classpath:/db/migration,classpath:/db/data,classpath:/db/userdata
   jackson:
     default-property-inclusion: non_null
     deserialization:
