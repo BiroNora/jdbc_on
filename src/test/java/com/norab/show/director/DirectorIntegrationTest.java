@@ -1,6 +1,5 @@
 package com.norab.show.director;
 
-import com.norab.show.director.Director;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,10 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class DirectorIntegrationTest {
+    String url = "/api/v1/directors";
     @Autowired
     private MockMvc mockMvc;
-
-    String url = "/api/v1/directors";
 
     @Test
     void listDirectors() throws Exception {

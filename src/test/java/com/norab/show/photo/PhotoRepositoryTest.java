@@ -1,12 +1,10 @@
 package com.norab.show.photo;
 
+import com.norab.exception.InvalidInputException;
 import com.norab.show.actor.ActorRepository;
 import com.norab.show.actor.Person;
-import com.norab.exception.InvalidInputException;
 import com.norab.show.movie.Movie;
 import com.norab.show.movie.MovieRepository;
-import com.norab.show.photo.Photo;
-import com.norab.show.photo.PhotoRepository;
 import com.norab.utils.DeleteResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

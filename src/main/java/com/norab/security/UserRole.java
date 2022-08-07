@@ -4,7 +4,8 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.norab.security.UserPermission.*;
+import static com.norab.security.UserPermission.CRUD_ACCESS;
+import static com.norab.security.UserPermission.OPINION_WRITE;
 
 public enum UserRole {
     MODERATOR(Sets.newHashSet(OPINION_WRITE)),

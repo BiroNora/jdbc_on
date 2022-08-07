@@ -41,7 +41,6 @@ public class ActorService {
             case HAS_REFERENCES:
                 throw new AlreadyExistsException("Warning: this actor has references");
             case SUCCESS:
-                return;
         }
     }
 

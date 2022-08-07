@@ -2,8 +2,6 @@ package com.norab.show.crossed;
 
 import com.norab.show.actor.Person;
 import com.norab.show.movie.Movie;
-import com.norab.show.crossed.CrossedDao;
-import com.norab.show.crossed.CrossedRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

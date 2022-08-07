@@ -1,7 +1,7 @@
 package com.norab.show.genre;
 
-import com.norab.show.crossed.SearchLocation;
 import com.norab.exception.NotFoundException;
+import com.norab.show.crossed.SearchLocation;
 import com.norab.utils.BooleanResponse;
 import com.norab.utils.ResultResponse;
 import org.springframework.web.bind.annotation.*;

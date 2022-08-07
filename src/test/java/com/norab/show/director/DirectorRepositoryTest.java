@@ -1,9 +1,6 @@
 package com.norab.show.director;
 
 import com.norab.exception.InvalidInputException;
-import com.norab.show.director.Director;
-import com.norab.show.director.DirectorDao;
-import com.norab.show.director.DirectorRepository;
 import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;

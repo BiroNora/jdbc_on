@@ -14,10 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class CrossedIntegrationTest {
+    String url = "/api/v1/crossed";
     @Autowired
     private MockMvc mockMvc;
-
-    String url = "/api/v1/crossed";
 
     @Test
     void allMoviesByActorById() throws Exception {

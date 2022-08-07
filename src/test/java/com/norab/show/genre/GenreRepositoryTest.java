@@ -1,8 +1,5 @@
 package com.norab.show.genre;
 
-import com.norab.show.genre.Genre;
-import com.norab.show.genre.GenreDao;
-import com.norab.show.genre.GenreRepository;
 import com.norab.utils.ResultResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
 package com.norab.show.actor;
 
-import com.norab.show.actor.ActorRepository;
-import com.norab.show.actor.ActorService;
-import com.norab.show.actor.Person;
 import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

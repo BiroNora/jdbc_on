@@ -2,7 +2,6 @@ package com.norab.show.actor;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.norab.show.actor.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -57,6 +56,7 @@ public class ActorIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Donald Sutherland")));
     }
+
     @Test
     public void listAllActorsWithInsert() throws Exception {
         Person a = new Person("Jacky Nichols", (short) 1940);

@@ -1,7 +1,7 @@
 package com.norab.show.director;
 
-import com.norab.show.crossed.SearchLocation;
 import com.norab.exception.InvalidInputException;
+import com.norab.show.crossed.SearchLocation;
 import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
@@ -29,7 +29,7 @@ public class DirectorRepository implements DirectorDao<Director> {
     public List<ResultResponse> listDirectors(Page page) {
         var sql =
             "SELECT DISTINCT full_name AS directors " +
-            "FROM directors JOIN (SELECT full_name, actor_id FROM actors) AS dn " +
+                "FROM directors JOIN (SELECT full_name, actor_id FROM actors) AS dn " +
                 "USING(actor_id) " +
                 "ORDER BY directors asc " +
                 "LIMIT '" + page.getLimit() + "' " +

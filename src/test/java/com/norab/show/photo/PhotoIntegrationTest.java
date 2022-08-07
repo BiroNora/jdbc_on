@@ -1,7 +1,6 @@
 package com.norab.show.photo;
 
 import com.cedarsoftware.util.io.JsonReader;
-import com.norab.show.photo.Photo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

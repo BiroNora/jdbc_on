@@ -1,12 +1,10 @@
 package com.norab.show.role;
 
+import com.norab.exception.InvalidInputException;
 import com.norab.show.actor.ActorRepository;
 import com.norab.show.actor.Person;
-import com.norab.exception.InvalidInputException;
 import com.norab.show.movie.Movie;
 import com.norab.show.movie.MovieRepository;
-import com.norab.show.role.Plays;
-import com.norab.show.role.RoleRepository;
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
 import com.norab.utils.ResultResponse;

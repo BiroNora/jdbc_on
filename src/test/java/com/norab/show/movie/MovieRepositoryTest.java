@@ -2,8 +2,6 @@ package com.norab.show.movie;
 
 import com.norab.show.director.Director;
 import com.norab.show.director.DirectorRepository;
-import com.norab.show.movie.Movie;
-import com.norab.show.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;

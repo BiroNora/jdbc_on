@@ -2,7 +2,6 @@ package com.norab.show.movie;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.norab.show.movie.Movie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -90,7 +89,7 @@ public class MovieIntegrationTest {
         mockMvc.perform(put("/api/v1/movies/" + id)
                 .content(movie.jsonString())
                 .header("Content-Type", "application/json"))
-                .andDo(print())
+            .andDo(print())
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/movies/" + id))

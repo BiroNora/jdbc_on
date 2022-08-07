@@ -1,8 +1,8 @@
 package com.norab.show.genre;
 
+import com.norab.exception.InvalidInputException;
 import com.norab.show.crossed.SearchLocation;
 import com.norab.show.director.DirectorRepository;
-import com.norab.exception.InvalidInputException;
 import com.norab.utils.ResultResponse;
 import com.norab.utils.Utils;
 import org.slf4j.Logger;
