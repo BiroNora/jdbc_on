@@ -11,15 +11,15 @@ import java.util.UUID;
 @Component
 public interface AdminDao<Admin> {
 
-    List<String> listAdmins();
-
-    int insertAdmin(Admin admin) throws IllegalStateException;
-
-    DeleteResult deleteAdmin(UUID adminId, boolean force);
+    List<Admin> listAdmins(Page page);
 
     Optional<Admin> selectAdminById(UUID adminId);
 
     List<Admin> selectAdminByName(String name, boolean match);
 
     int updateAdmin(UUID adminId, Admin admin);
+
+    int insertAdmin(Admin admin) throws IllegalStateException;
+
+    DeleteResult deleteAdmin(UUID adminId, boolean force);
 }
