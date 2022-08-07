@@ -14,11 +14,10 @@ import java.util.UUID;
 public class AdminRepository implements AdminDao<Admin> {
 
     @Autowired
-    //@Qualifier("admindb")
     private final JdbcTemplate adminJdbcTemplate;
 
-    public AdminRepository(JdbcTemplate jdbcTemplate, JdbcTemplate adminJdbcTemplate) {
-        this.adminJdbcTemplate = adminJdbcTemplate;
+    public AdminRepository(@Qualifier("adminJdbcTemplate") JdbcTemplate jdbcTemplate) {
+        this.adminJdbcTemplate = jdbcTemplate;
     }
 
     @Override
