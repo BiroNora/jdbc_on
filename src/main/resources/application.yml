@@ -6,12 +6,6 @@ app:
       password: '1234'
       pool-size: 30
       username: norab
-    admin:
-      driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5433/users
-      password: '1234'
-      pool-size: 30
-      username: norab
 
 server:
   error:
@@ -22,7 +16,7 @@ server:
 spring:
   flyway:
     enabled: true
-    locations: classpath:/db/migration,classpath:/db/data,classpath:/db/userdata
+    locations: classpath:/db/migration,classpath:/db/data
   jackson:
     default-property-inclusion: non_null
     deserialization:
