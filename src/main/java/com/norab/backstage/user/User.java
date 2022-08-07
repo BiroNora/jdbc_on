@@ -1,4 +1,4 @@
-package com.norab.admin.user;
+package com.norab.backstage.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.norab.utils.ToJsonString;
@@ -10,7 +10,7 @@ public class User extends ToJsonString {
     @Id
     @JsonIgnore
     private UUID userId;
-    private String fullName;
+    private String userName;
     private String email;
     private String password;
 
@@ -18,14 +18,14 @@ public class User extends ToJsonString {
     }
 
     public User(String fullName, String email, String password) {
-        this.fullName = fullName;
+        this.userName = fullName;
         this.email = email;
         this.password = password;
     }
 
     public User(UUID userId, String fullName, String email, String password) {
         this.userId = userId;
-        this.fullName = fullName;
+        this.userName = fullName;
         this.email = email;
         this.password = password;
     }
@@ -38,12 +38,12 @@ public class User extends ToJsonString {
         this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -66,7 +66,7 @@ public class User extends ToJsonString {
     public String toString() {
         return "User{" +
             "userId=" + userId +
-            ", fullName='" + fullName + '\'' +
+            ", userName='" + userName + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             '}';

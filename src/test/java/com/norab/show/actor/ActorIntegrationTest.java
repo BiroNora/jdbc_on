@@ -31,13 +31,13 @@ public class ActorIntegrationTest {
     void recordTest() {
         Person a = new Person("Fedák Sári", (short) 1879, (short) 1955);
         String expected = """
-            {"fullName":"Fedák Sári","birthDate":1879,"deathDate":1955}
+            {"userName":"Fedák Sári","birthDate":1879,"deathDate":1955}
             """.strip();
         assertEquals(expected, a.jsonString());
 
         Person b = new Person("Blaha Lujza", null, null);
         String expected1 = """
-            {"fullName":"Blaha Lujza"}
+            {"userName":"Blaha Lujza"}
             """.strip();
         assertEquals(expected1, b.jsonString());
     }
@@ -180,8 +180,8 @@ public class ActorIntegrationTest {
             .andExpect(status().is4xxClientError());
     }
 
-    Long insertActor(String fullName, Short birthDate) throws Exception {
-        Person a = new Person(fullName, birthDate);
+    Long insertActor(String userName, Short birthDate) throws Exception {
+        Person a = new Person(userName, birthDate);
         MvcResult result = mockMvc.perform(post("/api/v1/actors")
                 .content(a.jsonString())
                 .contentType("application/json"))

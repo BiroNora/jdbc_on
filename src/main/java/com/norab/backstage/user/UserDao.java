@@ -1,4 +1,4 @@
-package com.norab.admin.user;
+package com.norab.backstage.user;
 
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
@@ -11,11 +11,7 @@ import java.util.UUID;
 @Component
 public interface UserDao<User> {
 
-    List<User> listAllUsers(Page page);
-
-    List<User> listAdmins(Page page);
-
-    List<User> listRegisteredUsers(Page page);
+    List<User> listUsers(Page page);
 
     int insertUser(User user) throws IllegalStateException;
 

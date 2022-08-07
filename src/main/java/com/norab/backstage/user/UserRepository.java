@@ -1,4 +1,4 @@
-package com.norab.admin.user;
+package com.norab.backstage.user;
 
 import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
@@ -24,17 +24,7 @@ public class UserRepository implements UserDao<User> {
     }
 
     @Override
-    public List<User> listAllUsers(Page page) {
-        return null;
-    }
-
-    @Override
-    public List<User> listAdmins(Page page) {
-        return null;
-    }
-
-    @Override
-    public List<User> listRegisteredUsers(Page page) {
+    public List<User> listUsers(Page page) {
         return null;
     }
 
