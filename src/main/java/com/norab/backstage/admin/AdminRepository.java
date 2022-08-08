@@ -1,15 +1,18 @@
 package com.norab.backstage.admin;
 
 import com.norab.show.actor.ActorRepository;
-import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
+import com.norab.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,22 +48,57 @@ public class AdminRepository implements AdminDao<Admin> {
 
     @Override
     public List<Admin> selectAdminByName(String name, boolean match) {
-        return null;
+        var sql = """
+            SELECT admin_id, full_name, email, password, phone
+            FROM admins 
+            WHERE LOWER(full_name) LIKE LOWER(?);
+            """;
+        String q = match ? Utils.addPercent(name) : name;
+        return adminJdbcTemplate.query(sql, new AdminRowMapper(), q);
     }
 
     @Override
     public int updateAdmin(UUID adminId, Admin admin) {
-        return 0;
+        var sql = """
+            UPDATE admins
+            SET full_name = ?, email = ?, password = ?, phone = ?
+            WHERE admin_id = ?;
+            """;
+        int update = adminJdbcTemplate.update(sql, admin.getAdminName(), admin.getEmail(), admin.getPassword(), admin.getPhone(), admin.getAdminId());
+        if (update == 1) {
+            log.info("Admin with id: " + adminId + " is updated.");
+        }
+        return update;
     }
 
     @Override
-    public int insertAdmin(Admin admin) throws IllegalStateException {
-        return 0;
+    public String insertAdmin(Admin admin) throws IllegalStateException {
+        var sql = """
+            INSERT INTO admins(full_name, email, password, phone) VALUES(?, ?, ?, ?);
+            """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int update = adminJdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"admin_id"});
+            ps.setString(1, admin.getAdminName());
+            ps.setString(2, admin.getEmail());
+            ps.setString(3, admin.getPassword());
+            ps.setString(4, admin.getPhone());
+            return ps;
+        }, keyHolder);
+        return String.valueOf(keyHolder.getKeyList().get(0).get("admin_id"));
     }
 
     @Override
-    public DeleteResult deleteAdmin(UUID adminId, boolean force) {
-        return null;
+    public int deleteAdmin(UUID adminId) {
+        var sql = """
+            DELETE FROM admins
+            WHERE admin_id = ?;
+            """;
+        int delete = adminJdbcTemplate.update(sql, adminId);
+        if (delete == 1) {
+            log.info("Role with id: " + adminId + " is deleted.");
+        }
+        return delete;
     }
 
 }

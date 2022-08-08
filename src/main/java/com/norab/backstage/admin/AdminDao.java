@@ -1,6 +1,5 @@
 package com.norab.backstage.admin;
 
-import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +18,7 @@ public interface AdminDao<Admin> {
 
     int updateAdmin(UUID adminId, Admin admin);
 
-    int insertAdmin(Admin admin) throws IllegalStateException;
+    String insertAdmin(Admin admin) throws IllegalStateException;
 
-    DeleteResult deleteAdmin(UUID adminId, boolean force);
+    int deleteAdmin(UUID adminId);
 }

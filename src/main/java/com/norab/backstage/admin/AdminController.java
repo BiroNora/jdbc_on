@@ -25,4 +25,29 @@ public class AdminController {
     public Optional<Admin> selectAdminById(@PathVariable("id") UUID adminId) {
         return repository.selectAdminById(adminId);
     }
+
+    @GetMapping("/find")
+    public List<Admin> selectAdminByName(
+        @RequestParam(name = "name") String name,
+        @RequestParam(name = "match", required = false, defaultValue = "false") String match) {
+        boolean m = match != null && match.equalsIgnoreCase("true");
+        return repository.selectAdminByName(name, m);
+    }
+
+    @PutMapping("{id}")
+    public void updateAdmin(@PathVariable("id") UUID adminId, @RequestBody(required = false) Admin admin) {
+        repository.updateAdmin(adminId, admin);
+    }
+
+    @PostMapping
+    public String insertAdmin(@RequestBody Admin admin) {
+
+        return repository.insertAdmin(admin);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteAdmin(
+        @PathVariable("id") UUID adminId) {
+        repository.deleteAdmin(adminId);
+    }
 }

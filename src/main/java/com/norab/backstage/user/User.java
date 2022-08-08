@@ -3,7 +3,9 @@ package com.norab.backstage.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
 import java.util.UUID;
 
 public class User extends ToJsonString {
@@ -13,21 +15,24 @@ public class User extends ToJsonString {
     private String userName;
     private String email;
     private String password;
+    private List<Article> articles;
 
     public User() {
     }
 
-    public User(String fullName, String email, String password) {
-        this.userName = fullName;
+    public User(String userName, String email, String password, List<Article> articles) {
+        this.userName = userName;
         this.email = email;
         this.password = password;
+        this.articles = articles;
     }
 
-    public User(UUID userId, String fullName, String email, String password) {
+    public User(UUID userId, String userName, String email, String password, List<Article> articles) {
         this.userId = userId;
-        this.userName = fullName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
+        this.articles = articles;
     }
 
     public UUID getUserId() {
@@ -59,7 +64,15 @@ public class User extends ToJsonString {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     @Override
@@ -69,6 +82,7 @@ public class User extends ToJsonString {
             ", userName='" + userName + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
+            ", articles=" + articles +
             '}';
     }
 }

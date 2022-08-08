@@ -4,7 +4,7 @@ create table admins (
     admin_id uuid NOT NULL DEFAULT uuid_generate_v1() PRIMARY KEY,
 	full_name VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	password VARCHAR(50) NOT NULL UNIQUE,
+	password TEXT NOT NULL UNIQUE,
 	phone VARCHAR(50) NOT NULL
 );
 insert into admins (admin_id, full_name, email, password, phone) values ('a7c303ad-bc27-4175-aa02-cc53f4f68045', 'Jobye Espinosa', 'jespinosa0@jalbum.net', 'Tm4s2pHUV', '398-622-8025');
