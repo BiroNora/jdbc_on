@@ -1,8 +1,10 @@
 package com.norab.security;
 
 public enum UserPermission {
-    OPINION_WRITE("op_write"),
-    CRUD_ACCESS("crud_access");
+    SHOW_WRITE("show:write"),
+    OPINION_WRITE("opinion:write"),
+    OPINION_DELETE("opinion:delete"),
+    CRUD_ACCESS("crud:access");
 
     private final String permission;
 

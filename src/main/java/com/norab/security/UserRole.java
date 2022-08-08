@@ -4,11 +4,11 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.norab.security.UserPermission.CRUD_ACCESS;
-import static com.norab.security.UserPermission.OPINION_WRITE;
+import static com.norab.security.UserPermission.*;
 
 public enum UserRole {
-    MODERATOR(Sets.newHashSet(OPINION_WRITE)),
+    USER(Sets.newHashSet(OPINION_WRITE)),
+    STUFF(Sets.newHashSet(SHOW_WRITE, OPINION_DELETE)),
     ADMINISTRATOR(Sets.newHashSet(CRUD_ACCESS));
 
     private final Set<UserPermission> permission;

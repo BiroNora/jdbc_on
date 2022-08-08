@@ -15,7 +15,7 @@ public interface UserDao<User> {
 
     int insertUser(User user) throws IllegalStateException;
 
-    DeleteResult deleteUser(UUID userId, boolean force);
+    int deleteUser(UUID userId, boolean force);
 
     Optional<User> selectUserById(UUID userId);
 

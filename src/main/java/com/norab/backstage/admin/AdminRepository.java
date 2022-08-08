@@ -85,6 +85,9 @@ public class AdminRepository implements AdminDao<Admin> {
             ps.setString(4, admin.getPhone());
             return ps;
         }, keyHolder);
+        if (update == 1) {
+            log.info("Admin with id: " + admin.getAdminId() + " is deleted.");
+        }
         return String.valueOf(keyHolder.getKeyList().get(0).get("admin_id"));
     }
 

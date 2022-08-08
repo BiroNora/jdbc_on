@@ -1,9 +1,11 @@
 package com.norab.security;
 
-/*import org.springframework.context.annotation.Bean;
+/*import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;*/
 
 /*@Configuration
@@ -13,11 +15,12 @@ public class SecurityConfig {
     @Autowired
     public SecurityConfig(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }*/
+    }
 
-    /*@Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            //.csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
             .anyRequest()
@@ -26,8 +29,8 @@ public class SecurityConfig {
             .formLogin();
 
         return http.build();
-    }*/
-
+    }
+*/
 
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http

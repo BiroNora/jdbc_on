@@ -34,8 +34,8 @@ public class UserRepository implements UserDao<User> {
     }
 
     @Override
-    public DeleteResult deleteUser(UUID userId, boolean force) {
-        return null;
+    public int deleteUser(UUID userId, boolean force) {
+        return 0;
     }
 
     @Override
