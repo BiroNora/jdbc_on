@@ -4,7 +4,7 @@ public enum Permissions {
     SHOW_WRITE("show:write"),
     OPINION_WRITE("opinion:write"),
     OPINION_DELETE("opinion:delete"),
-    CRUD_ACCESS("crud:access");
+    STUFF_ACCESS("stuff:access");
 
     private final String permission;
 

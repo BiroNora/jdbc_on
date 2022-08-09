@@ -66,7 +66,7 @@ class AdminRepositoryTest {
         assertEquals(1, result);
 
         Admin admin1 = new Admin("ZZTop", "zzt@gmail.com", "123", "5557-222", Set.of(), true, true, true, true);
-        UUID id1 = UUID.fromString("XXXea6e6-2e5e-4f7d-908b-6cef802b6270");
+        UUID id1 = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
         int result1 = repository.updateAdmin(id1, admin1);
         assertEquals(0, result1);
     }

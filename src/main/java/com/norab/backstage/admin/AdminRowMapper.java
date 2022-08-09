@@ -16,11 +16,11 @@ public class AdminRowMapper implements RowMapper<Admin> {
             rs.getString("email"),
             rs.getString("password"),
             rs.getString("phone"),
-            (Set<? extends GrantedAuthority>) rs.getArray("granted_authorities"),
-            rs.getBoolean("non_exp"),
-            rs.getBoolean("non_locked"),
-            rs.getBoolean("cred_non_exp"),
-            rs.getBoolean("enabled")
+            null,
+            true,
+            true,
+            true,
+            true
         );
     }
 }

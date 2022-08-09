@@ -11,7 +11,7 @@ import static com.norab.security.Permissions.*;
 public enum Roles {
     USER(Sets.newHashSet(OPINION_WRITE)),
     STUFF(Sets.newHashSet(SHOW_WRITE, OPINION_DELETE)),
-    ADMINISTRATOR(Sets.newHashSet(CRUD_ACCESS));
+    ADMINISTRATOR(Sets.newHashSet(STUFF_ACCESS));
 
     private final Set<Permissions> permission;
 

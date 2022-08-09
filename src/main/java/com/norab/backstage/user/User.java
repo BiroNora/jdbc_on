@@ -5,6 +5,7 @@ import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Set;
@@ -140,7 +141,7 @@ public class User extends ToJsonString implements UserDetails {
 
     public void setPassword(String password) {
 
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     @Override
