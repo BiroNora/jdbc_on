@@ -114,6 +114,11 @@ public class User extends ToJsonString implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
     @Override
     public String getUsername() {
         return null;
@@ -137,11 +142,6 @@ public class User extends ToJsonString implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-    public void setPassword(String password) {
-
-        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.norab.backstage.admin;
 
 import com.norab.utils.Page;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 

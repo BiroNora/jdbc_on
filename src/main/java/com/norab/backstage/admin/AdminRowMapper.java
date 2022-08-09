@@ -1,11 +1,9 @@
 package com.norab.backstage.admin;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 public class AdminRowMapper implements RowMapper<Admin> {
     @Override

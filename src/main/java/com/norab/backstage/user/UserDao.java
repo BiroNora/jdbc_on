@@ -1,6 +1,5 @@
 package com.norab.backstage.user;
 
-import com.norab.utils.DeleteResult;
 import com.norab.utils.Page;
 import org.springframework.stereotype.Component;
 

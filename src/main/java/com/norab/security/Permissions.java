@@ -2,6 +2,7 @@ package com.norab.security;
 
 public enum Permissions {
     SHOW_WRITE("show:write"),
+    SHOW_READ("show:read"),
     OPINION_WRITE("opinion:write"),
     OPINION_DELETE("opinion:delete"),
     STUFF_ACCESS("stuff:access");
