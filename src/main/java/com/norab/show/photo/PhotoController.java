@@ -1,5 +1,6 @@
 package com.norab.show.photo;
 
+import com.norab.utils.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +11,15 @@ public class PhotoController {
     private final PhotoService photoService;
 
     public PhotoController(PhotoService photoService) {
+
         this.photoService = photoService;
     }
 
     @GetMapping
-    public List<Photo> listPhotos() {
-        return photoService.listPhotos();
+    public List<Photo> listPhotos(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return photoService.listPhotos(Page.of(page, size));
     }
 
     @GetMapping("{id}")

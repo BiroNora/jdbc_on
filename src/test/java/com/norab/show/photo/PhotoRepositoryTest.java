@@ -6,6 +6,7 @@ import com.norab.show.actor.Person;
 import com.norab.show.movie.Movie;
 import com.norab.show.movie.MovieRepository;
 import com.norab.utils.DeleteResult;
+import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +32,8 @@ class PhotoRepositoryTest {
 
     @Test
     void selectPhotos() {
-        List<Photo> photos = repository.listPhotos();
+        Page page = new Page(1, 10);
+        List<Photo> photos = repository.listPhotos(page);
         for (Photo p : photos) {
             System.out.print(p.getPhotoId() + ". ");
             System.out.println(p.getPhotoUrl());
@@ -157,6 +159,7 @@ class PhotoRepositoryTest {
 
     @Test
     void doubleInsertPhoto() {
+        Page page = new Page(1, 10);
         String url = "https://CCC";
         Movie movie = new Movie("Dupla_Foto", "Double_Insert_Photo", (short) 2022, (short) 2023, "test", true);
         int movieId = movieRepository.insertMovie(movie);
@@ -175,7 +178,7 @@ class PhotoRepositoryTest {
         assertEquals(movieId, photo1.get().getMovieId());
         assertEquals(url, photo1.get().getPhotoUrl());
 
-        List<Photo> photos = repository.listPhotos();
+        List<Photo> photos = repository.listPhotos(page);
         long count = photos.stream()
             .filter(x -> x.getPhotoUrl().equals(url))
             .count();

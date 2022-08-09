@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +35,7 @@ class AdminRepositoryTest {
 
     @Test
     void selectAdminById() {
-        Admin admin = new Admin("Gipsz Jakab", "gjaki@gmail.com", "passzW%", "555-222");
+        Admin admin = new Admin("Gipsz Jakab", "gjaki@gmail.com", "passzW%", "555-222", Set.of(), true, true, true, true);
         String adminId = repository.insertAdmin(admin);
         Optional<Admin> selected = repository.selectAdminById(UUID.fromString(adminId));
         assertTrue(selected.isPresent());
@@ -47,7 +48,7 @@ class AdminRepositoryTest {
 
     @Test
     void selectAdminByName() {
-        Admin admin = new Admin("SpiderMan", "speedy@gmail.com", "passz123%", "5557-222");
+        Admin admin = new Admin("SpiderMan", "speedy@gmail.com", "passz123%", "5557-222", Set.of(), true, true, true, true);
         repository.insertAdmin(admin);
         List<Admin> admins = repository.selectAdminByName(admin.getAdminName(), true);
         assertTrue(admins.size() > 0);
@@ -64,7 +65,7 @@ class AdminRepositoryTest {
         int result = repository.updateAdmin(id, admin);
         assertEquals(1, result);
 
-        Admin admin1 = new Admin("ZZTop", "zzt@gmail.com", "123", "5557-222");
+        Admin admin1 = new Admin("ZZTop", "zzt@gmail.com", "123", "5557-222", Set.of(), true, true, true, true);
         UUID id1 = UUID.fromString("XXXea6e6-2e5e-4f7d-908b-6cef802b6270");
         int result1 = repository.updateAdmin(id1, admin1);
         assertEquals(0, result1);
@@ -72,7 +73,7 @@ class AdminRepositoryTest {
 
     @Test
     void insertAdmin() {
-        Admin admin = new Admin("Sugar Baby", "sbaby@gmail.com", "123%", "5557-222");
+        Admin admin = new Admin("Sugar Baby", "sbaby@gmail.com", "123%", "5557-222", Set.of(), true, true, true, true);
         String result = repository.insertAdmin(admin);
         Optional<Admin> admin1 = repository.selectAdminById(UUID.fromString(result));
         assertTrue(admin1.isPresent());
@@ -80,7 +81,7 @@ class AdminRepositoryTest {
 
     @Test
     void deleteAdmin() {
-        Admin admin = new Admin("Man At Work", "maw@gmail.com", "1234", "5557-222");
+        Admin admin = new Admin("Man At Work", "maw@gmail.com", "1234", "5557-222", Set.of(), true, true, true, true);
         String result = repository.insertAdmin(admin);
         Optional<Admin> admin1 = repository.selectAdminById(UUID.fromString(result));
         assertTrue(admin1.isPresent());

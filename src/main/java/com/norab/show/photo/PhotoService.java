@@ -2,6 +2,7 @@ package com.norab.show.photo;
 
 import com.norab.exception.InvalidInputException;
 import com.norab.exception.NotFoundException;
+import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class PhotoService {
         this.photoDao = photoDao;
     }
 
-    public List<Photo> listPhotos() {
-        return photoDao.listPhotos();
+    public List<Photo> listPhotos(Page page) {
+        return photoDao.listPhotos(page);
     }
 
     public int insertPhoto(Photo photo) throws InvalidInputException {

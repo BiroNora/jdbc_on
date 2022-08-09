@@ -1,12 +1,16 @@
 package com.norab.backstage.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
-public class Admin {
+public class Admin extends ToJsonString implements UserDetails {
     @Id
     @JsonIgnore
     private UUID adminId;
@@ -14,23 +18,71 @@ public class Admin {
     private String email;
     private String password;
     private String phone;
+    private Set<? extends GrantedAuthority> grantedAuthorities;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
     public Admin() {
     }
 
-    public Admin(String adminName, String email, String password, String phone) {
+    public Admin(String adminName,
+                 String password,
+                 Set<? extends GrantedAuthority> grantedAuthorities,
+                 boolean isAccountNonExpired,
+                 boolean isAccountNonLocked,
+                 boolean isCredentialsNonExpired,
+                 boolean isEnabled) {
+        this.adminName = adminName;
+        this.password = password;
+        this.grantedAuthorities = grantedAuthorities;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
+    }
+
+    public Admin(String adminName,
+                 String email,
+                 String password,
+                 String phone,
+                 Set<? extends GrantedAuthority> grantedAuthorities,
+                 boolean isAccountNonExpired,
+                 boolean isAccountNonLocked,
+                 boolean isCredentialsNonExpired,
+                 boolean isEnabled) {
         this.adminName = adminName;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.grantedAuthorities = grantedAuthorities;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
     }
 
-    public Admin(UUID adminId, String adminName, String email, String password, String phone) {
+    public Admin(UUID adminId,
+                 String adminName,
+                 String email,
+                 String password,
+                 String phone,
+                 Set<? extends GrantedAuthority> grantedAuthorities,
+                 boolean isAccountNonExpired,
+                 boolean isAccountNonLocked,
+                 boolean isCredentialsNonExpired,
+                 boolean isEnabled) {
         this.adminId = adminId;
         this.adminName = adminName;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.grantedAuthorities = grantedAuthorities;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
     }
 
     public UUID getAdminId() {
@@ -57,12 +109,42 @@ public class Admin {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = password;
     }
 
     public String getPhone() {

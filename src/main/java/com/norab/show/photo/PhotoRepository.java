@@ -1,6 +1,7 @@
 package com.norab.show.photo;
 
 import com.norab.exception.InvalidInputException;
+import com.norab.utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -24,12 +25,10 @@ public class PhotoRepository implements PhotoDao<Photo> {
     }
 
     @Override
-    public List<Photo> listPhotos() {
-        var sql = """
-            SELECT photo_id, url, movie_id, actor_id, role_id
-            FROM photos
-            ;
-            """;
+    public List<Photo> listPhotos(Page page) {
+        var sql = "SELECT photo_id, url, movie_id, actor_id, role_id " +
+            "FROM photos ORDER BY movie_id LIMIT '" + page.getLimit() + "'" +
+            "OFFSET '" + page.getOffset() + "'";
         return jdbcTemplate.query(sql, new PhotoRowMapper());
     }
 

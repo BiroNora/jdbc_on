@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -58,6 +59,11 @@ public class AdminRepository implements AdminDao<Admin> {
     }
 
     @Override
+    public Admin adminByName(String name) throws UsernameNotFoundException {
+        return null;
+    }
+
+    @Override
     public int updateAdmin(UUID adminId, Admin admin) {
         var sql = """
             UPDATE admins
@@ -86,7 +92,7 @@ public class AdminRepository implements AdminDao<Admin> {
             return ps;
         }, keyHolder);
         if (update == 1) {
-            log.info("Admin with id: " + admin.getAdminId() + " is deleted.");
+            log.info("Admin with id: " + admin.getAdminId() + " is inserted.");
         }
         return String.valueOf(keyHolder.getKeyList().get(0).get("admin_id"));
     }

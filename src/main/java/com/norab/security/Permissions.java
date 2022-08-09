@@ -1,6 +1,6 @@
 package com.norab.security;
 
-public enum UserPermission {
+public enum Permissions {
     SHOW_WRITE("show:write"),
     OPINION_WRITE("opinion:write"),
     OPINION_DELETE("opinion:delete"),
@@ -8,7 +8,7 @@ public enum UserPermission {
 
     private final String permission;
 
-    UserPermission(String permission) {
+    Permissions(String permission) {
         this.permission = permission;
     }
 
