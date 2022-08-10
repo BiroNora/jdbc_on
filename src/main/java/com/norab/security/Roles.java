@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import static com.norab.security.Permissions.*;
 
 public enum Roles {
-    USER(Sets.newHashSet(SHOW_READ, OPINION_WRITE)),
-    STUFF(Sets.newHashSet(SHOW_READ, SHOW_WRITE, OPINION_DELETE)),
-    ADMINISTRATOR(Sets.newHashSet(STUFF_ACCESS));
+    USER(Sets.newHashSet(SHOW_READ, OPINION_WRITE, OPINION_DELETE)),
+    STAFF(Sets.newHashSet(SHOW_READ, SHOW_WRITE, OPINION_DELETE)),
+    HR(Sets.newHashSet(STAFF_ACCESS));
 
     private final Set<Permissions> permission;
 

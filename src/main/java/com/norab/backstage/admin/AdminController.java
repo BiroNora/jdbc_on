@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/v1/admins")
+@RequestMapping(path = "management/api/v1/admins")
 public class AdminController {
     @Autowired
     AdminRepository repository;

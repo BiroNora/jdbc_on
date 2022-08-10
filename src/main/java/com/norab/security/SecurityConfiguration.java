@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.norab.security.Roles.*;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -29,7 +31,7 @@ public class SecurityConfiguration {
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-            //.antMatchers().permitAll()
+            .antMatchers("/management/api/**").hasRole(HR.name())
             .anyRequest()
             .authenticated()
             .and()
@@ -43,11 +45,25 @@ public class SecurityConfiguration {
         UserDetails user = User.builder()
             .username("user")
             .password(passwordEncoder.encode("1234"))
-            .roles("USER")
+            .roles(USER.name())
+            .build();
+
+        UserDetails stuff = User.builder()
+            .username("staff")
+            .password(passwordEncoder.encode("1234"))
+            .roles(STAFF.name())
+            .build();
+
+        UserDetails hr = User.builder()
+            .username("hr")
+            .password(passwordEncoder.encode("1234"))
+            .roles(HR.name())
             .build();
 
         return new InMemoryUserDetailsManager(
-            user
+            user,
+            stuff,
+            hr
         );
     }
 }
