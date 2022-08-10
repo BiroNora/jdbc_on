@@ -5,7 +5,12 @@ create table admins (
 	full_name VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL,
 	password TEXT NOT NULL UNIQUE,
-	phone VARCHAR(50) NOT NULL
+	phone VARCHAR(50) NOT NULL,
+	grantedAuthorities TEXT[],
+	isAccountNonExpired BOOLEAN NOT NULL,
+	isAccountNonLocked BOOLEAN NOT NULL,
+	isCredentialsNonExpired BOOLEAN NOT NULL,
+	isEnabled BOOLEAN NOT NULL
 );
 insert into admins (admin_id, full_name, email, password, phone) values ('a7c303ad-bc27-4175-aa02-cc53f4f68045', 'Jobye Espinosa', 'jespinosa0@jalbum.net', 'Tm4s2pHUV', '398-622-8025');
 insert into admins (admin_id, full_name, email, password, phone) values ('da3c8987-8f4d-4933-83b6-c632dfa5e4a1', 'Ariella Murrhardt', 'amurrhardt1@jimdo.com', 'XCB9000U', '217-599-4854');

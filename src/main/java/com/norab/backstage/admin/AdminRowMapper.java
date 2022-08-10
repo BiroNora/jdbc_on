@@ -1,9 +1,11 @@
 package com.norab.backstage.admin;
 
+import com.norab.security.Roles;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdminRowMapper implements RowMapper<Admin> {
     @Override
@@ -14,6 +16,7 @@ public class AdminRowMapper implements RowMapper<Admin> {
             rs.getString("email"),
             rs.getString("password"),
             rs.getString("phone"),
+            (List<Roles>) rs.getArray("role"),
             null,
             true,
             true,

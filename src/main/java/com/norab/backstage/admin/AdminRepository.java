@@ -70,7 +70,7 @@ public class AdminRepository implements AdminDao<Admin> {
             SET full_name = ?, email = ?, password = ?, phone = ?
             WHERE admin_id = ?;
             """;
-        int update = adminJdbcTemplate.update(sql, admin.getAdminName(), admin.getEmail(), admin.getPassword(), admin.getPhone(), admin.getAdminId());
+        int update = adminJdbcTemplate.update(sql, admin.getFullName(), admin.getEmail(), admin.getPassword(), admin.getPhone(), admin.getAdminId());
         if (update == 1) {
             log.info("Admin with id: " + adminId + " is updated.");
         }
@@ -85,7 +85,7 @@ public class AdminRepository implements AdminDao<Admin> {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int update = adminJdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"admin_id"});
-            ps.setString(1, admin.getAdminName());
+            ps.setString(1, admin.getFullName());
             ps.setString(2, admin.getEmail());
             ps.setString(3, admin.getPassword());
             ps.setString(4, admin.getPhone());

@@ -1,6 +1,7 @@
 package com.norab.backstage.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.security.Roles;
 import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,10 +17,11 @@ public class Admin extends ToJsonString implements UserDetails {
     @Id
     @JsonIgnore
     private UUID adminId;
-    private String adminName;
+    private String fullName;
     private String email;
     private String password;
     private String phone;
+    private List<Roles> role;
     private Set<? extends GrantedAuthority> grantedAuthorities;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
@@ -28,14 +31,14 @@ public class Admin extends ToJsonString implements UserDetails {
     public Admin() {
     }
 
-    public Admin(String adminName,
+    public Admin(String fullName,
                  String password,
                  Set<? extends GrantedAuthority> grantedAuthorities,
                  boolean isAccountNonExpired,
                  boolean isAccountNonLocked,
                  boolean isCredentialsNonExpired,
                  boolean isEnabled) {
-        this.adminName = adminName;
+        this.fullName = fullName;
         this.password = password;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
@@ -44,7 +47,7 @@ public class Admin extends ToJsonString implements UserDetails {
         this.isEnabled = isEnabled;
     }
 
-    public Admin(String adminName,
+    public Admin(String fullName,
                  String email,
                  String password,
                  String phone,
@@ -53,7 +56,7 @@ public class Admin extends ToJsonString implements UserDetails {
                  boolean isAccountNonLocked,
                  boolean isCredentialsNonExpired,
                  boolean isEnabled) {
-        this.adminName = adminName;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.phone = phone;
@@ -65,20 +68,22 @@ public class Admin extends ToJsonString implements UserDetails {
     }
 
     public Admin(UUID adminId,
-                 String adminName,
+                 String fullName,
                  String email,
                  String password,
                  String phone,
+                 List<Roles> role,
                  Set<? extends GrantedAuthority> grantedAuthorities,
                  boolean isAccountNonExpired,
                  boolean isAccountNonLocked,
                  boolean isCredentialsNonExpired,
                  boolean isEnabled) {
         this.adminId = adminId;
-        this.adminName = adminName;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.role = role;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -94,12 +99,12 @@ public class Admin extends ToJsonString implements UserDetails {
         this.adminId = adminId;
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setFullName(String adminName) {
+        this.fullName = adminName;
     }
 
     public String getEmail() {
@@ -120,8 +125,15 @@ public class Admin extends ToJsonString implements UserDetails {
     }
 
     public void setPassword(String password) {
-
         this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public List<Roles> getRole() {
+        return role;
+    }
+
+    public void setRole(List<Roles> role) {
+        this.role = role;
     }
 
     @Override
@@ -161,7 +173,7 @@ public class Admin extends ToJsonString implements UserDetails {
     public String toString() {
         return "Admin{" +
             "adminId=" + adminId +
-            ", adminName='" + adminName + '\'' +
+            ", fullName='" + fullName + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             ", phone='" + phone + '\'' +

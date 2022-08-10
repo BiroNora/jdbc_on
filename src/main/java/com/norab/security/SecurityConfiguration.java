@@ -1,33 +1,33 @@
 package com.norab.security;
 
+import com.norab.backstage.auth.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static com.norab.security.Roles.*;
+import static com.norab.security.Roles.HR;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public SecurityConfiguration(PasswordEncoder passwordEncoder) {
-
+    public SecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
+        this.applicationUserService = applicationUserService;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .authenticationProvider(daoAuthenticationProvider())
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
@@ -41,6 +41,16 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(applicationUserService);
+        return provider;
+    }
+
+
+
+    /*@Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
             .username("user")
@@ -48,7 +58,7 @@ public class SecurityConfiguration {
             .roles(USER.name())
             .build();
 
-        UserDetails stuff = User.builder()
+        UserDetails staff = User.builder()
             .username("staff")
             .password(passwordEncoder.encode("1234"))
             .roles(STAFF.name())
@@ -62,8 +72,8 @@ public class SecurityConfiguration {
 
         return new InMemoryUserDetailsManager(
             user,
-            stuff,
+            staff,
             hr
         );
-    }
+    }*/
 }

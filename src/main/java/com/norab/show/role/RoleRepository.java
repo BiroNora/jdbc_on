@@ -28,19 +28,34 @@ public class RoleRepository implements RoleDao<Plays> {
 
     @Override
     public List<Plays> listRoles(Page page) {
-        var sql = "SELECT role_id, role_name, movie_id, actor_id " +
-            "FROM plays ORDER BY role_name asc LIMIT '" + page.getLimit() + "' " +
-            "OFFSET '" + page.getOffset() + "'";
-        return jdbcTemplate.query(sql, new RoleRowMapper());
+        var sql = """
+            SELECT 
+            role_id, 
+            role_name, 
+            movie_id, 
+            actor_id 
+            FROM plays 
+            ORDER BY role_name asc 
+            LIMIT ?
+            OFFSET ?;
+            """;
+        return jdbcTemplate.query(sql, new RoleRowMapper(), page.getLimit(), page.getOffset());
     }
 
     @Override
     public boolean selectRoleByRole(Plays plays) {
-        var sql = "SELECT role_id, role_name, movie_id, actor_id FROM plays " +
-            "WHERE role_name = '" + plays.getRoleName() + "' " +
-            "AND movie_id = '" + plays.getMovieId() + "' " +
-            "AND actor_id = '" + plays.getActorId() + "'";
-        Optional<Plays> selected = jdbcTemplate.query(sql, new RoleRowMapper())
+        var sql = """
+            SELECT 
+            role_id, 
+            role_name, 
+            movie_id, 
+            actor_id 
+            FROM plays 
+            WHERE role_name = ?
+            AND movie_id = ?
+            AND actor_id = ?;
+            """;
+        Optional<Plays> selected = jdbcTemplate.query(sql, new RoleRowMapper(), plays.getRoleName(), plays.getMovieId(), plays.getActorId())
             .stream()
             .findFirst();
         if (selected.isPresent()) {

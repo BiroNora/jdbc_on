@@ -31,19 +31,20 @@ public class MovieRepository implements MovieDao<Movie> {
 
     @Override
     public List<Movie> listMovies(Page page) {
-        var sql = "SELECT " +
-            "movie_id, " +
-            "title, " +
-            "title_original, " +
-            "release_date, " +
-            "end_date, " +
-            "m_type, " +
-            "is_adult " +
-            "FROM movies " +
-            "ORDER BY title asc " +
-            "LIMIT '" + page.getLimit() + "' " +
-            "OFFSET '" + page.getOffset() + "'";
-        return jdbcTemplate.query(sql, new MovieRowMapper());
+        var sql = """
+            SELECT 
+            movie_id, 
+            title, 
+            title_original, 
+            release_date, 
+            end_date, 
+            m_type, 
+            is_adult 
+            FROM movies 
+            ORDER BY title asc 
+            LIMIT ? 
+            OFFSET ?;""";
+        return jdbcTemplate.query(sql, new MovieRowMapper(), page.getLimit(), page.getOffset());
     }
 
     public boolean isMovieExists(Movie movie) {

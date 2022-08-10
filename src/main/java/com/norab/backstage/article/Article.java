@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 
-public class Articles {
+public class Article {
     @Id
     @JsonIgnore
     private Integer artId;
@@ -14,17 +14,17 @@ public class Articles {
     private Integer star;
     private Integer movieId;
 
-    public Articles(UUID userId, String article, Integer star, Integer movieId) {
+    public Article(UUID userId, String article, Integer star, Integer movieId) {
         this.userId = userId;
         this.article = article;
         this.star = star;
         this.movieId = movieId;
     }
 
-    public Articles() {
+    public Article() {
     }
 
-    public Articles(Integer artId, UUID userId, String article, Integer star, Integer movieId) {
+    public Article(Integer artId, UUID userId, String article, Integer star, Integer movieId) {
         this.artId = artId;
         this.userId = userId;
         this.article = article;
@@ -74,7 +74,7 @@ public class Articles {
 
     @Override
     public String toString() {
-        return "Articles{" +
+        return "Article{" +
             "artId=" + artId +
             ", userId=" + userId +
             ", article='" + article + '\'' +

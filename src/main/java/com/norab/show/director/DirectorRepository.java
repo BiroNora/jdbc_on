@@ -27,15 +27,17 @@ public class DirectorRepository implements DirectorDao<Director> {
 
     @Override
     public List<ResultResponse> listDirectors(Page page) {
-        var sql =
-            "SELECT DISTINCT full_name AS directors " +
-                "FROM directors JOIN (SELECT full_name, actor_id FROM actors) AS dn " +
-                "USING(actor_id) " +
-                "ORDER BY directors asc " +
-                "LIMIT '" + page.getLimit() + "' " +
-                "OFFSET '" + page.getOffset() + "'";
+        var sql = """
+            SELECT DISTINCT full_name AS directors FROM directors AS dn
+            JOIN 
+            (SELECT full_name, actor_id FROM actors)
+            USING(actor_id) 
+            ORDER BY directors asc 
+            LIMIT ? 
+            OFFSET ?;
+            """;
         return jdbcTemplate.query(sql, (resultSet, i) -> new ResultResponse(
-            resultSet.getString("directors")));
+            resultSet.getString("directors")), page.getLimit(), page.getOffset());
     }
 
     @Override

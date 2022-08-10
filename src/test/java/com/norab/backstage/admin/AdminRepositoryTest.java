@@ -28,7 +28,7 @@ class AdminRepositoryTest {
         List<Admin> admins = repository.listAdmins(page);
         for (Admin a : admins) {
             System.out.println(a.getAdminId() + " ");
-            System.out.println(a.getAdminName());
+            System.out.println(a.getFullName());
         }
         assertTrue(admins.size() > 0);
     }
@@ -39,7 +39,7 @@ class AdminRepositoryTest {
         String adminId = repository.insertAdmin(admin);
         Optional<Admin> selected = repository.selectAdminById(UUID.fromString(adminId));
         assertTrue(selected.isPresent());
-        assertEquals("Gipsz Jakab", selected.get().getAdminName());
+        assertEquals("Gipsz Jakab", selected.get().getFullName());
 
         UUID id = UUID.fromString("f1b9ac74-099b-4a21-9a0a-b14f14acddf0");
         Optional<Admin> admin1 = repository.selectAdminById(id);
@@ -50,7 +50,7 @@ class AdminRepositoryTest {
     void selectAdminByName() {
         Admin admin = new Admin("SpiderMan", "speedy@gmail.com", "passz123%", "5557-222", Set.of(), true, true, true, true);
         repository.insertAdmin(admin);
-        List<Admin> admins = repository.selectAdminByName(admin.getAdminName(), true);
+        List<Admin> admins = repository.selectAdminByName(admin.getFullName(), true);
         assertTrue(admins.size() > 0);
 
         List<Admin> admins1 = repository.selectAdminByName("00", true);
@@ -61,7 +61,7 @@ class AdminRepositoryTest {
     void updateAdmin() {
         UUID id = UUID.fromString("fbfea6e6-2e5e-4f7d-908b-6cef802b6270");
         Admin admin = repository.selectAdminById(id).orElseThrow();
-        admin.setAdminName("Gábor Zsazsa");
+        admin.setFullName("Gábor Zsazsa");
         int result = repository.updateAdmin(id, admin);
         assertEquals(1, result);
 

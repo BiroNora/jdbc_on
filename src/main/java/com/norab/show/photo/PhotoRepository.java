@@ -26,10 +26,19 @@ public class PhotoRepository implements PhotoDao<Photo> {
 
     @Override
     public List<Photo> listPhotos(Page page) {
-        var sql = "SELECT photo_id, url, movie_id, actor_id, role_id " +
-            "FROM photos ORDER BY movie_id LIMIT '" + page.getLimit() + "'" +
-            "OFFSET '" + page.getOffset() + "'";
-        return jdbcTemplate.query(sql, new PhotoRowMapper());
+        var sql = """
+            SELECT 
+            photo_id, 
+            url, 
+            movie_id, 
+            actor_id, 
+            role_id 
+            FROM photos 
+            ORDER BY movie_id 
+            LIMIT ? 
+            OFFSET ?;
+            """;
+        return jdbcTemplate.query(sql, new PhotoRowMapper(), page.getLimit(), page.getOffset());
     }
 
     @Override
