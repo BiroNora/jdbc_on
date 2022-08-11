@@ -12,12 +12,6 @@ app:
       password: "sa"
       username: sa
 
-    admins:
-      driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
-      password: "sa"
-      username: sa
-
 spring:
   jpa:
     defer-datasource-initialization: true

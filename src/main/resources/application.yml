@@ -14,13 +14,6 @@ app:
       pool-size: 30
       username: norab
 
-    admins:
-      driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5432/admins
-      password: '1234'
-      pool-size: 30
-      username: norab
-
 server:
   error:
     include-binding-errors: always

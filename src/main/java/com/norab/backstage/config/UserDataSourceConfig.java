@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Configuration("admindb")
-public class AdminDataSourceConfig {
-    @Bean("admindbsource")
-    @ConfigurationProperties("app.datasource.admins")
+@Configuration("userdb")
+public class UserDataSourceConfig {
+    @Bean("userdbsource")
+    @ConfigurationProperties("app.datasource.users")
     public HikariDataSource hikariDataSource() {
         return DataSourceBuilder
             .create()
@@ -19,8 +19,8 @@ public class AdminDataSourceConfig {
             .build();
     }
 
-    @Bean("adminJdbcTemplate")
-    public JdbcTemplate adminJdbcTemplate(@Qualifier("admindbsource") HikariDataSource hikariDataSource) {
+    @Bean("userJdbcTemplate")
+    public JdbcTemplate userJdbcTemplate(@Qualifier("userdbsource") HikariDataSource hikariDataSource) {
 
         return new JdbcTemplate(hikariDataSource);
     }
