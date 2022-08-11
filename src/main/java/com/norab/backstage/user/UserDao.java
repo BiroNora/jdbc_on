@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public interface UserDAO<User> {
+public interface UserDao<User> {
 
     List<User> listUsers(Page page);
 

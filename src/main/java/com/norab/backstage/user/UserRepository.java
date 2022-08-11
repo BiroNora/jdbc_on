@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserRepository implements UserDAO<User> {
+public class UserRepository implements UserDao<User> {
     private static final Logger log = LoggerFactory.getLogger(ActorRepository.class);
     @Autowired
     private final JdbcTemplate userJdbcTemplate;

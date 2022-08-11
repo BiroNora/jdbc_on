@@ -7,16 +7,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserService implements UserDetailsService {
-    private final UserDAO userDAO;
+    private final UserDao userDao;
 
     @Autowired
-    public UserService(@Qualifier("userJdbcTemplate") UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(@Qualifier("userJdbcTemplate") UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userDAO
+        return (UserDetails) userDao
             .userByName(username);
         //new UsernameNotFoundException(String.format("Username %s not found", username));
     }
