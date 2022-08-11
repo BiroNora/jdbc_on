@@ -1,5 +1,6 @@
 package com.norab.backstage.auth;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -7,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.norab.security.Roles.STAFF;
-import static com.norab.security.Roles.USER;
+import static com.norab.security.Roles.*;
 
 @Repository("fake")
 public class FakeApplicationUserDaoService implements ApplicationUserDao {
@@ -27,7 +27,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
     }
 
     private List<ApplicationUser> getApplicationUsers() {
-        List<ApplicationUser> applicationUsers = List.of(
+        List<ApplicationUser> applicationUsers = Lists.newArrayList(
             new ApplicationUser(
                 "user",
                 passwordEncoder.encode("1234"),
@@ -49,7 +49,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
             new ApplicationUser(
                 "hr",
                 passwordEncoder.encode("1234"),
-                STAFF.getGrantedAuthorities(),
+                HR.getGrantedAuthorities(),
                 true,
                 true,
                 true,
