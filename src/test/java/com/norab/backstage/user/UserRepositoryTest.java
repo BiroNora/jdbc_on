@@ -62,13 +62,13 @@ class UserRepositoryTest {
         UUID id = UUID.fromString("fbfea6e6-2e5e-4f7d-908b-6cef802b6270");
         User user = repository.selectUserById(id).orElseThrow();
         user.setFullName("Gábor Zsazsa");
-        int result = repository.updateUser(id, user);
-        assertEquals(1, result);
+        boolean result = repository.updateUser(id, user);
+        assertEquals(true, result);
 
-        User user1 = new User("ZZTop", "zzt@gmail.com", "123", "5557-222", Set.of(), true, true, true, true);
-        UUID id1 = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
-        int result1 = repository.updateUser(id1, user1);
-        assertEquals(0, result1);
+        user = new User("ZZTop", "zzt@gmail.com", "123", "5557-222", Set.of(), true, true, true, true);
+        id = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
+        result = repository.updateUser(id, user);
+        assertEquals(false, result);
     }
 
     @Test
@@ -86,7 +86,7 @@ class UserRepositoryTest {
         Optional<User> user1 = repository.selectUserById(UUID.fromString(result));
         assertTrue(user1.isPresent());
 
-        int expected = repository.deleteUser(UUID.fromString(result));
-        assertEquals(1, expected);
+        boolean actual = repository.deleteUser(UUID.fromString(result));
+        assertEquals(true, actual);
     }
 }

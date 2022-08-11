@@ -72,7 +72,7 @@ public class UserRepository implements UserDao<User> {
     }
 
     @Override
-    public int updateUser(UUID userId, User user) {
+    public boolean updateUser(UUID userId, User user) {
         var sql = """
             UPDATE users
             SET full_name = ?, email = ?, password = ?, phone = ?, grantedauthorities = ?,
@@ -94,7 +94,7 @@ public class UserRepository implements UserDao<User> {
         if (update == 1) {
             log.info("User with id: " + userId + " is updated.");
         }
-        return update;
+        return update == 1;
     }
 
     @Override
@@ -133,7 +133,7 @@ public class UserRepository implements UserDao<User> {
     }
 
     @Override
-    public int deleteUser(UUID userId) {
+    public boolean deleteUser(UUID userId) {
         var sql = """
             DELETE FROM users
             WHERE user_id = ?;
@@ -142,7 +142,7 @@ public class UserRepository implements UserDao<User> {
         if (delete == 1) {
             log.info("User with id: " + userId + " is deleted.");
         }
-        return delete;
+        return delete == 1;
     }
 
 }

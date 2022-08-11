@@ -19,9 +19,9 @@ public interface UserDao<User> {
 
     User userByName(String name) throws UsernameNotFoundException;
 
-    int updateUser(UUID userId, User user);
+    boolean updateUser(UUID userId, User user);
 
     String insertUser(User user) throws IllegalStateException;
 
-    int deleteUser(UUID userId);
+    boolean deleteUser(UUID userId);
 }
