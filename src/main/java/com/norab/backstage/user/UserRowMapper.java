@@ -16,7 +16,6 @@ public class UserRowMapper implements RowMapper<User> {
             rs.getString("email"),
             rs.getString("password"),
             rs.getString("phone"),
-            (List<Roles>) rs.getArray("role"),
             null,
             true,
             true,

@@ -21,7 +21,6 @@ public class User extends ToJsonString implements UserDetails {
     private String email;
     private String password;
     private String phone;
-    private List<Roles> role;
     private Set<? extends GrantedAuthority> grantedAuthorities;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
@@ -72,7 +71,6 @@ public class User extends ToJsonString implements UserDetails {
                 String email,
                 String password,
                 String phone,
-                List<Roles> role,
                 Set<? extends GrantedAuthority> grantedAuthorities,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
@@ -83,7 +81,6 @@ public class User extends ToJsonString implements UserDetails {
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.role = role;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -128,14 +125,6 @@ public class User extends ToJsonString implements UserDetails {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
-    public List<Roles> getRole() {
-        return role;
-    }
-
-    public void setRole(List<Roles> role) {
-        this.role = role;
-    }
-
     @Override
     public String getUsername() {
         return null;
@@ -177,6 +166,11 @@ public class User extends ToJsonString implements UserDetails {
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             ", phone='" + phone + '\'' +
+            ", grantedAuthorities=" + grantedAuthorities +
+            ", isAccountNonExpired=" + isAccountNonExpired +
+            ", isAccountNonLocked=" + isAccountNonLocked +
+            ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+            ", isEnabled=" + isEnabled +
             '}';
     }
 }

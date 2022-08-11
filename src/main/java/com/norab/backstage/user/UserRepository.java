@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
@@ -30,16 +31,22 @@ public class UserRepository implements UserDao<User> {
 
     @Override
     public List<User> listUsers(Page page) {
-        var sql = "SELECT user_id, full_name, email, password, phone " +
-            "FROM users ORDER BY full_name LIMIT '" + page.getLimit() + "' " +
-            "OFFSET '" + page.getOffset() + "'";
-        return userJdbcTemplate.query(sql, new UserRowMapper());
+        var sql = """
+            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
+            FROM users 
+            ORDER BY full_name 
+            LIMIT ? 
+            OFFSET ?;
+            """;
+        return userJdbcTemplate.query(sql, new UserRowMapper(), page.getLimit(), page.getOffset());
     }
 
     @Override
     public Optional<User> selectUserById(UUID userId) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone
+            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users WHERE user_id = ?;
             """;
         return userJdbcTemplate.query(sql, new UserRowMapper(), userId)
@@ -50,7 +57,8 @@ public class UserRepository implements UserDao<User> {
     @Override
     public List<User> selectUserByName(String name, boolean match) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone
+            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             WHERE LOWER(full_name) LIKE LOWER(?);
             """;
@@ -67,10 +75,22 @@ public class UserRepository implements UserDao<User> {
     public int updateUser(UUID userId, User user) {
         var sql = """
             UPDATE users
-            SET full_name = ?, email = ?, password = ?, phone = ?
+            SET full_name = ?, email = ?, password = ?, phone = ?, grantedauthorities = ?,
+            isAccountNonExpired = ?, isAccountNonLocked = ?, isCredentialsNonExpired = ?, isEnabled = ?
             WHERE user_id = ?;
             """;
-        int update = userJdbcTemplate.update(sql, user.getFullName(), user.getEmail(), user.getPassword(), user.getPhone(), user.getUserId());
+        int update = userJdbcTemplate.update(
+            sql,
+            user.getFullName(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getPhone(),
+            user.getAuthorities(),
+            user.isAccountNonExpired(),
+            user.isAccountNonLocked(),
+            user.isCredentialsNonExpired(),
+            user.isEnabled(),
+            user.getUserId());
         if (update == 1) {
             log.info("User with id: " + userId + " is updated.");
         }
@@ -80,7 +100,17 @@ public class UserRepository implements UserDao<User> {
     @Override
     public String insertUser(User user) throws IllegalStateException {
         var sql = """
-            INSERT INTO users(full_name, email, password, phone) VALUES(?, ?, ?, ?);
+            INSERT INTO users(
+            full_name, 
+            email, 
+            password, 
+            phone, 
+            grantedauthorities,
+            isAccountNonExpired, 
+            isAccountNonLocked, 
+            isCredentialsNonExpired, 
+            isEnabled) 
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int update = userJdbcTemplate.update(connection -> {
@@ -89,6 +119,11 @@ public class UserRepository implements UserDao<User> {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getPhone());
+            ps.setArray(5, (Array) user.getAuthorities());
+            ps.setBoolean(6, user.isAccountNonExpired());
+            ps.setBoolean(7, user.isAccountNonLocked());
+            ps.setBoolean(8, user.isCredentialsNonExpired());
+            ps.setBoolean(9, user.isEnabled());
             return ps;
         }, keyHolder);
         if (update == 1) {
@@ -105,7 +140,7 @@ public class UserRepository implements UserDao<User> {
             """;
         int delete = userJdbcTemplate.update(sql, userId);
         if (delete == 1) {
-            log.info("Role with id: " + userId + " is deleted.");
+            log.info("User with id: " + userId + " is deleted.");
         }
         return delete;
     }
