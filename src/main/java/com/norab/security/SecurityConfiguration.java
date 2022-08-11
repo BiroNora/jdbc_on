@@ -7,7 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static com.norab.security.Roles.HR;
@@ -15,10 +19,12 @@ import static com.norab.security.Roles.HR;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+    @Autowired
     private final PasswordEncoder passwordEncoder;
-    private final ApplicationUserService applicationUserService;
 
     @Autowired
+    private final ApplicationUserService applicationUserService;
+
     public SecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
@@ -47,18 +53,19 @@ public class SecurityConfiguration {
         return provider;
     }
 
-    /*@Bean
+    /*
+    @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
             .username("user")
             .password(passwordEncoder.encode("1234"))
-            .roles(USER.name())
+            .roles(Roles.USER.name())
             .build();
 
         UserDetails staff = User.builder()
             .username("staff")
             .password(passwordEncoder.encode("1234"))
-            .roles(STAFF.name())
+            .roles(Roles.STAFF.name())
             .build();
 
         UserDetails hr = User.builder()
@@ -72,5 +79,6 @@ public class SecurityConfiguration {
             staff,
             hr
         );
-    }*/
+    }
+     */
 }

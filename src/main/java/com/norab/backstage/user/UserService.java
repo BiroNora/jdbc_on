@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService implements UserDetailsService {
-    private final UserDao userDao;
-
     @Autowired
-    public UserService(@Qualifier("userJdbcTemplate") UserDao userDao) {
+    @Qualifier("userRepository")
+    private final UserDao<User> userDao;
+
+    public UserService(@Qualifier("userRepository") UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -18,6 +21,5 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return (UserDetails) userDao
             .userByName(username);
-        //new UsernameNotFoundException(String.format("Username %s not found", username));
     }
 }

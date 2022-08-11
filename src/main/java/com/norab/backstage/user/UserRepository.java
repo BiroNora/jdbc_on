@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
+@Repository("userRepository")
 public class UserRepository implements UserDao<User> {
     private static final Logger log = LoggerFactory.getLogger(ActorRepository.class);
     @Autowired
