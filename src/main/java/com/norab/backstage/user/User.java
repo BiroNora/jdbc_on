@@ -1,7 +1,6 @@
 package com.norab.backstage.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.norab.security.Roles;
 import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
