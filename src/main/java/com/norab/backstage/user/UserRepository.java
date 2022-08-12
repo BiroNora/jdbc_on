@@ -32,11 +32,11 @@ public class UserRepository implements UserDao<User> {
     @Override
     public List<User> listUsers(Page page) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
-            FROM users 
-            ORDER BY full_name 
-            LIMIT ? 
+            FROM users
+            ORDER BY full_name
+            LIMIT ?
             OFFSET ?;
             """;
         return userJdbcTemplate.query(sql, new UserRowMapper(), page.getLimit(), page.getOffset());
@@ -45,7 +45,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public Optional<User> selectUserById(UUID userId) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users WHERE user_id = ?;
             """;
@@ -57,7 +57,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public List<User> selectUserByName(String name, boolean match) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             WHERE LOWER(full_name) LIKE LOWER(?);
@@ -69,7 +69,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public User userByName(String name) throws UsernameNotFoundException {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             WHERE LOWER(full_name) = LOWER(?);
@@ -85,7 +85,7 @@ public class UserRepository implements UserDao<User> {
     public boolean updateUser(UUID userId, User user) {
         var sql = """
             UPDATE users
-            SET full_name = ?, email = ?, password = ?, phone = ?, grantedauthorities = ?,
+            SET full_name = ?, email = ?, password = ?, phone = ?, grantedAuthorities = ?,
             isAccountNonExpired = ?, isAccountNonLocked = ?, isCredentialsNonExpired = ?, isEnabled = ?
             WHERE user_id = ?;
             """;
@@ -111,15 +111,15 @@ public class UserRepository implements UserDao<User> {
     public String insertUser(User user) throws IllegalStateException {
         var sql = """
             INSERT INTO users(
-            full_name, 
-            email, 
-            password, 
-            phone, 
-            grantedauthorities,
-            isAccountNonExpired, 
-            isAccountNonLocked, 
-            isCredentialsNonExpired, 
-            isEnabled) 
+            full_name,
+            email,
+            password,
+            phone,
+            grantedAuthorities,
+            isAccountNonExpired,
+            isAccountNonLocked,
+            isCredentialsNonExpired,
+            isEnabled)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
