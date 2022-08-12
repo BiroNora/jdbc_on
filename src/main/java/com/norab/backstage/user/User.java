@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.norab.security.Roles.USER;
+
 public class User extends ToJsonString implements UserDetails {
     @Id
     @JsonIgnore
@@ -95,6 +97,7 @@ public class User extends ToJsonString implements UserDetails {
     }
 
     public String getFullName() {
+        System.out.println(fullName);
         return fullName;
     }
 
@@ -112,7 +115,7 @@ public class User extends ToJsonString implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return USER.getGrantedAuthorities();
     }
 
     public String getPassword() {
@@ -125,27 +128,27 @@ public class User extends ToJsonString implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return fullName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return isEnabled;
     }
 
     public String getPhone() {

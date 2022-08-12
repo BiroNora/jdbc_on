@@ -1,6 +1,7 @@
 package com.norab.backstage.auth;
 
 import com.google.common.collect.Lists;
+import com.norab.backstage.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -11,24 +12,24 @@ import java.util.Optional;
 import static com.norab.security.Roles.*;
 
 @Repository("fake")
-public class FakeApplicationUserDaoService implements ApplicationUserDao {
+public class FakeUserService implements ApplicationUserDao {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public FakeApplicationUserDaoService(PasswordEncoder passwordEncoder) {
+    public FakeUserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Optional<ApplicationUser> selectApplicationUserByName(String username) {
-        return getApplicationUsers().stream()
-            .filter(applicationUser -> username.equals(applicationUser.getUsername()))
+    public Optional<User> selectUserByName(String username) {
+        return getUsers().stream()
+            .filter(user -> username.equals(user.getUsername()))
             .findFirst();
     }
 
-    private List<ApplicationUser> getApplicationUsers() {
-        List<ApplicationUser> applicationUsers = Lists.newArrayList(
-            new ApplicationUser(
+    private List<User> getUsers() {
+        List<User> users = Lists.newArrayList(
+            new User(
                 "user",
                 passwordEncoder.encode("1234"),
                 USER.getGrantedAuthorities(),
@@ -37,7 +38,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                 true,
                 true
             ),
-            new ApplicationUser(
+            new User(
                 "staff",
                 passwordEncoder.encode("1234"),
                 STAFF.getGrantedAuthorities(),
@@ -46,7 +47,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                 true,
                 true
             ),
-            new ApplicationUser(
+            new User(
                 "hr",
                 passwordEncoder.encode("1234"),
                 HR.getGrantedAuthorities(),
@@ -56,6 +57,6 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                 true
             )
         );
-        return applicationUsers;
+        return users;
     }
 }

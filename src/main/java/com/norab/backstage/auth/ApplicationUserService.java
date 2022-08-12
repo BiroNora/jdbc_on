@@ -1,25 +1,24 @@
 package com.norab.backstage.auth;
 
+import com.norab.backstage.user.User;
+import com.norab.backstage.user.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
-public class ApplicationUserService implements UserDetailsService {
+import java.util.Optional;
 
-    private final ApplicationUserDao applicationUserDao;
-
+@Repository("csiko")
+public class ApplicationUserService implements ApplicationUserDao {
     @Autowired
-    public ApplicationUserService(ApplicationUserDao applicationUserDao) {
-        this.applicationUserDao = applicationUserDao;
-    }
+    UserDao<User> userDao;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return applicationUserDao.selectApplicationUserByName(username)
-            .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found.", username)));
+    public Optional<User> selectUserByName(String username) {
+        try {
+            return Optional.of(userDao.userByName(username));
+        } catch(UsernameNotFoundException e) {
+            return Optional.empty();
+        }
     }
 }

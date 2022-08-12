@@ -68,7 +68,17 @@ public class UserRepository implements UserDao<User> {
 
     @Override
     public User userByName(String name) throws UsernameNotFoundException {
-        return null;
+        var sql = """
+            SELECT user_id, full_name, email, password, phone, grantedauthorities,
+            isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
+            FROM users
+            WHERE LOWER(full_name) = LOWER(?);
+            """;
+        List<User> users = userJdbcTemplate.query(sql, new UserRowMapper(), name);
+        if (users == null || users.size() != 1) {
+            throw new UsernameNotFoundException("No such user");
+        }
+        return users.get(0);
     }
 
     @Override
