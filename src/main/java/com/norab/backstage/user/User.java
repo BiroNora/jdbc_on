@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class User extends ToJsonString implements UserDetails {
     private String email;
     private String password;
     private String phone;
-    private Set<? extends GrantedAuthority> grantedAuthorities;
+    private List<String> roles;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -32,14 +33,14 @@ public class User extends ToJsonString implements UserDetails {
 
     public User(String fullName,
                 String password,
-                Set<? extends GrantedAuthority> grantedAuthorities,
+                List<String> roles,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
                 boolean isEnabled) {
         this.fullName = fullName;
         this.password = password;
-        this.grantedAuthorities = grantedAuthorities;
+        this.roles = roles;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -50,7 +51,7 @@ public class User extends ToJsonString implements UserDetails {
                 String email,
                 String password,
                 String phone,
-                Set<? extends GrantedAuthority> grantedAuthorities,
+                List<String> roles,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
@@ -59,7 +60,7 @@ public class User extends ToJsonString implements UserDetails {
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.grantedAuthorities = grantedAuthorities;
+        this.roles = roles;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -71,7 +72,7 @@ public class User extends ToJsonString implements UserDetails {
                 String email,
                 String password,
                 String phone,
-                Set<? extends GrantedAuthority> grantedAuthorities,
+                List<String> roles,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
@@ -81,7 +82,7 @@ public class User extends ToJsonString implements UserDetails {
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.grantedAuthorities = grantedAuthorities;
+        this.roles = roles;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -167,7 +168,7 @@ public class User extends ToJsonString implements UserDetails {
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             ", phone='" + phone + '\'' +
-            ", grantedAuthorities=" + grantedAuthorities +
+            ", roles=" + roles +
             ", isAccountNonExpired=" + isAccountNonExpired +
             ", isAccountNonLocked=" + isAccountNonLocked +
             ", isCredentialsNonExpired=" + isCredentialsNonExpired +

@@ -35,7 +35,7 @@ class UserRepositoryTest {
 
     @Test
     void selectUserById() {
-        User user = new User("Gipsz Jakab", "gjaki@gmail.com", "passzW%", "555-222", Set.of(), true, true, true, true);
+        User user = new User("Gipsz Jakab", "gjaki@gmail.com", "passzW%", "555-222", List.of("user"), true, true, true, true);
         String userId = repository.insertUser(user);
         Optional<User> selected = repository.selectUserById(UUID.fromString(userId));
         assertTrue(selected.isPresent());
@@ -48,7 +48,7 @@ class UserRepositoryTest {
 
     @Test
     void selectUserByName() {
-        User user = new User("SpiderMan", "speedy@gmail.com", "passz123%", "5557-222", Set.of(), true, true, true, true);
+        User user = new User("SpiderMan", "speedy@gmail.com", "passz123%", "5557-222", List.of("user"), true, true, true, true);
         repository.insertUser(user);
         List<User> users = repository.selectUserByName(user.getFullName(), true);
         assertTrue(users.size() > 0);
@@ -65,7 +65,7 @@ class UserRepositoryTest {
         boolean result = repository.updateUser(id, user);
         assertEquals(true, result);
 
-        user = new User("ZZTop", "zzt@gmail.com", "123", "5557-222", Set.of(), true, true, true, true);
+        user = new User("ZZTop", "zzt@gmail.com", "123", "5557-222", List.of("user"), true, true, true, true);
         id = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
         result = repository.updateUser(id, user);
         assertEquals(false, result);
@@ -73,7 +73,7 @@ class UserRepositoryTest {
 
     @Test
     void insertUser() {
-        User user = new User("Sugar Baby", "sbaby@gmail.com", "123%", "5557-222", Set.of(), true, true, true, true);
+        User user = new User("Sugar Baby", "sbaby@gmail.com", "123%", "5557-222", List.of("user"), true, true, true, true);
         String result = repository.insertUser(user);
         Optional<User> user1 = repository.selectUserById(UUID.fromString(result));
         assertTrue(user1.isPresent());
@@ -81,7 +81,7 @@ class UserRepositoryTest {
 
     @Test
     void deleteUser() {
-        User user = new User("Man At Work", "maw@gmail.com", "1234", "5557-222", Set.of(), true, true, true, true);
+        User user = new User("Man At Work", "maw@gmail.com", "1234", "5557-222", List.of("user"), true, true, true, true);
         String result = repository.insertUser(user);
         Optional<User> user1 = repository.selectUserById(UUID.fromString(result));
         assertTrue(user1.isPresent());

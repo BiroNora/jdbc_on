@@ -15,10 +15,6 @@ public class ApplicationUserService implements ApplicationUserDao {
 
     @Override
     public Optional<User> selectUserByName(String username) {
-        try {
-            return Optional.of(userDao.userByName(username));
-        } catch(UsernameNotFoundException e) {
-            return Optional.empty();
-        }
+        return userDao.selectUserByName(username);
     }
 }

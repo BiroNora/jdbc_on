@@ -2,6 +2,7 @@ package com.norab.backstage.auth;
 
 import com.google.common.collect.Lists;
 import com.norab.backstage.user.User;
+import com.norab.backstage.user.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -32,7 +33,7 @@ public class FakeUserService implements ApplicationUserDao {
             new User(
                 "user",
                 passwordEncoder.encode("1234"),
-                USER.getGrantedAuthorities(),
+                    List.of("user"),
                 true,
                 true,
                 true,
@@ -41,7 +42,7 @@ public class FakeUserService implements ApplicationUserDao {
             new User(
                 "staff",
                 passwordEncoder.encode("1234"),
-                STAFF.getGrantedAuthorities(),
+                    List.of("staff"),
                 true,
                 true,
                 true,
@@ -50,7 +51,7 @@ public class FakeUserService implements ApplicationUserDao {
             new User(
                 "hr",
                 passwordEncoder.encode("1234"),
-                HR.getGrantedAuthorities(),
+                    List.of("hr"),
                 true,
                 true,
                 true,

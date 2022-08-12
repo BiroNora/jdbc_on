@@ -1,5 +1,7 @@
 package com.norab.backstage.auth;
 
+import com.norab.backstage.user.User;
+import com.norab.backstage.user.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;

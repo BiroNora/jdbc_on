@@ -32,7 +32,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public List<User> listUsers(Page page) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
+            SELECT user_id, full_name, email, password, phone, roles,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             ORDER BY full_name
@@ -45,7 +45,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public Optional<User> selectUserById(UUID userId) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
+            SELECT user_id, full_name, email, password, phone, roles,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users WHERE user_id = ?;
             """;
@@ -57,7 +57,7 @@ public class UserRepository implements UserDao<User> {
     @Override
     public List<User> selectUserByName(String name, boolean match) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
+            SELECT user_id, full_name, email, password, phone, roles,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             WHERE LOWER(full_name) LIKE LOWER(?);
@@ -67,25 +67,25 @@ public class UserRepository implements UserDao<User> {
     }
 
     @Override
-    public User userByName(String name) throws UsernameNotFoundException {
+    public Optional<User> selectUserByName(String name) {
         var sql = """
-            SELECT user_id, full_name, email, password, phone, grantedAuthorities,
+            SELECT user_id, full_name, email, password, phone, roles,
             isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled
             FROM users
             WHERE LOWER(full_name) = LOWER(?);
             """;
         List<User> users = userJdbcTemplate.query(sql, new UserRowMapper(), name);
         if (users == null || users.size() != 1) {
-            throw new UsernameNotFoundException("No such user");
+            return Optional.empty();
         }
-        return users.get(0);
+        return Optional.of(users.get(0));
     }
 
     @Override
     public boolean updateUser(UUID userId, User user) {
         var sql = """
             UPDATE users
-            SET full_name = ?, email = ?, password = ?, phone = ?, grantedAuthorities = ?,
+            SET full_name = ?, email = ?, password = ?, phone = ?, roles = ?,
             isAccountNonExpired = ?, isAccountNonLocked = ?, isCredentialsNonExpired = ?, isEnabled = ?
             WHERE user_id = ?;
             """;
@@ -115,7 +115,7 @@ public class UserRepository implements UserDao<User> {
             email,
             password,
             phone,
-            grantedAuthorities,
+            roles,
             isAccountNonExpired,
             isAccountNonLocked,
             isCredentialsNonExpired,

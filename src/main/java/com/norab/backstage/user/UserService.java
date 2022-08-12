@@ -13,13 +13,13 @@ public class UserService implements UserDetailsService {
     @Qualifier("userRepository")
     private final UserDao<User> userDao;
 
-    public UserService(@Qualifier("userRepository") UserDao userDao) {
+    public UserService(@Qualifier("userRepository") UserDao<User> userDao) {
         this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return (UserDetails) userDao
-            .userByName(username);
+            .selectUserByName(username).orElseThrow(() -> new UsernameNotFoundException("No such user"));
     }
 }

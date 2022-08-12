@@ -17,7 +17,7 @@ public interface UserDao<User> {
 
     List<User> selectUserByName(String name, boolean match);
 
-    User userByName(String name) throws UsernameNotFoundException;
+    Optional<User> selectUserByName(String name);
 
     boolean updateUser(UUID userId, User user);
 
