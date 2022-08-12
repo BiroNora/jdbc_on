@@ -5,7 +5,7 @@ CREATE TABLE users (
   full_name VARCHAR(50) NOT NULL,
 	email VARCHAR(50) UNIQUE NOT NULL,
 	password VARCHAR(150) NOT NULL,
-	phone VARCHAR(50) NOT NULL,
+	phone VARCHAR(50) NULL,
 	grantedAuthorities VARCHAR(150),
 	isAccountNonExpired BOOLEAN DEFAULT TRUE,
 	isAccountNonLocked BOOLEAN DEFAULT TRUE,
