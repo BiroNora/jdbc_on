@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userDao
+        return userDao
             .selectUserByName(username).orElseThrow(() -> new UsernameNotFoundException("No such user"));
     }
 }

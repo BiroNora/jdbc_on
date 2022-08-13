@@ -48,33 +48,4 @@ public class SecurityConfiguration {
         provider.setUserDetailsService(applicationUserDetailsService);
         return provider;
     }
-
-    /*
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-            .username("user")
-            .password(passwordEncoder.encode("1234"))
-            .roles(Roles.USER.name())
-            .build();
-
-        UserDetails staff = User.builder()
-            .username("staff")
-            .password(passwordEncoder.encode("1234"))
-            .roles(Roles.STAFF.name())
-            .build();
-
-        UserDetails hr = User.builder()
-            .username("hr")
-            .password(passwordEncoder.encode("1234"))
-            .roles(HR.name())
-            .build();
-
-        return new InMemoryUserDetailsManager(
-            user,
-            staff,
-            hr
-        );
-    }
-     */
 }
