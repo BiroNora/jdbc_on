@@ -11,6 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.*;
 
 public class User extends ToJsonString implements UserDetails {
+    private final boolean isAccountNonExpired;
+    private final boolean isAccountNonLocked;
+    private final boolean isCredentialsNonExpired;
+    private final boolean isEnabled;
     @Id
     private UUID userId;
     private String fullName;
@@ -23,10 +27,6 @@ public class User extends ToJsonString implements UserDetails {
     private Set<GrantedAuthority> grantedAuthorities;
     @JsonIgnore
     private List<String> rolesList;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
 
     public User(String fullName,
                 String password,
