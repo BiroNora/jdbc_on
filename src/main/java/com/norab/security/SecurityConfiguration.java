@@ -4,6 +4,7 @@ import com.norab.backstage.auth.ApplicationUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static com.norab.security.Roles.HR;
+import static com.norab.security.Roles.STAFF;
 
 @Configuration
 @EnableWebSecurity
@@ -33,10 +35,17 @@ public class SecurityConfiguration {
             .authorizeRequests()
             .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
             .antMatchers("/management/api/**").hasRole(HR.name())
+            .antMatchers("/swagger-ui/**").hasAnyRole(STAFF.name(), HR.name())
+            .antMatchers("/v3/**").hasAnyRole(STAFF.name(), HR.name())
+            .antMatchers(HttpMethod.GET, "/api/v1/**").anonymous()
+            .antMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority(Permissions.SHOW_WRITE.name())
+            .antMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority(Permissions.SHOW_WRITE.name())
+            .antMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority(Permissions.SHOW_WRITE.name())
             .anyRequest()
             .authenticated()
             .and()
             .formLogin();
+
 
         return http.build();
     }
