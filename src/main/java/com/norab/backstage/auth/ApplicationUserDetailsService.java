@@ -15,7 +15,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     private final ApplicationUserDao applicationUserDao;
 
     @Autowired
-    public ApplicationUserDetailsService(@Qualifier("csiko") ApplicationUserDao applicationUserDao) {
+    public ApplicationUserDetailsService(@Qualifier("userRepository") ApplicationUserDao applicationUserDao) {
         this.applicationUserDao = applicationUserDao;
     }
 

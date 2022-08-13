@@ -1,5 +1,6 @@
 package com.norab.backstage.user;
 
+import com.norab.backstage.auth.ApplicationUserDao;
 import com.norab.show.actor.ActorRepository;
 import com.norab.utils.Page;
 import com.norab.utils.Utils;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository("userRepository")
-public class UserRepository implements UserDao<User> {
+public class UserRepository implements UserDao<User>, ApplicationUserDao {
     private static final Logger log = LoggerFactory.getLogger(ActorRepository.class);
     @Autowired
     private final JdbcTemplate userJdbcTemplate;
