@@ -65,7 +65,7 @@ class UserRepositoryTest {
         boolean result = repository.updateUser(id, user);
         assertEquals(true, result);
 
-        user = new User(null, "ZZTop", "zzt@gmail.com", "123", "5557-222", "user", true, true, true, true);
+        user = new User(null, "ZZTop", "zzt@gmail.com", "12345", "5557-222", "user", true, true, true, true);
         id = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
         result = repository.updateUser(id, user);
         assertEquals(false, result);

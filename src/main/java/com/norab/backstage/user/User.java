@@ -33,6 +33,12 @@ public class User extends ToJsonString implements UserDetails {
     public User(String fullName,
                 String password,
                 String roles) throws IllegalArgumentException {
+        if (fullName == null || fullName.isBlank()
+            || password == null || password.isBlank() || password.length() < 4
+            || email == null || email.isBlank() || email.length() < 6
+            || roles == null) {
+            throw new IllegalArgumentException("Invalid data");
+        }
         this.fullName = fullName;
         this.password = password;
         this.roles = roles;
@@ -54,6 +60,12 @@ public class User extends ToJsonString implements UserDetails {
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
                 boolean isEnabled) throws IllegalArgumentException {
+        if (fullName == null || fullName.isBlank()
+            || password == null || password.isBlank() || password.length() < 4
+            || email == null || email.isBlank() || email.length() < 6
+            || roles == null) {
+            throw new IllegalArgumentException("Invalid data");
+        }
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
@@ -94,7 +106,6 @@ public class User extends ToJsonString implements UserDetails {
     }
 
     public String getFullName() {
-        System.out.println(fullName);
         return fullName;
     }
 
