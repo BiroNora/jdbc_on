@@ -1,69 +1,47 @@
 package com.norab.backstage.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.norab.security.Roles;
 import com.norab.utils.ToJsonString;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.norab.security.Roles.USER;
 
 public class User extends ToJsonString implements UserDetails {
     @Id
-    @JsonIgnore
     private UUID userId;
     private String fullName;
     private String email;
+    @JsonIgnore
     private String password;
     private String phone;
-    private List<String> roles;
+    private String roles;
+    @JsonIgnore
+    private Set<GrantedAuthority> grantedAuthorities;
+    @JsonIgnore
+    private List<String> rolesList;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
-    public User() {
-    }
-
     public User(String fullName,
                 String password,
-                List<String> roles,
-                boolean isAccountNonExpired,
-                boolean isAccountNonLocked,
-                boolean isCredentialsNonExpired,
-                boolean isEnabled) {
+                String roles) throws IllegalArgumentException {
         this.fullName = fullName;
         this.password = password;
         this.roles = roles;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
-    }
+        this.isAccountNonExpired = true;
+        this.isAccountNonLocked = true;
+        this.isCredentialsNonExpired = true;
+        this.isEnabled = true;
 
-    public User(String fullName,
-                String email,
-                String password,
-                String phone,
-                List<String> roles,
-                boolean isAccountNonExpired,
-                boolean isAccountNonLocked,
-                boolean isCredentialsNonExpired,
-                boolean isEnabled) {
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.roles = roles;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
+        setUpRoles(roles);
     }
 
     public User(UUID userId,
@@ -71,11 +49,11 @@ public class User extends ToJsonString implements UserDetails {
                 String email,
                 String password,
                 String phone,
-                List<String> roles,
+                String roles,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
-                boolean isEnabled) {
+                boolean isEnabled) throws IllegalArgumentException {
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
@@ -86,6 +64,25 @@ public class User extends ToJsonString implements UserDetails {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+
+        setUpRoles(roles);
+    }
+
+    private void setUpRoles(String input) throws IllegalArgumentException {
+        grantedAuthorities = new HashSet<>();
+        rolesList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (String r : input.toUpperCase().split(",")) {
+            Roles nr = Roles.valueOf(r.strip());
+            if (!sb.isEmpty()) {
+                sb.append(',');
+            }
+            sb.append(nr.name());
+            rolesList.add(nr.name());
+            grantedAuthorities.addAll(nr.getGrantedAuthorities());
+        }
+        roles = sb.toString();
     }
 
     public UUID getUserId() {
@@ -113,9 +110,18 @@ public class User extends ToJsonString implements UserDetails {
         this.email = email;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return USER.getGrantedAuthorities();
+        return grantedAuthorities;
+    }
+
+    public List<String> getRoles() {
+        return rolesList;
+    }
+    @JsonIgnore
+    public String getRolesAsString() {
+        return roles;
     }
 
     public String getPassword() {

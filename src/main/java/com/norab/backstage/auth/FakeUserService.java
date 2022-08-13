@@ -30,29 +30,17 @@ public class FakeUserService implements ApplicationUserDao {
             new User(
                 "user",
                 passwordEncoder.encode("1234"),
-                List.of("user"),
-                true,
-                true,
-                true,
-                true
+                "user"
             ),
             new User(
                 "staff",
                 passwordEncoder.encode("1234"),
-                List.of("staff"),
-                true,
-                true,
-                true,
-                true
+                "staff"
             ),
             new User(
                 "hr",
                 passwordEncoder.encode("1234"),
-                List.of("hr"),
-                true,
-                true,
-                true,
-                true
+                "hr"
             )
         );
     }

@@ -75,7 +75,7 @@ public class UserRepository implements UserDao<User>, ApplicationUserDao {
             WHERE LOWER(full_name) = LOWER(?);
             """;
         List<User> users = userJdbcTemplate.query(sql, new UserRowMapper(), name);
-        if (users == null || users.size() != 1) {
+        if (users.size() != 1) {
             return Optional.empty();
         }
         return Optional.of(users.get(0));
@@ -95,12 +95,12 @@ public class UserRepository implements UserDao<User>, ApplicationUserDao {
             user.getEmail(),
             user.getPassword(),
             user.getPhone(),
-            user.getAuthorities(),
+            user.getRolesAsString(),
             user.isAccountNonExpired(),
             user.isAccountNonLocked(),
             user.isCredentialsNonExpired(),
             user.isEnabled(),
-            user.getUserId());
+            userId);
         if (update == 1) {
             log.info("User with id: " + userId + " is updated.");
         }
@@ -129,7 +129,7 @@ public class UserRepository implements UserDao<User>, ApplicationUserDao {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getPhone());
-            ps.setArray(5, (Array) user.getAuthorities());
+            ps.setString(5, user.getRolesAsString());
             ps.setBoolean(6, user.isAccountNonExpired());
             ps.setBoolean(7, user.isAccountNonLocked());
             ps.setBoolean(8, user.isCredentialsNonExpired());
