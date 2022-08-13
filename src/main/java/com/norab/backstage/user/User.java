@@ -10,8 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
-import static com.norab.security.Roles.USER;
-
 public class User extends ToJsonString implements UserDetails {
     @Id
     private UUID userId;
@@ -25,10 +23,10 @@ public class User extends ToJsonString implements UserDetails {
     private Set<GrantedAuthority> grantedAuthorities;
     @JsonIgnore
     private List<String> rolesList;
-    private boolean isAccountNonExpired;
-    private boolean isAccountNonLocked;
-    private boolean isCredentialsNonExpired;
-    private boolean isEnabled;
+    private final boolean isAccountNonExpired;
+    private final boolean isAccountNonLocked;
+    private final boolean isCredentialsNonExpired;
+    private final boolean isEnabled;
 
     public User(String fullName,
                 String password,
@@ -130,6 +128,7 @@ public class User extends ToJsonString implements UserDetails {
     public List<String> getRoles() {
         return rolesList;
     }
+
     @JsonIgnore
     public String getRolesAsString() {
         return roles;
