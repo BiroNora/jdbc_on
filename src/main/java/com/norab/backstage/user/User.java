@@ -28,16 +28,16 @@ public class User extends ToJsonString implements UserDetails {
     @JsonIgnore
     private List<String> rolesList;
 
-    public User(String fullName,
+    public User(String email,
                 String password,
                 String roles) throws IllegalArgumentException {
-        if (fullName == null || fullName.isBlank()
-            || password == null || password.isBlank() || password.length() < 4
+        if (password == null || password.isBlank() || password.length() < 4
             || email == null || email.isBlank() || email.length() < 6
             || roles == null) {
             throw new IllegalArgumentException("Invalid data");
         }
-        this.fullName = fullName;
+        this.fullName = email;
+        this.email = email;
         this.password = password;
         this.roles = roles;
         this.isAccountNonExpired = true;

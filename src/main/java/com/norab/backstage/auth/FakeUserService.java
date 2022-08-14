@@ -28,17 +28,17 @@ public class FakeUserService implements ApplicationUserDao {
     private List<User> getUsers() {
         return Lists.newArrayList(
             new User(
-                "user",
+                "user@gmail.com",
                 passwordEncoder.encode("1234"),
                 "user"
             ),
             new User(
-                "staff",
+                "staff@movie.com",
                 passwordEncoder.encode("1234"),
                 "staff"
             ),
             new User(
-                "hr",
+                "hr@movie.com",
                 passwordEncoder.encode("1234"),
                 "hr"
             )
