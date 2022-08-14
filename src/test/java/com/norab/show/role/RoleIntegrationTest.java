@@ -1,11 +1,15 @@
 package com.norab.show.role;
 
 import com.cedarsoftware.util.io.JsonReader;
+import com.norab.security.Permissions;
 import com.norab.show.photo.Photo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,6 +19,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,6 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RoleIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
+    private GrantedAuthority writeGrant;
+
+    @BeforeEach
+    public void setup() {
+        writeGrant = new SimpleGrantedAuthority(Permissions.SHOW_WRITE.getPermission());
+    }
 
     @Test
     public void listAllRolesDefault() throws Exception {
@@ -64,6 +75,7 @@ public class RoleIntegrationTest {
 
         Plays play = new Plays("Purple Panther", 4, 3);
         mockMvc.perform(put(url)
+                .with(user("user").authorities(writeGrant))
                 .content(play.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
@@ -85,6 +97,7 @@ public class RoleIntegrationTest {
     void insertRoleTest() throws Exception {
         Plays p = new Plays("Norrington", 1, 1);
         mockMvc.perform(post("/api/v1/roles")
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
@@ -101,6 +114,7 @@ public class RoleIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/roles")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().is4xxClientError());
@@ -115,6 +129,7 @@ public class RoleIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/roles")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().is4xxClientError());
@@ -126,11 +141,13 @@ public class RoleIntegrationTest {
         Photo p = new Photo("https", 2, 5, (int) role_id);
 
         mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/v1/roles/" + role_id))
+        mockMvc.perform(delete("/api/v1/roles/" + role_id)
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
@@ -142,7 +159,8 @@ public class RoleIntegrationTest {
     @Test
     void deleteRoleByValidId_WithNoReference() throws Exception {
         Long role_id = insertRole("Norfolk Earl", 2, 5);
-        mockMvc.perform(delete("/api/v1/roles/" + role_id))
+        mockMvc.perform(delete("/api/v1/roles/" + role_id)
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/roles"))
@@ -153,7 +171,8 @@ public class RoleIntegrationTest {
 
     @Test
     void deleteRoleByInvalidId() throws Exception {
-        mockMvc.perform(delete("/api/v1/roles/33333"))
+        mockMvc.perform(delete("/api/v1/roles/33333")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().is4xxClientError());
 
         mockMvc.perform(get("/api/v1/roles"))
@@ -164,6 +183,7 @@ public class RoleIntegrationTest {
     Long insertRole(String roleName, Integer movieId, Integer actorId) throws Exception {
         Plays p = new Plays(roleName, movieId, actorId);
         MvcResult result = mockMvc.perform(post("/api/v1/roles")
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())

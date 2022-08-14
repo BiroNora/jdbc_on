@@ -1,10 +1,14 @@
 package com.norab.show.photo;
 
 import com.cedarsoftware.util.io.JsonReader;
+import com.norab.security.Permissions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -13,6 +17,7 @@ import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,6 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PhotoIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
+    private GrantedAuthority writeGrant;
+
+    @BeforeEach
+    public void setup() {
+        writeGrant = new SimpleGrantedAuthority(Permissions.SHOW_WRITE.getPermission());
+    }
 
     @Test
     public void listAllPhotos() throws Exception {
@@ -54,6 +65,7 @@ public class PhotoIntegrationTest {
         Photo p = new Photo("https://github.com/soft-loan", 1, 1, null);
 
         mockMvc.perform(put(url)
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
@@ -68,6 +80,7 @@ public class PhotoIntegrationTest {
     void insertPhotoTest() throws Exception {
         Photo p = new Photo("http", null, null, 1);
         mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
@@ -84,6 +97,7 @@ public class PhotoIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().is4xxClientError());
@@ -98,6 +112,7 @@ public class PhotoIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().is4xxClientError());
@@ -112,6 +127,7 @@ public class PhotoIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .header("Content-Type", "application/json"))
             .andExpect(status().is4xxClientError());
@@ -120,7 +136,8 @@ public class PhotoIntegrationTest {
     @Test
     void deletePhotoByValidId() throws Exception {
         long photo_id = insertPhoto("/valami.jpg", null, 2, null);
-        mockMvc.perform(delete("/api/v1/photos/" + photo_id))
+        mockMvc.perform(delete("/api/v1/photos/" + photo_id)
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/photos"))
@@ -132,7 +149,8 @@ public class PhotoIntegrationTest {
 
     @Test
     void deletePhotoByInvalidId() throws Exception {
-        mockMvc.perform(delete("/api/v1/photos/32254"))
+        mockMvc.perform(delete("/api/v1/photos/32254")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().is4xxClientError());
 
         mockMvc.perform(get("/api/v1/photos"))
@@ -143,6 +161,7 @@ public class PhotoIntegrationTest {
     Long insertPhoto(String url, Integer movieId, Integer actorId, Integer roleId) throws Exception {
         Photo p = new Photo(url, movieId, actorId, roleId);
         MvcResult result = mockMvc.perform(post("/api/v1/photos")
+                .with(user("user").authorities(writeGrant))
                 .content(p.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())

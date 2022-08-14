@@ -1,13 +1,18 @@
 package com.norab.show.genre;
 
+import com.norab.security.Permissions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -19,6 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GenreIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
+    private GrantedAuthority writeGrant;
+
+    @BeforeEach
+    public void setup() {
+        writeGrant = new SimpleGrantedAuthority(Permissions.SHOW_WRITE.getPermission());
+    }
 
     @Test
     public void selectGenres() throws Exception {
@@ -118,11 +129,13 @@ public class GenreIntegrationTest {
             }
             """;
         mockMvc.perform(post("/api/v1/genres")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .contentType("application/json"))
             .andExpect(status().isOk());
 
         mockMvc.perform(post("/api/v1/genres")
+                .with(user("user").authorities(writeGrant))
                 .content(data)
                 .contentType("application/json"))
             .andExpect(status().is4xxClientError());
@@ -132,17 +145,20 @@ public class GenreIntegrationTest {
     void deleteGenreByValidValues() throws Exception {
         String g = new Genre(1, "dramatic").jsonString();
         mockMvc.perform(post("/api/v1/genres")
+                .with(user("user").authorities(writeGrant))
                 .content(g)
                 .contentType("application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/v1/genres/1?genre=dramatic"))
+        mockMvc.perform(delete("/api/v1/genres/1?genre=dramatic")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
     }
 
     @Test
     void deleteGenreByInvalidValues() throws Exception {
-        mockMvc.perform(delete("/api/v1/genres/100?genre=dramatic"))
+        mockMvc.perform(delete("/api/v1/genres/100?genre=dramatic")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isNotFound());
     }
 }

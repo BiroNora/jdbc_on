@@ -2,10 +2,14 @@ package com.norab.show.movie;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
+import com.norab.security.Permissions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,6 +19,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,6 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MovieIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
+    private GrantedAuthority writeGrant;
+
+    @BeforeEach
+    public void setup() {
+        writeGrant = new SimpleGrantedAuthority(Permissions.SHOW_WRITE.getPermission());
+    }
 
     @Test
     public void listAllMovies() throws Exception {
@@ -87,6 +98,7 @@ public class MovieIntegrationTest {
         Movie movie = new Movie("Minden végzet nehéz", "Something''s Gotta Give", (short) 2003);
 
         mockMvc.perform(put("/api/v1/movies/" + id)
+                .with(user("user").authorities(writeGrant))
                 .content(movie.jsonString())
                 .header("Content-Type", "application/json"))
             .andDo(print())
@@ -103,6 +115,7 @@ public class MovieIntegrationTest {
         String s = new Movie("A szajré", "The Score", (short) 2001).jsonString();
 
         mockMvc.perform(post("/api/v1/movies")
+                .with(user("user").authorities(writeGrant))
                 .content(s)
                 .contentType("application/json"))
             .andExpect(status().isOk())
@@ -130,18 +143,21 @@ public class MovieIntegrationTest {
         String roleData = JsonWriter.objectToJson(lp);
 
         mockMvc.perform(post("/api/v1/roles")
+                .with(user("user").authorities(writeGrant))
                 .content(roleData)
                 .contentType("application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(delete(movieUrl))
+        mockMvc.perform(delete(movieUrl)
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isConflict());
 
         mockMvc.perform(get("/api/v1/movies"))
             .andExpect(status().isOk())
             .andExpect(content().string(containsString(title)));
 
-        mockMvc.perform(delete(movieUrl + "?force=true"))
+        mockMvc.perform(delete(movieUrl + "?force=true")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/movies"))
@@ -152,7 +168,8 @@ public class MovieIntegrationTest {
 
     @Test
     void deleteMovieByValidId_NoReferenceConflict() throws Exception {
-        mockMvc.perform(delete("/api/v1/movies/6"))
+        mockMvc.perform(delete("/api/v1/movies/6")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/movies"))
@@ -163,13 +180,15 @@ public class MovieIntegrationTest {
 
     @Test
     void deleteMovieByInvalidId() throws Exception {
-        mockMvc.perform(delete("/api/v1/movies/7175"))
+        mockMvc.perform(delete("/api/v1/movies/7175")
+                .with(user("user").authorities(writeGrant)))
             .andExpect(status().is4xxClientError());
     }
 
     Long insertMovie(String title, Short releaseDate) throws Exception {
         Movie m = new Movie(title, title, releaseDate);
         MvcResult result = mockMvc.perform(post("/api/v1/movies")
+                .with(user("user").authorities(writeGrant))
                 .content(m.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())

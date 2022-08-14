@@ -12,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.norab.security.Permissions.SHOW_WRITE;
 import static com.norab.security.Roles.HR;
 import static com.norab.security.Roles.STAFF;
@@ -35,8 +33,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and()
+            //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            //.and()
+            .csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "index","/login/*", "/css/*", "/js/*").permitAll()
             .antMatchers("/management/api/**").hasRole(HR.name())
