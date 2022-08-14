@@ -9,25 +9,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,9 +46,9 @@ public class ActorIntegrationTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
+            .webAppContextSetup(context)
+            .apply(springSecurity())
+            .build();
         writeGrant = new SimpleGrantedAuthority(Permissions.SHOW_WRITE.getPermission());
     }
 
@@ -73,7 +70,7 @@ public class ActorIntegrationTest {
     @Test
     public void listAllActors() throws Exception {
         mockMvc.perform(get("/api/v1/actors?page=1&size=10")
-                        .with(user("user").authorities(writeGrant)))
+                .with(user("user").authorities(writeGrant)))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Donald Sutherland")));
@@ -83,7 +80,7 @@ public class ActorIntegrationTest {
     public void listAllActors_DefaultParameters() throws Exception {
         mockMvc.perform(
                 get("/api/v1/actors")
-                        .with(user("user").password("pass").roles("XXX")))
+                    .with(user("user").password("pass").roles("XXX")))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Donald Sutherland")));
@@ -101,8 +98,8 @@ public class ActorIntegrationTest {
             .andExpect(jsonPath("$.actor_id").isNumber());
 
         mockMvc.perform(get("/api/v1/actors?page=2&size=10")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Jacky Nichols")));
@@ -111,8 +108,8 @@ public class ActorIntegrationTest {
     @Test
     void getActorByValidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/2")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Greg")));
@@ -121,8 +118,8 @@ public class ActorIntegrationTest {
     @Test
     void getActorByInvalidId() throws Exception {
         mockMvc.perform(get("/api/v1/actors/123456")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().is4xxClientError());
     }
@@ -130,8 +127,8 @@ public class ActorIntegrationTest {
     @Test
     void getMoviesByActor() throws Exception {
         mockMvc.perform(get("/api/v1/crossed/movies/actor/1")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Karib")));
@@ -143,14 +140,14 @@ public class ActorIntegrationTest {
         Person actor = new Person("Haumann Péter", (short) 1941, (short) 2022);
 
         mockMvc.perform(put("/api/v1/actors/" + actorId)
-                        .with(user("user").authorities(writeGrant))
-                        .content(actor.jsonString())
+                .with(user("user").authorities(writeGrant))
+                .content(actor.jsonString())
                 .header("Content-Type", "application/json"))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors/" + actorId)
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("2022")));
@@ -172,8 +169,8 @@ public class ActorIntegrationTest {
     void insertUnknown() throws Exception {
         Person a = new Person("Kiss Manyi", null);
         mockMvc.perform(post("/api/v1/actors")
-                        .with(user("user").authorities(writeGrant))
-                        .content(a.jsonString())
+                .with(user("user").authorities(writeGrant))
+                .content(a.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.actor_id").exists())
@@ -184,13 +181,13 @@ public class ActorIntegrationTest {
     void deleteActorByValidId_NoReferenceConflict() throws Exception {
         Long actorId = insertActor("Dakota Johnson", (short) 1989);
         mockMvc.perform(delete("/api/v1/actors/" + actorId)
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/actors")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("Dakota Johnson"))));
@@ -204,27 +201,27 @@ public class ActorIntegrationTest {
         Map<String, Object> lp = Map.of("roleName", "LP", "movieId", 3L, "actorId", actorId);
         String roleData = JsonWriter.objectToJson(lp);
         mockMvc.perform(post("/api/v1/roles")
-                        .with(user("user").authorities(writeGrant))
-                        .content(roleData)
+                .with(user("user").authorities(writeGrant))
+                .content(roleData)
                 .contentType("application/json"))
             .andExpect(status().isOk());
 
-        mockMvc.perform(delete(actorUrl)                .with(user("user").authorities(writeGrant))
-                )
+        mockMvc.perform(delete(actorUrl).with(user("user").authorities(writeGrant))
+            )
             .andExpect(status().isConflict());
 
         mockMvc.perform(get("/api/v1/actors")
-                        .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk());
 
-        mockMvc.perform(delete(actorUrl + "?force=true")                .with(user("user").authorities(writeGrant))
-                )
+        mockMvc.perform(delete(actorUrl + "?force=true").with(user("user").authorities(writeGrant))
+            )
             .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/v1/actors")                .with(user("user").authorities(writeGrant))
-                )
+        mockMvc.perform(get("/api/v1/actors").with(user("user").authorities(writeGrant))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(not(containsString("Melanie Griffith"))));
@@ -233,16 +230,16 @@ public class ActorIntegrationTest {
     @Test
     void deleteActorByInvalidId() throws Exception {
         mockMvc.perform(delete("/api/v1/actors/2222")
-                    .with(user("user").authorities(writeGrant))
-                )
+                .with(user("user").authorities(writeGrant))
+            )
             .andExpect(status().is4xxClientError());
     }
 
     Long insertActor(String userName, Short birthDate) throws Exception {
         Person a = new Person(userName, birthDate);
         MvcResult result = mockMvc.perform(post("/api/v1/actors")
-                        .with(user("user").authorities(writeGrant))
-                        .content(a.jsonString())
+                .with(user("user").authorities(writeGrant))
+                .content(a.jsonString())
                 .contentType("application/json"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.actor_id").exists())

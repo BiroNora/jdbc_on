@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.norab.security.Permissions.SHOW_WRITE;
 import static com.norab.security.Roles.HR;
@@ -37,7 +36,7 @@ public class SecurityConfiguration {
             //.and()
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/", "index","/login/*", "/css/*", "/js/*").permitAll()
+            .antMatchers("/", "index", "/login/*", "/css/*", "/js/*").permitAll()
             .antMatchers("/management/api/**").hasRole(HR.name())
             .antMatchers("/swagger-ui/**").hasAnyRole(STAFF.name(), HR.name())
             .antMatchers("/v3/**").hasAnyRole(STAFF.name(), HR.name())
@@ -49,8 +48,8 @@ public class SecurityConfiguration {
             .authenticated()
             .and()
             .formLogin()
-                .loginPage("/login")
-                .permitAll()
+            .loginPage("/login")
+            .permitAll()
             .defaultSuccessUrl("/box", true)
             //.and()
             //.rememberMe()
@@ -58,7 +57,7 @@ public class SecurityConfiguration {
             //.key("somethingverysecured")
             .and()
             .logout()
-                .logoutUrl("/logout")
+            .logoutUrl("/logout")
             .logoutSuccessUrl("/login");
 
         return http.build();

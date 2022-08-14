@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,12 +62,12 @@ class UserRepositoryTest {
         User user = repository.selectUserById(id).orElseThrow();
         user.setFullName("Gábor Zsazsa");
         boolean result = repository.updateUser(id, user);
-        assertEquals(true, result);
+        assertTrue(result);
 
         user = new User(null, "ZZTop", "zzt@gmail.com", "12345", "5557-222", "user", true, true, true, true);
         id = UUID.fromString("ea6e6-2e5e-4f7d-908b-6cef802b6270");
         result = repository.updateUser(id, user);
-        assertEquals(false, result);
+        assertFalse(result);
     }
 
     @Test
@@ -87,6 +86,6 @@ class UserRepositoryTest {
         assertTrue(user1.isPresent());
 
         boolean actual = repository.deleteUser(UUID.fromString(result));
-        assertEquals(true, actual);
+        assertTrue(actual);
     }
 }
