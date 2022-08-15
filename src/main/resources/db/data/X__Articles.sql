@@ -6,6 +6,14 @@ CREATE TABLE articles (
     body TEXT NULL,
     rating BIGINT NOT NULL
     movie_id SERIAL NOT NULL
+    CONSTRAINT fk_plays_user_id
+        FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON DELETE CASCADE
+    CONSTRAINT fk_plays_movie_id
+        FOREIGN KEY (movie_id)
+        REFERENCES movies (movie_id)
+        ON DELETE CASCADE
 );
 
 insert into articles (art_id, user_id, body, rating, movie_id) values (1, '642cb71e-8a65-46d3-abef-ec633080e372', 'luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est', 5, 6604);

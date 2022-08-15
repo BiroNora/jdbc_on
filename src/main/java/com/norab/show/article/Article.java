@@ -1,4 +1,4 @@
-package com.norab.backstage.article;
+package com.norab.show.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
@@ -10,13 +10,13 @@ public class Article {
     @JsonIgnore
     private Integer artId;
     private UUID userId;
-    private String article;
+    private String body;
     private Integer star;
     private Integer movieId;
 
-    public Article(UUID userId, String article, Integer star, Integer movieId) {
+    public Article(UUID userId, String body, Integer star, Integer movieId) {
         this.userId = userId;
-        this.article = article;
+        this.body = body;
         this.star = star;
         this.movieId = movieId;
     }
@@ -24,10 +24,10 @@ public class Article {
     public Article() {
     }
 
-    public Article(Integer artId, UUID userId, String article, Integer star, Integer movieId) {
+    public Article(Integer artId, UUID userId, String body, Integer star, Integer movieId) {
         this.artId = artId;
         this.userId = userId;
-        this.article = article;
+        this.body = body;
         this.star = star;
         this.movieId = movieId;
     }
@@ -48,12 +48,12 @@ public class Article {
         this.userId = userId;
     }
 
-    public String getArticle() {
-        return article;
+    public String getBody() {
+        return body;
     }
 
-    public void setArticle(String article) {
-        this.article = article;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public Integer getStar() {
@@ -77,7 +77,7 @@ public class Article {
         return "Article{" +
             "artId=" + artId +
             ", userId=" + userId +
-            ", article='" + article + '\'' +
+            ", body='" + body + '\'' +
             ", star=" + star +
             ", movieId=" + movieId +
             '}';
