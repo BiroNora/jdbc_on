@@ -1,5 +1,5 @@
 
-CREATE TABLE articles (
+create TABLE articles (
     art_id SERIAL NOT NULL PRIMARY KEY,
     user_id UUID NOT NULL,
     body TEXT NULL,
@@ -8,11 +8,11 @@ CREATE TABLE articles (
     CONSTRAINT fk_plays_movie_id
         FOREIGN KEY (movie_id)
         REFERENCES movies (movie_id)
-        ON DELETE CASCADE,
+        ON delete CASCADE,
     CONSTRAINT fk_unique_rate UNIQUE (user_id, movie_id)
 );
 
-CREATE INDEX ON articles (user_id, movie_id);
+create index on articles (user_id, movie_id);
 
 insert into articles (user_id, body, rating, movie_id) values ('a7c303ad-bc27-4175-aa02-cc53f4f68045', 'luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est', 5, 6604);
 insert into articles (user_id, body, rating, movie_id) values ('da3c8987-8f4d-4933-83b6-c632dfa5e4a1', 'vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus in est risus', 4, 9918);

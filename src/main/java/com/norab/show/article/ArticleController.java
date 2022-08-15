@@ -1,6 +1,5 @@
 package com.norab.show.article;
 
-import com.norab.show.movie.Movie;
 import com.norab.utils.Page;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,20 +1,12 @@
 package com.norab.backstage.user;
 
-import com.norab.security.Permissions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserTest {
 

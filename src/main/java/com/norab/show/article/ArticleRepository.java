@@ -1,7 +1,5 @@
 package com.norab.show.article;
 
-import com.norab.show.movie.Movie;
-import com.norab.show.movie.MovieRowMapper;
 import com.norab.utils.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

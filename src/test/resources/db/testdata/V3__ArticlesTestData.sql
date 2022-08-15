@@ -1,5 +1,5 @@
 
-CREATE TABLE articles (
+create TABLE articles (
     art_id SERIAL NOT NULL PRIMARY KEY,
     user_id UUID NOT NULL DEFAULT random_uuid(),
     body VARCHAR(255) NULL,
@@ -8,11 +8,11 @@ CREATE TABLE articles (
     CONSTRAINT fk_plays_user_id
         FOREIGN KEY (user_id)
         REFERENCES users (user_id)
-        ON DELETE CASCADE
+        ON delete CASCADE
     CONSTRAINT fk_plays_movie_id
         FOREIGN KEY (movie_id)
         REFERENCES movies (movie_id)
-        ON DELETE CASCADE
+        ON delete CASCADE
 );
 
 insert into articles (art_id, user_id, body, rating, movie_id) values (1, 'a7c303ad-bc27-4175-aa02-cc53f4f68045', 'luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est', 5, 6604);
