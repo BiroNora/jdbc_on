@@ -120,7 +120,7 @@ public class ArticleRepository implements ArticleDao<Article> {
     }
 
     @Override
-    public Optional<Article> selectArticlesByMovieId(Integer movieId, Page page) {
+    public List<Article> selectArticlesByMovieId(Integer movieId, Page page) {
         var sql = """
             SELECT * FROM articles
             WHERE movie_id = ?
@@ -128,12 +128,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             LIMIT ? 
             OFFSET ?;
             """;
-        Optional<Article> selected = jdbcTemplate.query(sql, new ArticleRowMapper(), movieId, page.getLimit(), page.getOffset())
-            .stream().findFirst();
-        if (selected.isPresent()) {
-            log.info(String.format("Article with movieid: %d is selected.", movieId));
-        }
-        return selected;
+        return jdbcTemplate.query(sql, new ArticleRowMapper(), movieId, page.getLimit(), page.getOffset());
     }
 
     @Override

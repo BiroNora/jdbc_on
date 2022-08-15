@@ -31,7 +31,7 @@ public class ArticleController {
     }
 
     @GetMapping("/movie/{id}")
-    public Optional<Article> selectArticlesByMovieId(
+    public List<Article> selectArticlesByMovieId(
         @PathVariable("id") Integer movieId,
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "size", defaultValue = "10") Integer size) {

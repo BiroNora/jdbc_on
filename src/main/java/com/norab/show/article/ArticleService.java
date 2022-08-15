@@ -32,7 +32,7 @@ public class ArticleService {
         return articleDao.deleteArticle(artId);
     }
 
-    public Optional<Article> selectArticlesByMovieId(Integer movieId, Page page) {
+    public List<Article> selectArticlesByMovieId(Integer movieId, Page page) {
         return articleDao.selectArticlesByMovieId(movieId, page);
     }
 

@@ -19,7 +19,7 @@ public interface ArticleDao<Article> {
 
     Optional<Article> selectArticleById(Integer actId);
 
-    Optional<Article> selectArticlesByMovieId(Integer movieId, Page page);
+    List<Article> selectArticlesByMovieId(Integer movieId, Page page);
 
     List<Article> selectArticlesByUserId(UUID userId, Page page);
 
