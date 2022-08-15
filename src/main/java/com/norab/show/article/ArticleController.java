@@ -39,7 +39,7 @@ public class ArticleController {
     }
 
     @GetMapping("/user/{id}")
-    public Optional<Article> selectArticlesByUserId(
+    public List<Article> selectArticlesByUserId(
         @PathVariable("id") UUID userId,
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "size", defaultValue = "10") Integer size) {

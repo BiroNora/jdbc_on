@@ -21,7 +21,7 @@ public interface ArticleDao<Article> {
 
     Optional<Article> selectArticlesByMovieId(Integer movieId, Page page);
 
-    Optional<Article> selectArticlesByUserId(UUID userId, Page page);
+    List<Article> selectArticlesByUserId(UUID userId, Page page);
 
     int updateArticle(Integer artId, Article article);
 }

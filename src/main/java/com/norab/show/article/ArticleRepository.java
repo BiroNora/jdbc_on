@@ -68,7 +68,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             body, 
             rating, 
             movie_id 
-            ) VALUES (?, ?, ?, ?)
+            ) VALUES (UUID(?), ?, ?, ?)
             ;
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -89,9 +89,10 @@ public class ArticleRepository implements ArticleDao<Article> {
         if (result != 1) {
             throw new IllegalStateException("Failed to add article");
         }
-        log.info("New article inserted: " + article);
+        Integer id = keyHolder.getKeyAs(Integer.class);
+        log.info("New article inserted: " + id);
 
-        return keyHolder.getKeyAs(Integer.class);
+        return id;
     }
 
     @Override
@@ -136,20 +137,15 @@ public class ArticleRepository implements ArticleDao<Article> {
     }
 
     @Override
-    public Optional<Article> selectArticlesByUserId(UUID userId, Page page) {
+    public List<Article> selectArticlesByUserId(UUID userId, Page page) {
         var sql = """
             SELECT * FROM articles
-            WHERE user_id = ?
+            WHERE user_id = UUID(?)
             ORDER BY user_id
-            LIMIT ? 
-            OFFSET ?;
+            LIMIT = ?
+            OFFSET = ?;
             """;
-        Optional<Article> selected = jdbcTemplate.query(sql, new ArticleRowMapper(), userId, page.getLimit(), page.getOffset())
-            .stream().findFirst();
-        if (selected.isPresent()) {
-            log.info(String.format("Article with userid: %d is selected.", userId));
-        }
-        return selected;
+        return jdbcTemplate.query(sql, new ArticleRowMapper(), userId.toString(), page.getLimit(), page.getOffset());
     }
 
     @Override
@@ -157,7 +153,7 @@ public class ArticleRepository implements ArticleDao<Article> {
         var sql = """
             UPDATE articles
             SET
-            user_id = ?, 
+            user_id = UUID(?), 
             body = ?,
             rating = ?,
             movie_id  = ?

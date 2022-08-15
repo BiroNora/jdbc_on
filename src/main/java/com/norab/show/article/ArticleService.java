@@ -36,7 +36,7 @@ public class ArticleService {
         return articleDao.selectArticlesByMovieId(movieId, page);
     }
 
-    public Optional<Article> selectArticlesByUserId(UUID userId, Page page) {
+    public List<Article> selectArticlesByUserId(UUID userId, Page page) {
         return articleDao.selectArticlesByUserId(userId, page);
     }
 
