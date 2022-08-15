@@ -13,7 +13,7 @@ public class ArticleRowMapper implements RowMapper<Article> {
                 rs.getInt("art_id"),
                 rs.getObject("user_id", java.util.UUID.class),
                 rs.getString("body"),
-                rs.getInt("rating"),
+                rs.getShort("rating"),
                 rs.getInt("movie_id")
             );
         } catch (SQLException e) {

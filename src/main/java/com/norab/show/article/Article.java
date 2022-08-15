@@ -11,10 +11,10 @@ public class Article {
     private Integer artId;
     private UUID userId;
     private String body;
-    private Integer star;
+    private Short star;
     private Integer movieId;
 
-    public Article(UUID userId, String body, Integer star, Integer movieId) {
+    public Article(UUID userId, String body, Short star, Integer movieId) {
         this.userId = userId;
         this.body = body;
         this.star = star;
@@ -24,7 +24,7 @@ public class Article {
     public Article() {
     }
 
-    public Article(Integer artId, UUID userId, String body, Integer star, Integer movieId) {
+    public Article(Integer artId, UUID userId, String body, Short star, Integer movieId) {
         this.artId = artId;
         this.userId = userId;
         this.body = body;
@@ -56,11 +56,11 @@ public class Article {
         this.body = body;
     }
 
-    public Integer getStar() {
+    public Short getStar() {
         return star;
     }
 
-    public void setStar(Integer star) {
+    public void setStar(Short star) {
         this.star = star;
     }
 

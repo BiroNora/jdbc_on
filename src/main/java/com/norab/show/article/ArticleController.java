@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "articles/api/v1/articles")
+@RequestMapping(path = "api/v1/articles")
 public class ArticleController {
     private final ArticleService articleService;
 

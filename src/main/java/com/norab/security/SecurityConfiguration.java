@@ -12,8 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static com.norab.security.Permissions.SHOW_WRITE;
-import static com.norab.security.Roles.HR;
-import static com.norab.security.Roles.STAFF;
+import static com.norab.security.Roles.*;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +43,7 @@ public class SecurityConfiguration {
             .antMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority(SHOW_WRITE.getPermission())
             .antMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority(SHOW_WRITE.getPermission())
             .antMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority(SHOW_WRITE.getPermission())
+            .antMatchers(HttpMethod.POST, "/api/v1/articles/**").hasRole(USER.name())
             .anyRequest()
             .authenticated()
             .and()
