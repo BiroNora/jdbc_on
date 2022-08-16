@@ -89,7 +89,12 @@ class ArticleRepositoryTest {
             return articleRepository.insertArticle(art);
         });
 
-        Article art1 = new Article(uuid, "nullika", (short) 5, movieId);
+        Article art1 = new Article(uuid, "pacika", (short) 5, movieId);
         assertTrue(articleRepository.updateArticle(artId, art1));
+
+        Optional<Article> updated = articleRepository.selectArticleById(artId);
+        assertTrue(updated.isPresent());
+        assertEquals((short)5, updated.get().getStar());
+        assertEquals("pacika", updated.get().getBody());
     }
 }

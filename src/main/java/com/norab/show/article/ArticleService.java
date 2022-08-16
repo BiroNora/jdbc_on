@@ -1,9 +1,11 @@
 package com.norab.show.article;
 
+import com.norab.exception.NotFoundException;
 import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,5 +42,10 @@ public class ArticleService {
 
     public void updateArticle(Integer artId, Article article) {
         articleDao.updateArticle(artId, article);
+    }
+
+    public Article selectArticleById(Integer artId) {
+        Optional<Article> article = articleDao.selectArticleById(artId);
+        return article.orElseThrow(() -> new NotFoundException("Invalid id"));
     }
 }

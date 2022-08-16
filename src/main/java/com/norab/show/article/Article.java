@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public class Article {
     @Id
-    @JsonIgnore
     private Integer artId;
     private UUID userId;
     private String body;

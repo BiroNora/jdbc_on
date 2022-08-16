@@ -16,6 +16,12 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+    @GetMapping("{id}")
+    public Article selectArticleById(
+        @PathVariable("id") Integer artId) {
+        return articleService.selectArticleById(artId);
+    }
+
     @GetMapping("/byuser")
     public List<Article> listAllArticlesByUsers(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
