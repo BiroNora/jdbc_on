@@ -96,12 +96,12 @@ public class ArticleRepository implements ArticleDao<Article> {
     }
 
     @Override
-    public int deleteArticle(Integer artId) {
+    public boolean deleteArticle(Integer artId) {
         var sql = """
             DELETE FROM articles
             WHERE art_id = ?;
             """;
-        return jdbcTemplate.update(sql, artId);
+        return jdbcTemplate.update(sql, artId) == 1;
     }
 
     @Override
@@ -149,13 +149,13 @@ public class ArticleRepository implements ArticleDao<Article> {
     }
 
     @Override
-    public int updateArticle(Integer artId, Article article) {
+    public boolean updateArticle(Integer artId, Article article) {
         var sql = """
             UPDATE articles
             SET
             body = ?,
             rating = ?            
-            WHERE art_id = ? AND user_id = UUID(?) AND movie_id = ?;
+            WHERE art_id = ? AND user_id = ? AND movie_id = ?;
             """;
         /*if (article.getBody() != null) {
             ps.setString(2, article.getBody());
@@ -171,6 +171,6 @@ public class ArticleRepository implements ArticleDao<Article> {
         if (update == 1) {
             log.info(String.format("Article with id: %d is updated.", artId));
         }
-        return update;
+        return update == 1;
     }
 }

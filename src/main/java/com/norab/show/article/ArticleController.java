@@ -53,7 +53,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("{id}")
-    public int deleteArticle(
+    public boolean deleteArticle(
         @PathVariable("id") Integer artId) {
         return articleService.deleteArticle(artId);
     }

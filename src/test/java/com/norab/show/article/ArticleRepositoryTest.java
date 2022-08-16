@@ -88,5 +88,8 @@ class ArticleRepositoryTest {
         int artId = assertDoesNotThrow(() -> {
             return articleRepository.insertArticle(art);
         });
+
+        Article art1 = new Article(uuid, "nullika", (short) 5, movieId);
+        assertTrue(articleRepository.updateArticle(artId, art1));
     }
 }

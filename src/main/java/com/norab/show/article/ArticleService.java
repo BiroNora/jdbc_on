@@ -26,7 +26,7 @@ public class ArticleService {
         return articleDao.insertArticle(article);
     }
 
-    public int deleteArticle(Integer artId) {
+    public boolean deleteArticle(Integer artId) {
         return articleDao.deleteArticle(artId);
     }
 

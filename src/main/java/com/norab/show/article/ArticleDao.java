@@ -15,7 +15,7 @@ public interface ArticleDao<Article> {
 
     int insertArticle(Article article) throws IllegalStateException;
 
-    int deleteArticle(Integer artId);
+    boolean deleteArticle(Integer artId);
 
     Optional<Article> selectArticleById(Integer actId);
 
@@ -23,5 +23,5 @@ public interface ArticleDao<Article> {
 
     List<Article> selectArticlesByUserId(UUID userId, Page page);
 
-    int updateArticle(Integer artId, Article article);
+    boolean updateArticle(Integer artId, Article article);
 }
