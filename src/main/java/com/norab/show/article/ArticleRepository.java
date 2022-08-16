@@ -140,7 +140,12 @@ public class ArticleRepository implements ArticleDao<Article> {
             LIMIT = ?
             OFFSET = ?;
             """;
-        return jdbcTemplate.query(sql, new ArticleRowMapper(), userId.toString(), page.getLimit(), page.getOffset());
+        return jdbcTemplate.query(
+            sql,
+            new ArticleRowMapper(),
+            userId.toString(),
+            page.getLimit(),
+            page.getOffset());
     }
 
     @Override
@@ -148,19 +153,20 @@ public class ArticleRepository implements ArticleDao<Article> {
         var sql = """
             UPDATE articles
             SET
-            user_id = UUID(?), 
             body = ?,
-            rating = ?,
-            movie_id  = ?
-            WHERE art_id = ?;
+            rating = ?            
+            WHERE art_id = ? AND user_id = UUID(?) AND movie_id = ?;
             """;
+        /*if (article.getBody() != null) {
+            ps.setString(2, article.getBody());
+        } else {
+            ps.setNull(2, Types.VARCHAR);
+        }*/
         int update = jdbcTemplate.update(
             sql,
-            article.getUserId(),
             article.getBody(),
             article.getStar(),
-            article.getMovieId(),
-            article.getArtId()
+            artId, article.getUserId(), article.getMovieId()
         );
         if (update == 1) {
             log.info(String.format("Article with id: %d is updated.", artId));
