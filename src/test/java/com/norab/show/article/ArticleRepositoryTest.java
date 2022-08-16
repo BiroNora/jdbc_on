@@ -24,7 +24,6 @@ class ArticleRepositoryTest {
     private ArticleRepository articleRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private MovieRepository movieRepository;
 
@@ -45,6 +44,18 @@ class ArticleRepositoryTest {
 
     @Test
     void insertArticle() {
+        int movieId = 1;
+        Optional<Movie> movie = movieRepository.selectMovieById(movieId);
+        assertTrue(movie.isPresent());
+
+        String userId = assertDoesNotThrow(() -> {
+            return userRepository.insertUser(user);
+        });
+        UUID uuid = UUID.fromString(userId);
+        Article art = new Article(uuid, "nullika", (short) 1, movieId);
+        int artId = assertDoesNotThrow(() -> {
+            return articleRepository.insertArticle(art);
+        });
     }
 
     @Test

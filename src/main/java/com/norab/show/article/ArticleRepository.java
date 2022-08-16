@@ -68,7 +68,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             body, 
             rating, 
             movie_id 
-            ) VALUES (UUID(?), ?, ?, ?)
+            ) VALUES (?, ?, ?, ?)
             ;
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
