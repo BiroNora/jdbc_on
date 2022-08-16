@@ -8,6 +8,7 @@ import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieService {
@@ -40,12 +41,8 @@ public class MovieService {
     }
 
     public Movie getMovie(Integer movieId) {
-        try {
-            return (Movie) movieDao.selectMovieById(movieId)
-                .orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", movieId)));
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        Optional<Movie> movie = movieDao.selectMovieById(movieId);
+        return movie.orElseThrow(() -> new NotFoundException(String.format("Movie with id %s not found", movieId)));
     }
 
     public void updateMovie(Integer movieId, Movie movie) {

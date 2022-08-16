@@ -59,7 +59,7 @@ public class ActorRepositoryMockTests {
 
         assertNull(repository.selectActorById(id));
         verify(repository).selectActorById(id);
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(NotFoundException.class, () -> {
             service.getActor(id);
         });
     }

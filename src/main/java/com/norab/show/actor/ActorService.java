@@ -7,6 +7,7 @@ import com.norab.utils.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActorService {
@@ -45,12 +46,9 @@ public class ActorService {
     }
 
     public Person getActor(Integer actorId) {
-        try {
-            return (Person) actorDao.selectActorById(actorId).orElseThrow(
-                () -> new NotFoundException(String.format("Actor with id %s not found", actorId)));
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        Optional<Person> person = actorDao.selectActorById(actorId);
+        return person.orElseThrow(
+            () -> new NotFoundException(String.format("Actor with id %s not found", actorId)));
     }
 
     public void updateActor(Integer actorId, Person actor) {

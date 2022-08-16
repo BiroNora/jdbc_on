@@ -40,12 +40,8 @@ public class PhotoService {
     }
 
     public Photo getPhoto(Integer photoId) {
-        try {
-            return (Photo) photoDao.selectPhotoById(photoId)
-                .orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", photoId)));
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        Optional<Photo> photo = photoDao.selectPhotoById(photoId);
+        return photo.orElseThrow(() -> new NotFoundException(String.format("Photo with id %s not found", photoId)));
     }
 
     public void updatePhoto(Integer photoId, Photo photo) {

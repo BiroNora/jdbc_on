@@ -37,12 +37,8 @@ public class RoleService {
     }
 
     public Plays getRole(Integer roleId) {
-        try {
-            return (Plays) roleDao.selectRoleById(roleId)
-                .orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", roleId)));
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        Optional<Plays> play = roleDao.selectRoleById(roleId);
+        return play.orElseThrow(() -> new NotFoundException(String.format("Role with id %s not found", roleId)));
     }
 
     public List<ResultResponse> selectRoleByName(String rolename) {
