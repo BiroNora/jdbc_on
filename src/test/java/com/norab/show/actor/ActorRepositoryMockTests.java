@@ -1,5 +1,6 @@
 package com.norab.show.actor;
 
+import com.norab.exception.NotFoundException;
 import com.norab.utils.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class ActorRepositoryMockTests {
     @Test
     void selectActorByInvalidId() {
         Integer id = 6;
-        when(repository.selectActorById(id)).thenReturn(null);
+        when(repository.selectActorById(id)).thenThrow(new NotFoundException(""));
 
         assertNull(repository.selectActorById(id));
         verify(repository).selectActorById(id);
