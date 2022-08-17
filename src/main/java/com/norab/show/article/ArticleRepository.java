@@ -128,24 +128,30 @@ public class ArticleRepository implements ArticleDao<Article> {
             LIMIT ? 
             OFFSET ?;
             """;
-        return jdbcTemplate.query(sql, new ArticleRowMapper(), movieId, page.getLimit(), page.getOffset());
+        return jdbcTemplate.query(
+            sql,
+            new ArticleRowMapper(),
+            movieId,
+            page.getLimit(),
+            page.getOffset());
     }
 
     @Override
     public List<Article> selectArticlesByUserId(UUID userId, Page page) {
         var sql = """
-            SELECT * FROM articles
-            WHERE user_id = UUID(?)
-            ORDER BY user_id
-            LIMIT = ?
-            OFFSET = ?;
+            SELECT * FROM articles 
+            WHERE user_id::text = ?
+            ORDER BY movie_id
+            LIMIT ?
+            OFFSET ?;
             """;
         return jdbcTemplate.query(
             sql,
             new ArticleRowMapper(),
             userId.toString(),
             page.getLimit(),
-            page.getOffset());
+            page.getOffset()
+        );
     }
 
     @Override

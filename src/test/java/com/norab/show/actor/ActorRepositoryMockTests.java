@@ -56,7 +56,7 @@ public class ActorRepositoryMockTests {
     @Test
     void selectActorByInvalidId() {
         Integer id = 6;
-        when(repository.selectActorById(id)).thenThrow(new NotFoundException(""));
+        //when(repository.selectActorById(id)).thenThrow(new NotFoundException(""));
 
         assertNull(repository.selectActorById(id));
         verify(repository).selectActorById(id);
