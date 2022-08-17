@@ -119,7 +119,7 @@ class ArticleRepositoryTest {
 
         Optional<Article> updated = articleRepository.selectArticleById(artId);
         assertTrue(updated.isPresent());
-        assertEquals((short)5, updated.get().getStar());
+        assertEquals((short) 5, updated.get().getStar());
         assertEquals("pacika", updated.get().getBody());
     }
 }

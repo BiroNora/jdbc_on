@@ -55,6 +55,7 @@ class UserTest {
     void getRolesAsString() {
         assertEquals("USER,STAFF", user.getRolesAsString());
     }
+
     @Test
     void getRolesMe() {
         User user = new User(null, "ZZTop", "zzt@gmail.com", "12345", "5557-222", "user", true, true, true, true);
