@@ -55,16 +55,8 @@ public class ActorRepositoryMockTests {
 
     @Test
     void selectActorByInvalidId() {
-        Person p = new Person("Greg Kinnear",
-            (short) 1963,
-            (short) 2070);
-        int id0 = repository.insertActor(p);
-        System.out.println(id0);
-        int id = repository.insertActor(p);
-        System.out.println(id);
-        assertTrue(repository.selectActorById(id).isPresent());
+        int id = 99;
         when(repository.selectActorById(id)).thenThrow(new NotFoundException(""));
-
         assertThrows(NotFoundException.class, () -> service.getActor(id));
     }
 
