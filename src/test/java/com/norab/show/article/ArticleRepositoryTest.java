@@ -38,8 +38,6 @@ class ArticleRepositoryTest {
 
     @Test
     void listAllArticlesByUsers() {
-        /*UUID id = UUID.randomUUID();
-        assertEquals("alma", id.toString());*/
         List<Article> articles = articleRepository.listAllArticlesByUsers(page);
         for (Article a : articles) {
             System.out.println(a.getArtId() + " + " + a.getUserId());
@@ -62,22 +60,45 @@ class ArticleRepositoryTest {
         Optional<Movie> movie = movieRepository.selectMovieById(movieId);
         assertTrue(movie.isPresent());
 
-        String userId = assertDoesNotThrow(() -> {
-            return userRepository.insertUser(user);
-        });
+        String userId = assertDoesNotThrow(() -> userRepository.insertUser(user));
         UUID uuid = UUID.fromString(userId);
         Article art = new Article(uuid, "nudlika", (short) 1, movieId);
-        int artId = assertDoesNotThrow(() -> {
-            return articleRepository.insertArticle(art);
-        });
+        int artId = assertDoesNotThrow(() -> articleRepository.insertArticle(art));
+        assertTrue(artId > 0);
     }
 
     @Test
     void deleteArticle() {
+        int movieId = 1;
+        Optional<Movie> movie = movieRepository.selectMovieById(movieId);
+        assertTrue(movie.isPresent());
+
+        String userId = assertDoesNotThrow(() -> userRepository.insertUser(user));
+        UUID uuid = UUID.fromString(userId);
+        Article art = new Article(uuid, "nudlika", (short) 1, movieId);
+        int artId = assertDoesNotThrow(() -> articleRepository.insertArticle(art));
+        assertTrue(artId > 0);
+
+        boolean b = articleRepository.deleteArticle(artId);
+        assertTrue(b);
     }
 
     @Test
     void selectArticleById() {
+        int movieId = 1;
+        Optional<Movie> movie = movieRepository.selectMovieById(movieId);
+        assertTrue(movie.isPresent());
+
+        String userId = assertDoesNotThrow(() -> userRepository.insertUser(user));
+        UUID uuid = UUID.fromString(userId);
+        Article art = new Article(uuid, "nudlika", (short) 1, movieId);
+        int artId = assertDoesNotThrow(() -> articleRepository.insertArticle(art));
+        assertTrue(artId > 0);
+
+        Optional<Article> selected = articleRepository.selectArticleById(artId);
+        assertTrue(selected.isPresent());
+        art.setArtId(artId);
+        assertEquals(art, selected.get());
     }
 
     @Test
@@ -105,14 +126,10 @@ class ArticleRepositoryTest {
         Optional<Movie> movie = movieRepository.selectMovieById(movieId);
         assertTrue(movie.isPresent());
 
-        String userId = assertDoesNotThrow(() -> {
-            return userRepository.insertUser(user);
-        });
+        String userId = assertDoesNotThrow(() -> userRepository.insertUser(user));
         UUID uuid = UUID.fromString(userId);
         Article art = new Article(uuid, "nudlika", (short) 1, movieId);
-        int artId = assertDoesNotThrow(() -> {
-            return articleRepository.insertArticle(art);
-        });
+        int artId = assertDoesNotThrow(() -> articleRepository.insertArticle(art));
 
         Article desired = new Article(artId, uuid, "pacika", (short) 5, movieId);
         assertTrue(articleRepository.updateArticle(artId, desired));
