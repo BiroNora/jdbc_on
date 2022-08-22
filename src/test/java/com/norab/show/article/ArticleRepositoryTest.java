@@ -138,4 +138,24 @@ class ArticleRepositoryTest {
         assertTrue(updated.isPresent());
         assertEquals(desired, updated.get());
     }
+
+    @Test
+    void updateArticle_WithNullBody() {
+        int movieId = 1;
+        Optional<Movie> movie = movieRepository.selectMovieById(movieId);
+        assertTrue(movie.isPresent());
+
+        String userId = assertDoesNotThrow(() -> userRepository.insertUser(user));
+        UUID uuid = UUID.fromString(userId);
+        Article art = new Article(uuid, "nudlika", (short) 1, movieId);
+        int artId = assertDoesNotThrow(() -> articleRepository.insertArticle(art));
+
+        Article desired = new Article(artId, uuid, null, (short) 5, movieId);
+        assertTrue(articleRepository.updateArticle(artId, desired));
+
+        Optional<Article> updated = articleRepository.selectArticleById(artId);
+        System.out.println(updated);
+        assertTrue(updated.isPresent());
+        assertEquals(desired, updated.get());
+    }
 }

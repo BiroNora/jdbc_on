@@ -163,17 +163,19 @@ public class ArticleRepository implements ArticleDao<Article> {
             rating = ?            
             WHERE art_id = ? AND user_id = ? AND movie_id = ?;
             """;
-        /*if (article.getBody() != null) {
-            ps.setString(2, article.getBody());
-        } else {
-            ps.setNull(2, Types.VARCHAR);
-        }*/
-        int update = jdbcTemplate.update(
-            sql,
-            article.getBody(),
-            article.getStar(),
-            artId, article.getUserId(), article.getMovieId()
-        );
+        int update = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            if (article.getBody() != null) {
+                ps.setString(1, article.getBody());
+            } else {
+                ps.setNull(1, Types.VARCHAR);
+            }
+            ps.setShort(2, article.getStar());
+            ps.setInt(3, artId);
+            ps.setString(4, String.valueOf(article.getUserId()));
+            ps.setString(5, String.valueOf(article.getMovieId()));
+            return ps;
+        });
         if (update == 1) {
             log.info(String.format("Article with id: %d is updated.", artId));
         }
