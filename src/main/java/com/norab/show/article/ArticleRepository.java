@@ -46,15 +46,15 @@ public class ArticleRepository implements ArticleDao<Article> {
     @Override
     public List<Article> listAllArticlesByMovies(Page page) {
         var sql = """
-            SELECT 
-            art_id, 
-            user_id, 
-            body, 
-            rating, 
-            movie_id 
+            SELECT
+            art_id,
+            user_id,
+            body,
+            rating,
+            movie_id
             FROM articles
-            ORDER BY movie_id asc 
-            LIMIT ? 
+            ORDER BY movie_id asc
+            LIMIT ?
             OFFSET ?;
             """;
         return jdbcTemplate.query(sql, new ArticleRowMapper(), page.getLimit(), page.getOffset());
@@ -64,10 +64,10 @@ public class ArticleRepository implements ArticleDao<Article> {
     public int insertArticle(Article article) throws IllegalStateException {
         var sql = """
             INSERT INTO articles(
-            user_id, 
-            body, 
-            rating, 
-            movie_id 
+            user_id,
+            body,
+            rating,
+            movie_id
             ) VALUES (?, ?, ?, ?)
             ;
             """;
@@ -125,7 +125,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             SELECT * FROM articles
             WHERE movie_id = ?
             ORDER BY movie_id
-            LIMIT ? 
+            LIMIT ?
             OFFSET ?;
             """;
         return jdbcTemplate.query(
@@ -139,7 +139,7 @@ public class ArticleRepository implements ArticleDao<Article> {
     @Override
     public List<Article> selectArticlesByUserId(UUID userId, Page page) {
         var sql = """
-            SELECT * FROM articles 
+            SELECT * FROM articles
             WHERE user_id::text = ?
             ORDER BY movie_id
             LIMIT ?
@@ -160,7 +160,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             UPDATE articles
             SET
             body = ?,
-            rating = ?            
+            rating = ?
             WHERE art_id = ? AND user_id::text = ? AND movie_id = ?;
             """;
         int update = jdbcTemplate.update(connection -> {

@@ -74,7 +74,7 @@ public class ArticleController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof User) {
-            String username = ((UserDetails)principal).getUsername();
+            String username = ((UserDetails) principal).getUsername();
             System.out.println(username);
         } else {
             String username = principal.toString();
