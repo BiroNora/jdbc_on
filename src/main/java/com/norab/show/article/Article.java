@@ -13,6 +13,9 @@ public class Article {
     private Short star;
     private Integer movieId;
 
+    public Article() {
+    }
+
     public Article(UUID userId, String body, Short star, Integer movieId) {
         this.userId = userId;
         this.body = body;

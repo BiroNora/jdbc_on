@@ -29,15 +29,15 @@ public class ArticleRepository implements ArticleDao<Article> {
     @Override
     public List<Article> listAllArticlesByUsers(Page page) {
         var sql = """
-            SELECT 
-            art_id, 
-            user_id, 
-            body, 
-            rating, 
-            movie_id 
+            SELECT
+            art_id,
+            user_id,
+            body,
+            rating,
+            movie_id
             FROM articles
-            ORDER BY user_id asc 
-            LIMIT ? 
+            ORDER BY user_id asc
+            LIMIT ?
             OFFSET ?;
             """;
         return jdbcTemplate.query(sql, new ArticleRowMapper(), page.getLimit(), page.getOffset());
@@ -161,7 +161,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             SET
             body = ?,
             rating = ?            
-            WHERE art_id = ? AND user_id = ? AND movie_id = ?;
+            WHERE art_id = ? AND user_id::text = ? AND movie_id = ?;
             """;
         int update = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -173,7 +173,7 @@ public class ArticleRepository implements ArticleDao<Article> {
             ps.setShort(2, article.getStar());
             ps.setInt(3, artId);
             ps.setString(4, String.valueOf(article.getUserId()));
-            ps.setString(5, String.valueOf(article.getMovieId()));
+            ps.setInt(5, article.getMovieId());
             return ps;
         });
         if (update == 1) {
