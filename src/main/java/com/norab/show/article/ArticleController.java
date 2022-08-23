@@ -1,6 +1,9 @@
 package com.norab.show.article;
 
+import com.norab.backstage.user.User;
 import com.norab.utils.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,10 +66,20 @@ public class ArticleController {
         return articleService.deleteArticle(artId);
     }
 
+
     @PutMapping("{id}")
     public void updateArticle(
         @PathVariable("id") Integer artId,
         @RequestBody Article article) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof User) {
+            String username = ((UserDetails)principal).getUsername();
+            System.out.println(username);
+        } else {
+            String username = principal.toString();
+            System.out.println("WWW: " + username);
+        }
         articleService.updateArticle(artId, article);
     }
 }
